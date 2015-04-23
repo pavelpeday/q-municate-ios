@@ -11,6 +11,7 @@
 		550630ED1ABAD4860079EE34 /* QMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 550630EC1ABAD4860079EE34 /* QMBlurView.m */; };
 		550678CB1A237D4B00660A12 /* QMContactListCacheModel.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 550678C91A237D4B00660A12 /* QMContactListCacheModel.bundle */; };
 		550678CC1A237D4B00660A12 /* QMChatCacheModel.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 550678CA1A237D4B00660A12 /* QMChatCacheModel.bundle */; };
+		552C22661AE13DA5005734B8 /* ChatIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 552C22651AE13DA5005734B8 /* ChatIcons.xcassets */; };
 		555E2DF21ACE940500A5381D /* QMNewMessageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 555E2DF11ACE940500A5381D /* QMNewMessageVC.m */; };
 		555E2DF61ACE954A00A5381D /* QMContactListDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 555E2DF51ACE954A00A5381D /* QMContactListDatasource.m */; };
 		555E2DFC1ACE975D00A5381D /* QMAddContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 555E2DFA1ACE975D00A5381D /* QMAddContactCell.m */; };
@@ -93,7 +94,6 @@
 		556E1A661A9F6A630087BEB9 /* QMChatToolbarContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E1A3A1A9F6A630087BEB9 /* QMChatToolbarContentView.m */; };
 		556E1A671A9F6A630087BEB9 /* QMChatVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E1A3C1A9F6A630087BEB9 /* QMChatVC.m */; };
 		556E1A681A9F6A630087BEB9 /* QMKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E1A3F1A9F6A630087BEB9 /* QMKeyboardController.m */; };
-		556E1A691A9F6A630087BEB9 /* ChatBubbles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556E1A411A9F6A630087BEB9 /* ChatBubbles.xcassets */; };
 		556E1A6A1A9F6A630087BEB9 /* ChatIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556E1A421A9F6A630087BEB9 /* ChatIcons.xcassets */; };
 		556E1A6B1A9F6A630087BEB9 /* QMAddMembersToGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E1A451A9F6A630087BEB9 /* QMAddMembersToGroupController.m */; };
 		556E1A6C1A9F6A630087BEB9 /* QMAddUsersAbstractController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E1A471A9F6A630087BEB9 /* QMAddUsersAbstractController.m */; };
@@ -180,6 +180,7 @@
 		550630EC1ABAD4860079EE34 /* QMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMBlurView.m; sourceTree = "<group>"; };
 		550678C91A237D4B00660A12 /* QMContactListCacheModel.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = QMContactListCacheModel.bundle; path = QMContactListCache/QMContactListCacheModel.bundle; sourceTree = "<group>"; };
 		550678CA1A237D4B00660A12 /* QMChatCacheModel.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = QMChatCacheModel.bundle; path = QMChatCache/QMChatCacheModel.bundle; sourceTree = "<group>"; };
+		552C22651AE13DA5005734B8 /* ChatIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ChatIcons.xcassets; path = "Q-municate/Scenes/Chat/QMChatVC/Resources/ChatIcons.xcassets"; sourceTree = "<group>"; };
 		555E2DF01ACE940500A5381D /* QMNewMessageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMNewMessageVC.h; sourceTree = "<group>"; };
 		555E2DF11ACE940500A5381D /* QMNewMessageVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMNewMessageVC.m; sourceTree = "<group>"; };
 		555E2DF41ACE954A00A5381D /* QMContactListDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMContactListDatasource.h; sourceTree = "<group>"; };
@@ -334,7 +335,6 @@
 		556E1A3C1A9F6A630087BEB9 /* QMChatVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatVC.m; sourceTree = "<group>"; };
 		556E1A3E1A9F6A630087BEB9 /* QMKeyboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMKeyboardController.h; sourceTree = "<group>"; };
 		556E1A3F1A9F6A630087BEB9 /* QMKeyboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMKeyboardController.m; sourceTree = "<group>"; };
-		556E1A411A9F6A630087BEB9 /* ChatBubbles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatBubbles.xcassets; sourceTree = "<group>"; };
 		556E1A421A9F6A630087BEB9 /* ChatIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatIcons.xcassets; sourceTree = "<group>"; };
 		556E1A441A9F6A630087BEB9 /* QMAddMembersToGroupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMAddMembersToGroupController.h; sourceTree = "<group>"; };
 		556E1A451A9F6A630087BEB9 /* QMAddMembersToGroupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMAddMembersToGroupController.m; sourceTree = "<group>"; };
@@ -1234,7 +1234,6 @@
 		556E1A401A9F6A630087BEB9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				556E1A411A9F6A630087BEB9 /* ChatBubbles.xcassets */,
 				556E1A421A9F6A630087BEB9 /* ChatIcons.xcassets */,
 			);
 			path = Resources;
@@ -1516,6 +1515,7 @@
 				559327A0199216FB001C4BF8 /* Q-municate Tests */,
 				69D57E5418ACC11C00A9900A /* Frameworks */,
 				69D57E5318ACC11C00A9900A /* Products */,
+				552C22651AE13DA5005734B8 /* ChatIcons.xcassets */,
 				533F8DC685AAE9904FDA11F3 /* Pods */,
 			);
 			sourceTree = "<group>";
@@ -1684,7 +1684,6 @@
 				556E19F81A9F65A50087BEB9 /* busy.wav in Resources */,
 				556E19F91A9F65A50087BEB9 /* calling.wav in Resources */,
 				55AC816A1AB08E9D003D2C77 /* QMChatHistoryCell.xib in Resources */,
-				556E1A691A9F6A630087BEB9 /* ChatBubbles.xcassets in Resources */,
 				556E19FC1A9F65A50087BEB9 /* ringtone.wav in Resources */,
 				55CCEC371AC2B3EF0027D380 /* QMSearchStatusCell.xib in Resources */,
 				556E19FA1A9F65A50087BEB9 /* end_of_call.wav in Resources */,
@@ -1703,6 +1702,7 @@
 				550678CB1A237D4B00660A12 /* QMContactListCacheModel.bundle in Resources */,
 				550678CC1A237D4B00660A12 /* QMChatCacheModel.bundle in Resources */,
 				556E1A051A9F65B20087BEB9 /* Images.xcassets in Resources */,
+				552C22661AE13DA5005734B8 /* ChatIcons.xcassets in Resources */,
 				556E1A5C1A9F6A630087BEB9 /* QMChatNotificationCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

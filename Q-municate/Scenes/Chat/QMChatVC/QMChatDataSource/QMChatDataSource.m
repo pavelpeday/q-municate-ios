@@ -312,11 +312,10 @@ static NSString *const kQMContactRequestCellID = @"QMContactRequestCell";
 - (QMMessage *)qmMessageWithQbChatHistoryMessage:(QBChatAbstractMessage *)historyMessage {
     
     QMMessage *message = [[QMMessage alloc] initWithChatHistoryMessage:historyMessage];
-    BOOL fromMe = (QM.profile.userData.ID == historyMessage.senderID);
-//    
-//    message.minWidth = fromMe || (message.chatDialog.type == QBChatDialogTypePrivate) ? 78 : -1;
+    BOOL fromMe = QM.profile.userData.ID == historyMessage.senderID;
+    message.minWidth = fromMe || (message.chatDialog.type == QBChatDialogTypePrivate) ? 78 : -1;
 //    message.align =  fromMe ? QMMessageContentAlignRight : QMMessageContentAlignLeft;
-//    
+//
     return message;
 }
 

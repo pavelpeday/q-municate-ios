@@ -27,6 +27,7 @@ const NSUInteger kPerPage = 20;
         
         self.page = [QBGeneralResponsePage responsePageWithCurrentPage:0 perPage:20];
         self.totalEntries = NSNotFound;
+        self.loadedEntries = NSNotFound;
     }
     
     return self;
@@ -71,8 +72,8 @@ const NSUInteger kPerPage = 20;
 
 - (NSString *)description {
     
-    return [NSString stringWithFormat:@"Total entries:%ld; loaded entries:%ld; currentPage:%ld",
-            (long)self.totalEntries, (long)self.loadedEntries, self.page.currentPage];
+    return [NSString stringWithFormat:@"Total entries:%tu; loaded entries:%tu; currentPage:%tu",
+            self.totalEntries, self.loadedEntries, self.page.currentPage];
 }
 
 @end

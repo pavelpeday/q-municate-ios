@@ -16,13 +16,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //Loading Cell
-    if ((indexPath.row == (int)self.collection.count) && self.totalEntries != self.loadedEntries) {
+    if (indexPath.row == (signed)self.collection.count) {
 
         QMSearchStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:QMSearchStatusCell.cellIdentifier
                                                                    forIndexPath:indexPath];
 
-        NSString *tile = self.totalEntries == self.loadedEntries ? @"No more results": @"Loading...";
-        [cell setTitle:tile];
+        NSString *title = self.totalEntries == self.loadedEntries ? @"No more results": @"Loading...";
+        [cell setTitle:title];
         
         cell.showActivityIndicator = (self.totalEntries != self.loadedEntries);
 
@@ -33,7 +33,7 @@
         //Contact cell
         QMAddContactCell *cell = [tableView dequeueReusableCellWithIdentifier:QMAddContactCell.cellIdentifier
                                                               forIndexPath:indexPath];
-        QBUUser *user = self.collection[indexPath.row -1];
+        QBUUser *user = self.collection[indexPath.row];
         cell.contact = user;
         cell.delegate = self.addContactHandler;
         
