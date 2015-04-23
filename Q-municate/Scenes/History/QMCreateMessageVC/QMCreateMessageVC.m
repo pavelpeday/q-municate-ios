@@ -9,33 +9,31 @@
 #import "QMCreateMessageVC.h"
 #import "QMSearchController.h"
 #import "QMContactListDataSource.h"
+#import "QMServicesManager.h"
+#import "QMContactCell.h"
 
 @interface QMCreateMessageVC()
 
-<UITableViewDelegate, UISearchBarDelegate,  QMSearchResultsUpdating, QMSearchControllerDelegate>
-
-@property (strong, nonatomic) QMSearchController *searchController;
-@property (strong, nonatomic) QMContactListDataSource *searchDatasource;
+@property (strong, nonatomic) QMContactListDataSource *contactListDatasource;
 
 @end
 
 @implementation QMCreateMessageVC
 
-- (void)configureSearchController {
+- (void)viewDidLoad {
+    [super viewDidLoad];
     
-    self.definesPresentationContext = YES;
-    self.searchController = [[QMSearchController alloc] initWithContentsController:self];
-    self.searchController.delegate = self;
-    self.searchController.searchResultsDelegate = self;
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchController.searchResultsTableView.rowHeight = 75;
-    self.searchController.searchResultsDataSource = self.searchDatasource;
-    self.searchController.searchBar.delegate = self;
-    self.searchController.searchBar.placeholder = @"Search";
-    self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
+    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    self.tableView.sectionIndexColor = [UIColor colorWithRed:0.071 green:0.357 blue:0.643 alpha:1.000];
+    self.contactListDatasource = [[QMContactListDataSource alloc] init];
+    self.searchController.searchResultsTableView.rowHeight = 48;
+    self.tableView.rowHeight = 48;
     
-    self.tableView.tableHeaderView = self.searchController.searchBar;
+    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage sortedByName:YES];
+    [self.contactListDatasource addObjects:usersFormCache];
+    self.tableView.dataSource = self.contactListDatasource;
+    
+    [QMContactCell registerForReuseInTableView:self.tableView];
 }
 
 @end

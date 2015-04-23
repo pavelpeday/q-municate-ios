@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic, readonly) NSMutableArray *collection;
 
+- (void)addObjects:(NSArray *)objects;
+
 @end

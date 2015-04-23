@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Quickblox. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "QMSearchTableViewController.h"
 
-@interface QMHistoryVC : UITableViewController
+@interface QMHistoryVC : QMSearchTableViewController
 
 @end

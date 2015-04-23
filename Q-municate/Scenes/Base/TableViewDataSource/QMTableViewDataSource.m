@@ -36,4 +36,9 @@
     return nil;
 }
 
+- (void)addObjects:(NSArray *)objects {
+    
+    [self.collection addObjectsFromArray:objects];
+}
+
 @end

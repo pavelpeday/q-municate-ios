@@ -29,19 +29,21 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 @interface QMHistoryVC ()
 
-<UITableViewDelegate, QMContactListServiceDelegate, UISearchBarDelegate, QMAddContactProtocol, QMSearchResultsUpdating, QMSearchControllerDelegate>
+<QMContactListServiceDelegate,  QMAddContactProtocol>
 /**
  *  Datasources
  */
-@property (strong, nonatomic) QMHistoryDataSource *mainDatasource;
-@property (strong, nonatomic) QMGlobalSearchDataSource *searchDatasource;
-
+@property (strong, nonatomic) QMHistoryDataSource *historyDataSource;
+@property (strong, nonatomic) QMGlobalSearchDataSource *globalSearchDatasource;
+@property (strong, nonatomic) QMGlobalSearchDataSource *localSearchDatasource;
+/**
+ *  Notification view
+ */
 @property (strong, nonatomic) QMNotificationView *notificationView;
 
 @property (weak, nonatomic) QBRequest *searchRequest;
-@property (assign, nonatomic) BOOL globalSearchIsCancelled;
-@property (strong, nonatomic) QMSearchController *searchController;
 
+@property (assign, nonatomic) BOOL globalSearchIsCancelled;
 
 @end
 
@@ -52,14 +54,16 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.mainDatasource = [[QMHistoryDataSource alloc] init];
-    self.searchDatasource = [[QMGlobalSearchDataSource alloc] init];
-    self.tableView.dataSource = self.mainDatasource;
-    
-    [self configureTableView];
-    [self configureSearchController];
     [self registerNibs];
     
+    self.historyDataSource = [[QMHistoryDataSource alloc] init];
+    self.globalSearchDatasource = [[QMGlobalSearchDataSource alloc] init];
+    
+    self.tableView.dataSource = self.historyDataSource;
+
+    self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
+    self.searchController.searchResultsTableView.rowHeight = 75;
+
     [QM.contactListService addDelegate:self];
     
     [QMTasks taskLogin:^(BOOL success) {
@@ -80,40 +84,9 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (void)contactListServiceDidLoadCache {
     
-    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage unsorterdUsersFromMemoryStorage];
-    [self.mainDatasource.collection addObjectsFromArray:usersFormCache];
+    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage sortedByName:YES];
+    [self.historyDataSource.collection addObjectsFromArray:usersFormCache];
     [self.tableView reloadData];
-}
-
-#pragma mark -
-
-- (void)configureTableView {
-    
-    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    // Hide serach bar
-    self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
-    //Add refresh control
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refreshControl;
-}
-
-- (void)configureSearchController {
-    
-    self.definesPresentationContext = YES;
-    self.searchController = [[QMSearchController alloc] initWithContentsController:self];
-    self.searchController.delegate = self;
-    self.searchController.searchResultsDelegate = self;
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchController.searchResultsTableView.rowHeight = 75;
-    self.searchController.searchResultsDataSource = self.searchDatasource;
-    self.searchController.searchBar.delegate = self;
-    self.searchController.searchBar.placeholder = @"Search";
-    self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
-    
-    self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
 - (void)registerNibs {
@@ -124,23 +97,13 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [QMSearchStatusCell registerForReuseInTableView:self.searchController.searchResultsTableView];
 }
 
-#pragma mark - Actions
-#pragma mark Refresh control
-
-- (void)refresh:(UIRefreshControl *)sender {
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.refreshControl endRefreshing];
-    });
-}
-
 #pragma mark Navigation bar actions
 
 - (void)localSearch:(NSString *)searchText {
     
     self.globalSearchIsCancelled = YES;
-    [self.searchDatasource.collection removeAllObjects];
-    self.searchDatasource.searchText = nil;
+    [self.globalSearchDatasource.collection removeAllObjects];
+    self.globalSearchDatasource.searchText = nil;
     [self.searchController.searchResultsTableView reloadData];
 }
 
@@ -152,13 +115,14 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     
     if (searchText.length == 0) {
         //Clear datasource
-        [self.searchDatasource.collection removeAllObjects];
+        [self.globalSearchDatasource.collection removeAllObjects];
         [self.searchController.searchResultsTableView reloadData];
     }
     else {
 
         int64_t keyboadTapTimeInterval = (int64_t)(kQMKeyboardTapTimeInterval * NSEC_PER_SEC);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, keyboadTapTimeInterval), dispatch_get_main_queue(), ^{
+            
             if ([self.searchController.searchBar.text isEqualToString:searchText]) {
                 
                 if (self.globalSearchIsCancelled) {
@@ -177,10 +141,10 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 - (void)beginSearchWithSearchText:(NSString *)searchText nextPage:(BOOL)nextPage {
     
     if (!nextPage) {
-        [self.searchDatasource resetPage];
+        [self.globalSearchDatasource resetPage];
     }
     
-    QBGeneralResponsePage *currentPage = [self.searchDatasource nextPage];
+    QBGeneralResponsePage *currentPage = [self.globalSearchDatasource nextPage];
     
     if (!currentPage) {
         return;
@@ -194,9 +158,9 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
                                    QBGeneralResponsePage *page,
                                    NSArray *users)
      {
-         [weakSelf.searchDatasource.collection addObjectsFromArray:users];
-         [weakSelf.searchDatasource setSearchText:searchText];
-         [weakSelf.searchDatasource updateCurrentPageWithResponcePage:page];
+         [weakSelf.globalSearchDatasource.collection addObjectsFromArray:users];
+         [weakSelf.globalSearchDatasource setSearchText:searchText];
+         [weakSelf.globalSearchDatasource updateCurrentPageWithResponcePage:page];
          [weakSelf.searchController.searchResultsTableView reloadData];
          weakSelf.searchRequest = nil;
          
@@ -253,7 +217,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     
     if (tableView == self.searchController.searchResultsTableView) {
         
-        if (indexPath.row == (int) self.searchDatasource.collection.count && self.searchDatasource.collection.count != 0 ) {
+        if (indexPath.row == (int) self.globalSearchDatasource.collection.count && self.globalSearchDatasource.collection.count != 0 ) {
             
             [self beginSearchWithSearchText:self.searchController.searchBar.text nextPage:YES];
         }
@@ -290,8 +254,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 #pragma mark Present
 
 - (void)willPresentSearchController:(QMSearchController *)searchController {
-    
-    self.searchDatasource.addContactHandler = self;
+    self.globalSearchDatasource.addContactHandler = self;
 }
 
 - (void)didPresentSearchController:(QMSearchController *)searchController {
@@ -304,12 +267,12 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (void)willDismissSearchController:(QMSearchController *)searchController {
     
-    self.searchDatasource.addContactHandler = nil;
+    self.globalSearchDatasource.addContactHandler = nil;
 }
 
 - (void)didDismissSearchController:(QMSearchController *)searchController {
 
-    self.tableView.dataSource = self.mainDatasource;
+    self.tableView.dataSource = self.historyDataSource;
     [self.tableView reloadData];
 }
 
@@ -317,8 +280,14 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (void)updateSearchResultsForSearchController:(QMSearchController *)searchController {
     
-    [self beginSearch:searchController.searchBar.text
-        selectedScope:searchController.searchBar.selectedScopeButtonIndex];
+    if (searchController.searchBar.selectedScopeButtonIndex == QMSearchScopeButtonIndexGlobal) {
+        self.searchController.searchResultsDataSource = self.globalSearchDatasource;
+    }
+    else {
+        self.searchController.searchResultsDataSource = self.localSearchDatasource;
+    }
+    
+    [self beginSearch:searchController.searchBar.text selectedScope:searchController.searchBar.selectedScopeButtonIndex];
 }
 
 #pragma mark - QMAddContactProtocol
