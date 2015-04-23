@@ -7,7 +7,6 @@
 //
 
 #import "QMPopoversFactory.h"
-#import "QMChatViewController.h"
 
 @implementation QMPopoversFactory
 
