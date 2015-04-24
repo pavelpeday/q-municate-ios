@@ -207,7 +207,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FWG-zz-82s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7820" y="-9038"/>
+            <point key="canvasLocation" x="-7820" y="-9094"/>
         </scene>
         <!--Main Screen-->
         <scene sceneID="H0g-qk-9oU">
@@ -227,7 +227,7 @@
                             <rect key="frame" x="248" y="7" width="105" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            <state key="normal" title="Yevgen" image="ic_smile">
+                            <state key="normal" title="My profie" image="ic_smile">
                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -241,6 +241,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeSearch" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lND-1Z-Lte" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -260,12 +264,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="New Message" id="i9X-Ch-cLR">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="S6V-Vk-EC9"/>
                         <barButtonItem key="rightBarButtonItem" title="New Group" id="Az8-lx-sR2">
                             <connections>
-                                <segue destination="99L-Ge-OQB" kind="show" id="G5A-97-t7z"/>
+                                <segue destination="QrQ-RL-ETs" kind="show" id="pxJ-Yk-c0v"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeSearch" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="selectable" value="NO"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8BI-QB-LFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -396,14 +406,96 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BlM-fp-GDL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6177" y="-8903"/>
+            <point key="canvasLocation" x="-5265" y="-8131"/>
+        </scene>
+        <!--New Group-->
+        <scene sceneID="1pp-fn-V5z">
+            <objects>
+                <viewController id="QrQ-RL-ETs" customClass="QMCreateGroupVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xj7-0w-0ur"/>
+                        <viewControllerLayoutGuide type="bottom" id="FPw-dM-bXi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6iR-98-vbR">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wcI-p5-Qjz" customClass="QMCreateGroupHeaderView">
+                                <rect key="frame" x="0.0" y="64" width="600" height="120"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="group_placeholder" highlightedImage="group_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="uqT-Sh-O64" customClass="QMImageView">
+                                        <rect key="frame" x="8" y="8" width="60" height="60"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="0Wp-hq-2To"/>
+                                            <constraint firstAttribute="width" constant="60" id="s9E-5T-ZAM"/>
+                                        </constraints>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Group Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sk9-ib-R7c">
+                                        <rect key="frame" x="81" y="19" width="502" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="VTD-Fb-laG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="67U-F5-XCN" customClass="QMTagsContainer">
+                                        <rect key="frame" x="0.0" y="76" width="600" height="44"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="67U-F5-XCN" firstAttribute="top" secondItem="uqT-Sh-O64" secondAttribute="bottom" constant="8" symbolic="YES" id="3p2-8n-EIA"/>
+                                    <constraint firstAttribute="trailing" secondItem="Sk9-ib-R7c" secondAttribute="trailing" constant="17" id="4hf-vm-lo8"/>
+                                    <constraint firstAttribute="trailing" secondItem="67U-F5-XCN" secondAttribute="trailing" id="5DZ-Zl-Bdt"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="180" id="ECd-uW-Y9X"/>
+                                    <constraint firstItem="uqT-Sh-O64" firstAttribute="top" secondItem="wcI-p5-Qjz" secondAttribute="top" constant="8" id="ER7-oL-pbK"/>
+                                    <constraint firstItem="Sk9-ib-R7c" firstAttribute="top" secondItem="wcI-p5-Qjz" secondAttribute="top" constant="19" id="J4h-Ty-h6x"/>
+                                    <constraint firstItem="67U-F5-XCN" firstAttribute="leading" secondItem="wcI-p5-Qjz" secondAttribute="leading" id="Lot-Q5-2K6"/>
+                                    <constraint firstAttribute="height" constant="120" id="Sbg-eo-Ohe"/>
+                                    <constraint firstItem="uqT-Sh-O64" firstAttribute="leading" secondItem="wcI-p5-Qjz" secondAttribute="leading" constant="8" id="a8U-tg-dNd"/>
+                                    <constraint firstAttribute="bottom" secondItem="67U-F5-XCN" secondAttribute="bottom" id="bGU-Xo-54q"/>
+                                    <constraint firstItem="Sk9-ib-R7c" firstAttribute="leading" secondItem="uqT-Sh-O64" secondAttribute="trailing" constant="13" id="vm8-SB-2o1"/>
+                                </constraints>
+                            </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kq3-KG-SFo">
+                                <rect key="frame" x="0.0" y="184" width="600" height="416"/>
+                                <connections>
+                                    <segue destination="99L-Ge-OQB" kind="embed" identifier="QMContactListVC" id="onR-Hi-Isa"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="wcI-p5-Qjz" secondAttribute="trailing" id="3VK-R9-eeG"/>
+                            <constraint firstItem="wcI-p5-Qjz" firstAttribute="top" secondItem="xj7-0w-0ur" secondAttribute="bottom" id="4Uf-w2-Fh0"/>
+                            <constraint firstItem="FPw-dM-bXi" firstAttribute="top" secondItem="Kq3-KG-SFo" secondAttribute="bottom" id="8yh-jc-TSW"/>
+                            <constraint firstItem="Kq3-KG-SFo" firstAttribute="top" secondItem="wcI-p5-Qjz" secondAttribute="bottom" id="S8u-98-otS"/>
+                            <constraint firstAttribute="trailing" secondItem="Kq3-KG-SFo" secondAttribute="trailing" id="Yls-tR-UyZ"/>
+                            <constraint firstItem="wcI-p5-Qjz" firstAttribute="leading" secondItem="6iR-98-vbR" secondAttribute="leading" id="ZHx-ob-JvR"/>
+                            <constraint firstItem="Kq3-KG-SFo" firstAttribute="leading" secondItem="6iR-98-vbR" secondAttribute="leading" id="eEi-LC-abJ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="New Group" id="Vfg-XI-VZy">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="qhw-x1-w76"/>
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="BDq-cl-nQY"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="containerView" destination="Kq3-KG-SFo" id="OtY-F1-66m"/>
+                        <outlet property="headerHeight" destination="Sbg-eo-Ohe" id="V0J-jE-Uvo"/>
+                        <outlet property="tagsContainer" destination="67U-F5-XCN" id="nGI-0O-rVm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QA4-xA-2qv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7090" y="-8364"/>
         </scene>
         <!--New Group-->
         <scene sceneID="Y4C-1G-fPH">
             <objects>
-                <tableViewController id="99L-Ge-OQB" customClass="QMCreateGroupVC" sceneMemberID="viewController">
+                <tableViewController id="99L-Ge-OQB" customClass="QMContactListVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="K0p-r0-fsg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -414,10 +506,15 @@
                     <navigationItem key="navigationItem" title="New Group" id="UWt-6v-57y">
                         <barButtonItem key="rightBarButtonItem" title="Next" id="AVn-6i-3Cz"/>
                     </navigationItem>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="selectable" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeSearch" value="NO"/>
+                    </userDefinedRuntimeAttributes>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zjv-yj-Q3f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6975" y="-8364"/>
+            <point key="canvasLocation" x="-6233" y="-8364"/>
         </scene>
         <!--0 Selected-->
         <scene sceneID="qwA-Bo-bm8">
@@ -544,7 +641,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tGf-Nf-lDj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6155" y="-8126"/>
+            <point key="canvasLocation" x="-5243" y="-7354"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="svh-h1-xZ0">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="yHA-up-dNF" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TTo-Ma-L0w"/>
+                        <viewControllerLayoutGuide type="bottom" id="OVm-Dk-M1h"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9oK-qO-JzG">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="318-xY-lbD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
@@ -552,6 +667,7 @@
         <image name="add_friend" width="24" height="24"/>
         <image name="checkbox_ch" width="16" height="16"/>
         <image name="checkbox_unch" width="16" height="16"/>
+        <image name="group_placeholder" width="45" height="45"/>
         <image name="ic_smile" width="20" height="20"/>
         <image name="online" width="13" height="13"/>
         <image name="upic-placeholder" width="64" height="64"/>

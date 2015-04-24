@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Quickblox. All rights reserved.
 //
 
-#import "QMSearchTableViewController.h"
+#import "QMContactListVC.h"
 
-@interface QMCreateMessageVC : QMSearchTableViewController
+@interface QMCreateMessageVC : QMContactListVC
 
 @end

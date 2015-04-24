@@ -7,48 +7,108 @@
 //
 
 #import "QMCreateGroupVC.h"
-#import "QMContactListDataSource.h"
-#import "QMContactCell.h"
-#import "QMServicesManager.h"
 #import "QMCreateGroupHeaderView.h"
+#import "QMTagsContainer.h"
+#import "QMContactListVC.h"
 
 @interface QMCreateGroupVC()
 
-@property (strong, nonatomic) QMContactListDataSource *contactListDatasource;
-@property (strong, nonatomic) QMCreateGroupHeaderView *headerView;
+<QMContactListDataSourceHandler, QMTagsContainerDataSource, QMTagsContainerDelegate>
+
+@property (weak, nonatomic) IBOutlet QMTagsContainer *tagsContainer;
+@property (weak, nonatomic) QMContactListVC *contactListVC;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerHeight;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @end
 
 @implementation QMCreateGroupVC
 
-- (void)dealloc {
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.headerView = [[QMCreateGroupHeaderView alloc] init];
-    self.headerView.tagsContainer.backgroundColor = [UIColor whiteColor];
-    self.tableView.tableHeaderView = self.headerView;
+    self.tagsContainer.delegate = self;
+    self.tagsContainer.dataSource = self;
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    if ([segue.identifier isEqualToString: @"QMContactListVC"]) {
+        
+        QMContactListVC * childViewController = (id)[segue destinationViewController];
+        self.contactListVC = childViewController;
+        self.contactListVC.contactListDatasource.handler = self;
+    }
+}
+
+#pragma mark QMContactListDataSourceHandler
+
+- (void)didUpdateContactListDataSource:(QMContactListDataSource *)datasource {
     
-    CGRect headerFrame = self.headerView.frame;
-    headerFrame.origin.y = self.navigationController.navigationBar.frame.size.height + self.navigationController.navigationBar.frame.origin.y;
-    headerFrame.size.width = self.view.frame.size.width;
+    if (datasource.selectedObjects.count > 5) {
+        
+        [self.tagsContainer collapse];
+    }
+    else {
+        
+        [self.tagsContainer reloadData];
+    }
+}
+
+#pragma mark QMTagsContainerDelegate
+/** Is called when a user hits the return key on the input field. */
+- (void)tagsContainer:(QMTagsContainer *)container didEnterText:(NSString *)text {
     
-    self.headerView.frame = headerFrame;
+}
+
+/** Is called when a user deletes a tag at a particular index. */
+- (void)tagsContainer:(QMTagsContainer *)container didDeleteTagAtIndex:(NSUInteger)index {
     
-    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
-    self.tableView.sectionIndexColor = [UIColor colorWithRed:0.071 green:0.357 blue:0.643 alpha:1.000];
-    self.contactListDatasource = [[QMContactListDataSource alloc] init];
-    self.tableView.rowHeight = 48;
+}
+
+/** Is called when a user changes the text in the input field. */
+- (void)tagsContainer:(QMTagsContainer *)container didChangeText:(NSString *)text {
     
-    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage sortedByName:YES];
-    [self.contactListDatasource addObjects:usersFormCache];
-    self.tableView.dataSource = self.contactListDatasource;
-//    self.tableView.contentInset = UIEdgeInsetsMake(self.headerView.frame.size.height,0,0,0);
+}
+
+/** is called when the input field becomes first responder */
+- (void)tagsContainerDidBeginEditing:(QMTagsContainer *)container {
     
-    [QMContactCell registerForReuseInTableView:self.tableView];
+}
+
+- (void)tagsContainer:(QMTagsContainer *)container didChangeHeight:(CGFloat)height {
+    
+    self.headerHeight.constant = container.frame.origin.y + height;
+    [UIView animateWithDuration:.4 animations:^{
+        [self.containerView layoutIfNeeded];
+    }];
+}
+
+#pragma mark QMTagsContainerDataSource
+
+/** To specify what the title for the tag at a particular index should be. */
+- (NSString *)tagsContainer:(QMTagsContainer *)container titleForTagAtIndex:(NSUInteger)index {
+
+    QBUUser *user = self.contactListVC.contactListDatasource.selectedObjects[index];
+    return user.fullName;
+}
+
+/** To specify how many tags you have. */
+- (NSUInteger)numberOfTagsInTagsContainer:(QMTagsContainer *)container {
+    
+    return self.contactListVC.contactListDatasource.selectedObjects.count;
+}
+
+/** To specify what you want the tags container to say in the collapsed state. */
+- (NSString *)tagsContainerCollapsedText:(QMTagsContainer *)container {
+
+    return [NSString stringWithFormat:@"Selected %tu", self.contactListVC.contactListDatasource.selectedObjects.count];
+}
+
+/** Color for tag at index */
+- (UIColor *)tagsContainer:(QMTagsContainer *)container colorSchemeForTagAtIndex:(NSUInteger)index {
+    
+    return [UIColor colorWithRed:0.377 green:0.627 blue:1.000 alpha:1.000];
 }
 
 @end

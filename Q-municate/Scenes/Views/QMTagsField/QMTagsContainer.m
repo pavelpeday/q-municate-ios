@@ -210,6 +210,10 @@ const CGFloat kQMTagsContainerDefaultMaxHeight = 150.0;
     frame.size.height = self.originalHeight;
     self.frame = frame;
     
+    if ([self.delegate respondsToSelector:@selector(tagsContainer:didChangeHeight:)]) {
+        [self.delegate tagsContainer:self didChangeHeight:self.originalHeight];
+    }
+    
     CGFloat currentX = 0;
     [self layoutToLabelInView:self origin:CGPointMake(self.horizontalInset, self.verticalInset) currentX:&currentX];
     [self layoutCollapsedLabelWithCurrentX:&currentX];
@@ -432,7 +436,7 @@ const CGFloat kQMTagsContainerDefaultMaxHeight = 150.0;
         
         if (currentY + [self heightForTag] <= self.maxHeight) {
             
-            frame.size.height = currentY + [self heightForTag] + self.verticalInset * 2;
+            frame.size.height = currentY + [self heightForTag] + self.verticalInset ;
         }
         else {
             
@@ -444,7 +448,7 @@ const CGFloat kQMTagsContainerDefaultMaxHeight = 150.0;
         
         if (currentY + [self heightForTag] > self.originalHeight) {
             
-            frame.size.height = currentY + [self heightForTag] + self.verticalInset * 2;
+            frame.size.height = currentY + [self heightForTag] + self.verticalInset;
             
         } else {
             
@@ -452,7 +456,15 @@ const CGFloat kQMTagsContainerDefaultMaxHeight = 150.0;
         }
     }
     
-    self.frame = frame;
+    if ((int)self.frame.size.height != (int)frame.size.height) {
+        
+        self.frame = frame;
+        
+        if ([self.delegate respondsToSelector:@selector(tagsContainer:didChangeHeight:)]) {
+            
+            [self.delegate tagsContainer:self didChangeHeight:frame.size.height];
+        }
+    }
 }
 
 - (QMBackspaceTextField *)inputTextField {

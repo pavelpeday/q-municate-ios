@@ -27,4 +27,8 @@
     return nil;
 }
 
++ (CGFloat)height {
+    return 0;
+}
+
 @end

@@ -9,9 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "QMSearchController.h"
 
-@interface QMSearchTableViewController : UITableViewController <UITableViewDelegate, UISearchBarDelegate, QMSearchResultsUpdating, QMSearchControllerDelegate>
+@interface QMSearchTableViewController : UITableViewController
+
+<UITableViewDelegate, UISearchBarDelegate, QMSearchResultsUpdating, QMSearchControllerDelegate>
 
 @property (strong, nonatomic, readonly) QMSearchController *searchController;
+@property (assign, nonatomic) IBInspectable BOOL makeSearch;
+@property (assign, nonatomic) IBInspectable BOOL makeRefresh;
 
 - (void)didBeginRefresh;
 

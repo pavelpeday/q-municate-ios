@@ -29,6 +29,8 @@
 /** is called when the input field becomes first responder */
 - (void)tagsContainerDidBeginEditing:(QMTagsContainer *)container;
 
+- (void)tagsContainer:(QMTagsContainer *)container didChangeHeight:(CGFloat)height;
+
 @end
 
 /**

@@ -20,35 +20,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    [self configure];
-}
-
-- (void)configure {
-    
-    self.definesPresentationContext = YES;
-    self.searchController = [[QMSearchController alloc] initWithContentsController:self];
-    self.searchController.delegate = self;
-    self.searchController.searchResultsDelegate = self;
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchController.searchBar.delegate = self;
-    self.searchController.searchBar.placeholder = @"Search";
-    
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableView.tableHeaderView = self.searchController.searchBar;
-    // Hide serach bar
-    self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
-    //Add refresh control
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [refreshControl addTarget:self action:@selector(didBeginRefresh) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refreshControl;
+    
+    if (self.makeSearch) {
+        
+        self.searchController = [[QMSearchController alloc] initWithContentsController:self];
+        self.searchController.delegate = self;
+        self.searchController.searchResultsDelegate = self;
+        self.searchController.searchResultsUpdater = self;
+        self.searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        self.searchController.searchBar.delegate = self;
+        self.searchController.searchBar.placeholder = @"Search";
+        self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
+        NSAssert(!self.tableView.tableHeaderView, @"Need update this case");
+        self.tableView.tableHeaderView = self.searchController.searchBar;
+    }
+    else {
+        
+        self.searchController = nil;
+        self.tableView.tableHeaderView = nil;
+        self.tableView.contentOffset = CGPointMake(0, 0);
+    }
+
+    if (self.makeRefresh) {
+
+        //Add refresh control
+        UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+        self.refreshControl.tintColor = [UIColor whiteColor];
+        [refreshControl addTarget:self action:@selector(didBeginRefresh) forControlEvents:UIControlEventValueChanged];
+        self.refreshControl = refreshControl;
+    }
 }
 
 #pragma mark - Actions

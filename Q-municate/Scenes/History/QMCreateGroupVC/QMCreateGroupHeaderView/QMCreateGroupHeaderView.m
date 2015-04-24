@@ -26,15 +26,24 @@
     self.tagsContainer = nil;
 }
 
-- (id)initWithFrame:(CGRect)frame {
-    
-    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
-    
-    if (self) {
-        
-    }
-    
-    return self;
-}
+//- (instancetype)initWithCoder:(NSCoder *)coder {
+//    
+//    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
+//    if (self) {
+//        
+//    }
+//    return self;
+//}
+
+//- (id)initWithFrame:(CGRect)frame {
+//    
+//    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
+//    
+//    if (self) {
+//        
+//    }
+//    
+//    return self;
+//}
 
 @end

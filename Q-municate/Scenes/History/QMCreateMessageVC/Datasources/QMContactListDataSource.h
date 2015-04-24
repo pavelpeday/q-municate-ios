@@ -8,6 +8,23 @@
 
 #import "QMTableViewDataSource.h"
 
-@interface QMContactListDataSource : QMTableViewDataSource
+@class QMContactListDataSource;
+
+@protocol QMContactListDataSourceHandler <NSObject>
+
+/** Is called when datasource changed. */
+- (void)didUpdateContactListDataSource:(QMContactListDataSource *)datasource;
+
+@end
+
+@interface QMContactListDataSource : QMTableViewDataSource <QMContactListDataSourceHandler>
+
+@property (assign, nonatomic) BOOL selectable;
+@property (weak, nonatomic) id <QMContactListDataSourceHandler> handler;
+
+- (void)selectObjectAtIndexPath:(NSIndexPath *)indexPath;
+- (void)deselectObjectAtIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)isSelectedObjectAtIndedx:(NSIndexPath *)indexPath;
+- (NSArray *)selectedObjects;
 
 @end

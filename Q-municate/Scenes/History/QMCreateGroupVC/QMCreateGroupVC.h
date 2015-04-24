@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QMCreateGroupVC : UITableViewController
+@interface QMCreateGroupVC : UIViewController
 
 @end

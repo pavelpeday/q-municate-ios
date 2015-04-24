@@ -12,7 +12,8 @@
 @interface QMContactCell : QMSearchCell
 
 @property (weak, nonatomic) id <QMAddContactProtocol> delegate;
-
 @property (strong, nonatomic) QBUUser *contact;
+@property (assign, nonatomic) BOOL selectable;
+@property (assign, nonatomic) BOOL check;
 
 @end

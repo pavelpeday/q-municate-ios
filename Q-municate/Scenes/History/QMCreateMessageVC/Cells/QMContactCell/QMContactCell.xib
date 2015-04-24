@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,47 +14,74 @@
             <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SjC-gH-BRL" id="8x4-Fg-Ybq">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="James Cobs, Martin Freeman" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIo-dJ-4xI">
-                        <rect key="frame" x="66" y="6" width="319" height="21"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OY8-Qp-9Gu" customClass="QMCheckMarkView">
+                        <rect key="frame" x="8" y="14" width="20" height="20"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="ie2-br-Ddk"/>
+                            <constraint firstAttribute="width" constant="20" id="IEQ-DH-F0E"/>
+                            <constraint firstAttribute="width" secondItem="OY8-Qp-9Gu" secondAttribute="height" multiplier="1:1" id="vai-PE-y9n"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="checkColor">
+                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.72941176470588232" green="0.72156862745098038" blue="0.74509803921568629" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="bgColor">
+                                <color key="value" red="0.1960784495" green="0.74901962280000001" blue="0.15686275059999999" alpha="1" colorSpace="deviceRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="check" value="NO"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="James Cobs, Martin Freeman" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zIo-dJ-4xI">
+                        <rect key="frame" x="84" y="7" width="311" height="21"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="ei9-PO-BYz"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.098039215690000001" green="0.098039215690000001" blue="0.098039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jDz-Bz-7FM">
-                        <rect key="frame" x="66" y="22" width="319" height="21"/>
+                        <rect key="frame" x="84" y="25" width="311" height="16"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="gsg-7d-8L1"/>
+                            <constraint firstAttribute="height" constant="16" id="YEp-4N-0J5"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="group_placeholder" highlightedImage="group_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Ps0-A9-yhd" customClass="QMImageView">
-                        <rect key="frame" x="18" y="4" width="40" height="40"/>
+                        <rect key="frame" x="36" y="4" width="40" height="40"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="eev-Ur-pbA"/>
-                            <constraint firstAttribute="height" constant="40" id="uBs-6Z-6Eu"/>
+                            <constraint firstAttribute="height" constant="40" id="trz-Gx-fDc"/>
+                            <constraint firstAttribute="width" constant="40" id="ypA-qb-gmF"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="zIo-dJ-4xI" secondAttribute="trailing" constant="18" id="96E-uj-pv0"/>
-                    <constraint firstItem="zIo-dJ-4xI" firstAttribute="leading" secondItem="Ps0-A9-yhd" secondAttribute="trailing" constant="8" id="Bzm-dE-o8V"/>
-                    <constraint firstItem="Ps0-A9-yhd" firstAttribute="leading" secondItem="8x4-Fg-Ybq" secondAttribute="leading" constant="18" id="IGQ-3q-Hgl"/>
-                    <constraint firstItem="zIo-dJ-4xI" firstAttribute="top" secondItem="8x4-Fg-Ybq" secondAttribute="top" constant="6" id="Kc0-BH-IyX"/>
-                    <constraint firstItem="jDz-Bz-7FM" firstAttribute="leading" secondItem="Ps0-A9-yhd" secondAttribute="trailing" constant="8" id="V4N-O3-8In"/>
-                    <constraint firstItem="Ps0-A9-yhd" firstAttribute="top" secondItem="8x4-Fg-Ybq" secondAttribute="top" constant="4" id="bJf-zz-x8W"/>
-                    <constraint firstItem="jDz-Bz-7FM" firstAttribute="top" secondItem="zIo-dJ-4xI" secondAttribute="bottom" constant="-5" id="uMW-xP-YRn"/>
-                    <constraint firstAttribute="trailing" secondItem="jDz-Bz-7FM" secondAttribute="trailing" constant="18" id="x0A-TW-I3q"/>
+                    <constraint firstAttribute="trailing" secondItem="zIo-dJ-4xI" secondAttribute="trailing" constant="8" id="44b-p0-CK7"/>
+                    <constraint firstItem="zIo-dJ-4xI" firstAttribute="leading" secondItem="Ps0-A9-yhd" secondAttribute="trailing" constant="8" id="EhY-Pw-zRI"/>
+                    <constraint firstItem="zIo-dJ-4xI" firstAttribute="top" secondItem="8x4-Fg-Ybq" secondAttribute="top" constant="7" id="NAr-93-Ven"/>
+                    <constraint firstItem="jDz-Bz-7FM" firstAttribute="leading" secondItem="Ps0-A9-yhd" secondAttribute="trailing" constant="8" id="Niu-20-PbS"/>
+                    <constraint firstItem="OY8-Qp-9Gu" firstAttribute="top" secondItem="8x4-Fg-Ybq" secondAttribute="top" constant="14" id="bck-zf-mMQ"/>
+                    <constraint firstAttribute="bottom" secondItem="jDz-Bz-7FM" secondAttribute="bottom" constant="6" id="cBV-qH-LGQ"/>
+                    <constraint firstItem="OY8-Qp-9Gu" firstAttribute="leading" secondItem="8x4-Fg-Ybq" secondAttribute="leading" constant="8" id="hJd-zF-Uvb"/>
+                    <constraint firstItem="Ps0-A9-yhd" firstAttribute="leading" secondItem="OY8-Qp-9Gu" secondAttribute="trailing" constant="8" id="ktp-Nh-a3H"/>
+                    <constraint firstItem="Ps0-A9-yhd" firstAttribute="top" secondItem="8x4-Fg-Ybq" secondAttribute="top" constant="4" id="wGi-gC-1yy"/>
+                    <constraint firstAttribute="trailing" secondItem="jDz-Bz-7FM" secondAttribute="trailing" constant="8" id="wLd-a9-tPx"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="checkMarkView" destination="OY8-Qp-9Gu" id="Hqc-LD-nL6"/>
+                <outlet property="checkMarkWidth" destination="IEQ-DH-F0E" id="8EN-At-SXq"/>
                 <outlet property="qmImageView" destination="Ps0-A9-yhd" id="wek-0Z-SKu"/>
                 <outlet property="subTitleLabel" destination="jDz-Bz-7FM" id="c0R-MT-Bcn"/>
                 <outlet property="titleLabel" destination="zIo-dJ-4xI" id="k1W-rM-v9o"/>
