@@ -66,8 +66,11 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
     [QM.contactListService addDelegate:self];
     
-    [QMTasks taskLogin:^(BOOL success) {
+    [QMTasks taskLogin:^(BOOL successLogin) {
         
+        [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {
+            
+        }];
     }];
 }
 
@@ -281,9 +284,11 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 - (void)updateSearchResultsForSearchController:(QMSearchController *)searchController {
     
     if (searchController.searchBar.selectedScopeButtonIndex == QMSearchScopeButtonIndexGlobal) {
+        
         self.searchController.searchResultsDataSource = self.globalSearchDatasource;
     }
     else {
+        
         self.searchController.searchResultsDataSource = self.localSearchDatasource;
     }
     
@@ -303,7 +308,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
            [QM.chatService createPrivateChatDialogIfNeededWithOpponent:contact
                                                             completion:^(QBResponse *response,
                                                                          QBChatDialog *createdDialog) {
-                                                                
+
                                                             }];
        }
    }];

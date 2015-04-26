@@ -92,8 +92,7 @@ void systemServicesSoundCompletion(SystemSoundID  soundID, void *data) {
 - (void)playSoundWithName:(NSString *)filename
                 extension:(NSString *)extension
                   isAlert:(BOOL)isAlert
-          completionBlock:(QMSoundManagerCompletionBlock)completionBlock
-{
+          completionBlock:(QMSoundManagerCompletionBlock)completionBlock {
     if (!self.on) {
         return;
     }
@@ -132,8 +131,6 @@ void systemServicesSoundCompletion(SystemSoundID  soundID, void *data) {
         
     }
 }
-
-
 
 - (void)playSoundWithName:(NSString *)filename extension:(NSString *)extension {
     [self playSoundWithName:filename
@@ -208,10 +205,12 @@ void systemServicesSoundCompletion(SystemSoundID  soundID, void *data) {
 - (SystemSoundID)soundIDFromData:(NSData *)data {
 
     if (data) {
+        
         SystemSoundID soundID;
         [data getBytes:&soundID length:sizeof(SystemSoundID)];
         return soundID;
     }
+    
     return 0;
 }
 
@@ -359,9 +358,7 @@ NSString *const kQMRingtoneSoundName = @"ringtone";
 
 + (void)playCallingSound {
     
-    [[QMSoundManager shared] playSoundWithName:kQMCallingSoundName extension:kystemSoundTypeWAV completion:^{
-        
-    }];
+    [[QMSoundManager shared] playSoundWithName:kQMCallingSoundName extension:kystemSoundTypeWAV completion:nil];
 }
 
 + (void)playBusySound {

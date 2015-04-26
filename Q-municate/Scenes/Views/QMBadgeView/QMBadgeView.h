@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+IB_DESIGNABLE
 @interface QMBadgeView : UIView
 
-@property (assign, nonatomic) NSUInteger cornerRadius;
-@property (assign, nonatomic) NSUInteger borderWidth;
+@property (assign, nonatomic) IBInspectable NSUInteger cornerRadius;
+@property (assign, nonatomic) IBInspectable NSUInteger borderWidth;
 
 @end

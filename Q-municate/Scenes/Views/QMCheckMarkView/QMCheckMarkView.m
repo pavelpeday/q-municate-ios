@@ -26,7 +26,11 @@
     
     if (!isCheck) {
         
-        CGRect rect = CGRectMake(self.borderWidth / 2, self.borderWidth / 2, frame.size.width-self.borderWidth, frame.size.height-self.borderWidth);
+        CGRect rect = CGRectMake(self.borderWidth / 2,
+                                 self.borderWidth / 2,
+                                 frame.size.width-self.borderWidth,
+                                 frame.size.height-self.borderWidth);
+        
         UIBezierPath* oval2Path = [UIBezierPath bezierPathWithOvalInRect:rect];
         [self.borderColor setStroke];
         oval2Path.lineWidth = self.borderWidth;
@@ -35,20 +39,31 @@
     }
     else {
         
-        
-        //// Oval Drawing
         UIBezierPath *ovalPath  = [UIBezierPath bezierPathWithOvalInRect:frame];
         [self.bgColor setFill];
         [ovalPath fill];
         //// Check Drawing
         UIBezierPath* bezierPath = UIBezierPath.bezierPath;
-        [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(frame) + 0.20000 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.51795 * CGRectGetHeight(frame))];
-        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.42353 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.73333 * CGRectGetHeight(frame))];
-        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.83333 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.33846 * CGRectGetHeight(frame))];
-        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.75882 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.26667 * CGRectGetHeight(frame))];
-        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.42353 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.58974 * CGRectGetHeight(frame))];
-        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.27451 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.44615 * CGRectGetHeight(frame))];
-        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.20000 * CGRectGetWidth(frame), CGRectGetMinY(frame) + 0.51795 * CGRectGetHeight(frame))];
+        [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(frame) + 0.20000 * CGRectGetWidth(frame),
+                                             CGRectGetMinY(frame) + 0.51795 * CGRectGetHeight(frame))];
+        
+        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.42353 * CGRectGetWidth(frame),
+                                                CGRectGetMinY(frame) + 0.73333 * CGRectGetHeight(frame))];
+        
+        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.83333 * CGRectGetWidth(frame),
+                                                CGRectGetMinY(frame) + 0.33846 * CGRectGetHeight(frame))];
+        
+        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.75882 * CGRectGetWidth(frame),
+                                                CGRectGetMinY(frame) + 0.26667 * CGRectGetHeight(frame))];
+        
+        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.42353 * CGRectGetWidth(frame),
+                                                CGRectGetMinY(frame) + 0.58974 * CGRectGetHeight(frame))];
+        
+        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.27451 * CGRectGetWidth(frame),
+                                                CGRectGetMinY(frame) + 0.44615 * CGRectGetHeight(frame))];
+        
+        [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(frame) + 0.20000 * CGRectGetWidth(frame),
+                                                CGRectGetMinY(frame) + 0.51795 * CGRectGetHeight(frame))];
         [bezierPath closePath];
         [self.checkColor setFill];
         [bezierPath fill];

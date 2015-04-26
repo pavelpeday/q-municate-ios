@@ -42,7 +42,7 @@
 
 - (void)drawRect:(CGRect)rect {
     
-    [self drawBadgeViewWithFrame:rect  badgeText:@"99+"];
+    [self drawBadgeViewWithFrame:rect  badgeText:@"15"];
 }
 
 - (void)drawBadgeViewWithFrame:(CGRect)frame
@@ -125,7 +125,8 @@
         
         //// Gradient Declarations
         CGFloat gradientLocations[] = {0, 0.26, 1};
-        CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)@[(id)self.gradientA.CGColor,
+        CGGradientRef gradient = CGGradientCreateWithColors(colorSpace,
+                                                            (__bridge CFArrayRef)@[(id)self.gradientA.CGColor,
                                                                                                (id)[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5].CGColor,
                                                                                                (id)self.gradientB.CGColor],
                                                             gradientLocations);

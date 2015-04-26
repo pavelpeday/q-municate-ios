@@ -20,10 +20,8 @@ typedef NS_ENUM(NSInteger, QMProfileType) {
 @interface QMProfile : NSObject <NSCoding>
 
 @property (strong, nonatomic) QBUUser *userData;
-
 @property (assign, nonatomic) BOOL userAgreementAccepted;
 @property (assign, nonatomic) BOOL pushNotificationsEnabled;
-
 @property (assign, nonatomic) QMProfileType type;
 
 /**
