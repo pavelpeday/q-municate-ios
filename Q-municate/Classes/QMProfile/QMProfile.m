@@ -146,10 +146,6 @@ NSString *const kQMUserProfileType = @"userProfileType";
     NSString *password = self.userData.password;
     self.userData.password = nil;
     
-    if (self.userData.customDataChanged) {
-        [self.userData syncronize];
-    }
-    
     __weak __typeof(self)weakSelf = self;
     [QBRequest updateUser:self.userData
              successBlock:^(QBResponse *response,

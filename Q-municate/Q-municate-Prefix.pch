@@ -44,7 +44,6 @@
     #import <MobileCoreServices/MobileCoreServices.h>
     #import <Quickblox/Quickblox.h>
     #import <FacebookSDK/FacebookSDK.h>
-    #import "QBUUser+CustomParameters.h"
     #import <QMServices.h>
     #import "Segues.h"
 #endif

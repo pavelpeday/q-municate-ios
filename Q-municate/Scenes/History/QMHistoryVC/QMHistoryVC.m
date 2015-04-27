@@ -328,10 +328,17 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
              [QM.chatService createPrivateChatDialogWithOpponent:contact
                                                       completion:^(QBResponse *response,
                                                                    QBChatDialog *createdDialog) {
+                                                          
                                                       }];
          }
      }];
 }
+
+- (BOOL)userExist:(QBUUser *)user {
+    
+    QBUUser *extstUser = [QM.contactListService.usersMemoryStorage userWithID:user.ID];
+    return extstUser ? YES : NO;
+ }
 
 #pragma mark - QMHistoryDataSourceHandler
 

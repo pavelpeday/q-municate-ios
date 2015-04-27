@@ -12,6 +12,7 @@
 @interface QMAddContactCell()
 
 @property (weak, nonatomic) IBOutlet UIButton *addBtn;
+@property (assign, nonatomic) BOOL userExist;
 
 @end
 
@@ -30,6 +31,14 @@
 - (IBAction)pressAddBtn:(id)sender {
     
     [self.delegate didAddContact:self.contact];
+}
+
+- (void)setUserExist:(BOOL)userExist {
+
+    if (_userExist != userExist) {
+        _userExist = userExist;
+        self.addBtn.hidden = userExist;
+    }
 }
 
 @end

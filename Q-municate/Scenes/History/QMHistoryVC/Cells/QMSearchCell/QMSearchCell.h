@@ -10,6 +10,7 @@
 
 @interface QMSearchCell : QMTableViewCell
 
+- (void)setImageWithUrl:(NSString *)url;
 - (void)setTitle:(NSString *)title;
 - (void)setSubTitle:(NSString *)subTitle;
 - (void)highlightTitle:(NSString *)title;

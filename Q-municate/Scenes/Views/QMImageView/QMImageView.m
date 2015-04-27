@@ -143,12 +143,15 @@
 - (UIImage *)transformImage:(UIImage *)image {
     
     if (self.imageViewType == QMImageViewTypeSquare) {
+        
         return [image imageByScaleAndCrop:self.frame.size];
     }
     else if (self.imageViewType == QMImageViewTypeCircle) {
+        
         return [image imageByCircularScaleAndCrop:self.frame.size];
     }
     else {
+        
         return image;
     }
 }

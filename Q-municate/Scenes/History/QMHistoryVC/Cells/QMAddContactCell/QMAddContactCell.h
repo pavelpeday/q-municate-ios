@@ -10,5 +10,7 @@
 
 @interface QMAddContactCell : QMContactCell
 
+- (void)setUserExist:(BOOL)exist;
+
 @end
 

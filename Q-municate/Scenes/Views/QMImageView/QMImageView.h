@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, QMImageViewType) {
 @property (assign, nonatomic) QMImageViewType imageViewType;
 
 - (void)sd_setImage:(UIImage *)image withKey:(NSString *)key;
+
 - (void)setImageWithURL:(NSURL *)url
             placeholder:(UIImage *)placehoder
                 options:(SDWebImageOptions)options

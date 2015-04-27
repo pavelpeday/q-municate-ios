@@ -10,7 +10,6 @@
 
 @interface QMChatHistoryCell : QMSearchCell
 
-- (void)setSubTitle:(NSString *)subTitle;
 - (void)setTime:(NSString *)time;
 
 @end

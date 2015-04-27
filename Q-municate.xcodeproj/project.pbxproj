@@ -57,7 +57,6 @@
 		556E199A1A9F65940087BEB9 /* QMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E195F1A9F65940087BEB9 /* QMProgressView.m */; };
 		556E19AE1A9F659A0087BEB9 /* NSString+HasText.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E199F1A9F659A0087BEB9 /* NSString+HasText.m */; };
 		556E19AF1A9F659A0087BEB9 /* NSString+UsedSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E19A21A9F659A0087BEB9 /* NSString+UsedSize.m */; };
-		556E19B01A9F659A0087BEB9 /* QBUUser+CustomParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E19A41A9F659A0087BEB9 /* QBUUser+CustomParameters.m */; };
 		556E19B11A9F659A0087BEB9 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E19A81A9F659A0087BEB9 /* UIColor+Hex.m */; };
 		556E19B21A9F659A0087BEB9 /* UIImage+TintColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E19AB1A9F659A0087BEB9 /* UIImage+TintColor.m */; };
 		556E19B31A9F659A0087BEB9 /* UIImage+Cropper.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E19AD1A9F659A0087BEB9 /* UIImage+Cropper.m */; };
@@ -240,8 +239,6 @@
 		556E199F1A9F659A0087BEB9 /* NSString+HasText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HasText.m"; sourceTree = "<group>"; };
 		556E19A11A9F659A0087BEB9 /* NSString+UsedSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UsedSize.h"; sourceTree = "<group>"; };
 		556E19A21A9F659A0087BEB9 /* NSString+UsedSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UsedSize.m"; sourceTree = "<group>"; };
-		556E19A31A9F659A0087BEB9 /* QBUUser+CustomParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QBUUser+CustomParameters.h"; sourceTree = "<group>"; };
-		556E19A41A9F659A0087BEB9 /* QBUUser+CustomParameters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QBUUser+CustomParameters.m"; sourceTree = "<group>"; };
 		556E19A71A9F659A0087BEB9 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		556E19A81A9F659A0087BEB9 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		556E19AA1A9F659A0087BEB9 /* UIImage+TintColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TintColor.h"; sourceTree = "<group>"; };
@@ -810,8 +807,6 @@
 			isa = PBXGroup;
 			children = (
 				556E199C1A9F659A0087BEB9 /* NSString */,
-				556E19A31A9F659A0087BEB9 /* QBUUser+CustomParameters.h */,
-				556E19A41A9F659A0087BEB9 /* QBUUser+CustomParameters.m */,
 				556E19A51A9F659A0087BEB9 /* UIColor */,
 				556E19A91A9F659A0087BEB9 /* UIImage */,
 				556E19AC1A9F659A0087BEB9 /* UIImage+Cropper.h */,
@@ -1392,7 +1387,6 @@
 			files = (
 				556E19F01A9F65A50087BEB9 /* QMMessageBarStyleSheetFactory.m in Sources */,
 				5507EC531AE9370000ECD26E /* QMCreateGroupHeaderView.m in Sources */,
-				556E19B01A9F659A0087BEB9 /* QBUUser+CustomParameters.m in Sources */,
 				556E19641A9F65940087BEB9 /* QMLogInVC.m in Sources */,
 				556E19631A9F65940087BEB9 /* QMLicenseAgreementVC.m in Sources */,
 				556E19671A9F65940087BEB9 /* QMWelcomeVC.m in Sources */,

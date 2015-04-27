@@ -35,8 +35,13 @@
                                                               forIndexPath:indexPath];
         QBUUser *user = self.collection[indexPath.row];
         cell.contact = user;
+        
+        BOOL userExist = [self.addContactHandler userExist:user];
+        [cell setUserExist:userExist];
+        
         cell.delegate = self.addContactHandler;
         
+        [cell setImageWithUrl:user.avatarUrl];
         [cell setTitle:user.fullName];
         [cell highlightTitle:self.searchText];
         

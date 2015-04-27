@@ -13,11 +13,9 @@
 @interface QMChatHistoryCell()
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
-@property (weak, nonatomic) IBOutlet QMImageView *qmImgeView;
 @property (weak, nonatomic) IBOutlet QMBadgeView *badgeView;
 
 @property (strong, nonatomic) NSString *time;
-@property (strong, nonatomic) NSString *subTitle;
 
 @end
 

@@ -7,14 +7,17 @@
 //
 
 #import "QMSearchCell.h"
+#import "QMImageView.h"
 
 @interface QMSearchCell()
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
+@property (weak, nonatomic) IBOutlet QMImageView *qmImageView;
 
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *subTitle;
+@property (strong, nonatomic) NSString *imageUrl;
 
 @end
 
@@ -23,6 +26,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    self.qmImageView.imageViewType = QMImageViewTypeCircle;
     self.titleLabel.text = nil;
     self.subTitleLabel.text = nil;
 }
@@ -55,7 +59,7 @@
     UIColor *highlightColor = [UIColor colorWithRed:1.000 green:0.610 blue:0.426 alpha:1.000];
     
     [attributedString beginEditing];
-    
+   /*
     NSRegularExpression *expression =
     [NSRegularExpression regularExpressionWithPattern:title
                                               options:NSRegularExpressionCaseInsensitive
@@ -75,14 +79,30 @@
                                   value:highlightColor
                                   range:resultRange];
      }];
-    /*
+    */
+    
     [attributedString addAttribute: NSForegroundColorAttributeName
                              value:highlightColor
                              range:[self.title rangeOfString:title options:NSCaseInsensitiveSearch]];
-    */
+    
     [attributedString endEditing];
     
     self.titleLabel.attributedText = attributedString;
+}
+
+- (void)setImageWithUrl:(NSString *)url {
+    
+    if (![self.imageUrl isEqualToString:url]) {
+        
+        self.imageUrl = url;
+        NSURL *imageUrl = [NSURL URLWithString:url];
+        
+        [self.qmImageView  setImageWithURL:imageUrl
+                               placeholder:nil
+                                   options:SDWebImageHighPriority
+                                  progress:nil
+                            completedBlock:nil];
+    }
 }
 
 @end

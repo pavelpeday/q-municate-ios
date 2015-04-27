@@ -88,7 +88,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="badgeView" destination="LPr-gy-6Qy" id="YVA-T4-FCB"/>
-                <outlet property="qmImgeView" destination="zer-qA-MJo" id="Fpa-bR-i1O"/>
+                <outlet property="qmImageView" destination="zer-qA-MJo" id="5Ai-z1-DzD"/>
                 <outlet property="subTitleLabel" destination="Zkd-aj-sJD" id="upm-A5-1CW"/>
                 <outlet property="timeLabel" destination="0ax-sI-TvB" id="QZI-HN-wyh"/>
                 <outlet property="titleLabel" destination="Y2p-7U-miv" id="9BG-lU-4nb"/>

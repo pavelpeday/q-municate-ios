@@ -26,7 +26,7 @@
     if (dialog.type == QBChatDialogTypePrivate) {
 
         QBUUser *recipient = [self.handler historyDataSource:self recipientWithIDs:dialog.occupantIDs];
-        
+        [cell setImageWithUrl:recipient.avatarUrl];
         [cell setTitle:recipient.fullName];
     }
     else {
