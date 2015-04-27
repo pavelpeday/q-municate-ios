@@ -8,6 +8,16 @@
 
 #import "QMTableViewDataSource.h"
 
+@class QMHistoryDataSource;
+
+@protocol QMHistoryDataSourceHandler <NSObject>
+
+- (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource userWithID:(NSUInteger)userID;
+
+@end
+
 @interface QMHistoryDataSource : QMTableViewDataSource
+
+@property (weak, nonatomic) id <QMHistoryDataSourceHandler>handler;
 
 @end

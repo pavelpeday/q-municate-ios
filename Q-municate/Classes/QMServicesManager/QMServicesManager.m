@@ -47,10 +47,10 @@ NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
         
         [QMChatCache setupDBWithStoreNamed:kQMChatCacheStoreName];
         [QMContactListCache setupDBWithStoreNamed:kQMContactListCacheStoreName];
-        
+
+        self.contactListService = [[QMContactListService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
         self.authService = [[QMAuthService alloc] initWithUserProfileDataSource:self];
         self.chatService = [[QMChatService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
-        self.contactListService = [[QMContactListService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
         
         [self.chatService addDelegate:self];
         [self.contactListService addDelegate:self];

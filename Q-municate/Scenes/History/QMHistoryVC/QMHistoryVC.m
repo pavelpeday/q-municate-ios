@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 @interface QMHistoryVC ()
 
-<QMContactListServiceDelegate,  QMAddContactProtocol, QMChatServiceDelegate>
+<QMContactListServiceDelegate,  QMAddContactProtocol, QMChatServiceDelegate, QMHistoryDataSourceHandler>
 /**
  *  Datasources
  */
@@ -55,38 +55,21 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [super viewDidLoad];
     
     [self registerNibs];
-    
+    //Init datasources
     self.historyDataSource = [[QMHistoryDataSource alloc] init];
-    self.globalSearchDatasource = [[QMGlobalSearchDataSource alloc] init];
-    
+    self.historyDataSource.handler = self;
     self.tableView.dataSource = self.historyDataSource;
-
+    self.globalSearchDatasource = [[QMGlobalSearchDataSource alloc] init];
+    //Configure search controller
     self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
     self.searchController.searchResultsTableView.rowHeight = 75;
-
-//    [QM.contactListService addDelegate:self];
+    //Subscirbe to notification
+    [QM.contactListService addDelegate:self];
     [QM.chatService addDelegate:self];
+    //Fetch data from server
     [QMTasks taskLogin:^(BOOL successLogin) {
-        
-        [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {
-            
-        }];
+        [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {}];
     }];
-}
-
-- (void)chatServiceDidLoadDialogsFromCache {
-    
-    NSArray *dialogsFromCache = [QM.chatService.dialogsMemoryStorage unsortedDialogs];
-    [self.historyDataSource.collection addObjectsFromArray:dialogsFromCache];
-    [self.tableView reloadData];
-}
-
-- (void)chatService:(QMChatService *)chatService didAddChatDialog:(QBChatDialog *)chatDialog {
-    
-}
-
-- (void)chatService:(QMChatService *)chatService didAddChatDialogs:(NSArray *)chatDialogs {
-    
 }
 
 - (void)stupNotificationView {
@@ -98,7 +81,33 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     }];
 }
 
-#pragma mark - QMContactListServiceDelegate
+- (void)contactListServiceDidLoadCache {
+    [self.tableView reloadData];
+}
+
+#pragma mark - QMChatServiceDelegate
+
+- (void)chatServiceDidLoadDialogsFromCache {
+    
+    NSArray *dialogsFromCache = [QM.chatService.dialogsMemoryStorage unsortedDialogs];
+    [self.historyDataSource.collection addObjectsFromArray:dialogsFromCache];
+    [self.tableView reloadData];
+}
+
+- (void)chatService:(QMChatService *)chatService didAddChatDialog:(QBChatDialog *)chatDialog {
+    
+    [self.historyDataSource.collection insertObject:chatDialog atIndex:0];
+    [self.tableView reloadData];
+}
+
+- (void)chatService:(QMChatService *)chatService didAddChatDialogs:(NSArray *)chatDialogs {
+    
+    [self.historyDataSource.collection removeAllObjects];
+    [self.historyDataSource.collection addObjectsFromArray:chatDialogs];
+    [self.tableView reloadData];
+}
+
+#pragma mark - Register nib's
 
 - (void)registerNibs {
     
@@ -130,7 +139,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
         [self.searchController.searchResultsTableView reloadData];
     }
     else {
-
+        
         int64_t keyboadTapTimeInterval = (int64_t)(kQMKeyboardTapTimeInterval * NSEC_PER_SEC);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, keyboadTapTimeInterval), dispatch_get_main_queue(), ^{
             
@@ -201,6 +210,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
             [self globalSearch:searchString];
         }
             break;
+            
         default:break;
     }
 }
@@ -208,7 +218,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
@@ -265,6 +275,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 #pragma mark Present
 
 - (void)willPresentSearchController:(QMSearchController *)searchController {
+    
     self.globalSearchDatasource.addContactHandler = self;
 }
 
@@ -282,7 +293,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 }
 
 - (void)didDismissSearchController:(QMSearchController *)searchController {
-
+    
     self.tableView.dataSource = self.historyDataSource;
     [self.tableView reloadData];
 }
@@ -300,26 +311,34 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
         self.searchController.searchResultsDataSource = self.localSearchDatasource;
     }
     
-    [self beginSearch:searchController.searchBar.text selectedScope:searchController.searchBar.selectedScopeButtonIndex];
+    [self beginSearch:searchController.searchBar.text
+        selectedScope:searchController.searchBar.selectedScopeButtonIndex];
 }
 
 #pragma mark - QMAddContactProtocol
 
 - (void)didAddContact:(QBUUser *)contact {
-   
-    //Send add contact request and create p2p chat 
-   [QM.contactListService addUserToContactListRequest:contact
-                                           completion:^(BOOL success)
-    {
-       if (success) {
-           
-           [QM.chatService createPrivateChatDialogIfNeededWithOpponent:contact
-                                                            completion:^(QBResponse *response,
-                                                                         QBChatDialog *createdDialog) {
+    
+    //Send add contact request and create p2p chat
+    [QM.contactListService addUserToContactListRequest:contact
+                                            completion:^(BOOL success)
+     {
+         if (success) {
+             
+             [QM.chatService createPrivateChatDialogWithOpponent:contact
+                                                      completion:^(QBResponse *response,
+                                                                   QBChatDialog *createdDialog) {
+                                                      }];
+         }
+     }];
+}
 
-                                                            }];
-       }
-   }];
+#pragma mark - QMHistoryDataSourceHandler
+
+- (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource userWithID:(NSUInteger)userID {
+    
+    QBUUser *user = [QM.contactListService.usersMemoryStorage userWithID:userID];
+    return user;
 }
 
 @end

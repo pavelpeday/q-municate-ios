@@ -8,6 +8,7 @@
 
 #import "QMHistoryDataSource.h"
 #import "QMChatHistoryCell.h"
+#import "QMServicesManager.h"
 
 @implementation QMHistoryDataSource
 
@@ -22,7 +23,17 @@
 
     QBChatDialog *dialog = self.collection[indexPath.row];
 
-    [cell setTitle:dialog.name];
+    if (dialog.type == QBChatDialogTypePrivate) {
+
+        QBUUser *recipient = [self.handler historyDataSource:self userWithID:dialog.recipientID];
+        
+        [cell setTitle:recipient.fullName];
+    }
+    else {
+        
+        [cell setTitle:dialog.name];
+    }
+    
     [cell setTime:dialog.lastMessageDate.description];
     [cell setSubTitle:dialog.lastMessageText];
     
