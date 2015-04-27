@@ -44,9 +44,17 @@ NSString *const kQMAgreementUrl = @"http://q-municate.com/agreement";
     [self.webView loadRequest:request];
 }
 
-- (IBAction)done:(id)sender {
+#pragma mark Actions 
+
+- (IBAction)pressBack:(id)sender {
     
     [self dismissViewControllerSuccess:NO];
+}
+
+- (IBAction)acceptLicense:(id)sender {
+    
+    QM.profile.userAgreementAccepted = YES;
+    [self dismissViewControllerSuccess:YES];
 }
 
 - (void)dismissViewControllerSuccess:(BOOL)success {
@@ -59,12 +67,6 @@ NSString *const kQMAgreementUrl = @"http://q-municate.com/agreement";
             self.licenceCompletionBlock = nil;
         }
     }];
-}
-
-- (IBAction)acceptLicense:(id)sender {
-    
-    QM.profile.userAgreementAccepted = YES;
-    [self dismissViewControllerSuccess:YES];
 }
 
 #pragma mark - UIWebViewDelegate

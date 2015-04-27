@@ -421,7 +421,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Sign Up" id="E8Z-lh-Oke">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="y0V-xh-iYI"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="y0V-xh-iYI">
+                            <connections>
+                                <action selector="done:" destination="IGb-RQ-IZZ" id="JuY-i5-JO4"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
@@ -457,20 +461,37 @@
             </objects>
             <point key="canvasLocation" x="-9010" y="-7432"/>
         </scene>
-        <!--License Agreement View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="XPs-OQ-iza">
+            <objects>
+                <navigationController storyboardIdentifier="QMLicenseAgreementControllerID" id="2Dq-5T-LMO" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="u6K-iE-nVD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="EZI-1X-OEv" kind="relationship" relationship="rootViewController" id="9BA-Jr-PsM"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jOn-K8-pkz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-11399" y="-6700"/>
+        </scene>
+        <!--License agreement-->
         <scene sceneID="JOz-6D-Yec">
             <objects>
-                <viewController storyboardIdentifier="QMLicenceAgreementControllerID" id="EZI-1X-OEv" customClass="QMLicenseAgreementViewController" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dg8-Sk-sa1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="EZI-1X-OEv" customClass="QMLicenseAgreementViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BqO-gG-CSN"/>
                         <viewControllerLayoutGuide type="bottom" id="bVg-rk-4P6"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PnT-AQ-zwQ">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yCu-7c-5YT">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="EZI-1X-OEv" id="Jte-jZ-ubN"/>
@@ -485,41 +506,24 @@
                             <constraint firstItem="yCu-7c-5YT" firstAttribute="leading" secondItem="PnT-AQ-zwQ" secondAttribute="leading" id="nIa-gW-7uT"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="W3J-mk-cuE">
-                        <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="sy0-Qo-eFt">
+                    <navigationItem key="navigationItem" title="License agreement" id="VXe-0Q-4yc">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Ce2-cE-civ">
                             <connections>
-                                <action selector="done:" destination="EZI-1X-OEv" id="WhF-XC-CSt"/>
+                                <action selector="pressBack:" destination="EZI-1X-OEv" id="Cjf-92-ZvO"/>
                             </connections>
                         </barButtonItem>
-                        <view key="titleView" contentMode="scaleToFill" id="Z6e-eq-OAX">
-                            <rect key="frame" x="222" y="4" width="156" height="36"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="License Agreement" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fvu-pa-hnb">
-                                    <rect key="frame" x="0.0" y="0.0" width="154" height="33"/>
-                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        </view>
-                        <barButtonItem key="rightBarButtonItem" title="Accept" id="4FI-50-eUx">
+                        <barButtonItem key="rightBarButtonItem" title="Accept" id="Y2b-Lt-02d">
                             <connections>
-                                <action selector="acceptLicense:" destination="EZI-1X-OEv" id="4yl-g8-42R"/>
+                                <action selector="acceptLicense:" destination="EZI-1X-OEv" id="Rcs-PP-K82"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="acceptButton" destination="4FI-50-eUx" id="H37-7e-NAT"/>
                         <outlet property="webView" destination="yCu-7c-5YT" id="XEC-fe-sK8"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dg8-Sk-sa1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-10882" y="-6596"/>
+            <point key="canvasLocation" x="-10650" y="-6700"/>
         </scene>
         <!--Log In-->
         <scene sceneID="VRK-j6-yvl">
@@ -765,6 +769,6 @@
         <image name="upic-placeholder" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Qvy-Zq-RpB"/>
+        <segue reference="9V3-CA-ieR"/>
     </inferredMetricsTieBreakers>
 </document>

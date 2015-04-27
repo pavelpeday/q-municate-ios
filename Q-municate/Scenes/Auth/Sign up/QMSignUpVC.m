@@ -67,7 +67,7 @@
                                                         completion:nil];
 }
 
-- (IBAction)signUp:(id)sender {
+- (IBAction)done:(id)sender {
     
     if (self.fullNameField.text.length == 0 ||
         self.passwordField.text.length == 0 ||
@@ -108,6 +108,8 @@
                           [QM.profile updateUserImage:weakSelf.cachedPicture
                                              progress:^(float progress)
                            {
+                               //Upload avatar progress
+                               NSLog(@"%fu", progress);
                                
                            } completion:^(BOOL success) {
                                

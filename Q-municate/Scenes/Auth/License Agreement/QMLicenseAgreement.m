@@ -16,19 +16,17 @@
     
     if (QM.profile.userAgreementAccepted) {
         
-        if (completion) completion(YES);
+        if (completion)
+            completion(YES);
     }
     else {
         
-        QMLicenseAgreementViewController *licenceController =
-        [vc.storyboard instantiateViewControllerWithIdentifier:@"QMLicenceAgreementControllerID"];
+        UINavigationController *navController =
+        [vc.storyboard instantiateViewControllerWithIdentifier:@"QMLicenseAgreementControllerID"];
+        QMLicenseAgreementViewController *licenseVC = navController.viewControllers.firstObject;
+        licenseVC.licenceCompletionBlock = completion;
         
-        licenceController.licenceCompletionBlock = completion;
-        
-        UINavigationController *navViewController =
-        [[UINavigationController alloc] initWithRootViewController:licenceController];
-        
-        [vc presentViewController:navViewController
+        [vc presentViewController:navController
                          animated:YES
                        completion:nil];
     }

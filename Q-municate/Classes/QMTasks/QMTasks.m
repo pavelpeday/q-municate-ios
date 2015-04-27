@@ -21,6 +21,16 @@
         }];
     };
     
+    void (^copletionLogin)(QBResponse *, QBUUser *) = ^(QBResponse* response,
+                                                        QBUUser *user) {
+        
+        //Save profile to keychain
+        user.password = QM.profile.userData.password;
+        [QM.profile synchronizeWithUserData:user];
+        
+        success();
+    };
+    
     if (!QM.authService.isAuthorized) {
         
         if (QM.profile.type == QMProfileTypeFacebook) {
@@ -29,26 +39,13 @@
             [facebook openSession:^(NSString *sessionToken) {
                 // Singin or login
                 [QM.authService logInWithFacebookSessionToken:sessionToken
-                                                   completion:^(QBResponse *response,
-                                                                QBUUser *tUser)
-                 {
-                     QM.profile.type = QMProfileTypeFacebook;
-                     //Save profile to keychain
-                     [QM.profile synchronizeWithUserData:tUser];
-                 }];
+                                                   completion:copletionLogin];
             }];
             
         } else {
             
             [QM.authService logInWithUser:QM.profile.userData
-                               completion:^(QBResponse *response,
-                                            QBUUser *userProfile)
-             {
-                 if (response.success) {
-                     
-                     success();
-                 }
-             }];
+                               completion:copletionLogin];
         }
     }
     else {

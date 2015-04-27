@@ -8,7 +8,6 @@
 
 #import "QMServicesManager.h"
 
-const NSTimeInterval kQMPresenceTimeInterval = 45;
 NSString *const kQMChatCacheStoreName = @"QMCahtCacheStorage";
 NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
 
@@ -33,10 +32,6 @@ NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
         _sharedQMServicesManager = [[QMServicesManager alloc] init];
         
         [QBConnection setAutoCreateSessionEnabled:YES];
-        [QBChat instance].useMutualSubscriptionForContactList = YES;
-        [QBChat instance].autoReconnectEnabled = YES;
-        [QBChat instance].streamManagementEnabled = YES;
-        
     });
     
     return _sharedQMServicesManager;
@@ -53,17 +48,9 @@ NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
         [QMChatCache setupDBWithStoreNamed:kQMChatCacheStoreName];
         [QMContactListCache setupDBWithStoreNamed:kQMContactListCacheStoreName];
         
-
-        self.authService =
-        [[QMAuthService alloc] initWithUserProfileDataSource:self];
-        
-        self.chatService =
-        [[QMChatService alloc] initWithUserProfileDataSource:self
-                                             cacheDelegate:self];
-        
-        self.contactListService =
-        [[QMContactListService alloc] initWithUserProfileDataSource:self
-                                                    cacheDelegate:self];
+        self.authService = [[QMAuthService alloc] initWithUserProfileDataSource:self];
+        self.chatService = [[QMChatService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
+        self.contactListService = [[QMContactListService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
         
         [self.chatService addDelegate:self];
         [self.contactListService addDelegate:self];

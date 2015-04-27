@@ -55,6 +55,7 @@ NSString *const kQMUserProfileType = @"userProfileType";
     __block BOOL success = NO;
     
     NSAssert(self.userData, @"Need user data");
+    NSAssert(self.userData.password.length > 0, @"Need password");
     
     [self keychainQuery:^(SSKeychainQuery *query) {
         
