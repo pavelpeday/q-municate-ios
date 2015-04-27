@@ -6,7 +6,7 @@ We are inspired to give you chat application out of the box. You can customize t
 
 Find the source code and more information about Q-municate in our Developers section: http://quickblox.com/developers/q-municate
 
-## Services (Q-municate Modular)
+## Services (Q-municate modular)
 If integrating into an existing project, make sure you check out the services repo which provides all Q-municate modules w/o graphics/UI so it's much easier to integrate:
 https://github.com/QuickBlox/q-municate-services-ios
 
