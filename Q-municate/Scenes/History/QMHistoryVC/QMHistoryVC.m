@@ -335,10 +335,12 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 #pragma mark - QMHistoryDataSourceHandler
 
-- (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource userWithID:(NSUInteger)userID {
+- (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource recipientWithIDs:(NSArray *)userIDs {
+
+    NSArray *users = [QM.contactListService usersWithoutMeWithIDs:userIDs];
+    NSAssert(users.count <= 1, @"");
     
-    QBUUser *user = [QM.contactListService.usersMemoryStorage userWithID:userID];
-    return user;
+    return users.firstObject;
 }
 
 @end

@@ -12,7 +12,7 @@
 
 @protocol QMHistoryDataSourceHandler <NSObject>
 
-- (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource userWithID:(NSUInteger)userID;
+- (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource recipientWithIDs:(NSArray *)userIDs;
 
 @end
 

@@ -25,7 +25,7 @@
 
     if (dialog.type == QBChatDialogTypePrivate) {
 
-        QBUUser *recipient = [self.handler historyDataSource:self userWithID:dialog.recipientID];
+        QBUUser *recipient = [self.handler historyDataSource:self recipientWithIDs:dialog.occupantIDs];
         
         [cell setTitle:recipient.fullName];
     }
