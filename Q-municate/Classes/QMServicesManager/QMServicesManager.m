@@ -74,8 +74,8 @@ NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
 #pragma mark - QMChatServiceDelegate
 
 - (void)chatService:(QMChatService *)chatService didAddChatDialogs:(NSArray *)chatDialogs {
-    [[QMChatCache instance] insertOrUpdateDialogs:chatDialogs
-                                       completion:nil];
+    
+    [[QMChatCache instance] insertOrUpdateDialogs:chatDialogs completion:nil];
 }
 
 - (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message

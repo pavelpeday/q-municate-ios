@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 @interface QMHistoryVC ()
 
-<QMContactListServiceDelegate,  QMAddContactProtocol>
+<QMContactListServiceDelegate,  QMAddContactProtocol, QMChatServiceDelegate>
 /**
  *  Datasources
  */
@@ -64,14 +64,29 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
     self.searchController.searchResultsTableView.rowHeight = 75;
 
-    [QM.contactListService addDelegate:self];
-    
+//    [QM.contactListService addDelegate:self];
+    [QM.chatService addDelegate:self];
     [QMTasks taskLogin:^(BOOL successLogin) {
         
         [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {
             
         }];
     }];
+}
+
+- (void)chatServiceDidLoadDialogsFromCache {
+    
+    NSArray *dialogsFromCache = [QM.chatService.dialogsMemoryStorage unsortedDialogs];
+    [self.historyDataSource.collection addObjectsFromArray:dialogsFromCache];
+    [self.tableView reloadData];
+}
+
+- (void)chatService:(QMChatService *)chatService didAddChatDialog:(QBChatDialog *)chatDialog {
+    
+}
+
+- (void)chatService:(QMChatService *)chatService didAddChatDialogs:(NSArray *)chatDialogs {
+    
 }
 
 - (void)stupNotificationView {
@@ -84,13 +99,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 }
 
 #pragma mark - QMContactListServiceDelegate
-
-- (void)contactListServiceDidLoadCache {
-    
-    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage sortedByName:YES];
-    [self.historyDataSource.collection addObjectsFromArray:usersFormCache];
-    [self.tableView reloadData];
-}
 
 - (void)registerNibs {
     

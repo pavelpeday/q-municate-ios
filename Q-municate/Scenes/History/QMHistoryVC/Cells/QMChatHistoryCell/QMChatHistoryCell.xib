@@ -87,6 +87,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="badgeView" destination="LPr-gy-6Qy" id="YVA-T4-FCB"/>
                 <outlet property="qmImgeView" destination="zer-qA-MJo" id="Fpa-bR-i1O"/>
                 <outlet property="subTitleLabel" destination="Zkd-aj-sJD" id="upm-A5-1CW"/>
                 <outlet property="timeLabel" destination="0ax-sI-TvB" id="QZI-HN-wyh"/>

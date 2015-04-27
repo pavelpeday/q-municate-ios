@@ -8,11 +8,13 @@
 
 #import "QMChatHistoryCell.h"
 #import "QMImageView.h"
+#import "QMBadgeView.h"
 
 @interface QMChatHistoryCell()
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet QMImageView *qmImgeView;
+@property (weak, nonatomic) IBOutlet QMBadgeView *badgeView;
 
 @property (strong, nonatomic) NSString *time;
 @property (strong, nonatomic) NSString *subTitle;
@@ -33,6 +35,7 @@
     self.timeLabel.text = nil;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
+
 - (void)setTime:(NSString *)time {
 
     if (![_time isEqualToString:time]) {

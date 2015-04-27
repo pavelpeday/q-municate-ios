@@ -19,11 +19,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     QMChatHistoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QMChatHistoryCell" forIndexPath:indexPath];
-    QBUUser *user = self.collection[indexPath.row];
 
-    [cell setTitle:user.fullName];
-    [cell setTime:@"6.02.15"];
-    [cell setSubTitle:@"Alex Bass: Donec sed odio dui. Nullam id dylor id nibh"];
+    QBChatDialog *dialog = self.collection[indexPath.row];
+
+    [cell setTitle:dialog.name];
+    [cell setTime:dialog.lastMessageDate.description];
+    [cell setSubTitle:dialog.lastMessageText];
     
     return cell;
 }
