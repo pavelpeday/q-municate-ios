@@ -40,12 +40,12 @@
                                              animated:animated];
 }
 
-- (IBAction)logIn:(id)sender {
+- (IBAction)done:(id)sender {
     
     NSString *email = self.emailField.text;
     NSString *password = self.passwordField.text;
     
-    if (email.length > 4 || password.length > 6) {
+    if (email.length < 5 || password.length < 6) {
         
         [REAlertView showAlertWithMessage:NSLocalizedString(@"QM_STR_FILL_IN_ALL_THE_FIELDS", nil)
                             actionSuccess:NO];
@@ -57,9 +57,11 @@
         user.password = password;
         
         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+        
         __weak __typeof(self)weakSelf = self;
         [QM.authService logInWithUser:user
-                           completion:^(QBResponse *response, QBUUser *userProfile)
+                           completion:^(QBResponse *response,
+                                        QBUUser *userProfile)
         {    
              [SVProgressHUD dismiss];
              

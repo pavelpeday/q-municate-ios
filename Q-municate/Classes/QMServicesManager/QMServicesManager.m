@@ -13,7 +13,8 @@ NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
 
 @interface QMServicesManager()
 
-<QMUserProfileProtocol, QMChatServiceDelegate, QMContactListServiceDelegate, QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate >
+<QMUserProfileProtocol, QMChatServiceDelegate, QMContactListServiceDelegate,
+QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDelegate>
 
 @property (strong, nonatomic) QMAuthService *authService;
 @property (strong, nonatomic) QMChatService *chatService;
@@ -45,13 +46,15 @@ NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
         
         self.profile = [QMProfile profile];
         
+        //Setup core data
         [QMChatCache setupDBWithStoreNamed:kQMChatCacheStoreName];
         [QMContactListCache setupDBWithStoreNamed:kQMContactListCacheStoreName];
-
+        //Init servises
         self.contactListService = [[QMContactListService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
         self.authService = [[QMAuthService alloc] initWithUserProfileDataSource:self];
         self.chatService = [[QMChatService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
-        
+        //Subsicribe to notifications
+        [self.authService addDelegate:self];
         [self.chatService addDelegate:self];
         [self.contactListService addDelegate:self];
     }
@@ -169,6 +172,13 @@ NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
 - (void)contactListService:(QMContactListService *)contactListService
              didUpdateUser:(QBUUser *)user {
     
+}
+
+#pragma mark QMAuthServiceDelegate
+
+- (void)authServiceDidLogOut {
+    
+    [self.profile clearProfile];
 }
 
 @end

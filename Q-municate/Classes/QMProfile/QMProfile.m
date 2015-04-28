@@ -106,6 +106,7 @@ NSString *const kQMUserProfileType = @"userProfileType";
         success = [query deleteItem:&error];
     }];
     
+    self.userData = nil;
     return success;
 }
 
