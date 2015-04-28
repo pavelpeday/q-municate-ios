@@ -44,22 +44,27 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
     
     if (self) {
         
-        self.profile = [QMProfile profile];
-        
-        //Setup core data
-        [QMChatCache setupDBWithStoreNamed:kQMChatCacheStoreName];
-        [QMContactListCache setupDBWithStoreNamed:kQMContactListCacheStoreName];
-        //Init servises
-        self.contactListService = [[QMContactListService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
-        self.authService = [[QMAuthService alloc] initWithUserProfileDataSource:self];
-        self.chatService = [[QMChatService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
-        //Subsicribe to notifications
-        [self.authService addDelegate:self];
-        [self.chatService addDelegate:self];
-        [self.contactListService addDelegate:self];
+        [self initialization];
     }
     
     return self;
+}
+
+- (void)initialization {
+    
+    self.profile = [QMProfile profile];
+    
+    //Setup core data
+    [QMChatCache setupDBWithStoreNamed:kQMChatCacheStoreName];
+    [QMContactListCache setupDBWithStoreNamed:kQMContactListCacheStoreName];
+    //Init servises
+    self.contactListService = [[QMContactListService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
+    self.authService = [[QMAuthService alloc] initWithUserProfileDataSource:self];
+    self.chatService = [[QMChatService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
+    //Subsicribe to notifications
+    [self.authService addDelegate:self];
+    [self.chatService addDelegate:self];
+    [self.contactListService addDelegate:self];
 }
 
 #pragma mark - QMUserProfileProtocol
@@ -178,7 +183,20 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 
 - (void)authServiceDidLogOut {
     
+    [QMChatCache cleanDBWithStoreName:kQMChatCacheStoreName];
+    [QMContactListCache cleanDBWithStoreName:kQMContactListCacheStoreName];
+    
+    [self.authService free];
+    [self.chatService free];
+    [self.contactListService free];
     [self.profile clearProfile];
+    
+    self.authService = nil;
+    self.chatService = nil;
+    self.contactListService = nil;
+    self.profile = nil;
+    
+    [self initialization];
 }
 
 @end

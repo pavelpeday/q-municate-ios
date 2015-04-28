@@ -658,7 +658,7 @@
                         <outlet property="emailField" destination="jc4-7W-uRw" id="1du-Nf-E93"/>
                         <outlet property="passwordField" destination="wnQ-CN-3E6" id="hwB-MW-5C6"/>
                         <outlet property="rememberMeSwitch" destination="8EM-Ps-fem" id="SKe-KE-dxA"/>
-                        <segue destination="AnX-fF-rp5" kind="custom" customClass="QMRootViewControllerSegue" id="Qvy-Zq-RpB"/>
+                        <segue destination="AnX-fF-rp5" kind="custom" identifier="SceneSegueChat" customClass="QMRootViewControllerSegue" id="Qvy-Zq-RpB"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wVE-0W-fj1" userLabel="First Responder" sceneMemberID="firstResponder"/>

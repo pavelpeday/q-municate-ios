@@ -85,6 +85,11 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [self.tableView reloadData];
 }
 
+- (void)contactListService:(QMContactListService *)contactListService didAddUsers:(NSArray *)users {
+    
+    [self.tableView reloadData];
+}
+
 #pragma mark - QMChatServiceDelegate
 
 - (void)chatServiceDidLoadDialogsFromCache {
@@ -345,7 +350,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 - (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource recipientWithIDs:(NSArray *)userIDs {
 
     NSArray *users = [QM.contactListService usersWithoutMeWithIDs:userIDs];
-    NSAssert(users.count <= 1, @"");
+//    NSAssert(users.count <= 1, @"");
     
     return users.firstObject;
 }

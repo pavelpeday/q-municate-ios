@@ -125,13 +125,6 @@
 			remoteGlobalIDString = 55013B2A1A1F84E90030C134;
 			remoteInfo = QMServices;
 		};
-		55AA62DA1A2328A500D73089 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 55AA62521A2328A400D73089 /* QMServices.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 55013B2B1A1F84E90030C134;
-			remoteInfo = QMServicesTests;
-		};
 		55AA62DC1A232BC800D73089 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 55AA62521A2328A400D73089 /* QMServices.xcodeproj */;
@@ -243,8 +236,8 @@
 		556E19A81A9F659A0087BEB9 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		556E19AA1A9F659A0087BEB9 /* UIImage+TintColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TintColor.h"; sourceTree = "<group>"; };
 		556E19AB1A9F659A0087BEB9 /* UIImage+TintColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TintColor.m"; sourceTree = "<group>"; };
-		556E19AC1A9F659A0087BEB9 /* UIImage+Cropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Cropper.h"; sourceTree = "<group>"; };
-		556E19AD1A9F659A0087BEB9 /* UIImage+Cropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Cropper.m"; sourceTree = "<group>"; };
+		556E19AC1A9F659A0087BEB9 /* UIImage+Cropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Cropper.h"; path = "Q-municate/Categories/UIImage+Cropper.h"; sourceTree = SOURCE_ROOT; };
+		556E19AD1A9F659A0087BEB9 /* UIImage+Cropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Cropper.m"; path = "Q-municate/Categories/UIImage+Cropper.m"; sourceTree = SOURCE_ROOT; };
 		556E19B61A9F65A50087BEB9 /* ABPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABPerson.h; sourceTree = "<group>"; };
 		556E19B71A9F65A50087BEB9 /* ABPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABPerson.m; sourceTree = "<group>"; };
 		556E19B81A9F65A50087BEB9 /* QMAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMAddressBook.h; sourceTree = "<group>"; };
@@ -809,8 +802,6 @@
 				556E199C1A9F659A0087BEB9 /* NSString */,
 				556E19A51A9F659A0087BEB9 /* UIColor */,
 				556E19A91A9F659A0087BEB9 /* UIImage */,
-				556E19AC1A9F659A0087BEB9 /* UIImage+Cropper.h */,
-				556E19AD1A9F659A0087BEB9 /* UIImage+Cropper.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -864,6 +855,8 @@
 			children = (
 				556E19AA1A9F659A0087BEB9 /* UIImage+TintColor.h */,
 				556E19AB1A9F659A0087BEB9 /* UIImage+TintColor.m */,
+				556E19AC1A9F659A0087BEB9 /* UIImage+Cropper.h */,
+				556E19AD1A9F659A0087BEB9 /* UIImage+Cropper.m */,
 			);
 			path = UIImage;
 			sourceTree = "<group>";
@@ -871,6 +864,7 @@
 		556E19B41A9F65A50087BEB9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				556E19D11A9F65A50087BEB9 /* QMServicesManager */,
 				55E3B71B1AA74D1500ECCC96 /* QMFacebook */,
 				556E19B51A9F65A50087BEB9 /* AddressBook */,
 				556E19BA1A9F65A50087BEB9 /* CustomSegues */,
@@ -878,7 +872,6 @@
 				556E19C51A9F65A50087BEB9 /* QMChatUtils */,
 				556E19CB1A9F65A50087BEB9 /* QMImagePicker */,
 				556E19CE1A9F65A50087BEB9 /* QMProfile */,
-				556E19D11A9F65A50087BEB9 /* QMServicesManager */,
 				556E19D41A9F65A50087BEB9 /* QMSoundManager */,
 				556E19DE1A9F65A50087BEB9 /* QMTasks */,
 				556E19E11A9F65A50087BEB9 /* REActionSheet */,
@@ -1127,7 +1120,6 @@
 			isa = PBXGroup;
 			children = (
 				55AA62D91A2328A500D73089 /* libQMServices.a */,
-				55AA62DB1A2328A500D73089 /* QMServicesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1294,13 +1286,6 @@
 			fileType = archive.ar;
 			path = libQMServices.a;
 			remoteRef = 55AA62D81A2328A500D73089 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		55AA62DB1A2328A500D73089 /* QMServicesTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = QMServicesTests.xctest;
-			remoteRef = 55AA62DA1A2328A500D73089 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
