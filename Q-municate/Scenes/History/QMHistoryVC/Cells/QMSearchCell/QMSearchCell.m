@@ -8,6 +8,8 @@
 
 #import "QMSearchCell.h"
 #import "QMImageView.h"
+#import "UIImage+Cropper.h"
+#import "QMUserPlaceholer.h"
 
 @interface QMSearchCell()
 
@@ -59,27 +61,6 @@
     UIColor *highlightColor = [UIColor colorWithRed:1.000 green:0.610 blue:0.426 alpha:1.000];
     
     [attributedString beginEditing];
-   /*
-    NSRegularExpression *expression =
-    [NSRegularExpression regularExpressionWithPattern:title
-                                              options:NSRegularExpressionCaseInsensitive
-                                                error:nil];
-    //  enumerate matches
-    NSRange range = NSMakeRange(0, self.title.length);
-    [expression enumerateMatchesInString:self.title
-                                 options:0
-                                   range:range
-                              usingBlock:^(NSTextCheckingResult *result,
-                                           NSMatchingFlags flags,
-                                           BOOL *stop)
-     {
-         NSRange resultRange = [result rangeAtIndex:0];
-         
-         [attributedString addAttribute:NSForegroundColorAttributeName
-                                  value:highlightColor
-                                  range:resultRange];
-     }];
-    */
     
     [attributedString addAttribute: NSForegroundColorAttributeName
                              value:highlightColor
@@ -95,13 +76,16 @@
     if (![self.imageUrl isEqualToString:url]) {
         
         self.imageUrl = url;
+        
         NSURL *imageUrl = [NSURL URLWithString:url];
         
-        [self.qmImageView  setImageWithURL:imageUrl
-                               placeholder:nil
-                                   options:SDWebImageHighPriority
-                                  progress:nil
-                            completedBlock:nil];
+        UIImage *placeholder = [QMUserPlaceholer userPlaceholder:self.qmImageView.bounds fullName:self.title];
+        
+        [self.qmImageView setImageWithURL:imageUrl
+                              placeholder:placeholder
+                                  options:SDWebImageLowPriority
+                                 progress:nil
+                           completedBlock:nil];
     }
 }
 

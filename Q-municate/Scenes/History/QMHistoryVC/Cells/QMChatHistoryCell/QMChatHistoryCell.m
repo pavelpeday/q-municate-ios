@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet QMBadgeView *badgeView;
 
 @property (strong, nonatomic) NSString *time;
+@property (strong, nonatomic) NSString *badgeText;
 
 @end
 
@@ -34,12 +35,26 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
+#pragma mark - Setters
+
 - (void)setTime:(NSString *)time {
 
     if (![_time isEqualToString:time]) {
         
         _time = time;
         self.timeLabel.text = _time;
+    }
+}
+
+- (void)setBadgeText:(NSString *)badgeText {
+    
+    if (![_badgeText isEqualToString:badgeText]) {
+        
+        _badgeText = badgeText;
+        
+        if (badgeText.length == 0) {
+            
+        }
     }
 }
 

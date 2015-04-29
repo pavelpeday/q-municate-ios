@@ -21,13 +21,11 @@
                             source:(UIViewController *)source
                        destination:(UIViewController *)destination {
     
-    
     QMLinkViewController *link = (id)destination;
     BOOL modal = NO;
     
     UIViewController *newDestination = nil;
-    
-    // Grabs the user-defined runtime attributes.
+    // load the user-defined runtime attributes.
     NSString * storyboardName = link.storyboardName;
     NSString * storyboardID = link.sceneIdentifier;
     modal = link.modal;
@@ -39,11 +37,11 @@
     
     if ([storyboardID length] == 0) {
         
-        newDestination =  [storyboard instantiateInitialViewController];
+        newDestination = [storyboard instantiateInitialViewController];
     }
     else {
         
-        newDestination =  [storyboard instantiateViewControllerWithIdentifier:storyboardID];
+        newDestination = [storyboard instantiateViewControllerWithIdentifier:storyboardID];
     }
     
     self = [super initWithIdentifier:identifier source:source destination:newDestination];

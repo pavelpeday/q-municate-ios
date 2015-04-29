@@ -26,8 +26,12 @@
     if (dialog.type == QBChatDialogTypePrivate) {
 
         QBUUser *recipient = [self.handler historyDataSource:self recipientWithIDs:dialog.occupantIDs];
-        [cell setImageWithUrl:recipient.avatarUrl];
-        [cell setTitle:recipient.fullName];
+        
+        if (recipient) {
+            
+            [cell setTitle:recipient.fullName];
+            [cell setImageWithUrl:recipient.avatarUrl];
+        }
     }
     else {
         
@@ -36,6 +40,7 @@
     
     [cell setTime:dialog.lastMessageDate.description];
     [cell setSubTitle:dialog.lastMessageText];
+    [cell setBadgeText:[NSString stringWithFormat:@"%tu", dialog.unreadMessagesCount]];
     
     return cell;
 }

@@ -65,6 +65,7 @@
     
     [cell setTitle:user.fullName];
     [cell setSubTitle:[NSString stringWithFormat:@"last seen %@", @"1 hour ago"]];
+    [cell setImageWithUrl:user.avatarUrl];
     
     return cell;
 }

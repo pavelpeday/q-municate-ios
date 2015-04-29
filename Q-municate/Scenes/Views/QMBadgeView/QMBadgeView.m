@@ -38,15 +38,20 @@
     self.cornerRadius = self.frame.size.height/2;
     self.glosEnabled = NO;
     self.borderWidth = 0;
+    self.badgeText = @"";
 }
 
 - (void)drawRect:(CGRect)rect {
     
-    [self drawBadgeViewWithFrame:rect  badgeText:@"15"];
+    [self drawBadgeViewWithFrame:rect badgeText:self.badgeText];
 }
 
 - (void)drawBadgeViewWithFrame:(CGRect)frame
                      badgeText:(NSString*)badgeText {
+    
+    if (badgeText.length == 0) {
+        return;
+    }
     
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -150,6 +155,15 @@
     
     // Cleanup
     CGColorSpaceRelease(colorSpace);
+}
+
+#pragma mark - Setters 
+
+- (void)setBadgeText:(NSString *)badgeText {
+    
+    _badgeText = badgeText;
+    
+    [self setNeedsDisplay];
 }
 
 

@@ -12,7 +12,6 @@
 #import "SDWebImageManager.h"
 #import "QMServicesManager.h"
 
-
 @interface QMSettingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;

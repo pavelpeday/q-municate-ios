@@ -63,6 +63,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     self.globalSearchDatasource = [[QMGlobalSearchDataSource alloc] init];
     //Configure search controller
     self.searchController.searchResultsTableView.rowHeight = 75;
+    self.searchController.searchBar.tintColor = [UIColor colorWithRed:0.067 green:0.357 blue:0.643 alpha:1.000];
     //Subscirbe to notification
     [QM.contactListService addDelegate:self];
     [QM.chatService addDelegate:self];
@@ -283,9 +284,11 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (void)willPresentSearchController:(QMSearchController *)searchController {
     
-    [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleDefault];
     self.globalSearchDatasource.addContactHandler = self;
-    self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
+    searchController.searchBar.searchBarStyle = UISearchBarStyleDefault;
+    searchController.searchBar.barTintColor = [UIColor colorWithWhite:0.969 alpha:1.000];
+    
+    searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
 }
 
 - (void)didPresentSearchController:(QMSearchController *)searchController {
@@ -323,41 +326,50 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
         self.searchController.searchResultsDataSource = self.localSearchDatasource;
     }
     
-    [self beginSearch:searchController.searchBar.text
-        selectedScope:searchController.searchBar.selectedScopeButtonIndex];
+    [self beginSearch:searchController.searchBar.text selectedScope:searchController.searchBar.selectedScopeButtonIndex];
 }
 
 #pragma mark - QMAddContactProtocol
 
 - (void)didAddContact:(QBUUser *)contact {
     
-    //Send add contact request and create p2p chat
-    [QM.contactListService addUserToContactListRequest:contact
-                                            completion:^(BOOL success)
-     {
-         if (success) {
-             
-             [QM.chatService createPrivateChatDialogWithOpponent:contact
-                                                      completion:^(QBResponse *response,
-                                                                   QBChatDialog *createdDialog) {
-                                                          
-                                                      }];
-         }
-     }];
+    //Send contact request and create p2p chat
+    [QM.contactListService addUserToContactListRequest:contact completion:^(BOOL success) {
+        
+        if (success) {
+            
+            [QM.chatService createPrivateChatDialogWithOpponent:contact completion:^(QBResponse *response, QBChatDialog *createdDialog) {
+                
+                QBChatMessage *message = [QBChatMessage message];
+                message.text = @"Contact request";
+                
+                [QM.chatService sendMessage:message
+                                   toDialog:createdDialog
+                                       type:QMMessageTypeNotificationAboutSendContactRequest
+                                       save:YES
+                                 completion:^(NSError *error)
+                {
+                    
+                }];
+
+                
+            }];
+        }
+    }];
 }
 
 - (BOOL)userExist:(QBUUser *)user {
     
     QBUUser *extstUser = [QM.contactListService.usersMemoryStorage userWithID:user.ID];
     return extstUser ? YES : NO;
- }
+}
 
 #pragma mark - QMHistoryDataSourceHandler
 
 - (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource recipientWithIDs:(NSArray *)userIDs {
-
+    
     NSArray *users = [QM.contactListService usersWithoutMeWithIDs:userIDs];
-//    NSAssert(users.count <= 1, @"");
+    //    NSAssert(users.count <= 1, @"");
     
     return users.firstObject;
 }

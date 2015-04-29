@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  User for link multiply storyboards
+ */
 @interface QMLinkSegue : UIStoryboardSegue
-
 
 @end

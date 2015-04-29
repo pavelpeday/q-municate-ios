@@ -37,7 +37,7 @@
                         </connections>
                     </button>
                     <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="James Cobs, Martin Freeman" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6aT-wb-xhH">
-                        <rect key="frame" x="76" y="27" width="438" height="21"/>
+                        <rect key="frame" x="76" y="27" width="434" height="21"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="NmZ-hF-3JF"/>
@@ -51,7 +51,7 @@
                     <constraint firstItem="6aT-wb-xhH" firstAttribute="leading" secondItem="Q7Q-9B-Q86" secondAttribute="trailing" constant="8" id="FbM-QS-I0I"/>
                     <constraint firstAttribute="bottom" secondItem="Eop-dd-g9V" secondAttribute="bottom" constant="22" id="ZOe-6b-br4"/>
                     <constraint firstAttribute="bottom" secondItem="Q7Q-9B-Q86" secondAttribute="bottom" constant="7" id="a7H-Gh-Dcm"/>
-                    <constraint firstItem="Eop-dd-g9V" firstAttribute="leading" secondItem="6aT-wb-xhH" secondAttribute="trailing" constant="1" id="g2G-UB-CyD"/>
+                    <constraint firstItem="Eop-dd-g9V" firstAttribute="leading" secondItem="6aT-wb-xhH" secondAttribute="trailing" constant="5" id="g2G-UB-CyD"/>
                     <constraint firstAttribute="bottom" secondItem="6aT-wb-xhH" secondAttribute="bottom" constant="27" id="iYU-O1-Ds2"/>
                     <constraint firstItem="Q7Q-9B-Q86" firstAttribute="leading" secondItem="xPi-BG-BND" secondAttribute="leading" constant="8" id="r9M-KI-qA4"/>
                     <constraint firstAttribute="trailing" secondItem="Eop-dd-g9V" secondAttribute="trailing" constant="8" id="s5S-mP-Zpm"/>

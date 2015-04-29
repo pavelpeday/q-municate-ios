@@ -28,8 +28,9 @@
 
 #pragma mark - Actions
 
-- (IBAction)pressAddBtn:(id)sender {
+- (IBAction)pressAddBtn:(UIButton *)sender {
     
+    sender.hidden = YES;
     [self.delegate didAddContact:self.contact];
 }
 
@@ -37,6 +38,7 @@
 
     if (_userExist != userExist) {
         _userExist = userExist;
+        
         self.addBtn.hidden = userExist;
     }
 }

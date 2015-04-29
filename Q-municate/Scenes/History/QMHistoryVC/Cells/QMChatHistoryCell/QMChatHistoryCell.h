@@ -11,5 +11,6 @@
 @interface QMChatHistoryCell : QMSearchCell
 
 - (void)setTime:(NSString *)time;
+- (void)setBadgeText:(NSString *)badgeText;
 
 @end
