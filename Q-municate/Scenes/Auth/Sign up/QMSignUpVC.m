@@ -32,6 +32,12 @@
     ILog(@"%@ - %@",  NSStringFromSelector(_cmd), self);
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];

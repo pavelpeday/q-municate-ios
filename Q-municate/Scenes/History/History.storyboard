@@ -13,6 +13,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.062745098040000002" green="0.35294117650000001" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="f0F-bx-ISs" kind="relationship" relationship="rootViewController" id="2w5-dg-9ji"/>
@@ -232,7 +233,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <segue destination="gMg-rq-fEY" kind="show" id="1Hp-fl-Qpv"/>
+                                <segue destination="gMg-rq-fEY" kind="custom" customClass="QMLinkSegue" id="1Hp-fl-Qpv"/>
                             </connections>
                         </button>
                         <barButtonItem key="rightBarButtonItem" title="New" id="PAJ-nf-BDk">

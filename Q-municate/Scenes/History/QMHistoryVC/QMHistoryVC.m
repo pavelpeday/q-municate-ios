@@ -59,9 +59,9 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     self.historyDataSource = [[QMHistoryDataSource alloc] init];
     self.historyDataSource.handler = self;
     self.tableView.dataSource = self.historyDataSource;
+    self.tableView.backgroundView = [[UIView alloc] init];
     self.globalSearchDatasource = [[QMGlobalSearchDataSource alloc] init];
     //Configure search controller
-    self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
     self.searchController.searchResultsTableView.rowHeight = 75;
     //Subscirbe to notification
     [QM.contactListService addDelegate:self];
@@ -70,6 +70,8 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [QMTasks taskLogin:^(BOOL successLogin) {
         [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {}];
     }];
+    
+    [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
 }
 
 - (void)stupNotificationView {
@@ -281,7 +283,9 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (void)willPresentSearchController:(QMSearchController *)searchController {
     
+    [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleDefault];
     self.globalSearchDatasource.addContactHandler = self;
+    self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
 }
 
 - (void)didPresentSearchController:(QMSearchController *)searchController {
@@ -293,6 +297,9 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 #pragma mark Dissmiss
 
 - (void)willDismissSearchController:(QMSearchController *)searchController {
+    
+    [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
+    self.searchController.searchBar.scopeButtonTitles = @[];
     
     self.globalSearchDatasource.addContactHandler = nil;
 }

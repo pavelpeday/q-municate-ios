@@ -22,4 +22,6 @@
  */
 @property (nonatomic, strong) IBInspectable NSString *sceneIdentifier;
 
+@property (assign, nonatomic) IBInspectable BOOL modal;
+
 @end

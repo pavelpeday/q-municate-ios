@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Quickblox. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "QMLinkSegue.h"
 
-@interface QMRootViewControllerSegue : UIStoryboardSegue
+@interface QMRootViewControllerSegue : QMLinkSegue
 
 @end

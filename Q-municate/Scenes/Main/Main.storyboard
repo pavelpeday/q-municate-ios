@@ -1,33 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D127a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RkR-TS-K9a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BXK-2z-A4J">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
-        <scene sceneID="bLJ-Xw-iB8">
-            <objects>
-                <navigationController definesPresentationContext="YES" navigationBarHidden="YES" id="RkR-TS-K9a" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EXI-Wx-ALs">
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                        </textAttributes>
-                    </navigationBar>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="KMc-2Y-0OH">
-                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="0.12156862745098039" green="0.12941176470588237" blue="0.14117647058823529" alpha="1" colorSpace="calibratedRGB"/>
-                    </toolbar>
-                    <connections>
-                        <segue destination="BXK-2z-A4J" kind="relationship" relationship="rootViewController" id="MwZ-5e-1h3"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PU6-eh-Yav" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-11746.875" y="-8861.6197183098593"/>
-        </scene>
         <!--Link View Controller-->
         <scene sceneID="0ow-zJ-S9K">
             <objects>
@@ -80,8 +57,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="jer-pp-E79"/>
                     <connections>
-                        <segue destination="Z0g-t7-1WK" kind="show" identifier="SceneSegueAuth" id="vtA-Vb-e6G"/>
-                        <segue destination="qNP-Fx-Xyn" kind="show" identifier="SceneSegueChat" id="t9I-v8-COH"/>
+                        <segue destination="Z0g-t7-1WK" kind="custom" identifier="SceneSegueAuth" customClass="QMRootViewControllerSegue" id="vtA-Vb-e6G"/>
+                        <segue destination="qNP-Fx-Xyn" kind="custom" identifier="SceneSegueChat" customClass="QMRootViewControllerSegue" id="t9I-v8-COH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gog-Ax-vr0" userLabel="First Responder" sceneMemberID="firstResponder"/>

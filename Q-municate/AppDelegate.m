@@ -46,6 +46,9 @@ NSString *const kQMCrashlyticsAPIKey = @"7aea78439bec41a9005c7488bb6751c5e33fe27
     [QBSettings setAccountKey:kQMAcconuntKey];
     [QBSettings setLogLevel:QBLogLevelDebug];
     
+    [[UISearchBar appearance] setTintColor:[UIColor colorWithRed:0.067 green:0.357 blue:0.643 alpha:1.000]];
+    [[UISearchBar appearance] setBarTintColor:[UIColor colorWithWhite:0.969 alpha:1.000]];
+    
 #ifndef DEBUG
     [QBSettings useProductionEnvironmentForPushNotifications:YES];
 #endif

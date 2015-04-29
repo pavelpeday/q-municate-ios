@@ -115,6 +115,7 @@
 		69DB5EF518E31D6400277226 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69DB5EF418E31D6400277226 /* MessageUI.framework */; };
 		86FD874D1982512000B6FA43 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86FD874C1982512000B6FA43 /* GLKit.framework */; };
 		FB1A45DF826843BBB501A643 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67976AC8FFE848A4B85EB2AF /* libPods.a */; };
+		FB52AE031AEFCB2200A888C8 /* QMLinkSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = FB52AE021AEFCB2200A888C8 /* QMLinkSegue.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -322,6 +323,8 @@
 		86FD874A1982510700B6FA43 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		86FD874C1982512000B6FA43 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E0ACA76B4B11E4DB839DD9F3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FB52AE011AEFCB2200A888C8 /* QMLinkSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMLinkSegue.h; sourceTree = "<group>"; };
+		FB52AE021AEFCB2200A888C8 /* QMLinkSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMLinkSegue.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -897,6 +900,8 @@
 			children = (
 				556E19BB1A9F65A50087BEB9 /* QMRootViewControllerSegue.h */,
 				556E19BC1A9F65A50087BEB9 /* QMRootViewControllerSegue.m */,
+				FB52AE011AEFCB2200A888C8 /* QMLinkSegue.h */,
+				FB52AE021AEFCB2200A888C8 /* QMLinkSegue.m */,
 			);
 			path = CustomSegues;
 			sourceTree = "<group>";
@@ -1373,6 +1378,7 @@
 				556E19F01A9F65A50087BEB9 /* QMMessageBarStyleSheetFactory.m in Sources */,
 				5507EC531AE9370000ECD26E /* QMCreateGroupHeaderView.m in Sources */,
 				556E19641A9F65940087BEB9 /* QMLogInVC.m in Sources */,
+				FB52AE031AEFCB2200A888C8 /* QMLinkSegue.m in Sources */,
 				556E19631A9F65940087BEB9 /* QMLicenseAgreementVC.m in Sources */,
 				556E19671A9F65940087BEB9 /* QMWelcomeVC.m in Sources */,
 				556E19EF1A9F65A50087BEB9 /* QMRootViewControllerSegue.m in Sources */,

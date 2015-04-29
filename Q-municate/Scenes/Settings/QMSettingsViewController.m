@@ -29,10 +29,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.pushNotificationSwitch.on = [QMApi instance].settingsManager.pushNotificationsEnabled;
-//    if ([QMApi instance].settingsManager.accountType == QMAccountTypeFacebook) {
-//        [self cell:self.changePasswordCell setHidden:YES];
-//    }
+   self.pushNotificationSwitch.on = QM.profile.pushNotificationsEnabled;
+    
+    if (QM.profile.type == QMProfileTypeFacebook) {
+        
+        [self cell:self.changePasswordCell setHidden:YES];
+    }
     
     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSettingsCellBundleVersion];
     self.versionLabel.text = appVersion;
@@ -42,7 +44,9 @@
     [super viewWillAppear:animated];
     
     __weak __typeof(self)weakSelf = self;
-    [[[SDWebImageManager sharedManager] imageCache] calculateSizeWithCompletionBlock:^(NSUInteger fileCount, NSUInteger totalSize) {
+    [[[SDWebImageManager sharedManager] imageCache] calculateSizeWithCompletionBlock:^(NSUInteger fileCount,
+                                                                                       NSUInteger totalSize)
+    {
         weakSelf.cacheSize.text = [NSString stringWithFormat:@"Cache size: %.2f mb", (float)totalSize / 1024.f / 1024.f];
     }];
 }
@@ -81,7 +85,8 @@
 
 - (IBAction)changePushNotificationValue:(UISwitch *)sender {
 
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+//    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+    
 //    if (sender.on) {
 //        [[QMApi instance] subscribeToPushNotificationsForceSettings:YES complete:^(BOOL success) {
 //            [SVProgressHUD dismiss];
@@ -101,7 +106,8 @@
     [[[SDWebImageManager sharedManager] imageCache] clearMemory];
     [[[SDWebImageManager sharedManager] imageCache] clearDiskOnCompletion:^{
         
-        [[[SDWebImageManager sharedManager] imageCache] calculateSizeWithCompletionBlock:^(NSUInteger fileCount, NSUInteger totalSize) {
+        [[[SDWebImageManager sharedManager] imageCache] calculateSizeWithCompletionBlock:^(NSUInteger fileCount,
+                                                                                           NSUInteger totalSize) {
             weakSelf.cacheSize.text = [NSString stringWithFormat:@"Cache size: %.2f mb", (float)totalSize / 1024.f / 1024.f];
         }];
     }];
