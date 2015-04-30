@@ -238,7 +238,7 @@
                         </button>
                         <barButtonItem key="rightBarButtonItem" title="New" id="PAJ-nf-BDk">
                             <connections>
-                                <segue destination="Znz-SH-n9E" kind="show" id="rDM-42-SfZ"/>
+                                <segue destination="Znz-SH-n9E" kind="push" id="rDM-42-SfZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -246,6 +246,10 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="YES"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="makeSearch" value="YES"/>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outlet property="myProfileBtn" destination="zUS-tW-btv" id="Ogo-mO-arR"/>
+                        <segue destination="erY-An-T9i" kind="custom" identifier="ChatViewController" customClass="QMLinkSegue" id="yCF-ZW-EZ9"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lND-1Z-Lte" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -268,7 +272,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="S6V-Vk-EC9"/>
                         <barButtonItem key="rightBarButtonItem" title="New Group" id="Az8-lx-sR2">
                             <connections>
-                                <segue destination="QrQ-RL-ETs" kind="show" id="pxJ-Yk-c0v"/>
+                                <segue destination="QrQ-RL-ETs" kind="push" id="pxJ-Yk-c0v"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -281,6 +285,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8BI-QB-LFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-7820" y="-8364"/>
+        </scene>
+        <!--Link View Controller-->
+        <scene sceneID="76k-cW-d7p">
+            <objects>
+                <viewController id="erY-An-T9i" customClass="QMLinkViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cN0-YP-Kbo"/>
+                        <viewControllerLayoutGuide type="bottom" id="x3v-nQ-SNk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="U3q-wB-zY0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="storyboardName" value="Chat"/>
+                    </userDefinedRuntimeAttributes>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZPx-CM-Tpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7820" y="-7622"/>
         </scene>
         <!--0 Selected-->
         <scene sceneID="CZu-Nm-lSm">

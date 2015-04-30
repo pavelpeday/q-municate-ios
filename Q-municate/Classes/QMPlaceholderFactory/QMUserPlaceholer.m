@@ -41,17 +41,13 @@
         
         self.colors =
         @[
-          [UIColor colorWithRed:0.976 green:0.835 blue:0.341 alpha:1.000],
-          [UIColor colorWithRed:0.839 green:0.308 blue:0.087 alpha:1.000],
-          
-          [UIColor colorWithRed:0.655 green:0.925 blue:0.251 alpha:1.000],
-          [UIColor colorWithRed:0.224 green:0.533 blue:0.106 alpha:1.000],
-          
-          [UIColor colorWithRed:0.263 green:0.529 blue:0.984 alpha:1.000],
-          [UIColor colorWithRed:0.141 green:0.055 blue:0.631 alpha:1.000],
-          
-          [UIColor colorWithWhite:0.855 alpha:1.000],
+          [UIColor colorWithRed:1.000 green:0.592 blue:0.000 alpha:1.000],
+          [UIColor colorWithRed:0.268 green:0.808 blue:0.120 alpha:1.000],
+          [UIColor colorWithRed:0.095 green:0.561 blue:1.000 alpha:1.000],
           [UIColor colorWithWhite:0.556 alpha:1.000],
+          [UIColor colorWithRed:0.500 green:0.048 blue:1.000 alpha:1.000],
+          [UIColor colorWithRed:0.500 green:0.048 blue:1.000 alpha:1.000],
+          [UIColor colorWithRed:1.000 green:0.089 blue:0.222 alpha:1.000]
           ];
     }
     
@@ -86,8 +82,10 @@
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGContextRef context = UIGraphicsGetCurrentContext();
         //// Colors
-        UIColor* topColor = [QMUserPlaceholer.instance nextColor];
-        UIColor* botomColor = [QMUserPlaceholer.instance nextColor];
+        
+        UIColor *nextColor = QMUserPlaceholer.instance.nextColor;
+        UIColor* topColor = nextColor;
+        UIColor* botomColor = [self colorByDarkeningColor:nextColor WithValue:0.2];
         UIColor* labelColor = [UIColor colorWithRed:1 green:1 blue:1 alpha: 0.648];
         
         // Gradient Declarations
@@ -98,10 +96,10 @@
                                    (__bridge CFArrayRef)@[(id)topColor.CGColor, (id)botomColor.CGColor],
                                    gradientLocations);
         
-        //// Oval Drawing
-        UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect:frame];
+        //// Gradient oval Drawing
+        UIBezierPath* gradientOval = [UIBezierPath bezierPathWithOvalInRect:frame];
         CGContextSaveGState(context);
-        [ovalPath addClip];
+        [gradientOval addClip];
         CGContextDrawLinearGradient(context, gradient,
                                     CGPointMake(CGRectGetMidX(frame), CGRectGetMinY(frame)),
                                     CGPointMake(CGRectGetMidX(frame), CGRectGetMaxY(frame)),
@@ -120,7 +118,6 @@
             NSDictionary* textFontAttributes = @{ NSFontAttributeName:font,
                                                   NSForegroundColorAttributeName:labelColor,
                                                   NSParagraphStyleAttributeName:textStyle};
-            
             CGSize size =
             [textContent boundingRectWithSize:frame.size
                                       options:NSStringDrawingUsesLineFragmentOrigin
@@ -139,6 +136,37 @@
         
         return maskedImage;
     }
+}
+
++ (UIColor *)colorByDarkeningColor:(UIColor *)color WithValue:(CGFloat)value {
+    
+    NSUInteger totalComponents = CGColorGetNumberOfComponents(color.CGColor);
+    BOOL isGreyscale = (totalComponents == 2) ? YES : NO;
+    
+    CGFloat *oldComponents = (CGFloat *)CGColorGetComponents(color.CGColor);
+    CGFloat newComponents[4];
+    
+    if (isGreyscale) {
+        newComponents[0] = oldComponents[0] - value < 0.0f ? 0.0f : oldComponents[0] - value;
+        newComponents[1] = oldComponents[0] - value < 0.0f ? 0.0f : oldComponents[0] - value;
+        newComponents[2] = oldComponents[0] - value < 0.0f ? 0.0f : oldComponents[0] - value;
+        newComponents[3] = oldComponents[1];
+    }
+    else {
+        newComponents[0] = oldComponents[0] - value < 0.0f ? 0.0f : oldComponents[0] - value;
+        newComponents[1] = oldComponents[1] - value < 0.0f ? 0.0f : oldComponents[1] - value;
+        newComponents[2] = oldComponents[2] - value < 0.0f ? 0.0f : oldComponents[2] - value;
+        newComponents[3] = oldComponents[3];
+    }
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorRef newColor = CGColorCreate(colorSpace, newComponents);
+    CGColorSpaceRelease(colorSpace);
+    
+    UIColor *retColor = [UIColor colorWithCGColor:newColor];
+    CGColorRelease(newColor);
+    
+    return retColor;
 }
 
 @end

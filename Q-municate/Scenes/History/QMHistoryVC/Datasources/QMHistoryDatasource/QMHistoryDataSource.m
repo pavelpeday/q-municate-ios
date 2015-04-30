@@ -38,11 +38,25 @@
         [cell setTitle:dialog.name];
     }
     
-    [cell setTime:dialog.lastMessageDate.description];
+    NSString *time = [self.dateFormatter stringFromDate:dialog.lastMessageDate];
+    [cell setTime:time];
     [cell setSubTitle:dialog.lastMessageText];
     [cell setBadgeText:[NSString stringWithFormat:@"%tu", dialog.unreadMessagesCount]];
     
     return cell;
+}
+
+- (NSDateFormatter *)dateFormatter {
+    
+    static dispatch_once_t onceToken;
+    static NSDateFormatter *_dateFormatter = nil;
+    dispatch_once(&onceToken, ^{
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        _dateFormatter.dateFormat = @"dd.MM.yy";
+        
+    });
+    
+    return _dateFormatter;
 }
 
 @end

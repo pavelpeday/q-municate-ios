@@ -44,6 +44,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 @property (weak, nonatomic) QBRequest *searchRequest;
 
 @property (assign, nonatomic) BOOL globalSearchIsCancelled;
+@property (weak, nonatomic) IBOutlet UIButton *myProfileBtn;
 
 @end
 
@@ -73,6 +74,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     }];
     
     [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
+    [self.myProfileBtn setTitle:QM.profile.userData.fullName forState:UIControlStateNormal];
 }
 
 - (void)stupNotificationView {
@@ -236,8 +238,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
         
     } completion:^(BOOL finished) {
         
-        UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self performSegueWithIdentifier:@"ChatViewController" sender:self];
         
     }];
 }

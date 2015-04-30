@@ -111,7 +111,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    self.messageBubbleFont = nil;
+    _messageBubbleFont = nil;
     
     [self.messageBubbleCache removeAllObjects];
     self.messageBubbleCache = nil;

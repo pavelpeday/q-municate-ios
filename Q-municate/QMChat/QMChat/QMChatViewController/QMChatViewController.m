@@ -88,10 +88,11 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     [self updateCollectionViewInsets];
     
-    self.keyboardController = [[QMKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView
-                                                                 contextView:self.view
-                                                        panGestureRecognizer:self.collectionView.panGestureRecognizer
-                                                                    delegate:self];
+    self.keyboardController =
+    [[QMKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView
+                                       contextView:self.view
+                              panGestureRecognizer:self.collectionView.panGestureRecognizer
+                                          delegate:self];
 }
 
 - (void)dealloc {
@@ -173,6 +174,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     [self.collectionView.collectionViewLayout invalidateLayout];
     
     if (self.automaticallyScrollsToMostRecentMessage) {
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self scrollToBottomAnimated:NO];
             [self.collectionView.collectionViewLayout invalidateLayoutWithContext:[QMCollectionViewFlowLayoutInvalidationContext context]];
@@ -418,8 +420,6 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     if (!isMediaMessage) {
         
         //        cell.textView.text = [messageItem text];
-        
-        
         cell.textView.text = nil;
         
         NSAttributedString *attributedString =
@@ -461,6 +461,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
         if (avatarImageDataSource != nil) {
             
             UIImage *avatarImage = [avatarImageDataSource avatarImage];
+            
             if (avatarImage == nil) {
                 cell.avatarImageView.image = [avatarImageDataSource avatarPlaceholderImage];
                 cell.avatarImageView.highlightedImage = nil;
@@ -568,7 +569,10 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 - (void)collectionView:(QMChatCollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     
     if (action == @selector(copy:)) {
-        id<QMChatMessageData> messageData = [self collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+        
+        id<QMChatMessageData> messageData =
+        [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+        
         [[UIPasteboard generalPasteboard] setString:[messageData text]];
     }
 }
