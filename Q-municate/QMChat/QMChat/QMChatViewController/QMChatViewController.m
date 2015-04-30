@@ -869,6 +869,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     [self updateKeyboardTriggerPoint];
     
     if (dy < 0) {
+        
         [self scrollComposerTextViewToBottomAnimated:NO];
     }
 }
@@ -899,6 +900,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
                           delay:0.01
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
+                         
                          textView.contentOffset = contentOffsetToShowLastLine;
                      }
                      completion:nil];

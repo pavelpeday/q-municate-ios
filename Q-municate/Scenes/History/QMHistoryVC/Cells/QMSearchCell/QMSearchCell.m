@@ -53,6 +53,22 @@
     }
 }
 
+- (void)setImageWithUrl:(NSString *)url {
+    
+    if (![self.imageUrl isEqualToString:url]) {
+        
+        self.imageUrl = url;
+        
+        NSURL *imageUrl = [NSURL URLWithString:url];
+        UIImage *placeholder = [QMUserPlaceholer userPlaceholder:self.qmImageView.bounds fullName:self.title];
+        
+        [self.qmImageView setImageWithURL:imageUrl placeholder:placeholder options:SDWebImageLowPriority
+                                 progress:nil
+                           completedBlock:nil];
+    }
+}
+
+
 - (void)highlightTitle:(NSString *)title {
     
     NSMutableAttributedString *attributedString =
@@ -62,31 +78,12 @@
     
     [attributedString beginEditing];
     
-    [attributedString addAttribute: NSForegroundColorAttributeName
-                             value:highlightColor
+    [attributedString addAttribute:NSForegroundColorAttributeName value:highlightColor
                              range:[self.title rangeOfString:title options:NSCaseInsensitiveSearch]];
     
     [attributedString endEditing];
     
     self.titleLabel.attributedText = attributedString;
-}
-
-- (void)setImageWithUrl:(NSString *)url {
-    
-    if (![self.imageUrl isEqualToString:url]) {
-        
-        self.imageUrl = url;
-        
-        NSURL *imageUrl = [NSURL URLWithString:url];
-        
-        UIImage *placeholder = [QMUserPlaceholer userPlaceholder:self.qmImageView.bounds fullName:self.title];
-        
-        [self.qmImageView setImageWithURL:imageUrl
-                              placeholder:placeholder
-                                  options:SDWebImageLowPriority
-                                 progress:nil
-                           completedBlock:nil];
-    }
 }
 
 @end

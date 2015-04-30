@@ -38,24 +38,15 @@
     self.alwaysBounceVertical = YES;
     self.bounces = YES;
     
-    [self registerNib:[QMChatCollectionViewCellIncoming nib]
-forCellWithReuseIdentifier:[QMChatCollectionViewCellIncoming cellReuseIdentifier]];
+    [self registerNib:[QMChatCollectionViewCellIncoming nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellIncoming cellReuseIdentifier]];
+    [self registerNib:[QMChatCollectionViewCellOutgoing nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellOutgoing cellReuseIdentifier]];
+    [self registerNib:[QMChatCollectionViewCellIncoming nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellIncoming mediaCellReuseIdentifier]];
+    [self registerNib:[QMChatCollectionViewCellOutgoing nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellOutgoing mediaCellReuseIdentifier]];
     
-    [self registerNib:[QMChatCollectionViewCellOutgoing nib]
-forCellWithReuseIdentifier:[QMChatCollectionViewCellOutgoing cellReuseIdentifier]];
-    
-    [self registerNib:[QMChatCollectionViewCellIncoming nib]
-forCellWithReuseIdentifier:[QMChatCollectionViewCellIncoming mediaCellReuseIdentifier]];
-    
-    [self registerNib:[QMChatCollectionViewCellOutgoing nib]
-forCellWithReuseIdentifier:[QMChatCollectionViewCellOutgoing mediaCellReuseIdentifier]];
-    
-    [self registerNib:[QMTypingIndicatorFooterView nib]
-forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+    [self registerNib:[QMTypingIndicatorFooterView nib] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
   withReuseIdentifier:[QMTypingIndicatorFooterView footerReuseIdentifier]];
     
-    [self registerNib:[QMLoadEarlierHeaderView nib]
-forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+    [self registerNib:[QMLoadEarlierHeaderView nib] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
   withReuseIdentifier:[QMLoadEarlierHeaderView headerReuseIdentifier]];
     
     _typingIndicatorDisplaysOnLeft = YES;
