@@ -127,7 +127,7 @@
                                    attributes:textFontAttributes
                                       context:nil].size;
             
-            [textContent drawInRect:CGRectOffset(frame, 0, CGRectGetHeight(frame) - size.height / 2) withAttributes:textFontAttributes];
+            [textContent drawInRect:CGRectOffset(frame, 0, (CGRectGetHeight(frame) - size.height) / 2) withAttributes:textFontAttributes];
         }
         
         //// Cleanup
