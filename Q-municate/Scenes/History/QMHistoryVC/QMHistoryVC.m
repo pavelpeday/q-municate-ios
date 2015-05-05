@@ -11,7 +11,7 @@
 #import "QMHistoryDataSource.h"
 #import "QMGlobalSearchDataSource.h"
 #import "QMNotificationView.h"
-
+#import "QMProfileTitleView.h"
 #import "QMAddContactCell.h"
 #import "QMChatHistoryCell.h"
 #import "QMSearchStatusCell.h"
@@ -44,7 +44,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 @property (weak, nonatomic) QBRequest *searchRequest;
 
 @property (assign, nonatomic) BOOL globalSearchIsCancelled;
-@property (weak, nonatomic) IBOutlet UIButton *myProfileBtn;
 
 @end
 
@@ -69,24 +68,26 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     //Subscirbe to notification
     [QM.contactListService addDelegate:self];
     [QM.chatService addDelegate:self];
+    //Set profile title view
+    QMProfileTitleView *profileTitleView = [[QMProfileTitleView alloc] init];
+    profileTitleView.title = QM.profile.userData.fullName;
+    [profileTitleView setUserImageWithUrl:QM.profile.userData.avatarUrl];
+    self.navigationItem.titleView = profileTitleView;
     //Fetch data from server
     [QMTasks taskLogin:^(BOOL successLogin) {
         [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {}];
     }];
-    
-    [self.myProfileBtn setTitle:QM.profile.userData.fullName forState:UIControlStateNormal];
 }
 
 - (void)stupNotificationView {
     
     self.notificationView = [QMNotificationView showInViewController:self];
     self.notificationView.tintColor = [UIColor colorWithWhite:0.800 alpha:0.380];
-    [self.notificationView setVisible:YES animated:YES completion:^{
-        
-    }];
+    [self.notificationView setVisible:YES animated:YES completion:^{}];
 }
 
 - (void)contactListServiceDidLoadCache {
+    
     [self.tableView reloadData];
 }
 
@@ -128,7 +129,8 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 }
 
 #pragma mark - Search
-#pragma mark - Local
+#pragma mark Local
+
 - (void)localSearch:(NSString *)searchText {
     
     self.globalSearchIsCancelled = YES;
@@ -137,7 +139,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [self.searchController.searchResultsTableView reloadData];
 }
 
-#pragma mark - Gloabal
+#pragma mark Gloabal
 
 - (void)globalSearch:(NSString *)searchText {
     

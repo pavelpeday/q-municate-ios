@@ -8,21 +8,21 @@
 
 #import "QMSignUpVC.h"
 #import "QMLicenseAgreement.h"
-#import "UIImage+Cropper.h"
 #import "REAlertView+QMSuccess.h"
 #import "SVProgressHUD.h"
 #import "QMImagePicker.h"
-#import "REActionSheet.h"
 #import "QMServicesManager.h"
+#import "QMUserPlaceholer.h"
+#import "QMImageView.h"
 
 @interface QMSignUpVC ()
 
 @property (weak, nonatomic) IBOutlet UITextField *fullNameField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
-@property (weak, nonatomic) IBOutlet UIButton *chooseUserPictureBtn;
+@property (weak, nonatomic) IBOutlet QMImageView *qmImageView;
 
-@property (strong, nonatomic) UIImage *cachedPicture;
+@property (strong, nonatomic) UIImage *selectedImage;
 
 @end
 
@@ -35,15 +35,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.qmImageView.imageViewType = QMImageViewTypeCircle;
+    self.qmImageView.image = [QMUserPlaceholer ovalWithFrame:self.qmImageView.bounds text:@"" color:[UIColor lightGrayColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
     
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 #pragma mark - Actions
@@ -55,15 +55,12 @@
 
 - (IBAction)chooseUserPicture:(id)sender {
     
-    __weak __typeof(self)weakSelf = self;
-    
     [QMImagePicker chooseSourceTypeInVC:self
                           allowsEditing:YES
                                  result:^(UIImage *image)
      {
-         [weakSelf.chooseUserPictureBtn setImage:image
-                                        forState:UIControlStateNormal];
-         weakSelf.cachedPicture = image;
+         self.selectedImage = image;
+         [self.qmImageView applyImage:image];
      }];
 }
 
@@ -99,33 +96,28 @@
                  
                  [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
                  
-                 [QM.authService signUpAndLoginWithUser:newUser
-                                             completion:^(QBResponse *response,
-                                                          QBUUser *userProfile)
-                  {
-                      if (response.success) {
-                          //Update password data
-                          userProfile.password = newUser.password;
-                          QM.profile.type = QMProfileTypeEmail;
-                          QM.profile.userAgreementAccepted = userAgreementSuccess;
-                          //Synchronize user profile
-                          [QM.profile synchronizeWithUserData:userProfile];
-                          //Upload user image
-                          [QM.profile updateUserImage:weakSelf.cachedPicture
-                                             progress:^(float progress)
-                           {
-                               //Upload avatar progress
-                               NSLog(@"%fu", progress);
-                               
-                           } completion:^(BOOL success) {
-                               
-                               [weakSelf performSegueWithIdentifier:kSceneSegueChat
-                                                             sender:nil];
-                           }];
-                      }
-                      
-                      [SVProgressHUD dismiss];
-                  }];
+                 [QM.authService signUpAndLoginWithUser:newUser completion:^(QBResponse *response, QBUUser *userProfile) {
+                     
+                     if (response.success) {
+                         //Update password data
+                         userProfile.password = newUser.password;
+                         QM.profile.type = QMProfileTypeEmail;
+                         QM.profile.userAgreementAccepted = userAgreementSuccess;
+                         //Synchronize user profile
+                         [QM.profile synchronizeWithUserData:userProfile];
+                         //Upload user image
+                         [QM.profile updateUserImage:weakSelf.selectedImage progress:^(float progress) {
+                              //Upload avatar progress
+                              NSLog(@"%fu", progress);
+                              
+                          } completion:^(BOOL success) {
+                              
+                              [weakSelf performSegueWithIdentifier:kSceneSegueChat sender:nil];
+                          }];
+                     }
+                     
+                     [SVProgressHUD dismiss];
+                 }];
              }
          }];
     }

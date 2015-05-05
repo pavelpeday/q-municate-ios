@@ -169,9 +169,7 @@ NSString *const kQMUserProfileType = @"userProfileType";
      }];
 }
 
-- (void)updateUserImage:(UIImage *)userImage
-               progress:(void (^)(float progress))progress
-             completion:(void (^)(BOOL success))completion {
+- (void)updateUserImage:(UIImage *)userImage progress:(void (^)(float progress))progress completion:(void (^)(BOOL success))completion {
     
     __weak __typeof(self)weakSelf = self;
     
@@ -179,17 +177,12 @@ NSString *const kQMUserProfileType = @"userProfileType";
     
     void (^updateUserProfile)(NSString *) =^(NSString *publicUrl) {
         
-        if (publicUrl.length > 0) {
-            
-        }
-        
         NSString *password = userData.password;
         userData.password = nil;
+        userData.avatarUrl = publicUrl;
         
-        [QBRequest updateUser:userData
-                 successBlock:^(QBResponse *response,
-                                QBUUser *updatedUser)
-         {
+        [QBRequest updateUser:userData successBlock:^(QBResponse *response, QBUUser *updatedUser) {
+            
              updatedUser.password = password;
              weakSelf.userData = updatedUser;
              [weakSelf synchronize];
@@ -206,18 +199,11 @@ NSString *const kQMUserProfileType = @"userProfileType";
         
         NSData *uploadFile = UIImageJPEGRepresentation(userImage, 0.4);
         
-        [QBRequest TUploadFile:uploadFile
-                      fileName:@"userImage"
-                   contentType:@"image/jpeg"
-                      isPublic:YES
-                  successBlock:^(QBResponse *response,
-                                 QBCBlob *blob)
-         {
+        [QBRequest TUploadFile:uploadFile fileName:@"userImage" contentType:@"image/jpeg" isPublic:YES successBlock:^(QBResponse *response, QBCBlob *blob) {
              updateUserProfile(blob.publicUrl);
              
-         } statusBlock:^(QBRequest *request,
-                         QBRequestStatus *status)
-         {
+         } statusBlock:^(QBRequest *request, QBRequestStatus *status) {
+             
              progress(status.percentOfCompletion);
              
          } errorBlock:^(QBResponse *response) {

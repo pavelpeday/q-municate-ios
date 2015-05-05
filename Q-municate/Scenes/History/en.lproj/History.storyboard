@@ -58,18 +58,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="tf1-cC-je4">
                         <nil key="title"/>
-                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zUS-tW-btv">
-                            <rect key="frame" x="248" y="7" width="105" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            <state key="normal" title="My profie" image="ic_smile">
-                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <segue destination="gMg-rq-fEY" kind="custom" customClass="QMLinkSegue" id="1Hp-fl-Qpv"/>
-                            </connections>
-                        </button>
                         <barButtonItem key="rightBarButtonItem" title="New" id="PAJ-nf-BDk">
                             <connections>
                                 <segue destination="Znz-SH-n9E" kind="push" id="rDM-42-SfZ"/>
@@ -81,7 +69,6 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="makeSearch" value="YES"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <outlet property="myProfileBtn" destination="zUS-tW-btv" id="Ogo-mO-arR"/>
                         <segue destination="erY-An-T9i" kind="custom" identifier="ChatViewController" customClass="QMLinkSegue" id="yCF-ZW-EZ9"/>
                     </connections>
                 </tableViewController>
@@ -281,6 +268,5 @@
     </scenes>
     <resources>
         <image name="\" width="20" height="20"/>
-        <image name="ic_smile" width="20" height="20"/>
     </resources>
 </document>

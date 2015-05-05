@@ -29,6 +29,7 @@
             
             user.password = QM.profile.userData.password;
             [QM.profile synchronizeWithUserData:user];
+            
             success();
         }
         else {
