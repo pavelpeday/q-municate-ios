@@ -25,10 +25,11 @@
     return self;
 }
 
-- (id)init
-{
+- (id)init {
+    
     NSAssert(NO, @"%s is not a valid initializer for %@. Use %@ instead.",
              __PRETTY_FUNCTION__, [self class], NSStringFromSelector(@selector(initWithMessageBubbleImage:highlightedImage:)));
+    
     return nil;
 }
 

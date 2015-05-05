@@ -10,7 +10,6 @@
 
 @implementation QMChatUtils
 
-
 + (NSString *)messageTextForNotification:(QBChatAbstractMessage *)notification
 {
     NSString *messageText = nil;

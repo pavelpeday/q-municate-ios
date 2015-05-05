@@ -75,7 +75,6 @@ _______
 ### Step 2. Sign Up page
  ![signup_screen_320_568.jpg](https://bitbucket.org/repo/rMnaz8/images/434633715-signup_screen_320_568.jpg) 
 
-
 Sign Up Page allows to create new QM user.
 
 #### Available features:
@@ -95,7 +94,7 @@ When new user is registered in the system , Facebook and email friends import wi
 Remember me tick in the check box on Login page will be set automatically, so there is no need for user to enter credentials during the next login.
 
 #### The code:
-
+```objective-c
     [[QMApi instance] signUpAndLoginWithUser:newUser completion:^(BOOL success) {
  		if (success) {
         	// do something…

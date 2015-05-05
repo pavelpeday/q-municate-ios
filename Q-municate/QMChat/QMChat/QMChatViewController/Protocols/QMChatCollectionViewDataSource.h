@@ -15,7 +15,6 @@
 @protocol QMChatBubbleImageDataSource;
 @protocol QMChatAvatarImageDataSource;
 
-
 /**
  *  An object that adopts the `QMChatCollectionViewDataSource` protocol is responsible for providing the data and views
  *  required by a `QMChatCollectionView`. The data source object represents your app’s messaging data model
@@ -39,7 +38,7 @@
  *
  *  @return An initialized string identifier that uniquely identifies the current sender.
  *
- *  @warning You must not return `nil` from this method. This value must be unique.
+ *  @warning You must not return `0` from this method. This value must be unique.
  */
 - (NSUInteger)senderId;
 

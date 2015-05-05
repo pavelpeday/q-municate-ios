@@ -25,10 +25,18 @@
     void (^copletionLogin)(QBResponse *, QBUUser *) = ^(QBResponse* response,  QBUUser *user) {
         
         //Save profile to keychain
-        user.password = QM.profile.userData.password;
-        [QM.profile synchronizeWithUserData:user];
-        
-        success();
+        if (response.success) {
+            
+            user.password = QM.profile.userData.password;
+            [QM.profile synchronizeWithUserData:user];
+            success();
+        }
+        else {
+            
+            if (completion) {
+                completion(NO);
+            }
+        }
     };
     
     if (!QM.authService.isAuthorized) {

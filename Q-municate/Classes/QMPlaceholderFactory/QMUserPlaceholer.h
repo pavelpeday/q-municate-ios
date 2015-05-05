@@ -10,6 +10,7 @@
 
 @interface QMUserPlaceholer : NSObject
 
-+ (UIImage *)userPlaceholder:(CGRect)frame fullName:(NSString *)fullName;
++ (UIImage *)userPlaceholderWithFrame:(CGRect)frame fullName:(NSString *)fullName;
++ (UIImage *)ovalWithFrame:(CGRect)frame text:(NSString *)text color:(UIColor *)color;
 
 @end

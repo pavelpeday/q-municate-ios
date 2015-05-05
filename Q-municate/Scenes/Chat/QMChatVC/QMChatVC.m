@@ -28,7 +28,6 @@
     self.senderDisplayName = @"hello";
     self.title = @"Chat";
     // Do any additional setup after loading the view, typically from a nib.
-    
     QMChatBubbleImageFactory *bubbleFactory = [[QMChatBubbleImageFactory alloc] init];
     
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor messageBubbleGreenColor]];
@@ -37,16 +36,17 @@
     
     self.array = [NSMutableArray array];
     
-    for (int i = 0; i < 10; i++) {
-        
-        QBChatMessage *msg = [QBChatMessage message];
-        msg.ID = [NSString stringWithFormat:@"%tu", i];
-        msg.senderID = i+1;
-        msg.senderNick = [NSString stringWithFormat:@"user %tu", i];
-        msg.datetime = [NSDate date];
-        msg.text = @"Q-municate ☺️ text cell http://hello.com";
-        [self.array addObject:msg];
-    }
+//    for (int i = 0; i < 10; i++) {
+//        
+//        QBChatMessage *msg = [QBChatMessage message];
+//        msg.ID = [NSString stringWithFormat:@"%tu", i];
+//        msg.senderID = i+1;
+//        msg.senderNick = [NSString stringWithFormat:@"user %tu", i];
+//        msg.datetime = [NSDate date];
+//        msg.text = @"Q-municate ☺️ text cell http://hello.com fsdfjaj adklsfjsdfjadsfjasdfjasdklfjlkds    fajlkf asfjk kj dfas f daj;fdajfdaj kdfjf jklljk fjl afdsjl";
+//        [self.array addObject:msg];
+//    }
+    
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
 }
 
@@ -58,12 +58,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-        self.collectionView.collectionViewLayout.springResistanceFactor = 1000;
-        self.collectionView.collectionViewLayout.springinessEnabled = YES;
+    self.collectionView.collectionViewLayout.springResistanceFactor = 1000;
+    self.collectionView.collectionViewLayout.springinessEnabled = YES;
 }
 
-- (UICollectionViewCell *)collectionView:(QMChatCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UICollectionViewCell *)collectionView:(QMChatCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     /**
      *  Override point for customizing cells
      */
@@ -71,20 +70,12 @@
     
     QBChatMessage *msg = self.array[indexPath.row];
     
-    if (msg.senderID == self.senderId) {
-        
-        cell.textView.textColor = [UIColor whiteColor];
-    }
-    else {
-        cell.textView.textColor = [UIColor blackColor];
-    }
-    
+    cell.textView.textColor = msg.senderID == self.senderId ?  [UIColor blackColor] : [UIColor whiteColor];
     
     return cell;
 }
 
 #pragma mark - QBChatMessage CollectionView DataSource
-
 
 - (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -100,10 +91,7 @@
 - (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
     QBChatMessage *message = [self.array objectAtIndex:indexPath.item];
-    
-    /**
-     *  iOS7-style sender name labels
-     */
+    /** *  iOS7-style sender name labels */
     if (message.senderID == self.senderId) {
         return nil;
     }
@@ -112,10 +100,10 @@
         
         QBChatMessage *previousMessage = [self.array objectAtIndex:indexPath.item - 1];
         if (previousMessage.senderID == message.senderID) {
+            
             return nil;
         }
     }
-    
     /**
      *  Don't specify attributes to use the defaults.
      */
@@ -143,6 +131,7 @@
         
         return self.outgoingBubbleImageData;
     }
+    
     return self.incomingBubbleImageData;
 }
 
@@ -158,13 +147,16 @@
      *  iOS7-style sender name labels
      */
     QBChatMessage *msg = self.array[indexPath.row];
+    
     if (msg.senderID == self.senderId ) {
         return 0.0f;
     }
     
     if (indexPath.item - 1 > 0) {
+        
         QBChatMessage *previousMessage = [self.array objectAtIndex:indexPath.item - 1];
         if (previousMessage.senderID == msg.senderID) {
+            
             return 0.0f;
         }
     }
@@ -174,17 +166,6 @@
 
 - (CGFloat)collectionView:(QMChatCollectionView *)collectionView
                    layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    /**
-     *  Each label in a cell has a `height` delegate method that corresponds to its text dataSource method
-     */
-    
-    /**
-     *  This logic should be consistent with what you return from `attributedTextForCellTopLabelAtIndexPath:`
-     *  The other label height delegate methods should follow similarly
-     *
-     *  Show a timestamp for every 3rd message
-     */
-    
     return 20;
 }
 
@@ -205,12 +186,19 @@
     if (msg.senderID == self.senderId ) {
         paragraphStyle.alignment = NSTextAlignmentRight;
     }
-    
-    NSDictionary *dateTextAttributes = @{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12.0f],
-                                          NSForegroundColorAttributeName : color,
-                                          NSParagraphStyleAttributeName : paragraphStyle };
+    /**
+     *  Set bottom Lable attribues
+     */
+    NSDictionary *dateTextAttributes =
+    @{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12.0f],
+       NSForegroundColorAttributeName : color,
+       NSParagraphStyleAttributeName : paragraphStyle };
     
     return [[NSAttributedString alloc] initWithString:@"Hello" attributes:dateTextAttributes];
+}
+
+- (void)createNitificationForUser:(NSNotification *)notification {
+    
 }
 
 @end

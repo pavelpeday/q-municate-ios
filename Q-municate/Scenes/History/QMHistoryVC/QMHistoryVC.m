@@ -65,6 +65,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     //Configure search controller
     self.searchController.searchResultsTableView.rowHeight = 75;
     self.searchController.searchBar.tintColor = [UIColor colorWithRed:0.067 green:0.357 blue:0.643 alpha:1.000];
+    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
     //Subscirbe to notification
     [QM.contactListService addDelegate:self];
     [QM.chatService addDelegate:self];
@@ -73,7 +74,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
         [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {}];
     }];
     
-    [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
     [self.myProfileBtn setTitle:QM.profile.userData.fullName forState:UIControlStateNormal];
 }
 
@@ -127,8 +127,8 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [QMSearchStatusCell registerForReuseInTableView:self.searchController.searchResultsTableView];
 }
 
-#pragma mark Navigation bar actions
-
+#pragma mark - Search
+#pragma mark - Local
 - (void)localSearch:(NSString *)searchText {
     
     self.globalSearchIsCancelled = YES;
@@ -137,7 +137,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [self.searchController.searchResultsTableView reloadData];
 }
 
-#pragma mark - Search
+#pragma mark - Gloabal
 
 - (void)globalSearch:(NSString *)searchText {
     
@@ -149,7 +149,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
         [self.searchController.searchResultsTableView reloadData];
     }
     else {
-        
+        //Keyboard typing timeout
         int64_t keyboadTapTimeInterval = (int64_t)(kQMKeyboardTapTimeInterval * NSEC_PER_SEC);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, keyboadTapTimeInterval), dispatch_get_main_queue(), ^{
             
@@ -171,6 +171,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 - (void)beginSearchWithSearchText:(NSString *)searchText nextPage:(BOOL)nextPage {
     
     if (!nextPage) {
+        
         [self.globalSearchDatasource resetPage];
     }
     
@@ -199,6 +200,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
          if (response.status == QBResponseStatusCodeCancelled) {
              
              NSLog(@"Global search is cancelled");
+             
          } else if (response.status == QBResponseStatusCodeNotFound) {
              
              NSLog(@"Not found");
@@ -341,6 +343,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
             
             [QM.chatService createPrivateChatDialogWithOpponent:contact completion:^(QBResponse *response, QBChatDialog *createdDialog) {
                 
+                //Send system message
                 QBChatMessage *message = [QBChatMessage message];
                 message.text = @"Contact request";
                 
@@ -350,10 +353,8 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
                                        save:YES
                                  completion:^(NSError *error)
                 {
-                    
+                    NSLog(@"Send contact request");
                 }];
-
-                
             }];
         }
     }];
@@ -370,7 +371,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 - (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource recipientWithIDs:(NSArray *)userIDs {
     
     NSArray *users = [QM.contactListService usersWithoutMeWithIDs:userIDs];
-    //    NSAssert(users.count <= 1, @"");
+    NSAssert(users.count <= 1, @"");
     
     return users.firstObject;
 }

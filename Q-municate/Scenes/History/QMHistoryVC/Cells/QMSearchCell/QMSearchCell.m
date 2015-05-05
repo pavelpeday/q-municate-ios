@@ -59,15 +59,12 @@
         
         self.imageUrl = url;
         
-        NSURL *imageUrl = [NSURL URLWithString:url];
-        UIImage *placeholder = [QMUserPlaceholer userPlaceholder:self.qmImageView.bounds fullName:self.title];
+        UIImage *placeholder = [QMUserPlaceholer userPlaceholderWithFrame:self.qmImageView.bounds fullName:self.title];
         
-        [self.qmImageView setImageWithURL:imageUrl placeholder:placeholder options:SDWebImageLowPriority
-                                 progress:nil
-                           completedBlock:nil];
+        [self.qmImageView setImageWithURL:url placeholder:placeholder options:SDWebImageLowPriority
+                                 progress:nil completedBlock:nil];
     }
 }
-
 
 - (void)highlightTitle:(NSString *)title {
     

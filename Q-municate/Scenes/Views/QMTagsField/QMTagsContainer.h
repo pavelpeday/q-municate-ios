@@ -26,9 +26,10 @@
 /** Is called when a user changes the text in the input field. */
 - (void)tagsContainer:(QMTagsContainer *)container didChangeText:(NSString *)text;
 
-/** is called when the input field becomes first responder */
+/** Is called when the input field becomes first responder */
 - (void)tagsContainerDidBeginEditing:(QMTagsContainer *)container;
 
+/** Is called when container change height */
 - (void)tagsContainer:(QMTagsContainer *)container didChangeHeight:(CGFloat)height;
 
 @end
@@ -59,17 +60,52 @@
  */
 @interface QMTagsContainer : UIView
 
+/**
+ *  @see QMTagsContainerDelegate
+ */
 @property (weak, nonatomic) id<QMTagsContainerDelegate> delegate;
+
+/**
+ *  @see QMTagsContainerDataSource
+ */
 @property (weak, nonatomic) id<QMTagsContainerDataSource> dataSource;
 
 - (void)reloadData;
+/**
+ *  Colaps tags container
+ */
 - (void)collapse;
+
+/**
+ *  Input text
+ *
+ *  @return text value
+ */
 - (NSString *)inputText;
 
+/**
+ *  Max height, default- 150.f
+ */
 @property (assign, nonatomic) CGFloat maxHeight;
+
+/**
+ *  Vertical inset, default - 7.f
+ */
 @property (assign, nonatomic) CGFloat verticalInset;
+
+/**
+ *  Horizontal inset, default - 15.f
+ */
 @property (assign, nonatomic) CGFloat horizontalInset;
+
+/**
+ *  tag pading, default 2.f
+ */
 @property (assign, nonatomic) CGFloat tagPadding;
+
+/**
+ *  Minimum input width, default - 80.f
+ */
 @property (assign, nonatomic) CGFloat minInputWidth;
 
 @property (assign, nonatomic) UIKeyboardType inputTextFieldKeyboardType;
@@ -84,6 +120,8 @@
 
 @property (copy, nonatomic) NSString *placeholderText;
 @property (copy, nonatomic) NSString *inputTextFieldAccessibilityLabel;
+
+- (NSString *)text;
 
 - (void)setColorScheme:(UIColor *)color;
 

@@ -17,7 +17,9 @@
 
 <SDWebImageManagerDelegate>
 
+@property (strong, nonatomic) NSString *url;
 @property (strong, nonatomic) SDWebImageManager *webManager;
+@property (weak, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
@@ -29,6 +31,7 @@
     if (self) {
         [self configure];
     }
+    
     return self;
 }
 
@@ -42,6 +45,12 @@
 }
 
 - (void)configure {
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+    
+    [self addGestureRecognizer:tap];
+    self.tapGestureRecognizer = tap;
+    self.userInteractionEnabled = YES;
     
     self.webManager = [[SDWebImageManager alloc] init];
     self.webManager.delegate = self;
@@ -61,12 +70,18 @@
     return key;
 }
 
-- (void)setImageWithURL:(NSURL *)url
+- (void)setImageWithURL:(NSString *)url
             placeholder:(UIImage *)placehoder
                 options:(SDWebImageOptions)options
                progress:(SDWebImageDownloaderProgressBlock)progress
          completedBlock:(SDWebImageCompletionBlock)completedBlock  {
     
+    if ([url isEqualToString:self.url]) {
+        
+        return;
+    }
+
+    self.url = url;
     self.image = placehoder;
     
     [self sd_cancelCurrentImageLoad];
@@ -76,18 +91,15 @@
         self.image = placehoder;
     }
     
-    if (url) {
+    NSURL *imgUrl = [NSURL URLWithString:url];
+    
+    if (imgUrl) {
         
         __weak __typeof(self)weakSelf = self;
+        
         id <SDWebImageOperation> operation =
-        [self.webManager downloadImageWithURL:url
-                                      options:options
-                                     progress:progress
-                                    completed:^(UIImage *image,
-                                                NSError *error,
-                                                SDImageCacheType cacheType,
-                                                BOOL finished,
-                                                NSURL *imageURL)
+        [self.webManager downloadImageWithURL:imgUrl options:options progress:progress
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
          {
              if (!weakSelf) return;
              
@@ -109,7 +121,7 @@
                  }
                  
                  if (completedBlock && finished) {
-                     completedBlock(image, error, cacheType, url);
+                     completedBlock(image, error, cacheType, imageURL);
                  }
              });
          }];
@@ -127,15 +139,14 @@
                             userInfo:@{NSLocalizedDescriptionKey : @"Trying to load a nil url"}];
             
             if (completedBlock) {
-                completedBlock(nil, error, SDImageCacheTypeNone, url);
+                
+                completedBlock(nil, error, SDImageCacheTypeNone, imgUrl);
             }
         });
     }
 }
 
-- (UIImage *)imageManager:(SDWebImageManager *)imageManager
- transformDownloadedImage:(UIImage *)image
-                  withURL:(NSURL *)imageURL {
+- (UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL {
     
     return [self transformImage:image];
 }
@@ -156,17 +167,37 @@
     }
 }
 
-- (void)sd_setImage:(UIImage *)image withKey:(NSString *)key {
+- (void)setImage:(UIImage *)image withKey:(NSString *)key {
     
     UIImage *cachedImage = [[self.webManager imageCache] imageFromDiskCacheForKey:key];
     if (cachedImage) {
+        
         self.image = cachedImage;
     }
     else {
         
-        UIImage *img = [self transformImage:image];
-        [[self.webManager imageCache] storeImage:img forKey:key];
-        self.image = img;
+        [self applyImage:image];
+        [[self.webManager imageCache] storeImage:self.image forKey:key];
+    }
+}
+
+- (void)applyImage:(UIImage *)image {
+    
+    UIImage *img = [self transformImage:image];
+    self.image = img;
+}
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)tapGesture {
+    
+    if ([self.delegate respondsToSelector:@selector(imageViewDidTap:)]) {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.layer.opacity = 0.6;
+        } completion:^(BOOL finished) {
+            
+            self.layer.opacity = 1;
+            [self.delegate imageViewDidTap:self];
+        }];
     }
 }
 

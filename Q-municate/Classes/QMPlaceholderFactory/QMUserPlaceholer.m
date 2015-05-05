@@ -40,15 +40,13 @@
         self.cahce.countLimit = 1000;
         
         self.colors =
-        @[
-          [UIColor colorWithRed:1.000 green:0.592 blue:0.000 alpha:1.000],
+        @[[UIColor colorWithRed:1.000 green:0.592 blue:0.000 alpha:1.000],
           [UIColor colorWithRed:0.268 green:0.808 blue:0.120 alpha:1.000],
           [UIColor colorWithRed:0.095 green:0.561 blue:1.000 alpha:1.000],
           [UIColor colorWithWhite:0.556 alpha:1.000],
           [UIColor colorWithRed:0.500 green:0.048 blue:1.000 alpha:1.000],
           [UIColor colorWithRed:0.500 green:0.048 blue:1.000 alpha:1.000],
-          [UIColor colorWithRed:1.000 green:0.089 blue:0.222 alpha:1.000]
-          ];
+          [UIColor colorWithRed:1.000 green:0.089 blue:0.222 alpha:1.000]];
     }
     
     return self;
@@ -65,7 +63,7 @@
     return color;
 }
 
-+ (UIImage *)userPlaceholder:(CGRect)frame fullName:(NSString *)fullName {
++ (UIImage *)userPlaceholderWithFrame:(CGRect)frame fullName:(NSString *)fullName{
     
     NSString *key = [NSString stringWithFormat:@"%@ %@", fullName, NSStringFromCGSize(frame.size)];
     
@@ -84,9 +82,9 @@
         //// Colors
         
         UIColor *nextColor = QMUserPlaceholer.instance.nextColor;
-        UIColor* topColor = nextColor;
-        UIColor* botomColor = [self colorByDarkeningColor:nextColor WithValue:0.2];
-        UIColor* labelColor = [UIColor colorWithRed:1 green:1 blue:1 alpha: 0.648];
+        UIColor *topColor = nextColor;
+        UIColor *botomColor = [self colorByDarkeningColor:nextColor WithValue:0.2];
+        UIColor *labelColor = [UIColor colorWithRed:1 green:1 blue:1 alpha: 0.648];
         
         // Gradient Declarations
         CGFloat gradientLocations[] = {0, 1};
@@ -115,7 +113,7 @@
             
             UIFont *font = [UIFont fontWithName:@"Helvetica" size:frame.size.height / 2];
             
-            NSDictionary* textFontAttributes = @{ NSFontAttributeName:font,
+            NSDictionary *textFontAttributes = @{ NSFontAttributeName:font,
                                                   NSForegroundColorAttributeName:labelColor,
                                                   NSParagraphStyleAttributeName:textStyle};
             CGSize size =
@@ -124,17 +122,20 @@
                                    attributes:textFontAttributes
                                       context:nil].size;
             
-            [textContent drawInRect:CGRectOffset(frame, 0, (CGRectGetHeight(frame) - size.height) / 2) withAttributes:textFontAttributes];
+            [textContent drawInRect:CGRectOffset(frame,
+                                                 0,
+                                                 (CGRectGetHeight(frame) - size.height) / 2)
+                     withAttributes:textFontAttributes];
         }
         
         //// Cleanup
         CGGradientRelease(gradient);
         CGColorSpaceRelease(colorSpace);
         
-        UIImage *maskedImage = UIGraphicsGetImageFromCurrentImageContext();
-        [QMUserPlaceholer.instance.cahce setObject:maskedImage forKey:key];
+        UIImage *upserPlaceholderImage = UIGraphicsGetImageFromCurrentImageContext();
+        [QMUserPlaceholer.instance.cahce setObject:upserPlaceholderImage forKey:key];
         
-        return maskedImage;
+        return upserPlaceholderImage;
     }
 }
 
@@ -167,6 +168,34 @@
     CGColorRelease(newColor);
     
     return retColor;
+}
+
++ (UIImage *)ovalWithFrame:(CGRect)frame text:(NSString *)text color:(UIColor *)color {
+    
+    UIGraphicsBeginImageContextWithOptions(frame.size, NO, 0.0);
+    //// Oval Drawing
+    UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect:frame];
+    [color setFill];
+    [ovalPath fill];
+    
+    NSMutableParagraphStyle* ovalStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
+    ovalStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary* ovalFontAttributes =
+    @{NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:16],
+      NSForegroundColorAttributeName:[UIColor whiteColor],
+      NSParagraphStyleAttributeName:ovalStyle};
+    
+    CGRect textRect = CGRectOffset(frame,
+                                   0,
+                                   (CGRectGetHeight(frame) - [text boundingRectWithSize:frame.size
+                                                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                                                             attributes:ovalFontAttributes context: nil].size.height) / 2);
+    [text drawInRect:textRect withAttributes: ovalFontAttributes];
+    //Get image
+    UIImage *ovalImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    return ovalImage;
 }
 
 @end

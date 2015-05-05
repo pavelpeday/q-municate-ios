@@ -49,4 +49,5 @@
  *  @warning You must not return `nil` from this method.
  */
 - (UIImage *)avatarPlaceholderImage;
+
 @end

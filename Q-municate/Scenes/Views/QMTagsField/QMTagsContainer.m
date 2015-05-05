@@ -38,12 +38,12 @@
 
 @end
 
-const CGFloat kQMTagsContainerDefaultVerticalInset = 7.0;
-const CGFloat kQMTagsContainerDefaultHorizontalInset = 15.0;
-const CGFloat kQMTagsContainerDefaultToLabelPadding = 5.0;
+const CGFloat kQMTagsContainerDefaultVerticalInset = 0.0;
+const CGFloat kQMTagsContainerDefaultHorizontalInset = 8.0;
+const CGFloat kQMTagsContainerDefaultToLabelPadding = 2.0;
 const CGFloat kQMTagsContainerDefaultTagPadding = 2.0;
 const CGFloat kQMTagsContainerDefaultMinInputWidth = 80.0;
-const CGFloat kQMTagsContainerDefaultMaxHeight = 150.0;
+const CGFloat kQMTagsContainerDefaultMaxHeight = 100.0;
 
 @interface QMTagsContainer() <QMBackspaceTextFieldDelegate>
 
@@ -331,6 +331,18 @@ const CGFloat kQMTagsContainerDefaultMaxHeight = 150.0;
     
     [view addSubview:self.toLabel];
     *currentX += self.toLabel.hidden ? CGRectGetMinX(self.toLabel.frame) : CGRectGetMaxX(self.toLabel.frame) + kQMTagsContainerDefaultToLabelPadding;
+}
+
+- (NSString *)text {
+    
+    NSMutableArray *components = [NSMutableArray arrayWithCapacity:[self numberOftags]];
+    for (NSUInteger i = 0; i < [self numberOftags]; i++) {
+        
+        NSString *title = [self titleForTagAtIndex:i];
+        [components addObject:title];
+    }
+    
+    return [components componentsJoinedByString:@", "];
 }
 
 - (void)layouttagsWithCurrentX:(CGFloat *)currentX currentY:(CGFloat *)currentY {

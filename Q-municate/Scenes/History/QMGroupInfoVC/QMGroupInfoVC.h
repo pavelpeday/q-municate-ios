@@ -1,5 +1,5 @@
 //
-//  QMCreateGroupVC.h
+//  QMGroupInfoVC.h
 //  Q-municate
 //
 //  Created by Andrey Ivanov on 23.04.15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QMCreateGroupVC : UIViewController
+@interface QMGroupInfoVC: UIViewController
 
 @end

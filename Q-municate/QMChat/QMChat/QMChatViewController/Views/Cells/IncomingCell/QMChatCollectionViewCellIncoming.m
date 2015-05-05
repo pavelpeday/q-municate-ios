@@ -11,8 +11,8 @@
 @implementation QMChatCollectionViewCellIncoming
 
 - (void)awakeFromNib {
-    
     [super awakeFromNib];
+    
     self.messageBubbleTopLabel.textAlignment = NSTextAlignmentLeft;
     self.cellBottomLabel.textAlignment = NSTextAlignmentLeft;
 }

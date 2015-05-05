@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SDWebImageManager.h"
 
+@protocol QMImageViewDelegate ;
+
 typedef NS_ENUM(NSUInteger, QMImageViewType) {
     QMImageViewTypeNone,
     QMImageViewTypeCircle,
@@ -20,12 +22,23 @@ typedef NS_ENUM(NSUInteger, QMImageViewType) {
  Default QMUserImageViewType QMUserImageViewTypeNone
  */
 @property (assign, nonatomic) QMImageViewType imageViewType;
+@property (strong, nonatomic, readonly) NSString *url;
 
-- (void)sd_setImage:(UIImage *)image withKey:(NSString *)key;
+@property (weak, nonatomic) id <QMImageViewDelegate> delegate;
 
-- (void)setImageWithURL:(NSURL *)url
+- (void)setImage:(UIImage *)image withKey:(NSString *)key;
+
+- (void)applyImage:(UIImage *)image;
+
+- (void)setImageWithURL:(NSString *)url
             placeholder:(UIImage *)placehoder
                 options:(SDWebImageOptions)options
                progress:(SDWebImageDownloaderProgressBlock)progress
          completedBlock:(SDWebImageCompletionBlock)completedBlock;
+@end
+
+@protocol QMImageViewDelegate <NSObject>
+
+- (void)imageViewDidTap:(QMImageView *)imageView;
+
 @end
