@@ -8,49 +8,43 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="xCU-m5-fgZ" customClass="QMProfileTitleView">
-            <rect key="frame" x="0.0" y="0.0" width="120" height="40"/>
+            <rect key="frame" x="0.0" y="0.0" width="142" height="40"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fRH-Ra-AFH" customClass="QMImageView">
+                <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fRH-Ra-AFH" customClass="QMImageView">
                     <rect key="frame" x="0.0" y="6" width="28" height="28"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="28" id="65q-t9-rBS"/>
-                        <constraint firstAttribute="height" constant="28" id="OxW-8T-d5R"/>
+                        <constraint firstAttribute="height" constant="28" id="Aol-Ky-Edh"/>
+                        <constraint firstAttribute="width" constant="28" id="jA3-rW-ew8"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tEX-eh-5It">
-                    <rect key="frame" x="30" y="9" width="58" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tEX-eh-5It">
+                    <rect key="frame" x="32" y="11" width="102" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="21" id="eIA-jb-Z80"/>
-                        <constraint firstAttribute="width" constant="58" id="fgI-6O-HDf"/>
+                        <constraint firstAttribute="width" constant="102" id="qyA-a4-dx0"/>
+                        <constraint firstAttribute="height" constant="21" id="uxe-EU-Eec"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="I13-XK-pIG">
-                    <rect key="frame" x="93" y="10" width="20" height="20"/>
-                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="tEX-eh-5It" firstAttribute="leading" secondItem="I13-XK-pIG" secondAttribute="leading" constant="-63" id="Lhj-Py-ItJ"/>
-                <constraint firstAttribute="centerX" secondItem="fRH-Ra-AFH" secondAttribute="centerX" constant="46" id="Wvf-CL-JR3"/>
-                <constraint firstAttribute="trailing" secondItem="I13-XK-pIG" secondAttribute="trailing" constant="7" id="XwC-hp-pV6"/>
-                <constraint firstItem="tEX-eh-5It" firstAttribute="centerY" secondItem="I13-XK-pIG" secondAttribute="centerY" constant="-0.5" id="ZT3-hd-r7J"/>
-                <constraint firstItem="tEX-eh-5It" firstAttribute="centerY" secondItem="fRH-Ra-AFH" secondAttribute="centerY" constant="-0.5" id="ive-dX-mPu"/>
-                <constraint firstAttribute="centerY" secondItem="fRH-Ra-AFH" secondAttribute="centerY" id="nbu-G8-oxK"/>
-                <constraint firstItem="tEX-eh-5It" firstAttribute="leading" secondItem="fRH-Ra-AFH" secondAttribute="leading" constant="30" id="qyz-Jj-sWN"/>
+                <constraint firstItem="fRH-Ra-AFH" firstAttribute="leading" secondItem="xCU-m5-fgZ" secondAttribute="leading" id="5yK-ZW-iY1"/>
+                <constraint firstAttribute="centerY" secondItem="fRH-Ra-AFH" secondAttribute="centerY" id="Arw-Af-OFh"/>
+                <constraint firstItem="fRH-Ra-AFH" firstAttribute="centerY" secondItem="tEX-eh-5It" secondAttribute="centerY" constant="-1.5" id="IB7-fv-UTJ"/>
+                <constraint firstItem="tEX-eh-5It" firstAttribute="leading" secondItem="fRH-Ra-AFH" secondAttribute="trailing" constant="4" id="RV7-9a-JnZ"/>
+                <constraint firstAttribute="centerX" secondItem="fRH-Ra-AFH" secondAttribute="centerX" constant="57" id="gcV-7q-Qwb"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="activityIndicator" destination="I13-XK-pIG" id="ebD-5c-LZ4"/>
                 <outlet property="label" destination="tEX-eh-5It" id="Lwr-63-MoY"/>
-                <outlet property="labelWidth" destination="fgI-6O-HDf" id="Qal-4E-PVP"/>
+                <outlet property="labelWidth" destination="qyA-a4-dx0" id="3II-Kd-0Km"/>
                 <outlet property="qmImageVIew" destination="fRH-Ra-AFH" id="52e-rr-7cA"/>
             </connections>
-            <point key="canvasLocation" x="456" y="182"/>
+            <point key="canvasLocation" x="467" y="179.5"/>
         </view>
     </objects>
 </document>

@@ -51,9 +51,7 @@
             thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
         }
     }
-    
     // this is actually the interesting part:
-    
     UIGraphicsBeginImageContextWithOptions(targetSize, NO, 0.0);
     
     CGRect thumbnailRect = CGRectZero;
@@ -89,11 +87,8 @@
     
     UIImage *circularImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    //Convert to png
-    NSData *imageData = UIImagePNGRepresentation(circularImage);
-    UIImage *pngImage = [UIImage imageWithData:imageData];
     
-    return pngImage;
+    return circularImage;
 }
 
 @end

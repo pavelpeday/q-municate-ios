@@ -82,7 +82,7 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 #pragma mark - QMChatServiceDelegate
 
 - (void)chatService:(QMChatService *)chatService didAddChatDialogs:(NSArray *)chatDialogs {
-    //
+
     [[QMChatCache instance] insertOrUpdateDialogs:chatDialogs completion:nil];
 }
 
@@ -93,7 +93,7 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 
 - (void)chatServiceDidReceiveNotificationMessage:(QBChatMessage *)message createDialog:(QBChatDialog *)dialog {
     
-    NSAssert([message.cParamDialogID isEqualToString:dialog.ID], @"Muste be equal");
+    NSAssert([message.dialogID isEqualToString:dialog.ID], @"Muste be equal");
     [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
     [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
 }

@@ -12,6 +12,7 @@
 @class QMImageView;
 
 @interface QMGroupInfoHeaderView : UIView
+
 @property (strong, nonatomic) IBOutlet QMImageView *qm_imageView;
 @property (strong, nonatomic) IBOutlet UITextField *groupNameTextField;
 @property (strong, nonatomic) IBOutlet QMTagsContainer *tagsContainer;

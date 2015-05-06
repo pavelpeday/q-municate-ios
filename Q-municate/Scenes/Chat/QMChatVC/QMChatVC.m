@@ -10,6 +10,7 @@
 #import "QMBubbleImage.h"
 #import "QMChatBubbleImageFactory.h"
 #import "UIColor+QM.h"
+#import "QMServicesManager.h"
 
 @interface QMChatVC ()
 
@@ -23,10 +24,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //Cofigure sender
+    QBUUser *sender = QM.profile.userData;
+    self.senderId = sender.ID;
+    self.senderDisplayName = sender.fullName;
     
-    self.senderId = 1;
-    self.senderDisplayName = @"hello";
-    self.title = @"Chat";
+    QBUUser *opponent = [QM.contactListService usersWithoutMeWithIDs:self.chatDialog.occupantIDs].firstObject;
+    
+    self.title = opponent.fullName;
     // Do any additional setup after loading the view, typically from a nib.
     QMChatBubbleImageFactory *bubbleFactory = [[QMChatBubbleImageFactory alloc] init];
     
@@ -35,24 +40,15 @@
     self.showLoadEarlierMessagesHeader = YES;
     
     self.array = [NSMutableArray array];
-    
-//    for (int i = 0; i < 10; i++) {
-//        
-//        QBChatMessage *msg = [QBChatMessage message];
-//        msg.ID = [NSString stringWithFormat:@"%tu", i];
-//        msg.senderID = i+1;
-//        msg.senderNick = [NSString stringWithFormat:@"user %tu", i];
-//        msg.datetime = [NSDate date];
-//        msg.text = @"Q-municate ☺️ text cell http://hello.com fsdfjaj adklsfjsdfjadsfjasdfjasdklfjlkds    fajlkf asfjk kj dfas f daj;fdajfdaj kdfjf jklljk fjl afdsjl";
-//        [self.array addObject:msg];
-//    }
+    //Get messages
+    [QM.chatService messageWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {
+        
+        [self.array addObjectsFromArray:messages];
+        [self.collectionView reloadData];
+        
+    }];
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -141,8 +137,7 @@
 }
 
 - (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
-{
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     /**
      *  iOS7-style sender name labels
      */

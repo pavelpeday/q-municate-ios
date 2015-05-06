@@ -10,6 +10,6 @@
 
 @interface QMChatVC : QMChatViewController
 
-
+@property (strong, nonatomic) QBChatDialog *chatDialog;
 
 @end

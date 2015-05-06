@@ -42,7 +42,7 @@ const NSUInteger kQMMaxTagsCount = 5;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
+    
     if ([segue.identifier isEqualToString: @"QMContactListVC"]) {
         //Get embed contact list view controller
         QMContactListVC * childViewController = (id)[segue destinationViewController];
@@ -98,7 +98,7 @@ const NSUInteger kQMMaxTagsCount = 5;
 
 /** To specify what the title for the tag at a particular index should be. */
 - (NSString *)tagsContainer:(QMTagsContainer *)container titleForTagAtIndex:(NSUInteger)index {
-
+    
     QBUUser *user = self.contactListVC.contactListDatasource.selectedObjects[index];
     return user.fullName;
 }
@@ -111,7 +111,7 @@ const NSUInteger kQMMaxTagsCount = 5;
 
 /** To specify what you want the tags container to say in the collapsed state. */
 - (NSString *)tagsContainerCollapsedText:(QMTagsContainer *)container {
-
+    
     return [NSString stringWithFormat:@"Selected %tu", self.contactListVC.contactListDatasource.selectedObjects.count];
 }
 
@@ -136,6 +136,32 @@ const NSUInteger kQMMaxTagsCount = 5;
 
 - (IBAction)pressRightNavItem:(id)sender {
     
+    void (^createGroupBlock)(id, id, id) = ^(NSString *groupName, NSString *photo, NSArray *occupants) {
+        
+        [SVProgressHUD show];
+        [QM.chatService createGroupChatDialogWithName:groupName
+                                                photo:photo
+                                            occupants:occupants
+                                           completion:^(QBResponse *response, QBChatDialog *createdDialog)
+         {
+             if (response.success) {
+                 //Make notificaiton message
+                 QBChatMessage *message = [QBChatMessage message];
+                 message.text = @"Notification message";
+                 //Send notification message
+                 [QM.chatService sendMessage:message
+                                    toDialog:createdDialog
+                                        type:QMMessageTypeNotificationAboutSendContactRequest
+                                        save:YES
+                                  completion:^(NSError *error)
+                  {
+                      NSLog(@"Send contact request");
+                  }];
+             }
+             
+             [SVProgressHUD dismiss];
+         }];
+    };
     //Get occupants
     NSArray *occupants = self.contactListVC.contactListDatasource.selectedObjects;
     
@@ -151,27 +177,31 @@ const NSUInteger kQMMaxTagsCount = 5;
         NSAssert(groupName.length > 0, @"Need update this case");
     }
     
-    [SVProgressHUD show];
-    [QM.chatService createGroupChatDialogWithName:groupName occupants:occupants
-                                       completion:^(QBResponse *response, QBChatDialog *createdDialog)
-    {
-        if (response.success) {
-            //Make notificaiton message
-            QBChatMessage *message = [QBChatMessage message];
-            message.text = @"Notification message";
-            //Send notification message
-            [QM.chatService sendMessage:message
-                               toDialog:createdDialog
-                                   type:QMMessageTypeNotificationAboutSendContactRequest
-                                   save:YES
-                             completion:^(NSError *error)
-             {
-                 NSLog(@"Send contact request");
-             }];
-        }
+    if (self.selectedImage) {
         
-        [SVProgressHUD dismiss];
-    }];
+        NSData *data = UIImageJPEGRepresentation(self.selectedImage, 0.6);
+        [SVProgressHUD showProgress:0 maskType:SVProgressHUDMaskTypeClear];
+        
+        [QBRequest TUploadFile:data
+                      fileName:@"photo"
+                   contentType:@"image/jpeg"
+                      isPublic:YES
+                  successBlock:^(QBResponse *response, QBCBlob *blob)
+         {
+             createGroupBlock(groupName, blob.publicUrl, occupants);
+             
+         } statusBlock:^(QBRequest *request, QBRequestStatus *status) {
+             
+             [SVProgressHUD showProgress:status.percentOfCompletion maskType:SVProgressHUDMaskTypeClear];
+             
+         } errorBlock:^(QBResponse *response) {
+             
+         }];
+    }
+    else {
+        
+        createGroupBlock(groupName, nil, occupants);
+    }
 }
 
 @end

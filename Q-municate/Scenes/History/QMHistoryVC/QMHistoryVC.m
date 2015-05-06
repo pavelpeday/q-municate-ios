@@ -18,6 +18,7 @@
 
 #import "QMSearchController.h"
 #import "QMTasks.h"
+#import "QMChatVC.h"
 
 const NSTimeInterval kQMKeyboardTapTimeInterval = 1.f;
 
@@ -229,12 +230,24 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     }
 }
 
+#pragma mark - Prepare for Segue
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString: @"ChatViewController"]) {
+        
+        QMChatVC *chatVC = segue.destinationViewController;
+        chatVC.chatDialog = sender;
+    }
+}
+
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    QBChatDialog *chatDialog = self.historyDataSource.collection[indexPath.row];
     
     [UIView animateWithDuration:0.2 animations:^{
         
@@ -242,7 +255,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
         
     } completion:^(BOOL finished) {
         
-        [self performSegueWithIdentifier:@"ChatViewController" sender:self];
+        [self performSegueWithIdentifier:@"ChatViewController" sender:chatDialog];
         
     }];
 }

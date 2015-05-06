@@ -36,6 +36,7 @@
     else {
         
         [cell setTitle:dialog.name];
+        [cell setImageWithUrl:dialog.photo];
     }
     
     NSString *time = [self.dateFormatter stringFromDate:dialog.lastMessageDate];

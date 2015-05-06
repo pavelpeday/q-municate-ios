@@ -22,6 +22,7 @@
 @property (assign, nonatomic) BOOL selectable;
 @property (weak, nonatomic) id <QMContactListDataSourceHandler> handler;
 
+- (QBUUser *)userAtIndexPath:(NSIndexPath *)indexPath;
 - (void)selectObjectAtIndexPath:(NSIndexPath *)indexPath;
 - (void)deselectObjectAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)isSelectedObjectAtIndedx:(NSIndexPath *)indexPath;

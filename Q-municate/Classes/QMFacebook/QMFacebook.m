@@ -20,9 +20,7 @@ NSString *const kFBGraphGetPictureFormat = @"https://graph.facebook.com/%@/pictu
     
     FBRequest *friendsRequest = [FBRequest requestForGraphPath:@"me/friends"];
     
-    [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection,
-                                                 FBGraphObject *result,
-                                                 NSError *error) {
+    [friendsRequest startWithCompletionHandler:^(FBRequestConnection *connection, FBGraphObject *result, NSError *error) {
         NSArray *friends = result[kQMFacebookGraphObjectDataKey];
         completion(friends);
     }];

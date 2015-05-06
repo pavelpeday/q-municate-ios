@@ -102,6 +102,9 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="YES"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="selectable" value="NO"/>
                     </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="erY-An-T9i" kind="custom" identifier="ChatViewController" customClass="QMLinkSegue" id="FWh-9S-ibK"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8BI-QB-LFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -126,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZPx-CM-Tpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7820" y="-7622"/>
+            <point key="canvasLocation" x="-7820" y="-7434"/>
         </scene>
         <!--New Group-->
         <scene sceneID="1pp-fn-V5z">
@@ -186,7 +189,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kq3-KG-SFo">
                                 <rect key="frame" x="0.0" y="184" width="600" height="416"/>
                                 <connections>
-                                    <segue destination="99L-Ge-OQB" kind="embed" identifier="QMContactListVC" id="onR-Hi-Isa"/>
+                                    <segue destination="99L-Ge-OQB" kind="embed" id="gfz-HB-ryg"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -269,4 +272,7 @@
     <resources>
         <image name="\" width="20" height="20"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="FWh-9S-ibK"/>
+    </inferredMetricsTieBreakers>
 </document>

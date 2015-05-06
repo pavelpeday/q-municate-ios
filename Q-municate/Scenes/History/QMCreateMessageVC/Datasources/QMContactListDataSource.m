@@ -39,7 +39,7 @@
     return contacts.count;
 }
 
-- (QBUUser *)objectAtIndexPath:(NSIndexPath *)indexPath {
+- (QBUUser *)userAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *sectionIndexTitle = self.sectionIndexTitles[indexPath.section];
     return self.alphabetizedDictionary[sectionIndexTitle][indexPath.row];
@@ -61,7 +61,7 @@
         cell.check = [self isSelectedObjectAtIndedx:indexPath];
     }
 
-    QBUUser *user = [self objectAtIndexPath:indexPath];
+    QBUUser *user = [self userAtIndexPath:indexPath];
     
     [cell setTitle:user.fullName];
     [cell setSubTitle:[NSString stringWithFormat:@"last seen %@", @"1 hour ago"]];
@@ -99,7 +99,7 @@
 
 - (void)selectObjectAtIndexPath:(NSIndexPath *)indexPath {
     
-    QBUUser *user = [self objectAtIndexPath:indexPath];
+    QBUUser *user = [self userAtIndexPath:indexPath];
     NSAssert([self.selectedData indexOfObject:user] == NSNotFound, @"Contact selelected");
     NSAssert(self.selectable, @"This is not selectable datasource");
     
@@ -109,7 +109,7 @@
 
 - (void)deselectObjectAtIndexPath:(NSIndexPath *)indexPath {
     
-    QBUUser *user = [self objectAtIndexPath:indexPath];
+    QBUUser *user = [self userAtIndexPath:indexPath];
     NSAssert([self.selectedData indexOfObject:user] != NSNotFound, @"Contact not selected");
     NSAssert(self.selectable, @"This is not selectable datasource");
     
@@ -120,7 +120,7 @@
 
 - (BOOL)isSelectedObjectAtIndedx:(NSIndexPath *)indexPath {
     
-    QBUUser *user = [self objectAtIndexPath:indexPath];
+    QBUUser *user = [self userAtIndexPath:indexPath];
     return [self.selectedData containsObject:user];
 }
 

@@ -36,11 +36,13 @@
 }
 
 - (void)awakeFromNib {
+    
     [super awakeFromNib];
     [self configure];
 }
 
 - (void)dealloc {
+    
     [self sd_cancelCurrentImageLoad];
 }
 
@@ -80,7 +82,7 @@
         
         return;
     }
-
+    
     self.url = url;
     self.image = placehoder;
     
@@ -99,8 +101,8 @@
         
         id <SDWebImageOperation> operation =
         [self.webManager downloadImageWithURL:imgUrl options:options progress:progress
-                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL)
-         {
+                                    completed:
+         ^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
              if (!weakSelf) return;
              
              dispatch_main_sync_safe(^{
@@ -192,10 +194,13 @@
     if ([self.delegate respondsToSelector:@selector(imageViewDidTap:)]) {
         
         [UIView animateWithDuration:0.2 animations:^{
+            
             self.layer.opacity = 0.6;
+            
         } completion:^(BOOL finished) {
             
             self.layer.opacity = 1;
+            
             [self.delegate imageViewDidTap:self];
         }];
     }
