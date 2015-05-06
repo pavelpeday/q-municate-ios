@@ -8,7 +8,7 @@
 
 #import "QMGroupInfoHeaderView.h"
 #import "QMImageView.h"
-#import "QMUserPlaceholer.h"
+#import "QMPlaceholder.h"
 
 @interface QMGroupInfoHeaderView()
 

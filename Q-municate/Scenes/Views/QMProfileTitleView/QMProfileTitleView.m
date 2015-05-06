@@ -15,6 +15,7 @@ const CGFloat kQMMaxProfileTileViewWidth = 200;
 
 @property (weak, nonatomic) IBOutlet QMImageView *qmImageVIew;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelWidth;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 
 @end
@@ -59,15 +60,26 @@ const CGFloat kQMMaxProfileTileViewWidth = 200;
         CGRect textRect = [title boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes
                                               context:nil];
         
-        self.label.frame = textRect;
+        self.labelWidth.constant = textRect.size.width;
+        
+        [self setNeedsDisplay];
     }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGRect rect = self.frame;
+    rect.size.width = self.activityIndicator.frame.origin.x + self.activityIndicator.frame.size.width;
+    self.frame = rect;
 }
 
 
 - (void)setUserImageWithUrl:(NSString *)url {
  
     
-    [self.qmImageVIew setImageWithURL:url placeholder:nil options:SDWebImageLowPriority progress:nil completedBlock:nil];
+    [self.qmImageVIew setImageWithURL:url
+                          placeholder:nil options:SDWebImageLowPriority progress:nil completedBlock:nil];
 }
 
 

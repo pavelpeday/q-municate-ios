@@ -1,5 +1,5 @@
 //
-//  UIImage+Helper.h
+//  UIImage+QM.h
 //  QMChat
 //
 //  Created by Andrey Ivanov on 20.04.15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (Helper)
+@interface UIImage (QM)
 
 - (UIImage *)imageMaskedWithColor:(UIColor *)maskColor;
 

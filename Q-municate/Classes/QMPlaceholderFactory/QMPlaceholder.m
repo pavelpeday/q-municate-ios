@@ -1,12 +1,12 @@
 //
-//  QMUserPlaceholer.m
+//  QMPlaceholder.m
 //  Q-municate
 //
 //  Created by Andrey Ivanov on 29.04.15.
 //  Copyright (c) 2015 Quickblox. All rights reserved.
 //
 
-#import "QMUserPlaceholer.h"
+#import "QMPlaceholder.h"
 
 @interface QMUserPlaceholer()
 
@@ -80,12 +80,10 @@
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGContextRef context = UIGraphicsGetCurrentContext();
         //// Colors
-        
         UIColor *nextColor = QMUserPlaceholer.instance.nextColor;
         UIColor *topColor = nextColor;
         UIColor *botomColor = [self colorByDarkeningColor:nextColor WithValue:0.2];
         UIColor *labelColor = [UIColor colorWithRed:1 green:1 blue:1 alpha: 0.648];
-        
         // Gradient Declarations
         CGFloat gradientLocations[] = {0, 1};
         //Make gradient
@@ -128,7 +126,6 @@
                      withAttributes:textFontAttributes];
         }
         
-        //// Cleanup
         CGGradientRelease(gradient);
         CGColorSpaceRelease(colorSpace);
         
@@ -148,12 +145,14 @@
     CGFloat newComponents[4];
     
     if (isGreyscale) {
+        
         newComponents[0] = oldComponents[0] - value < 0.0f ? 0.0f : oldComponents[0] - value;
         newComponents[1] = oldComponents[0] - value < 0.0f ? 0.0f : oldComponents[0] - value;
         newComponents[2] = oldComponents[0] - value < 0.0f ? 0.0f : oldComponents[0] - value;
         newComponents[3] = oldComponents[1];
     }
     else {
+        
         newComponents[0] = oldComponents[0] - value < 0.0f ? 0.0f : oldComponents[0] - value;
         newComponents[1] = oldComponents[1] - value < 0.0f ? 0.0f : oldComponents[1] - value;
         newComponents[2] = oldComponents[2] - value < 0.0f ? 0.0f : oldComponents[2] - value;
@@ -178,19 +177,23 @@
     [color setFill];
     [ovalPath fill];
     
-    NSMutableParagraphStyle* ovalStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
-    ovalStyle.alignment = NSTextAlignmentCenter;
+    NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
     
-    NSDictionary* ovalFontAttributes =
-    @{NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:16],
-      NSForegroundColorAttributeName:[UIColor whiteColor],
-      NSParagraphStyleAttributeName:ovalStyle};
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:16];
+    UIColor *textColor = [UIColor whiteColor];
+    
+    NSDictionary *ovalFontAttributes = @{NSFontAttributeName:font ,
+                                         NSForegroundColorAttributeName:textColor,
+                                         NSParagraphStyleAttributeName:paragraphStyle};
+    
+    CGRect rect = [text boundingRectWithSize:frame.size
+                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                  attributes:ovalFontAttributes context:nil];
     
     CGRect textRect = CGRectOffset(frame,
                                    0,
-                                   (CGRectGetHeight(frame) - [text boundingRectWithSize:frame.size
-                                                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                                                             attributes:ovalFontAttributes context: nil].size.height) / 2);
+                                   (frame.size.height - rect.size.height) / 2);
     [text drawInRect:textRect withAttributes: ovalFontAttributes];
     //Get image
     UIImage *ovalImage = UIGraphicsGetImageFromCurrentImageContext();

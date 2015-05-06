@@ -12,7 +12,7 @@
 #import "SVProgressHUD.h"
 #import "QMImagePicker.h"
 #import "QMServicesManager.h"
-#import "QMUserPlaceholer.h"
+#import "QMPlaceholder.h"
 #import "QMImageView.h"
 
 @interface QMSignUpVC ()

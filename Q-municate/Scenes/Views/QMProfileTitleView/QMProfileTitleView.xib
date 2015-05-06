@@ -11,28 +11,46 @@
             <rect key="frame" x="0.0" y="0.0" width="120" height="40"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fRH-Ra-AFH" customClass="QMImageView">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fRH-Ra-AFH" customClass="QMImageView">
                     <rect key="frame" x="0.0" y="6" width="28" height="28"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="28" id="65q-t9-rBS"/>
+                        <constraint firstAttribute="height" constant="28" id="OxW-8T-d5R"/>
+                    </constraints>
                 </imageView>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="I13-XK-pIG">
-                    <rect key="frame" x="100" y="10" width="20" height="20"/>
-                </activityIndicatorView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tEX-eh-5It">
-                    <rect key="frame" x="36" y="9" width="58" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tEX-eh-5It">
+                    <rect key="frame" x="30" y="9" width="58" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="eIA-jb-Z80"/>
+                        <constraint firstAttribute="width" constant="58" id="fgI-6O-HDf"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="I13-XK-pIG">
+                    <rect key="frame" x="93" y="10" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="tEX-eh-5It" firstAttribute="leading" secondItem="I13-XK-pIG" secondAttribute="leading" constant="-63" id="Lhj-Py-ItJ"/>
+                <constraint firstAttribute="centerX" secondItem="fRH-Ra-AFH" secondAttribute="centerX" constant="46" id="Wvf-CL-JR3"/>
+                <constraint firstAttribute="trailing" secondItem="I13-XK-pIG" secondAttribute="trailing" constant="7" id="XwC-hp-pV6"/>
+                <constraint firstItem="tEX-eh-5It" firstAttribute="centerY" secondItem="I13-XK-pIG" secondAttribute="centerY" constant="-0.5" id="ZT3-hd-r7J"/>
+                <constraint firstItem="tEX-eh-5It" firstAttribute="centerY" secondItem="fRH-Ra-AFH" secondAttribute="centerY" constant="-0.5" id="ive-dX-mPu"/>
+                <constraint firstAttribute="centerY" secondItem="fRH-Ra-AFH" secondAttribute="centerY" id="nbu-G8-oxK"/>
+                <constraint firstItem="tEX-eh-5It" firstAttribute="leading" secondItem="fRH-Ra-AFH" secondAttribute="leading" constant="30" id="qyz-Jj-sWN"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="activityIndicator" destination="I13-XK-pIG" id="ebD-5c-LZ4"/>
                 <outlet property="label" destination="tEX-eh-5It" id="Lwr-63-MoY"/>
+                <outlet property="labelWidth" destination="fgI-6O-HDf" id="Qal-4E-PVP"/>
                 <outlet property="qmImageVIew" destination="fRH-Ra-AFH" id="52e-rr-7cA"/>
             </connections>
-            <point key="canvasLocation" x="636" y="217"/>
+            <point key="canvasLocation" x="456" y="182"/>
         </view>
     </objects>
 </document>

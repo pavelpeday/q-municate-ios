@@ -8,7 +8,7 @@
 
 #import "UIColor+QM.h"
 
-@implementation UIColor (Helper)
+@implementation UIColor (QM)
 
 #pragma mark - Message bubble colors
 

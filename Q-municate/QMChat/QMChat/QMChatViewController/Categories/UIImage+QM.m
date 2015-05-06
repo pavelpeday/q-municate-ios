@@ -1,5 +1,5 @@
 //
-//  UIImage+Helper.m
+//  UIImage+QM.m
 //  QMChat
 //
 //  Created by Andrey Ivanov on 20.04.15.
@@ -8,9 +8,10 @@
 
 #import "UIImage+QM.h"
 
-@implementation UIImage (Helper)
+@implementation UIImage (QM)
 
 - (UIImage *)imageMaskedWithColor:(UIColor *)maskColor {
+    
     NSParameterAssert(maskColor != nil);
     
     CGRect imageRect = CGRectMake(0.0f, 0.0f, self.size.width, self.size.height);

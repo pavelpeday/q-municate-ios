@@ -104,7 +104,7 @@
 		69DB5EF518E31D6400277226 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69DB5EF418E31D6400277226 /* MessageUI.framework */; };
 		86FD874D1982512000B6FA43 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86FD874C1982512000B6FA43 /* GLKit.framework */; };
 		FB1A45DF826843BBB501A643 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67976AC8FFE848A4B85EB2AF /* libPods.a */; };
-		FB2CFA131AF11C7900E7F3D2 /* QMUserPlaceholer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB2CFA121AF11C7900E7F3D2 /* QMUserPlaceholer.m */; };
+		FB2CFA131AF11C7900E7F3D2 /* QMPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = FB2CFA121AF11C7900E7F3D2 /* QMPlaceholder.m */; };
 		FB42CF7C1AF22DD700859A66 /* NSString+QM.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF331AF22DD700859A66 /* NSString+QM.m */; };
 		FB42CF7D1AF22DD700859A66 /* UIColor+QM.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF351AF22DD700859A66 /* UIColor+QM.m */; };
 		FB42CF7E1AF22DD700859A66 /* UIImage+QM.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF371AF22DD700859A66 /* UIImage+QM.m */; };
@@ -345,8 +345,8 @@
 		86FD874A1982510700B6FA43 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		86FD874C1982512000B6FA43 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E0ACA76B4B11E4DB839DD9F3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		FB2CFA111AF11C7900E7F3D2 /* QMUserPlaceholer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMUserPlaceholer.h; sourceTree = "<group>"; };
-		FB2CFA121AF11C7900E7F3D2 /* QMUserPlaceholer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMUserPlaceholer.m; sourceTree = "<group>"; };
+		FB2CFA111AF11C7900E7F3D2 /* QMPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMPlaceholder.h; sourceTree = "<group>"; };
+		FB2CFA121AF11C7900E7F3D2 /* QMPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMPlaceholder.m; sourceTree = "<group>"; };
 		FB42CF321AF22DD700859A66 /* NSString+QM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+QM.h"; sourceTree = "<group>"; };
 		FB42CF331AF22DD700859A66 /* NSString+QM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+QM.m"; sourceTree = "<group>"; };
 		FB42CF341AF22DD700859A66 /* UIColor+QM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+QM.h"; sourceTree = "<group>"; };
@@ -1296,8 +1296,8 @@
 		FB2CFA0F1AF11C6400E7F3D2 /* QMPlaceholderFactory */ = {
 			isa = PBXGroup;
 			children = (
-				FB2CFA111AF11C7900E7F3D2 /* QMUserPlaceholer.h */,
-				FB2CFA121AF11C7900E7F3D2 /* QMUserPlaceholer.m */,
+				FB2CFA111AF11C7900E7F3D2 /* QMPlaceholder.h */,
+				FB2CFA121AF11C7900E7F3D2 /* QMPlaceholder.m */,
 			);
 			path = QMPlaceholderFactory;
 			sourceTree = "<group>";
@@ -1790,7 +1790,7 @@
 				FB42CF951AF22DD700859A66 /* QMLoadEarlierHeaderView.m in Sources */,
 				556E19971A9F65940087BEB9 /* QMImageView.m in Sources */,
 				69D57E6618ACC11C00A9900A /* AppDelegate.m in Sources */,
-				FB2CFA131AF11C7900E7F3D2 /* QMUserPlaceholer.m in Sources */,
+				FB2CFA131AF11C7900E7F3D2 /* QMPlaceholder.m in Sources */,
 				5507EC341AE8F9B500ECD26E /* QMSearchCell.m in Sources */,
 				5507EC2C1AE8F9B500ECD26E /* QMContactCell.m in Sources */,
 				5507EC301AE8F9B500ECD26E /* QMAddContactCell.m in Sources */,

@@ -1,5 +1,5 @@
 //
-//  QMUserPlaceholer.h
+//  QMPlaceholder.h
 //  Q-municate
 //
 //  Created by Andrey Ivanov on 29.04.15.

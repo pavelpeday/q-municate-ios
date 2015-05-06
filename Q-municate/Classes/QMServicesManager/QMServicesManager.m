@@ -82,50 +82,33 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 #pragma mark - QMChatServiceDelegate
 
 - (void)chatService:(QMChatService *)chatService didAddChatDialogs:(NSArray *)chatDialogs {
-    
+    //
     [[QMChatCache instance] insertOrUpdateDialogs:chatDialogs completion:nil];
 }
 
-- (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message
-                                forDialog:(QBChatDialog *)dialog {
+- (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message forDialog:(QBChatDialog *)dialog {
     
-    [[QMChatCache instance] insertOrUpdateMessage:message
-                                     withDialogId:dialog.ID
-                                             read:YES
-                                       completion:nil];
+    [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
 }
 
-- (void)chatServiceDidReceiveNotificationMessage:(QBChatMessage *)message
-                                    createDialog:(QBChatDialog *)dialog {
+- (void)chatServiceDidReceiveNotificationMessage:(QBChatMessage *)message createDialog:(QBChatDialog *)dialog {
     
-    [[QMChatCache instance] insertOrUpdateMessage:message
-                                     withDialogId:dialog.ID
-                                             read:YES
-                                       completion:nil];
-    
-    [[QMChatCache instance] insertOrUpdateDialog:dialog
-                                      completion:nil];
+    NSAssert([message.cParamDialogID isEqualToString:dialog.ID], @"Muste be equal");
+    [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
+    [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
 }
 
-- (void)chatServiceDidReceiveNotificationMessage:(QBChatMessage *)message
-                                    updateDialog:(QBChatDialog *)dialog {
+- (void)chatServiceDidReceiveNotificationMessage:(QBChatMessage *)message updateDialog:(QBChatDialog *)dialog {
     
-    [[QMChatCache instance] insertOrUpdateMessage:message
-                                     withDialogId:dialog.ID
-                                             read:YES
-                                       completion:nil];
-    
-    [[QMChatCache instance] insertOrUpdateDialog:dialog
-                                      completion:nil];
+    [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
+    [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
 }
 
 #pragma mark - QMChatServiceCacheDelegate
 
 - (void)cachedDialogs:(QMCacheCollection)block {
     
-    [[QMChatCache instance] dialogsSortedBy:@"lastMessageDate"
-                                  ascending:NO
-                                 completion:block];
+    [[QMChatCache instance] dialogsSortedBy:@"lastMessageDate" ascending:NO completion:block];
 }
 
 - (void)cachedMessagesWithDialogID:(NSString *)dialogID block:(QMCacheCollection)block {
@@ -136,9 +119,7 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 
 - (void)cachedUsers:(QMCacheCollection)block {
     
-    [[QMContactListCache instance] usersSortedBy:nil
-                                       ascending:NO
-                                      completion:block];
+    [[QMContactListCache instance] usersSortedBy:nil ascending:NO completion:block];
 }
 
 - (void)cachedContactListItems:(QMCacheCollection)block {
@@ -151,31 +132,24 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 - (void)contactListService:(QMContactListService *)contactListService
       contactListDidChange:(QBContactList *)contactList {
     
-    [[QMContactListCache instance] insertOrUpdateContactListItemsWithContactList:contactList
-                                                                      completion:nil];
+    [[QMContactListCache instance] insertOrUpdateContactListItemsWithContactList:contactList completion:nil];
 }
 
-- (void)contactListService:(QMContactListService *)contactListService
-        addRequestFromUser:(QBUUser *)user {
+- (void)contactListService:(QMContactListService *)contactListService addRequestFromUser:(QBUUser *)user {
     
 }
 
-- (void)contactListService:(QMContactListService *)contactListService
-                didAddUser:(QBUUser *)user {
+- (void)contactListService:(QMContactListService *)contactListService didAddUser:(QBUUser *)user {
     
-    [[QMContactListCache instance] insertOrUpdateUser:user
-                                           completion:nil];
+    [[QMContactListCache instance] insertOrUpdateUser:user completion:nil];
 }
 
-- (void)contactListService:(QMContactListService *)contactListService
-               didAddUsers:(NSArray *)users {
+- (void)contactListService:(QMContactListService *)contactListService didAddUsers:(NSArray *)users {
     
-    [[QMContactListCache instance] insertOrUpdateUsers:users
-                                            completion:nil];
+    [[QMContactListCache instance] insertOrUpdateUsers:users completion:nil];
 }
 
-- (void)contactListService:(QMContactListService *)contactListService
-             didUpdateUser:(QBUUser *)user {
+- (void)contactListService:(QMContactListService *)contactListService didUpdateUser:(QBUUser *)user {
     
 }
 

@@ -1,5 +1,5 @@
 //
-//  UIView+Helper.h
+//  UIView+QM.h
 //  QMChat
 //
 //  Created by Andrey Ivanov on 20.04.15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (Helper)
+@interface UIView (QM)
 
 /**
  *  Pins the subview of the receiver to the edge of its frame, as specified by the given attribute, by adding a layout constraint.

@@ -1,5 +1,5 @@
 //
-//  UIView+Helper.m
+//  UIView+QM.m
 //  QMChat
 //
 //  Created by Andrey Ivanov on 20.04.15.
@@ -8,7 +8,7 @@
 
 #import "UIView+QM.h"
 
-@implementation UIView (Helper)
+@implementation UIView (QM)
 
 - (void)pinSubview:(UIView *)subview toEdge:(NSLayoutAttribute)attribute {
     

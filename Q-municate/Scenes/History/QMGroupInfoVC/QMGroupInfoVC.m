@@ -151,7 +151,7 @@ const NSUInteger kQMMaxTagsCount = 5;
         NSAssert(groupName.length > 0, @"Need update this case");
     }
     
-    [SVProgressHUD showWithStatus:@""];
+    [SVProgressHUD show];
     [QM.chatService createGroupChatDialogWithName:groupName occupants:occupants
                                        completion:^(QBResponse *response, QBChatDialog *createdDialog)
     {

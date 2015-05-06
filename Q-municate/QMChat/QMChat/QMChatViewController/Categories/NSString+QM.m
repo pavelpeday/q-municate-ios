@@ -13,7 +13,9 @@
 - (NSString *)stringByTrimingWhitespace {
     
     NSString *squashed =
-    [self stringByReplacingOccurrencesOfString:@"[ ]+" withString:@" " options:NSRegularExpressionSearch range:NSMakeRange(0, self.length)];
+    [self stringByReplacingOccurrencesOfString:@"[ ]+"
+                                    withString:@" "
+                                       options:NSRegularExpressionSearch range:NSMakeRange(0, self.length)];
     
     return [squashed stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }

@@ -9,7 +9,7 @@
 #import "QMSearchCell.h"
 #import "QMImageView.h"
 #import "UIImage+Cropper.h"
-#import "QMUserPlaceholer.h"
+#import "QMPlaceholder.h"
 
 @interface QMSearchCell()
 
