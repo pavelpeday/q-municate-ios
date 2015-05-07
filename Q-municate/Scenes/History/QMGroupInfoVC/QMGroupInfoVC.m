@@ -15,6 +15,7 @@
 #import "QMImageView.h"
 #import "QMServicesManager.h"
 #import "SVProgressHUD.h"
+#import "QMChatVC.h"
 
 const NSUInteger kQMMaxTagsCount = 5;
 
@@ -39,16 +40,6 @@ const NSUInteger kQMMaxTagsCount = 5;
     self.tagsContainer.delegate = self;
     self.tagsContainer.dataSource = self;
     self.headerView.qm_imageView.delegate = self;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([segue.identifier isEqualToString: @"QMContactListVC"]) {
-        //Get embed contact list view controller
-        QMContactListVC * childViewController = (id)[segue destinationViewController];
-        self.contactListVC = childViewController;
-        self.contactListVC.contactListDatasource.handler = self;
-    }
 }
 
 #pragma mark QMContactListDataSourceHandler
@@ -150,6 +141,7 @@ const NSUInteger kQMMaxTagsCount = 5;
                  message.text = @"Notification message";
                  //Send notification message
                  [self performSegueWithIdentifier:@"ChatViewController" sender:createdDialog];
+                 
                  [QM.chatService sendMessage:message
                                     toDialog:createdDialog
                                         type:QMMessageTypeNotificationAboutSendContactRequest
@@ -202,6 +194,21 @@ const NSUInteger kQMMaxTagsCount = 5;
     else {
         
         createGroupBlock(groupName, nil, occupants);
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString: @"ChatViewController"]) {
+        
+        QMChatVC *chatVC = segue.destinationViewController;
+        chatVC.chatDialog = sender;
+        
+    } else  if ([segue.identifier isEqualToString: @"QMContactListVC"]) {
+        //Get embed contact list view controller
+        QMContactListVC * childViewController = (id)[segue destinationViewController];
+        self.contactListVC = childViewController;
+        self.contactListVC.contactListDatasource.handler = self;
     }
 }
 

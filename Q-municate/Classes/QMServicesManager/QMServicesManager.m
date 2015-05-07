@@ -81,6 +81,11 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 
 #pragma mark - QMChatServiceDelegate
 
+- (void)chatService:(QMChatService *)chatService didAddChatDialog:(QBChatDialog *)chatDialog {
+    
+    [[QMChatCache instance] insertOrUpdateDialog:chatDialog completion:nil];
+}
+
 - (void)chatService:(QMChatService *)chatService didAddChatDialogs:(NSArray *)chatDialogs {
 
     [[QMChatCache instance] insertOrUpdateDialogs:chatDialogs completion:nil];

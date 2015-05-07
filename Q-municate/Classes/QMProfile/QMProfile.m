@@ -15,6 +15,8 @@ NSString *const kQMUserAgreementAcceptedKey = @"userAgreementAccepted";
 NSString *const kQMPushNotificationsEnabled = @"pushNotificationsEnabled";
 NSString *const kQMUserProfileType = @"userProfileType";
 
+const NSUInteger kQMMinPasswordLenght = 6;
+
 @implementation QMProfile
 
 + (instancetype)profile {
@@ -55,7 +57,7 @@ NSString *const kQMUserProfileType = @"userProfileType";
     __block BOOL success = NO;
     
     NSAssert(self.userData, @"Need user data");
-    NSAssert(self.userData.password.length > 0, @"Need password");
+    NSAssert(self.userData.password.length > kQMMinPasswordLenght, @"Need password");
     
     [self keychainQuery:^(SSKeychainQuery *query) {
         
@@ -112,19 +114,15 @@ NSString *const kQMUserProfileType = @"userProfileType";
 
 #pragma mark - Server API
 
-- (void)changePassword:(NSString *)newPassword
-            completion:(void(^)(BOOL success))completion {
-    
-    __weak __typeof(self)weakSelf = self;
+- (void)changePassword:(NSString *)newPassword completion:(void(^)(BOOL success))completion {
     
     QBUUser *updateUser = self.userData;
     
     updateUser.oldPassword = updateUser.password;
     updateUser.password = newPassword;
     
-    [QBRequest updateUser:updateUser
-             successBlock:^(QBResponse *response,
-                            QBUUser *userData)
+    __weak __typeof(self)weakSelf = self;
+    [QBRequest updateUser:updateUser successBlock:^(QBResponse *response, QBUUser *userData)
      {
          userData.password = updateUser.password;
          weakSelf.userData = userData;
@@ -148,10 +146,7 @@ NSString *const kQMUserProfileType = @"userProfileType";
     self.userData.password = nil;
     
     __weak __typeof(self)weakSelf = self;
-    [QBRequest updateUser:self.userData
-             successBlock:^(QBResponse *response,
-                            QBUUser *updatedUser)
-     {
+    [QBRequest updateUser:self.userData successBlock:^(QBResponse *response, QBUUser *updatedUser) {
          
          updatedUser.password = password;
          weakSelf.userData = updatedUser;
@@ -199,7 +194,9 @@ NSString *const kQMUserProfileType = @"userProfileType";
         
         NSData *uploadFile = UIImageJPEGRepresentation(userImage, 0.4);
         
-        [QBRequest TUploadFile:uploadFile fileName:@"userImage" contentType:@"image/jpeg" isPublic:YES successBlock:^(QBResponse *response, QBCBlob *blob) {
+        [QBRequest TUploadFile:uploadFile fileName:@"userImage" contentType:@"image/jpeg" isPublic:YES
+                  successBlock:^(QBResponse *response, QBCBlob *blob)
+         {
              updateUserProfile(blob.publicUrl);
              
          } statusBlock:^(QBRequest *request, QBRequestStatus *status) {

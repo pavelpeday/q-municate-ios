@@ -404,6 +404,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     BOOL isMediaMessage = [messageItem isMediaMessage];
     
     NSString *cellIdentifier = nil;
+    
     if (isMediaMessage) {
         
         cellIdentifier = isOutgoingMessage ? self.outgoingMediaCellIdentifier : self.incomingMediaCellIdentifier;
@@ -416,10 +417,9 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     QMChatCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.delegate = collectionView;
     
-    if (!isMediaMessage) {
+    if ([messageItem messageType] == QMMessageTypeDefault) {
         
-        //        cell.textView.text = [messageItem text];
-        cell.textView.text = nil;
+        cell.textView.text = [messageItem text];
         
         NSAttributedString *attributedString =
         [[NSAttributedString alloc] initWithString:[messageItem text]
@@ -435,7 +435,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
             cell.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
         }
     }
-    else {
+    else if (isMediaMessage){
         
         id<QMChatMediaData> messageMedia = [messageItem media];
         cell.mediaView = [messageMedia mediaView] ?: [messageMedia mediaPlaceholderView];

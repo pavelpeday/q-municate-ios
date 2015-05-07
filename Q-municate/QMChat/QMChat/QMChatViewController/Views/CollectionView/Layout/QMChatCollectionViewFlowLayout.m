@@ -434,7 +434,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
     {
         finalSize = [[messageItem media] mediaViewDisplaySize];
     }
-    else {
+    else if ([messageItem messageType] == QMMessageTypeDefault) {
         
         CGSize avatarSize = [self avatarSizeForIndexPath:indexPath];
         
@@ -448,7 +448,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
         
         QMLabelLayoutData *data = nil;
         
-        if (indexPath.item < self.textCache.count) {
+        if ((NSUInteger)indexPath.item  < self.textCache.count) {
             data = self.textCache[indexPath.item];
         }
         
@@ -477,6 +477,10 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
         CGFloat finalWidth = MAX(stringSize.width + horizontalInsetsTotal, self.bubbleImageAssetWidth) + 2.0f;
         
         finalSize = CGSizeMake(finalWidth, stringSize.height + verticalInsets);
+    }
+    else if ([messageItem messageType] > QMMessageTypeDefault) {
+        
+        finalSize = CGSizeMake(300, 40);
     }
     
     [self.messageBubbleCache setObject:[NSValue valueWithCGSize:finalSize] forKey:@([messageItem ID])];
