@@ -60,12 +60,14 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     self.historyDataSource = [[QMHistoryDataSource alloc] init];
     self.historyDataSource.handler = self;
     self.tableView.dataSource = self.historyDataSource;
-    self.tableView.backgroundView = [[UIView alloc] init];
     self.globalSearchDatasource = [[QMGlobalSearchDataSource alloc] init];
     //Configure search controller
     self.searchController.searchResultsTableView.rowHeight = 75;
-    self.searchController.searchBar.tintColor = [UIColor colorWithRed:0.067 green:0.357 blue:0.643 alpha:1.000];
-    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+//    self.searchController.searchBar.tintColor = [UIColor colorWithRed:0.035 green:0.349 blue:0.651 alpha:1.000];
+//     self.searchController.searchBar.barTintColor = [UIColor colorWithWhite:0.969 alpha:1.000];
+    self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
+    self.searchController.searchBar.backgroundColor = [UIColor colorWithWhite:0.965 alpha:1.000];
+    
     //Subscirbe to notification
     [QM.contactListService addDelegate:self];
     [QM.chatService addDelegate:self];
@@ -304,10 +306,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 - (void)willPresentSearchController:(QMSearchController *)searchController {
     
     self.globalSearchDatasource.addContactHandler = self;
-    searchController.searchBar.searchBarStyle = UISearchBarStyleDefault;
-    searchController.searchBar.barTintColor = [UIColor colorWithWhite:0.969 alpha:1.000];
-    
-    searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
 }
 
 - (void)didPresentSearchController:(QMSearchController *)searchController {
@@ -319,9 +317,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 #pragma mark Dissmiss
 
 - (void)willDismissSearchController:(QMSearchController *)searchController {
-    
-    [self.searchController.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
-    self.searchController.searchBar.scopeButtonTitles = @[];
     
     self.globalSearchDatasource.addContactHandler = nil;
 }

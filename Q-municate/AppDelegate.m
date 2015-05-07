@@ -36,6 +36,8 @@ NSString *const kQMCrashlyticsAPIKey = @"7aea78439bec41a9005c7488bb6751c5e33fe27
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    [[UIBarButtonItem appearanceWhenContainedIn:[UISearchBar class], nil] setTintColor:[UIColor colorWithRed:0.035 green:0.349 blue:0.651 alpha:1.000]];
+    
     UIApplication.sharedApplication.statusBarStyle = UIStatusBarStyleDefault;
     UIApplication.sharedApplication.applicationIconBadgeNumber = 0;
     

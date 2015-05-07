@@ -31,15 +31,12 @@
         self.searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         self.searchController.searchBar.delegate = self;
         self.searchController.searchBar.placeholder = @"Search";
-        self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
-        NSAssert(!self.tableView.tableHeaderView, @"Need update this case");
         self.tableView.tableHeaderView = self.searchController.searchBar;
     }
     else {
         
         self.searchController = nil;
         self.tableView.tableHeaderView = nil;
-        self.tableView.contentOffset = CGPointMake(0, 0);
     }
 
     if (self.makeRefresh) {

@@ -86,6 +86,11 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
     [[QMChatCache instance] insertOrUpdateDialogs:chatDialogs completion:nil];
 }
 
+- (void)chatServiceDidAddMessagesToHistroy:(NSArray *)messages forDialogID:(NSString *)dialogID {
+    
+    [[QMChatCache instance] insertOrUpdateMessages:messages withDialogId:dialogID completion:nil];
+}
+
 - (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message forDialog:(QBChatDialog *)dialog {
     
     [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
@@ -113,6 +118,7 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 
 - (void)cachedMessagesWithDialogID:(NSString *)dialogID block:(QMCacheCollection)block {
     
+    [[QMChatCache instance] messagesWithDialogId:dialogID sortedBy:nil ascending:NO completion:block];
 }
 
 #pragma mark - QMContactListServiceCacheDelegate

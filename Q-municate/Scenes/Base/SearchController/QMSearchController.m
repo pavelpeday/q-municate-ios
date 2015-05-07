@@ -25,9 +25,12 @@
         
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8) {
             
-            UITableViewController *searchResultViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+            UITableViewController *searchResultViewController =
+            [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
             
-            UISearchController *searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultViewController];
+            UISearchController *searchController =
+            [[UISearchController alloc] initWithSearchResultsController:searchResultViewController];
+            
             searchController.delegate = self;
             searchController.searchResultsUpdater = self;
             searchController.dimsBackgroundDuringPresentation = NO;
@@ -53,6 +56,7 @@
 #pragma mark - Getters
 
 - (BOOL)isActive {
+    
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8) {
         
        return ((UISearchController *)self.searchController).isActive;

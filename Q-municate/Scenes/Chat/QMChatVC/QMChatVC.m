@@ -10,13 +10,13 @@
 #import "QMBubbleImage.h"
 #import "QMChatBubbleImageFactory.h"
 #import "QMPlaceholder.h"
-
+#import "REActionSheet.h"
 #import "QMServicesManager.h"
 
 #import "UIColor+QM.h"
 #import "UIImage+QM.h"
 
-@interface QMChatVC ()
+@interface QMChatVC () <QMChatServiceDelegate>
 
 @property (strong, nonatomic) NSMutableArray *array;
 @property (strong, nonatomic) QMBubbleImage *outgoingBubbleImageData;
@@ -47,9 +47,7 @@
     //Get messages
     [QM.chatService messageWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {
         
-        [self.array addObjectsFromArray:messages];
         [self.collectionView reloadData];
-        
     }];
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
@@ -58,11 +56,25 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:placeholder
                                                                               style:UIBarButtonItemStyleBordered
                                                                              target:self
-                                                                             action:@selector(paressGroupInfo:)];
+                                                                             action:@selector(pressGroupInfo:)];
     //Customize your toolbar buttons
     
     self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
     self.inputToolbar.contentView.rightBarButtonItem = [self sendButtonItem];
+    
+    [QM.chatService addDelegate:self];
+}
+
+#pragma mark - QMChatServiceDelegate
+
+- (void)chatServiceDidLoadMessagesFromCacheForDialogID:(NSString *)dilaogID {
+
+    if ([self.chatDialog.ID isEqualToString:dilaogID]) {
+        
+        NSArray *messages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dilaogID];
+        [self.array addObjectsFromArray:messages];
+        [self.collectionView reloadData];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -225,20 +237,11 @@
     return [[NSAttributedString alloc] initWithString:@"Hello" attributes:dateTextAttributes];
 }
 
-- (void)createNitificationForUser:(NSNotification *)notification {
-    
-}
-
-#pragma mark - Actions
-
-- (void)paressGroupInfo:(id)sender {
-}
-
 #pragma mark - Buttons factory
 
 - (UIButton *)accessoryButtonItem {
     
-    UIImage *accessoryImage = [UIImage imageNamed:@""];
+    UIImage *accessoryImage = [UIImage imageNamed:@"attachment_ic"];
     UIImage *normalImage = [accessoryImage imageMaskedWithColor:[UIColor lightGrayColor]];
     UIImage *highlightedImage = [accessoryImage imageMaskedWithColor:[UIColor darkGrayColor]];
     
@@ -281,6 +284,56 @@
                                   CGRectGetWidth(CGRectIntegral(sendTitleRect)),
                                   maxHeight);
     return sendButton;
+}
+
+#pragma mark - Actions
+#pragma mark - Tool bar
+
+- (void)didPressAccessoryButton:(UIButton *)sender {
+    
+    [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
+
+        [actionSheet addButtonWithTitle:@"Take Photo of Video" andActionBlock:^{
+            
+        }];
+        
+        [actionSheet addButtonWithTitle:@"Choose Photo" andActionBlock:^{
+            
+        }];
+        
+        [actionSheet addButtonWithTitle:@"Share Location" andActionBlock:^{
+            
+        }];
+        
+        [actionSheet addCancelButtonWihtTitle:@"Cancel" andActionBlock:^{
+            
+        }];
+    }];
+}
+
+- (void)didPressSendButton:(UIButton *)button
+           withMessageText:(NSString *)text
+                  senderId:(NSUInteger)senderId
+         senderDisplayName:(NSString *)senderDisplayName
+                      date:(NSDate *)date {
+    
+    QBChatMessage *message = [QBChatMessage message];
+    message.text = text;
+    message.senderID = senderId;
+    
+    [QM.chatService sendMessage:message
+                       toDialog:self.chatDialog
+                           type:QMMessageTypeDefault
+                           save:YES completion:^(NSError *error) {
+        
+    }];
+    
+}
+
+#pragma mark Nav bar
+
+- (void)pressGroupInfo:(id)sender {
+    
 }
 
 
