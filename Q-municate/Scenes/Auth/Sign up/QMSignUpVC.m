@@ -36,7 +36,7 @@
     [super viewDidLoad];
     
     self.qmImageView.imageViewType = QMImageViewTypeCircle;
-    self.qmImageView.image = [QMUserPlaceholer ovalWithFrame:self.qmImageView.bounds text:@"" color:[UIColor lightGrayColor]];
+    self.qmImageView.image = [QMPlaceholder ovalWithFrame:self.qmImageView.bounds text:@"" color:[UIColor lightGrayColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

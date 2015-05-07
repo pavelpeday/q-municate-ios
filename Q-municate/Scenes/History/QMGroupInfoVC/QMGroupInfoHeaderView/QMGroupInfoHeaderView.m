@@ -20,7 +20,7 @@
     [super awakeFromNib];
     
     UIColor *imageColor = [UIColor lightGrayColor];
-    UIImage *image = [QMUserPlaceholer ovalWithFrame:self.qm_imageView.bounds text:@"Add" color:imageColor];
+    UIImage *image = [QMPlaceholder ovalWithFrame:self.qm_imageView.bounds text:@"Add" color:imageColor];
     
     self.qm_imageView.imageViewType= QMImageViewTypeCircle;
     [self.qm_imageView setImage:image];

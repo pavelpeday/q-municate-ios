@@ -40,7 +40,7 @@
  *
  *  @warning You must not return `0` from this method. This value must be unique.
  */
-- (NSUInteger)senderId;
+- (NSUInteger)senderID;
 
 /**
  *  Asks the data source for the message data that corresponds to the specified item at indexPath in the collectionView.

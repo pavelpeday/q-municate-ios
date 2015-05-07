@@ -149,6 +149,7 @@ const NSUInteger kQMMaxTagsCount = 5;
                  QBChatMessage *message = [QBChatMessage message];
                  message.text = @"Notification message";
                  //Send notification message
+                 [self performSegueWithIdentifier:@"ChatViewController" sender:createdDialog];
                  [QM.chatService sendMessage:message
                                     toDialog:createdDialog
                                         type:QMMessageTypeNotificationAboutSendContactRequest
@@ -173,7 +174,7 @@ const NSUInteger kQMMaxTagsCount = 5;
     NSString *groupName = self.headerView.groupNameTextField.text;
     if (groupName.length == 0) {
         
-        groupName = self.tagsContainer.text;
+        groupName = @"unnamed";//self.tagsContainer.text;
         NSAssert(groupName.length > 0, @"Need update this case");
     }
     

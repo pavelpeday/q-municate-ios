@@ -64,6 +64,16 @@
 - (BOOL)isMediaMessage;
 
 /**
+ *  Message type (Custom parameter), see QMAbstractMessage+
+ *
+ *  @param NSUInteger <#NSUInteger description#>
+ *
+ *  @return <#return value description#>
+ */
+
+- (NSInteger)messageType;
+
+/**
  *  @return An integer that can be used as a table address in a hash table structure.
  *
  *  @discussion This value must be unique for each message with distinct contents.

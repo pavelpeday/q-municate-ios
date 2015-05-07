@@ -14,9 +14,9 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
 @interface QMProfileTitleView()
 
 @property (weak, nonatomic) IBOutlet QMImageView *qmImageVIew;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelWidth;
+@property (weak, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
 
 @end
 
@@ -31,9 +31,13 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
     self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
     
     if (self) {
-        
+        self.userInteractionEnabled = YES;
         self.qmImageVIew.imageViewType = QMImageViewTypeCircle;
         self.backgroundColor = [UIColor clearColor];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        [self addGestureRecognizer:tapGesture];
+        self.tapGestureRecognizer = tapGesture;
     }
     
     return self;
@@ -66,15 +70,6 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
     }
 }
 
-//    - (void)layoutSubviews {
-//        [super layoutSubviews];
-//        
-//        CGRect rect = self.frame;
-//        rect.size.width = self.activityIndicator.frame.origin.x + self.activityIndicator.frame.size.width;
-//        self.frame = rect;
-//}
-
-
 - (void)setUserImageWithUrl:(NSString *)url {
  
     
@@ -82,5 +77,11 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
                           placeholder:nil options:SDWebImageLowPriority progress:nil completedBlock:nil];
 }
 
+#pragma mark - Tap gesture
+
+- (void)handleTapGesture:(UITapGestureRecognizer *)tapGesture {
+    
+    [self.delegate profileTitleViewDidTap:self];
+}
 
 @end

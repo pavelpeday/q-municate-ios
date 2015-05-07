@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (QM)
+@interface NSString (qmunicate)
 
 - (NSString *)stringByTrimingWhitespace;
 

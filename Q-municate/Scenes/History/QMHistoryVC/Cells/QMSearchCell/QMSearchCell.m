@@ -59,7 +59,7 @@
         
         self.imageUrl = url;
         
-        UIImage *placeholder = [QMUserPlaceholer userPlaceholderWithFrame:self.qmImageView.bounds fullName:self.title];
+        UIImage *placeholder = [QMPlaceholder placeholderWithFrame:self.qmImageView.bounds fullName:self.title];
         
         [self.qmImageView setImageWithURL:url placeholder:placeholder options:SDWebImageLowPriority
                                  progress:nil completedBlock:nil];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIColor (QM)
+@interface UIColor (qmunicate)
 
 #pragma mark - Message bubble colors
 

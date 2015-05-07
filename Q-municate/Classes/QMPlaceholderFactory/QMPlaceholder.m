@@ -8,7 +8,7 @@
 
 #import "QMPlaceholder.h"
 
-@interface QMUserPlaceholer()
+@interface QMPlaceholder()
 
 @property (strong, nonatomic) NSCache *cahce;
 @property (assign, nonatomic) NSUInteger idx;
@@ -16,15 +16,15 @@
 
 @end
 
-@implementation QMUserPlaceholer
+@implementation QMPlaceholder
 
 + (instancetype)instance {
     
-    static QMUserPlaceholer *_userPlaceholder = nil;
+    static QMPlaceholder *_userPlaceholder = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        _userPlaceholder = [[QMUserPlaceholer alloc] init];
+        _userPlaceholder = [[QMPlaceholder alloc] init];
     });
     
     return _userPlaceholder;
@@ -63,11 +63,11 @@
     return color;
 }
 
-+ (UIImage *)userPlaceholderWithFrame:(CGRect)frame fullName:(NSString *)fullName{
++ (UIImage *)placeholderWithFrame:(CGRect)frame fullName:(NSString *)fullName{
     
     NSString *key = [NSString stringWithFormat:@"%@ %@", fullName, NSStringFromCGSize(frame.size)];
     
-    UIImage *image = [QMUserPlaceholer.instance.cahce objectForKey:key];
+    UIImage *image = [QMPlaceholder.instance.cahce objectForKey:key];
     
     if (image) {
         
@@ -80,7 +80,7 @@
         CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
         CGContextRef context = UIGraphicsGetCurrentContext();
         //// Colors
-        UIColor *nextColor = QMUserPlaceholer.instance.nextColor;
+        UIColor *nextColor = QMPlaceholder.instance.nextColor;
         UIColor *topColor = nextColor;
         UIColor *botomColor = [self colorByDarkeningColor:nextColor WithValue:0.2];
         UIColor *labelColor = [UIColor colorWithRed:1 green:1 blue:1 alpha: 0.648];
@@ -129,10 +129,12 @@
         CGGradientRelease(gradient);
         CGColorSpaceRelease(colorSpace);
         
-        UIImage *upserPlaceholderImage = UIGraphicsGetImageFromCurrentImageContext();
-        [QMUserPlaceholer.instance.cahce setObject:upserPlaceholderImage forKey:key];
+        UIImage *placeholderImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIImage *toSave = [placeholderImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+        [QMPlaceholder.instance.cahce setObject:toSave forKey:key];
         
-        return upserPlaceholderImage;
+        return toSave;
     }
 }
 

@@ -26,7 +26,7 @@
         <!--Link View Controller-->
         <scene sceneID="RZ7-kQ-ZaL">
             <objects>
-                <viewController storyboardIdentifier="ChatViewController" id="gMg-rq-fEY" customClass="QMLinkViewController" sceneMemberID="viewController">
+                <viewController id="gMg-rq-fEY" customClass="QMLinkViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="i5f-7y-HG7"/>
                         <viewControllerLayoutGuide type="bottom" id="OZu-g8-liM"/>
@@ -42,7 +42,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FWG-zz-82s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7820" y="-9094"/>
+            <point key="canvasLocation" x="-8536" y="-9119"/>
         </scene>
         <!--Main Screen-->
         <scene sceneID="H0g-qk-9oU">
@@ -70,6 +70,7 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="erY-An-T9i" kind="custom" identifier="ChatViewController" customClass="QMLinkSegue" id="yCF-ZW-EZ9"/>
+                        <segue destination="gMg-rq-fEY" kind="custom" identifier="SettingsViewController" customClass="QMLinkSegue" id="sPB-6q-Jwp"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lND-1Z-Lte" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -129,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZPx-CM-Tpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7820" y="-7434"/>
+            <point key="canvasLocation" x="-7820" y="-7510"/>
         </scene>
         <!--New Group-->
         <scene sceneID="1pp-fn-V5z">
@@ -146,7 +147,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wcI-p5-Qjz" customClass="QMGroupInfoHeaderView">
                                 <rect key="frame" x="0.0" y="64" width="600" height="120"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlightedImage="\" translatesAutoresizingMaskIntoConstraints="NO" id="uqT-Sh-O64" customClass="QMImageView">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uqT-Sh-O64" customClass="QMImageView">
                                         <rect key="frame" x="8" y="8" width="60" height="60"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -189,7 +190,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kq3-KG-SFo">
                                 <rect key="frame" x="0.0" y="184" width="600" height="416"/>
                                 <connections>
-                                    <segue destination="99L-Ge-OQB" kind="embed" id="gfz-HB-ryg"/>
+                                    <segue destination="99L-Ge-OQB" kind="embed" id="OH5-gG-Z78"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -218,11 +219,12 @@
                         <outlet property="headerHeight" destination="Sbg-eo-Ohe" id="V0J-jE-Uvo"/>
                         <outlet property="headerView" destination="wcI-p5-Qjz" id="f5I-Zm-7vv"/>
                         <outlet property="tagsContainer" destination="67U-F5-XCN" id="nGI-0O-rVm"/>
+                        <segue destination="erY-An-T9i" kind="custom" identifier="ChatViewController" customClass="QMLinkSegue" id="ZDH-xj-Ppg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QA4-xA-2qv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7090" y="-8364"/>
+            <point key="canvasLocation" x="-7110" y="-8364"/>
         </scene>
         <!--New Group-->
         <scene sceneID="Y4C-1G-fPH">
@@ -248,31 +250,10 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zjv-yj-Q3f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6379" y="-8272"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="svh-h1-xZ0">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="yHA-up-dNF" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="TTo-Ma-L0w"/>
-                        <viewControllerLayoutGuide type="bottom" id="OVm-Dk-M1h"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9oK-qO-JzG">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="318-xY-lbD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
+            <point key="canvasLocation" x="-6328" y="-8272"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="\" width="20" height="20"/>
-    </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FWh-9S-ibK"/>
+        <segue reference="ZDH-xj-Ppg"/>
     </inferredMetricsTieBreakers>
 </document>

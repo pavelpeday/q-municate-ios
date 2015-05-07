@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QMToolbarContentView.h"
 
 @class QMInputToolbar;
 @class QMToolbarContentView;

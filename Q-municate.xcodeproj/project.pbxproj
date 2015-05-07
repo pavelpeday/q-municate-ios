@@ -70,7 +70,6 @@
 		556E1A001A9F65A50087BEB9 /* REAlertView+QMSuccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E19E71A9F65A50087BEB9 /* REAlertView+QMSuccess.m */; };
 		556E1A011A9F65A50087BEB9 /* REAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E19E91A9F65A50087BEB9 /* REAlertView.m */; };
 		556E1A021A9F65A50087BEB9 /* REMessageUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E19EC1A9F65A50087BEB9 /* REMessageUI.m */; };
-		556E1A051A9F65B20087BEB9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 556E1A041A9F65B20087BEB9 /* Images.xcassets */; };
 		557EF0D41AB31049002E3C09 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557EF0D31AB31048002E3C09 /* Quickblox.framework */; };
 		5588C8211AA0C85A0021C8D4 /* QMCornerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5588C8201AA0C85A0021C8D4 /* QMCornerButton.m */; };
 		559379011ACC0E81003E0015 /* QMSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 559378FD1ACC0E81003E0015 /* QMSearchController.m */; };
@@ -89,9 +88,7 @@
 		69CF189B18AE1C63003262EF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CF189A18AE1C63003262EF /* CoreLocation.framework */; };
 		69CF189D18AE1C6A003262EF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CF189C18AE1C6A003262EF /* CoreData.framework */; };
 		69CF189F18AE1C76003262EF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CF189E18AE1C76003262EF /* AudioToolbox.framework */; };
-		69CF18A118AE1C7E003262EF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CF18A018AE1C7E003262EF /* CoreMedia.framework */; };
 		69CF18A318AE1C85003262EF /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CF18A218AE1C85003262EF /* Accelerate.framework */; };
-		69CF18A518AE1C8D003262EF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CF18A418AE1C8D003262EF /* CoreVideo.framework */; };
 		69CF18A718AE1C98003262EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CF18A618AE1C98003262EF /* AVFoundation.framework */; };
 		69CF18A918AE1C9F003262EF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69CF18A818AE1C9F003262EF /* Security.framework */; };
 		69D15CC118AE1714001E0480 /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 69D15CC018AE1714001E0480 /* libresolv.dylib */; };
@@ -147,6 +144,7 @@
 		FB6BC7701AF2708900B2A5FD /* QMSearchStatusCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB6BC7721AF2708900B2A5FD /* QMSearchStatusCell.xib */; };
 		FB6BC7731AF2709D00B2A5FD /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB6BC7751AF2709D00B2A5FD /* Auth.storyboard */; };
 		FB6BC7761AF2713A00B2A5FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB6BC7781AF2713A00B2A5FD /* Main.storyboard */; };
+		FB7938551AFB5E6500B2A6FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB7938541AFB5E6500B2A6FF /* Images.xcassets */; };
 		FBDEEF821AF8B8E9009F51E3 /* QMGroupInfoHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDEEF7F1AF8B8E9009F51E3 /* QMGroupInfoHeaderView.m */; };
 		FBDEEF831AF8B8E9009F51E3 /* QMGroupInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDEEF811AF8B8E9009F51E3 /* QMGroupInfoVC.m */; };
 		FBE51F231AF908E20057531E /* QMProfileTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = FBE51F221AF908E20057531E /* QMProfileTitleView.m */; };
@@ -297,7 +295,6 @@
 		556E19E91A9F65A50087BEB9 /* REAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REAlertView.m; sourceTree = "<group>"; };
 		556E19EB1A9F65A50087BEB9 /* REMessageUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMessageUI.h; sourceTree = "<group>"; };
 		556E19EC1A9F65A50087BEB9 /* REMessageUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMessageUI.m; sourceTree = "<group>"; };
-		556E1A041A9F65B20087BEB9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		556E1A061A9F65E70087BEB9 /* Segues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Segues.h; sourceTree = "<group>"; };
 		557EF0D31AB31048002E3C09 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quickblox.framework; path = ../../Documents/Quickblox/Quickblox.framework; sourceTree = "<group>"; };
 		5588C81F1AA0C85A0021C8D4 /* QMCornerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMCornerButton.h; sourceTree = "<group>"; };
@@ -420,6 +417,7 @@
 		FB6BC7711AF2708900B2A5FD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QMSearchStatusCell.xib; sourceTree = "<group>"; };
 		FB6BC7741AF2709D00B2A5FD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Auth.storyboard; sourceTree = "<group>"; };
 		FB6BC7771AF2713A00B2A5FD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FB7938541AFB5E6500B2A6FF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FBDEEF7E1AF8B8E9009F51E3 /* QMGroupInfoHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMGroupInfoHeaderView.h; sourceTree = "<group>"; };
 		FBDEEF7F1AF8B8E9009F51E3 /* QMGroupInfoHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMGroupInfoHeaderView.m; sourceTree = "<group>"; };
 		FBDEEF801AF8B8E9009F51E3 /* QMGroupInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMGroupInfoVC.h; sourceTree = "<group>"; };
@@ -450,9 +448,7 @@
 				690A271518CA0F35003D6B80 /* AddressBook.framework in Frameworks */,
 				69CF18A918AE1C9F003262EF /* Security.framework in Frameworks */,
 				69CF18A718AE1C98003262EF /* AVFoundation.framework in Frameworks */,
-				69CF18A518AE1C8D003262EF /* CoreVideo.framework in Frameworks */,
 				69CF18A318AE1C85003262EF /* Accelerate.framework in Frameworks */,
-				69CF18A118AE1C7E003262EF /* CoreMedia.framework in Frameworks */,
 				69CF189F18AE1C76003262EF /* AudioToolbox.framework in Frameworks */,
 				69CF189B18AE1C63003262EF /* CoreLocation.framework in Frameworks */,
 				69D57E5818ACC11C00A9900A /* CoreGraphics.framework in Frameworks */,
@@ -1115,14 +1111,6 @@
 			path = REMailCompose;
 			sourceTree = "<group>";
 		};
-		556E1A031A9F65B20087BEB9 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				556E1A041A9F65B20087BEB9 /* Images.xcassets */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		5588C81E1AA0C83E0021C8D4 /* QMCornerButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -1277,8 +1265,8 @@
 				556E199B1A9F659A0087BEB9 /* Categories */,
 				556E18BF1A9F65930087BEB9 /* Scenes */,
 				55AA61701A2328A400D73089 /* QMServices */,
-				556E1A031A9F65B20087BEB9 /* Resources */,
 				69D57E5C18ACC11C00A9900A /* Supporting Files */,
+				FB7938531AFB5E6500B2A6FF /* Resources */,
 			);
 			path = "Q-municate";
 			sourceTree = "<group>";
@@ -1525,6 +1513,14 @@
 			path = QMChatVC;
 			sourceTree = "<group>";
 		};
+		FB7938531AFB5E6500B2A6FF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FB7938541AFB5E6500B2A6FF /* Images.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		FBDEEF7C1AF8B8E9009F51E3 /* QMGroupInfoVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -1646,6 +1642,7 @@
 				556E19F91A9F65A50087BEB9 /* calling.wav in Resources */,
 				556E19FC1A9F65A50087BEB9 /* ringtone.wav in Resources */,
 				556E19FA1A9F65A50087BEB9 /* end_of_call.wav in Resources */,
+				FB7938551AFB5E6500B2A6FF /* Images.xcassets in Resources */,
 				FB6BC7671AF2707300B2A5FD /* Chat.storyboard in Resources */,
 				556E19FD1A9F65A50087BEB9 /* sent.wav in Resources */,
 				556E19FB1A9F65A50087BEB9 /* received.wav in Resources */,
@@ -1671,7 +1668,6 @@
 				FB42CF881AF22DD700859A66 /* QMChatCollectionViewCellIncoming.xib in Resources */,
 				FB42CFA51AF23FF300859A66 /* left_bubble@2x.png in Resources */,
 				FB6BC7641AF2706C00B2A5FD /* QMChatViewController.xib in Resources */,
-				556E1A051A9F65B20087BEB9 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

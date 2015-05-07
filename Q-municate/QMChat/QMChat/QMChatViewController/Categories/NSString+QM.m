@@ -8,7 +8,7 @@
 
 #import "NSString+QM.h"
 
-@implementation NSString (QM)
+@implementation NSString (qmunicate)
 
 - (NSString *)stringByTrimingWhitespace {
     

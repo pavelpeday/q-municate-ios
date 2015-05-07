@@ -271,7 +271,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
         NSSet *visibleItemsIndexPaths = [NSSet setWithArray:[visibleItems valueForKey:NSStringFromSelector(@selector(indexPath))]];
         
         [self removeNoLongerVisibleBehaviorsFromVisibleItemsIndexPaths:visibleItemsIndexPaths];
-        
         [self addNewlyVisibleBehaviorsFromVisibleItems:visibleItems];
     }
 }
@@ -353,7 +352,9 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
     }
     
     CGRect oldBounds = self.collectionView.bounds;
-    if (CGRectGetWidth(newBounds) != CGRectGetWidth(oldBounds)) {
+    
+    if (CGRectGetWidth(newBounds) > CGRectGetWidth(oldBounds) ||
+        CGRectGetWidth(newBounds) < CGRectGetWidth(oldBounds )) {
         
         return YES;
     }
@@ -428,10 +429,9 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
     }
     
     CGSize finalSize = CGSizeZero;
-#warning is media
-    //    if ([messageItem isMediaMessage])
-    if (/* DISABLES CODE */ (NO)) {
-        
+    
+    if ([messageItem isMediaMessage])
+    {
         finalSize = [[messageItem media] mediaViewDisplaySize];
     }
     else {
@@ -534,7 +534,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
     
     NSUInteger messageSender = [messageData senderID];
     
-    if (messageSender == [self.chatCollectionView.dataSource senderId]) {
+    if (messageSender == [self.chatCollectionView.dataSource senderID]) {
         return self.outgoingAvatarViewSize;
     }
     

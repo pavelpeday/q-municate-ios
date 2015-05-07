@@ -43,7 +43,7 @@
  *  All message data objects returned by `collectionView:messageDataForItemAtIndexPath:` are
  *  checked against this identifier. This value must not be `nil`.
  */
-@property (assign, nonatomic) NSUInteger senderId;
+@property (assign, nonatomic) NSUInteger senderID;
 
 /**
  *  Specifies whether or not the view controller should automatically scroll to the most recent message

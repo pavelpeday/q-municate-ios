@@ -9,8 +9,12 @@
 #import "QMChatVC.h"
 #import "QMBubbleImage.h"
 #import "QMChatBubbleImageFactory.h"
-#import "UIColor+QM.h"
+#import "QMPlaceholder.h"
+
 #import "QMServicesManager.h"
+
+#import "UIColor+QM.h"
+#import "UIImage+QM.h"
 
 @interface QMChatVC ()
 
@@ -26,7 +30,7 @@
     [super viewDidLoad];
     //Cofigure sender
     QBUUser *sender = QM.profile.userData;
-    self.senderId = sender.ID;
+    self.senderID = sender.ID;
     self.senderDisplayName = sender.fullName;
     
     QBUUser *opponent = [QM.contactListService usersWithoutMeWithIDs:self.chatDialog.occupantIDs].firstObject;
@@ -49,6 +53,16 @@
     }];
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    //Configure navigation bar
+    UIImage *placeholder = [QMPlaceholder placeholderWithFrame:CGRectMake(0, 0, 30, 30) fullName:self.chatDialog.name];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:placeholder
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:self
+                                                                             action:@selector(paressGroupInfo:)];
+    //Customize your toolbar buttons
+    
+    self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
+    self.inputToolbar.contentView.rightBarButtonItem = [self sendButtonItem];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -66,7 +80,7 @@
     
     QBChatMessage *msg = self.array[indexPath.row];
     
-    cell.textView.textColor = msg.senderID == self.senderId ?  [UIColor blackColor] : [UIColor whiteColor];
+    cell.textView.textColor = msg.senderID == self.senderID ?  [UIColor blackColor] : [UIColor whiteColor];
     
     return cell;
 }
@@ -88,7 +102,7 @@
     
     QBChatMessage *message = [self.array objectAtIndex:indexPath.item];
     /** *  iOS7-style sender name labels */
-    if (message.senderID == self.senderId) {
+    if (message.senderID == self.senderID) {
         return nil;
     }
     
@@ -103,6 +117,28 @@
     /**
      *  Don't specify attributes to use the defaults.
      */
+    if (message.messageType == QMMessageTypeDefault) {
+        
+        return [[NSAttributedString alloc] initWithString:message.senderNick];
+        
+    } else if (message.messageType == QMMessageTypeNotificationAboutCreateGroupDialog) {
+        
+        return [[NSAttributedString alloc] initWithString:@"crete dialog"];
+    }
+    else if (message.messageType == QMMessageTypeNotificationAboutSendContactRequest) {
+        
+        return [[NSAttributedString alloc] initWithString:@"Contact request"];
+    }
+    else if (message.messageType == QMMessageTypeNotificationAboutRejectContactRequest) {
+        
+        return [[NSAttributedString alloc] initWithString:@"Reject contact request"];
+    }
+    else if (message.messageType == QMMessageTypeNotificationAboutConfirmContactRequest) {
+        
+        return [[NSAttributedString alloc] initWithString:@"Confirm contact request"];
+    }
+    
+    
     return [[NSAttributedString alloc] initWithString:message.senderNick];
 }
 
@@ -118,8 +154,7 @@
     return [self.array count];
 }
 
-- (id<QMChatBubbleImageDataSource>)collectionView:(QMChatCollectionView *)collectionView
-         messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (id<QMChatBubbleImageDataSource>)collectionView:(QMChatCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     QBChatMessage *msg = self.array[indexPath.item];
     
@@ -138,12 +173,10 @@
 
 - (CGFloat)collectionView:(QMChatCollectionView *)collectionView
                    layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    /**
-     *  iOS7-style sender name labels
-     */
+    
     QBChatMessage *msg = self.array[indexPath.row];
     
-    if (msg.senderID == self.senderId ) {
+    if (msg.senderID == self.senderID ) {
         return 0.0f;
     }
     
@@ -178,7 +211,7 @@
     paragraphStyle.alignment = NSTextAlignmentLeft;
     QBChatMessage *msg = self.array[indexPath.row];
     
-    if (msg.senderID == self.senderId ) {
+    if (msg.senderID == self.senderID ) {
         paragraphStyle.alignment = NSTextAlignmentRight;
     }
     /**
@@ -195,5 +228,60 @@
 - (void)createNitificationForUser:(NSNotification *)notification {
     
 }
+
+#pragma mark - Actions
+
+- (void)paressGroupInfo:(id)sender {
+}
+
+#pragma mark - Buttons factory
+
+- (UIButton *)accessoryButtonItem {
+    
+    UIImage *accessoryImage = [UIImage imageNamed:@""];
+    UIImage *normalImage = [accessoryImage imageMaskedWithColor:[UIColor lightGrayColor]];
+    UIImage *highlightedImage = [accessoryImage imageMaskedWithColor:[UIColor darkGrayColor]];
+    
+    UIButton *accessoryButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, accessoryImage.size.width, 32.0f)];
+    [accessoryButton setImage:normalImage forState:UIControlStateNormal];
+    [accessoryButton setImage:highlightedImage forState:UIControlStateHighlighted];
+    
+    accessoryButton.contentMode = UIViewContentModeScaleAspectFit;
+    accessoryButton.backgroundColor = [UIColor clearColor];
+    accessoryButton.tintColor = [UIColor lightGrayColor];
+    
+    return accessoryButton;
+}
+
+- (UIButton *)sendButtonItem {
+    
+    NSString *sendTitle = @"Send";
+    
+    UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    [sendButton setTitle:sendTitle forState:UIControlStateNormal];
+    [sendButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [sendButton setTitleColor:[[UIColor blueColor] colorByDarkeningColorWithValue:0.1f] forState:UIControlStateHighlighted];
+    [sendButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    
+    sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:17.0f];
+    sendButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    sendButton.titleLabel.minimumScaleFactor = 0.85f;
+    sendButton.contentMode = UIViewContentModeCenter;
+    sendButton.backgroundColor = [UIColor clearColor];
+    sendButton.tintColor = [UIColor blueColor];
+    
+    CGFloat maxHeight = 32.0f;
+    
+    CGRect sendTitleRect = [sendTitle boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, maxHeight)
+                                                   options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                attributes:@{ NSFontAttributeName : sendButton.titleLabel.font }
+                                                   context:nil];
+    sendButton.frame = CGRectMake(0.0f,
+                                  0.0f,
+                                  CGRectGetWidth(CGRectIntegral(sendTitleRect)),
+                                  maxHeight);
+    return sendButton;
+}
+
 
 @end

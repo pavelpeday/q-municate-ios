@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (QM)
+@interface UIView (qmunicate)
 
 /**
  *  Pins the subview of the receiver to the edge of its frame, as specified by the given attribute, by adding a layout constraint.

@@ -166,7 +166,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    NSParameterAssert(self.senderId != 0);
+    NSParameterAssert(self.senderID != 0);
     NSParameterAssert(self.senderDisplayName != nil);
     
     [super viewWillAppear:animated];
@@ -397,12 +397,11 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     id<QMChatMessageData> messageItem = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
     NSParameterAssert(messageItem != nil);
     
-    NSInteger messageSenderId = [messageItem senderID];
+    NSUInteger messageSenderId = [messageItem senderID];
     NSParameterAssert(messageSenderId != 0);
     
-    BOOL isOutgoingMessage = messageSenderId == self.senderId;
-#warning isMediaMessage
-    BOOL isMediaMessage = NO;//[messageItem isMediaMessage];
+    BOOL isOutgoingMessage = messageSenderId == self.senderID;
+    BOOL isMediaMessage = [messageItem isMediaMessage];
     
     NSString *cellIdentifier = nil;
     if (isMediaMessage) {
@@ -539,9 +538,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 {
     //  disable menu for media messages
     id<QMChatMessageData> messageItem = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
-#warning is media
-    //    if ([messageItem isMediaMessage]) {
-    if (NO){
+    if ([messageItem isMediaMessage]) {
         return NO;
     }
     
@@ -622,7 +619,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
         
         [self didPressSendButton:sender
                  withMessageText:[self currentlyComposedMessageText]
-                        senderId:self.senderId
+                        senderId:self.senderID
                senderDisplayName:self.senderDisplayName
                             date:[NSDate date]];
     }
@@ -634,7 +631,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
         
         [self didPressSendButton:sender
                  withMessageText:[self currentlyComposedMessageText]
-                        senderId:self.senderId
+                        senderId:self.senderID
                senderDisplayName:self.senderDisplayName
                             date:[NSDate date]];
     }

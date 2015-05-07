@@ -30,7 +30,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 @interface QMHistoryVC ()
 
-<QMContactListServiceDelegate,  QMAddContactProtocol, QMChatServiceDelegate, QMHistoryDataSourceHandler>
+<QMContactListServiceDelegate,  QMAddContactProtocol, QMChatServiceDelegate, QMHistoryDataSourceHandler, QMProfileTitleViewDelegate>
 /**
  *  Datasources
  */
@@ -73,6 +73,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     QMProfileTitleView *profileTitleView = [[QMProfileTitleView alloc] init];
     profileTitleView.title = QM.profile.userData.fullName;
     [profileTitleView setUserImageWithUrl:QM.profile.userData.avatarUrl];
+    profileTitleView.delegate = self;
     self.navigationItem.titleView = profileTitleView;
     //Fetch data from server
     [QMTasks taskLogin:^(BOOL successLogin) {
@@ -389,6 +390,13 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     NSAssert(users.count <= 1, @"");
     
     return users.firstObject;
+}
+
+#pragma mark - QMProfileTitleViewDelegate
+
+- (void)profileTitleViewDidTap:(QMProfileTitleView *)titleView {
+ 
+    [self performSegueWithIdentifier:@"SettingsViewController" sender:nil];
 }
 
 @end

@@ -42,9 +42,6 @@ static void * kQMInputToolbarKeyValueObservingContext = &kQMInputToolbarKeyValue
     
     [self addObservers];
     
-//    self.contentView.leftBarButtonItem = [QBChatMessageToolbarButtonFactory defaultAccessoryButtonItem];
-//    self.contentView.rightBarButtonItem = [QBChatMessageToolbarButtonFactory defaultSendButtonItem];
-    
     [self toggleSendButtonEnabled];
 }
 

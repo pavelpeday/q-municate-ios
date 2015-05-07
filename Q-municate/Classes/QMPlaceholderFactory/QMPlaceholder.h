@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface QMUserPlaceholer : NSObject
+@interface QMPlaceholder : NSObject
 
-+ (UIImage *)userPlaceholderWithFrame:(CGRect)frame fullName:(NSString *)fullName;
++ (UIImage *)placeholderWithFrame:(CGRect)frame fullName:(NSString *)fullName;
 + (UIImage *)ovalWithFrame:(CGRect)frame text:(NSString *)text color:(UIColor *)color;
 
 @end

@@ -129,8 +129,7 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 
 #pragma mark - QMContactListServiceDelegate
 
-- (void)contactListService:(QMContactListService *)contactListService
-      contactListDidChange:(QBContactList *)contactList {
+- (void)contactListService:(QMContactListService *)contactListService contactListDidChange:(QBContactList *)contactList {
     
     [[QMContactListCache instance] insertOrUpdateContactListItemsWithContactList:contactList completion:nil];
 }
