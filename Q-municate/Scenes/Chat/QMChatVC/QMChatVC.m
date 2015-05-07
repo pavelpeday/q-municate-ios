@@ -68,12 +68,13 @@
 #pragma mark - QMChatServiceDelegate
 
 - (void)chatServiceDidLoadMessagesFromCacheForDialogID:(NSString *)dilaogID {
-
+    
     if ([self.chatDialog.ID isEqualToString:dilaogID]) {
         
         NSArray *messages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dilaogID];
         [self.array addObjectsFromArray:messages];
         [self.collectionView reloadData];
+        [self scrollToBottomAnimated:NO];
     }
 }
 
@@ -292,7 +293,7 @@
 - (void)didPressAccessoryButton:(UIButton *)sender {
     
     [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
-
+        
         [actionSheet addButtonWithTitle:@"Take Photo of Video" andActionBlock:^{
             
         }];
@@ -321,10 +322,9 @@
     message.text = text;
     message.senderID = senderId;
     
-    [QM.chatService sendMessage:message
-                       toDialog:self.chatDialog
-                           type:QMMessageTypeDefault
-                           save:YES completion:^(NSError *error) {
+    [QM.chatService sendMessage:message toDialog:self.chatDialog type:QMMessageTypeDefault save:YES completion:^(NSError *error) {
+        
+        [self finishSendingMessageAnimated:YES];
         
     }];
     
