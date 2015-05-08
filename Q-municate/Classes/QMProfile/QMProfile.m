@@ -15,7 +15,7 @@ NSString *const kQMUserAgreementAcceptedKey = @"userAgreementAccepted";
 NSString *const kQMPushNotificationsEnabled = @"pushNotificationsEnabled";
 NSString *const kQMUserProfileType = @"userProfileType";
 
-const NSUInteger kQMMinPasswordLenght = 6;
+static NSUInteger kQMMinPasswordLenght_ = 6;
 
 @implementation QMProfile
 
@@ -57,7 +57,7 @@ const NSUInteger kQMMinPasswordLenght = 6;
     __block BOOL success = NO;
     
     NSAssert(self.userData, @"Need user data");
-    NSAssert(self.userData.password.length > kQMMinPasswordLenght, @"Need password");
+    NSAssert(self.userData.password.length > kQMMinPasswordLenght_, @"Password lenght muste be 6");
     
     [self keychainQuery:^(SSKeychainQuery *query) {
         
