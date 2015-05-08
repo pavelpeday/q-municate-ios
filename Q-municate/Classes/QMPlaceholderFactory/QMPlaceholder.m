@@ -37,7 +37,7 @@
         
         self.cahce = [[NSCache alloc] init];
         self.cahce.name = @"QMUserPlaceholer.cache";
-        self.cahce.countLimit = 1000;
+        self.cahce.countLimit = 200;
         
         self.colors =
         @[[UIColor colorWithRed:1.000 green:0.592 blue:0.000 alpha:1.000],
@@ -94,14 +94,11 @@
         
         //// Gradient oval Drawing
         UIBezierPath* gradientOval = [UIBezierPath bezierPathWithOvalInRect:frame];
-        CGContextSaveGState(context);
         [gradientOval addClip];
         CGContextDrawLinearGradient(context, gradient,
                                     CGPointMake(CGRectGetMidX(frame), CGRectGetMinY(frame)),
                                     CGPointMake(CGRectGetMidX(frame), CGRectGetMaxY(frame)),
                                     0);
-        
-        CGContextRestoreGState(context);
         //// Text Drawing
         {
             NSString *textContent = [[fullName substringToIndex:1] uppercaseString];

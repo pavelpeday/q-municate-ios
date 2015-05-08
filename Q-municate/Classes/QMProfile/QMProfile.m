@@ -53,6 +53,10 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
 
 - (BOOL)synchronize {
     
+    if (self.skipSave) {
+        return NO;
+    }
+    
     __weak __typeof(self)weakSelf = self;
     __block BOOL success = NO;
     
@@ -70,7 +74,7 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
 }
 
 - (BOOL)synchronizeWithUserData:(QBUUser *)user {
-    
+
     NSAssert(user, @"Need user data");
     self.userData = user;
     BOOL success = [self synchronize];

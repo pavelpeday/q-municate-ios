@@ -165,7 +165,7 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 
 #pragma mark QMAuthServiceDelegate
 
-- (void)authServiceDidLogOut {
+- (void)authServiceDidLogOut:(QMAuthService *)authService {
     
     [QMChatCache cleanDBWithStoreName:kQMChatCacheStoreName];
     [QMContactListCache cleanDBWithStoreName:kQMContactListCacheStoreName];
@@ -181,6 +181,9 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
     self.profile = nil;
     
     [self initialization];
+}
+
+- (void)authService:(QMAuthService *)authService didLoginWithUser:(QBUUser *)user {
 }
 
 @end

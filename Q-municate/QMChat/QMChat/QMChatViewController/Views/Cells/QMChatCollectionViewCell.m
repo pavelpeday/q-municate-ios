@@ -145,18 +145,10 @@
     
     self.textViewFrameInsets = customAttributes.textViewFrameInsets;
     
-    [self updateConstraint:self.messageBubbleContainerWidthConstraint
-              withConstant:customAttributes.messageBubbleContainerViewWidth];
-    
-    [self updateConstraint:self.cellTopLabelHeightConstraint
-              withConstant:customAttributes.cellTopLabelHeight];
-    
-    [self updateConstraint:self.messageBubbleTopLabelHeightConstraint
-              withConstant:customAttributes.messageBubbleTopLabelHeight];
-    
-    [self updateConstraint:self.cellBottomLabelHeightConstraint
-              withConstant:customAttributes.cellBottomLabelHeight];
-    
+    [self updateConstraint:self.messageBubbleContainerWidthConstraint withConstant:customAttributes.messageBubbleContainerViewWidth];
+    [self updateConstraint:self.cellTopLabelHeightConstraint withConstant:customAttributes.cellTopLabelHeight];
+    [self updateConstraint:self.messageBubbleTopLabelHeightConstraint withConstant:customAttributes.messageBubbleTopLabelHeight];
+    [self updateConstraint:self.cellBottomLabelHeightConstraint withConstant:customAttributes.cellBottomLabelHeight];
     
     if ([self isKindOfClass:[QMChatCollectionViewCellIncoming class]]) {
         

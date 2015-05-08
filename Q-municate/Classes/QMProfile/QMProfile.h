@@ -23,6 +23,7 @@ typedef NS_ENUM(NSInteger, QMProfileType) {
 @property (assign, nonatomic) BOOL userAgreementAccepted;
 @property (assign, nonatomic) BOOL pushNotificationsEnabled;
 @property (assign, nonatomic) QMProfileType type;
+@property (assign, nonatomic) BOOL skipSave;
 
 /**
  *  Creates and returns an user profile. (Automatically loaded from keychain)

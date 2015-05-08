@@ -34,6 +34,7 @@
             searchController.delegate = self;
             searchController.searchResultsUpdater = self;
             searchController.dimsBackgroundDuringPresentation = NO;
+            viewController.definesPresentationContext = YES;
             [searchController.searchBar sizeToFit];
             
             self.searchController = searchController;

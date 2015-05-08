@@ -63,8 +63,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     self.globalSearchDatasource = [[QMGlobalSearchDataSource alloc] init];
     //Configure search controller
     self.searchController.searchResultsTableView.rowHeight = 75;
-//    self.searchController.searchBar.tintColor = [UIColor colorWithRed:0.035 green:0.349 blue:0.651 alpha:1.000];
-//     self.searchController.searchBar.barTintColor = [UIColor colorWithWhite:0.969 alpha:1.000];
     self.searchController.searchBar.scopeButtonTitles = @[@"Local", @"Global"];
     self.searchController.searchBar.backgroundColor = [UIColor colorWithWhite:0.965 alpha:1.000];
     
@@ -189,12 +187,8 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     __weak __typeof(self)weakSelf = self;
     
     self.searchRequest =
-    [QBRequest usersWithFullName:searchText
-                            page:currentPage
-                    successBlock:^(QBResponse *response,
-                                   QBGeneralResponsePage *page,
-                                   NSArray *users)
-     {
+    [QBRequest usersWithFullName:searchText page:currentPage successBlock:^(QBResponse *response, QBGeneralResponsePage *page, NSArray *users) {
+        
          [weakSelf.globalSearchDatasource.collection addObjectsFromArray:users];
          [weakSelf.globalSearchDatasource setSearchText:searchText];
          [weakSelf.globalSearchDatasource updateCurrentPageWithResponcePage:page];
@@ -250,6 +244,11 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+    if (self.searchController.isActive) {
+        return;
+    }
+    
     QBChatDialog *chatDialog = self.historyDataSource.collection[indexPath.row];
     
     [UIView animateWithDuration:0.2 animations:^{
@@ -259,7 +258,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     } completion:^(BOOL finished) {
         
         [self performSegueWithIdentifier:@"ChatViewController" sender:chatDialog];
-        
     }];
 }
 
@@ -300,10 +298,11 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [self beginSearch:searchBar.text selectedScope:selectedScope];
 }
 
-#pragma mark - QMSearchControllerDelegate
+#pragma mark - QMSearchController
 #pragma mark Present
 
 - (void)willPresentSearchController:(QMSearchController *)searchController {
+    [super willPresentSearchController:searchController];
     
     self.globalSearchDatasource.addContactHandler = self;
 }
@@ -317,14 +316,15 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 #pragma mark Dissmiss
 
 - (void)willDismissSearchController:(QMSearchController *)searchController {
+    [super willDismissSearchController:searchController];
     
     self.globalSearchDatasource.addContactHandler = nil;
+    self.tableView.dataSource = self.historyDataSource;
+    [self.tableView reloadData];
 }
 
 - (void)didDismissSearchController:(QMSearchController *)searchController {
-    
-    self.tableView.dataSource = self.historyDataSource;
-    [self.tableView reloadData];
+    [super didDismissSearchController:searchController];
 }
 
 #pragma mark - QMSearchResultsUpdating
@@ -358,14 +358,11 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
                 QBChatMessage *message = [QBChatMessage message];
                 message.text = @"Contact request";
                 
-                [QM.chatService sendMessage:message
-                                   toDialog:createdDialog
-                                       type:QMMessageTypeNotificationAboutSendContactRequest
-                                       save:YES
+                [QM.chatService sendMessage:message toDialog:createdDialog type:QMMessageTypeNotificationAboutSendContactRequest save:YES
                                  completion:^(NSError *error)
-                {
-                    NSLog(@"Send contact request");
-                }];
+                 {
+                     NSLog(@"Send contact request");
+                 }];
             }];
         }
     }];
@@ -390,7 +387,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 #pragma mark - QMProfileTitleViewDelegate
 
 - (void)profileTitleViewDidTap:(QMProfileTitleView *)titleView {
- 
+    
     [self performSegueWithIdentifier:@"SettingsViewController" sender:nil];
 }
 

@@ -36,48 +36,35 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO
-                                             animated:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (IBAction)done:(id)sender {
     
-    NSString *email = self.emailField.text;
-    NSString *password = self.passwordField.text;
+    QBUUser *user = [QBUUser user];
     
-    if (email.length < 5 || password.length < 6) {
+    user.email = self.emailField.text;
+    user.password = self.passwordField.text;
+    
+    if (user.email.length < 5 || user.password.length < 6) {
         
-        [REAlertView showAlertWithMessage:NSLocalizedString(@"QM_STR_FILL_IN_ALL_THE_FIELDS", nil)
-                            actionSuccess:NO];
+        [REAlertView showAlertWithMessage:NSLocalizedString(@"QM_STR_FILL_IN_ALL_THE_FIELDS", nil) actionSuccess:NO];
     }
     else {
         
-        QBUUser *user = [QBUUser user];
-        user.email = email;
-        user.password = password;
-        
-        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+        QM.profile.skipSave = !self.rememberMeSwitch.on;
         
         __weak __typeof(self)weakSelf = self;
-        [QM.authService logInWithUser:user
-                           completion:^(QBResponse *response,
-                                        QBUUser *userProfile)
-        {    
-             [SVProgressHUD dismiss];
-             
-             if (response.success) {
-                 
-                 if (weakSelf.rememberMeSwitch.on) {
-                     
-                     QM.profile.type = QMProfileTypeEmail;
-                     userProfile.password = password;
-                     [QM.profile synchronizeWithUserData:userProfile];
-                 }
-                 
-                 [weakSelf performSegueWithIdentifier:kSceneSegueChat
-                                           sender:nil];
-             }
-         }];
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+        [QM.authService logInWithUser:user completion:^(QBResponse *response, QBUUser *userProfile) {
+            
+            [SVProgressHUD dismiss];
+            
+            if (response.success) {
+                
+                [weakSelf performSegueWithIdentifier:kSceneSegueChat sender:nil];
+            }
+        }];
     }
 }
 

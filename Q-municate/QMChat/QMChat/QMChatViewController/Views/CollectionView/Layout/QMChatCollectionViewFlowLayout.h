@@ -35,7 +35,7 @@ FOUNDATION_EXPORT const CGFloat kQMChatCollectionViewAvatarSizeDefault;
  */
 @interface QMChatCollectionViewFlowLayout : UICollectionViewFlowLayout
 
-@property (strong, nonatomic) NSMutableArray *textCache;
+@property (strong, nonatomic) NSMutableDictionary *textCache;
 
 /**
  *  The collection view object currently using this layout object.

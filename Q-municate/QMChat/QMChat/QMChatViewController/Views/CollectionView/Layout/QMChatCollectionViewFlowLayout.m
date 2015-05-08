@@ -39,7 +39,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
 
 - (void)configureFlowLayout {
     
-    self.textCache = [NSMutableArray array];
+    self.textCache = [NSMutableDictionary dictionary];
     self.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.sectionInset = UIEdgeInsetsMake(10.0f, 4.0f, 10.0f, 4.0f);
     self.minimumLineSpacing = 4.0f;
@@ -449,7 +449,9 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
         QMLabelLayoutData *data = nil;
         
         if ((NSUInteger)indexPath.item  < self.textCache.count) {
-            data = self.textCache[indexPath.item];
+            
+            data = self.textCache[@([messageItem ID])];
+            
         }
         
         if (!data) {
@@ -460,9 +462,8 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
                                          attributes:@{ NSFontAttributeName : self.messageBubbleFont }
                                       linkDetection:QMLabelLinkTypeURL];
             
-            [self.textCache addObject:data];
+            self.textCache[@([messageItem ID])] = data;
         }
-        
         
         CGSize stringSize = data.size;
         

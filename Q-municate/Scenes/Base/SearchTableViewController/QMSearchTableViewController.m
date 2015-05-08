@@ -29,6 +29,8 @@
         self.searchController.searchResultsDelegate = self;
         self.searchController.searchResultsUpdater = self;
         self.searchController.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        self.searchController.searchBar.tintColor = [UIColor colorWithRed:0.035 green:0.349 blue:0.651 alpha:1.000];
+        self.searchController.searchBar.barTintColor = [UIColor colorWithWhite:0.851 alpha:1.000];
         self.searchController.searchBar.delegate = self;
         self.searchController.searchBar.placeholder = @"Search";
         self.tableView.tableHeaderView = self.searchController.searchBar;
@@ -71,9 +73,12 @@
 #pragma mark - QMSearchControllerDelegate
 
 - (void)willPresentSearchController:(QMSearchController *)searchController {
+    
+    self.searchController.searchBar.barTintColor = [UIColor colorWithWhite:0.973 alpha:1.000];
 }
 
 - (void)didPresentSearchController:(QMSearchController *)searchController {
+    
 }
 
 - (void)willDismissSearchController:(QMSearchController *)searchController {
@@ -82,6 +87,7 @@
 
 - (void)didDismissSearchController:(QMSearchController *)searchController {
     
+    self.searchController.searchBar.barTintColor = [UIColor colorWithWhite:0.851 alpha:1.000];
 }
 
 - (void)presentSearchController:(QMSearchController *)searchController {

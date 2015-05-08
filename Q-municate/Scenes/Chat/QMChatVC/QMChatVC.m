@@ -12,6 +12,7 @@
 #import "QMPlaceholder.h"
 #import "REActionSheet.h"
 #import "QMServicesManager.h"
+#import "QMImagePicker.h"
 
 #import "UIColor+QM.h"
 #import "UIImage+QM.h"
@@ -53,28 +54,49 @@
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     //Configure navigation bar
     UIImage *placeholder = [QMPlaceholder placeholderWithFrame:CGRectMake(0, 0, 30, 30) fullName:self.chatDialog.name];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:placeholder
-                                                                              style:UIBarButtonItemStyleBordered
-                                                                             target:self
-                                                                             action:@selector(pressGroupInfo:)];
+    self.navigationItem.rightBarButtonItem =
+    [[UIBarButtonItem alloc] initWithImage:placeholder style:UIBarButtonItemStyleBordered target:self
+                                    action:@selector(pressGroupInfo:)];
     //Customize your toolbar buttons
     
     self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
     self.inputToolbar.contentView.rightBarButtonItem = [self sendButtonItem];
     
+    //Subscribe to chat notifications
     [QM.chatService addDelegate:self];
 }
 
 #pragma mark - QMChatServiceDelegate
 
-- (void)chatServiceDidLoadMessagesFromCacheForDialogID:(NSString *)dilaogID {
+- (void)chatServiceDidLoadMessagesFromCacheForDialogID:(NSString *)dialogID {
     
-    if ([self.chatDialog.ID isEqualToString:dilaogID]) {
+    if ([self.chatDialog.ID isEqualToString:dialogID]) {
         
-        NSArray *messages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dilaogID];
-        [self.array addObjectsFromArray:messages];
+        NSArray *cahcedMessages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dialogID];
+        [self.array addObjectsFromArray:cahcedMessages];
         [self.collectionView reloadData];
         [self scrollToBottomAnimated:NO];
+    }
+}
+
+- (void)chatServiceDidAddMessagesToHistroy:(NSArray *)messages forDialogID:(NSString *)dialogID {
+    
+    if ([self.chatDialog.ID isEqualToString:dialogID]) {
+        
+        NSArray *cahcedMessages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dialogID];
+        [self.array removeAllObjects];
+        [self.array addObjectsFromArray:cahcedMessages];
+        [self.collectionView reloadData];
+    }
+}
+
+- (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message forDialogID:(NSString *)dialogID {
+    
+    if ([self.chatDialog.ID isEqualToString:dialogID]) {
+        
+        [self.array addObject:message];
+        [self.collectionView reloadData];
+        [self scrollToBottomAnimated:YES];
     }
 }
 
@@ -171,7 +193,7 @@
     
     QBChatMessage *msg = self.array[indexPath.item];
     
-    if (msg.senderID == 1) {
+    if (msg.senderID == QM.profile.userData.ID) {
         
         return self.outgoingBubbleImageData;
     }
@@ -189,18 +211,18 @@
     
     QBChatMessage *msg = self.array[indexPath.row];
     
-    if (msg.senderID == self.senderID ) {
-        return 0.0f;
-    }
-    
-    if (indexPath.item - 1 > 0) {
-        
-        QBChatMessage *previousMessage = [self.array objectAtIndex:indexPath.item - 1];
-        if (previousMessage.senderID == msg.senderID) {
-            
-            return 0.0f;
-        }
-    }
+//    if (msg.senderID == self.senderID ) {
+//        return 0.0f;
+//    }
+//    
+//    if (indexPath.item - 1 > 0) {
+//        
+//        QBChatMessage *previousMessage = [self.array objectAtIndex:indexPath.item - 1];
+//        if (previousMessage.senderID == msg.senderID) {
+//            
+//            return 0.0f;
+//        }
+//    }
     
     return kQMChatCollectionViewCellLabelHeightDefault;
 }
@@ -294,12 +316,17 @@
     
     [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
         
-        [actionSheet addButtonWithTitle:@"Take Photo of Video" andActionBlock:^{
+        [actionSheet addButtonWithTitle:@"Take Video" andActionBlock:^{
             
         }];
         
-        [actionSheet addButtonWithTitle:@"Choose Photo" andActionBlock:^{
+        [actionSheet addButtonWithTitle:@"Share image" andActionBlock:^{
             
+            [QMImagePicker presentIn:self configure:^(UIImagePickerController *picker) {
+                
+            } result:^(UIImage *image) {
+                
+            }];
         }];
         
         [actionSheet addButtonWithTitle:@"Share Location" andActionBlock:^{

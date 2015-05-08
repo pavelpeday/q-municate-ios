@@ -28,10 +28,7 @@
 /**
  *  @return A string identifier that uniquely identifies the user who sent the message.
  *
- *  @discussion If you need to generate a unique identifier, consider using
- *  `[[NSProcessInfo processInfo] globallyUniqueString]`
- *
- *  @warning You must not return `nil` from this method. This value must be unique.
+ *  @warning You must not return `0` from this method. This value must be unique.
  */
 - (NSUInteger)senderID;
 

@@ -425,7 +425,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
         [[NSAttributedString alloc] initWithString:[messageItem text]
                                         attributes:@{ NSFontAttributeName : collectionView.collectionViewLayout.messageBubbleFont }];
         
-        cell.textView.precalculatedLayout = collectionView.collectionViewLayout.textCache[indexPath.item];
+        cell.textView.precalculatedLayout = collectionView.collectionViewLayout.textCache[@([messageItem ID])];
         cell.textView.attributedText = attributedString;
         
         id<QMChatBubbleImageDataSource> bubbleImageDataSource = [collectionView.dataSource collectionView:collectionView messageBubbleImageDataForItemAtIndexPath:indexPath];

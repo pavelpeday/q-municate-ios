@@ -41,9 +41,9 @@
         
         cell.delegate = self.addContactHandler;
         
-        [cell setImageWithUrl:user.avatarUrl];
         [cell setTitle:user.fullName];
         [cell highlightTitle:self.searchText];
+        [cell setImageWithUrl:user.avatarUrl];
         
         return cell;
     }
