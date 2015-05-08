@@ -161,6 +161,7 @@ const NSUInteger kQMMaxTagsCount = 5;
     if (occupants.count == 0) {
         
         [SVProgressHUD showErrorWithStatus:@"Please select any users"];
+        return;
     }
     //Get group name
     NSString *groupName = self.headerView.groupNameTextField.text;
@@ -204,7 +205,7 @@ const NSUInteger kQMMaxTagsCount = 5;
         QMChatVC *chatVC = segue.destinationViewController;
         chatVC.chatDialog = sender;
         
-    } else  if ([segue.identifier isEqualToString: @"QMContactListVC"]) {
+    } else  if ([segue.identifier isEqualToString:@"QMContactListVC"]) {
         //Get embed contact list view controller
         QMContactListVC * childViewController = (id)[segue destinationViewController];
         self.contactListVC = childViewController;

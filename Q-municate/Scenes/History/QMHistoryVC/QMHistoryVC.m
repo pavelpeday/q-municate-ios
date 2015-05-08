@@ -379,7 +379,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 - (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource recipientWithIDs:(NSArray *)userIDs {
     
     NSArray *users = [QM.contactListService usersWithoutMeWithIDs:userIDs];
-    NSAssert(users.count <= 1, @"");
+//    NSAssert(users.count <= 1, @"");
     
     return users.firstObject;
 }

@@ -7,14 +7,19 @@
 //
 
 #import "QMServicesManager.h"
+#import "REAlertView.h"
 
 NSString *const kQMChatCacheStoreName = @"QMCahtCacheStorage";
 NSString *const kQMContactListCacheStoreName = @"QMContactListStorage";
 
+typedef NS_ENUM(NSUInteger, QM_STATUS) {
+    QM_STATUS_REGISTER_PUSH_NOTIFICATION,
+    QM_STATUS_UN_REGISTER_PUSH_NOTIFICATION
+};
+
 @interface QMServicesManager()
 
-<QMUserProfileProtocol, QMChatServiceDelegate, QMContactListServiceDelegate,
-QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDelegate>
+<QMChatServiceDelegate, QMContactListServiceDelegate, QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDelegate>
 
 @property (strong, nonatomic) QMAuthService *authService;
 @property (strong, nonatomic) QMChatService *chatService;
@@ -58,25 +63,30 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
     [QMChatCache setupDBWithStoreNamed:kQMChatCacheStoreName];
     [QMContactListCache setupDBWithStoreNamed:kQMContactListCacheStoreName];
     //Init servises
-    self.contactListService = [[QMContactListService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
-    self.authService = [[QMAuthService alloc] initWithUserProfileDataSource:self];
-    self.chatService = [[QMChatService alloc] initWithUserProfileDataSource:self cacheDelegate:self];
+    self.contactListService = [[QMContactListService alloc] initWithServiceManager:self cacheDelegate:self];
+    self.authService = [[QMAuthService alloc] initWithServiceManager:self];
+    self.chatService = [[QMChatService alloc] initWithServiceManager:self cacheDelegate:self];
     //Subsicribe to notifications
     [self.authService addDelegate:self];
     [self.chatService addDelegate:self];
     [self.contactListService addDelegate:self];
 }
 
-#pragma mark - QMUserProfileProtocol
+#pragma mark - QMServiceManagerProtocol
 
 - (QBUUser *)currentUser {
     
     return self.profile.userData;
 }
 
-- (BOOL)userIsAutorized {
+- (BOOL)isAutorized {
     
     return self.authService.isAuthorized;
+}
+
+- (void)handleErrorResponse:(QBResponse *)response {
+    
+    [self showMessageForQBError:response.error status:response.status];
 }
 
 #pragma mark - QMChatServiceDelegate
@@ -184,6 +194,85 @@ QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDele
 }
 
 - (void)authService:(QMAuthService *)authService didLoginWithUser:(QBUUser *)user {
+    
 }
+
+#pragma mark - Errors handler
+
+#pragma mark - error Handler
+
+NSString *const kQBResponceErrorsKey = @"errors";
+
+- (void)showMessageForQBError:(QBError *)error status:(NSInteger)status {
+    
+        id errors = error.reasons[kQBResponceErrorsKey];
+        NSMutableString *resultErrorMessageString = [NSMutableString string];
+    
+        if ([errors isKindOfClass:[NSDictionary class]]) {
+    
+            for (NSString *key in [errors allKeys]) {
+                NSArray *obj = errors[key];
+                NSString *reason = NSLocalizedString(key, nil);
+                [resultErrorMessageString appendFormat:@"%@ - %@", reason, [obj firstObject]];
+            }
+        }
+        else if ([errors isKindOfClass:[NSArray class]]){
+    
+            NSString *errorStr = [errors firstObject];
+            NSString *reason = NSLocalizedString(errorStr, nil);
+            [resultErrorMessageString appendFormat:@"%@", reason];
+        }
+    
+        if (resultErrorMessageString.length == 0) {
+            [resultErrorMessageString  appendString:error.error.localizedDescription];
+        }
+    
+        NSString *errorTitle = nil;
+        if (status == 0) {
+            errorTitle = NSLocalizedString(@"QM_STR_ERROR", nil);
+        }
+        else if (status == QBResponseStatusCodeUnknown) {
+            errorTitle = NSLocalizedString(@"QM_ERROR_STATUS_STR_UNKNOWN", nil);
+        }
+        else if (status == QBResponseStatusCodeValidationFailed) {
+            errorTitle = NSLocalizedString(@"QM_ERROR_STATUS_STR_VALIDATION_FAILED", nil);
+        }
+        else if (status == QBResponseStatusCodeUnAuthorized) {
+            errorTitle = NSLocalizedString(@"QM_ERROR_STATUS_STR_UN_AUTORIZED", nil);
+        }
+        else if (status == QBResponseStatusCodeServerError) {
+            errorTitle = NSLocalizedString(@"QM_ERROR_STATUS_STR_SERVER_ERROR", nil);
+        }
+        else if (status == QBResponseStatusCodeBadRequest) {
+            errorTitle = NSLocalizedString(@"QM_ERROR_STAUTS_STR_BAD_REQUEST", nil);
+        }
+        else if (status == QM_STATUS_REGISTER_PUSH_NOTIFICATION) {
+            errorTitle = NSLocalizedString(@"QM_ERROR_STATUS_STR_UNREGISTER_PUSH_NOTIFICATION", nil);
+        }
+        else if (status == QM_STATUS_UN_REGISTER_PUSH_NOTIFICATION) {
+            errorTitle = NSLocalizedString(@"QM_ERROR_STATUS_STR_REGISTER_PUSH_NOTIFICATION", nil);
+        }
+    
+    [REAlertView presentAlertViewWithConfiguration:^(REAlertView *alertView) {
+        
+        alertView.title = errorTitle;
+        alertView.message = resultErrorMessageString;
+        [alertView addButtonWithTitle:@"Ok" andActionBlock:^{
+
+        }];
+        
+    }];
+}
+
+- (BOOL)checkResult:(QBResult *)result {
+    //    
+    //    if (!result.success) {
+    //        [REAlertView showAlertWithMessage:result.errors.lastObject actionSuccess:NO];
+    //    }
+    //    
+    //return result.success;
+    return YES;
+}
+
 
 @end

@@ -16,7 +16,7 @@
 
 QMServicesManager *qmServices(void);
 
-@interface QMServicesManager : NSObject
+@interface QMServicesManager : NSObject <QMServiceManagerProtocol>
 
 + (instancetype)instance;
 

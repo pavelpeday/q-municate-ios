@@ -14,6 +14,7 @@ NSString *const kQMUserDataKey = @"userData";
 NSString *const kQMUserAgreementAcceptedKey = @"userAgreementAccepted";
 NSString *const kQMPushNotificationsEnabled = @"pushNotificationsEnabled";
 NSString *const kQMUserProfileType = @"userProfileType";
+NSString *const kQMAppExist = @"appExist";
 
 static NSUInteger kQMMinPasswordLenght_ = 6;
 
@@ -31,8 +32,18 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
     self = [super init];
     if (self) {
         
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
         [self loadProfile];
+        
+        BOOL exist = [defaults boolForKey:kQMAppExist];
+        
+        if (self.userData && !exist) {
+            
+            [self clearProfile];
+        }
     }
+    
     return self;
 }
 
@@ -70,11 +81,17 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
         success = [query save:&error];
     }];
     
+    if (success) {
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setBool:YES forKey:kQMAppExist];
+    }
+    
     return success;
 }
 
 - (BOOL)synchronizeWithUserData:(QBUUser *)user {
-
+    
     NSAssert(user, @"Need user data");
     self.userData = user;
     BOOL success = [self synchronize];
@@ -113,6 +130,10 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
     }];
     
     self.userData = nil;
+    self.type = QMProfileTypeNone;
+    self.pushNotificationsEnabled = YES;
+    self.userAgreementAccepted = NO;
+    
     return success;
 }
 
@@ -126,22 +147,22 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
     updateUser.password = newPassword;
     
     __weak __typeof(self)weakSelf = self;
-    [QBRequest updateUser:updateUser successBlock:^(QBResponse *response, QBUUser *userData)
-     {
-         userData.password = updateUser.password;
-         weakSelf.userData = userData;
-         [weakSelf synchronize];
-         
-         if (completion) {
-             completion(YES);
-         }
-         
-     } errorBlock:^(QBResponse *response) {
-         
-         if (completion) {
-             completion(NO);
-         }
-     }];
+    [QBRequest updateUser:updateUser successBlock:^(QBResponse *response, QBUUser *userData) {
+        
+        userData.password = updateUser.password;
+        weakSelf.userData = userData;
+        [weakSelf synchronize];
+        
+        if (completion) {
+            completion(YES);
+        }
+        
+    } errorBlock:^(QBResponse *response) {
+        
+        if (completion) {
+            completion(NO);
+        }
+    }];
 }
 
 - (void)saveOnServer:(void (^)(BOOL success))completion {
@@ -151,21 +172,21 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
     
     __weak __typeof(self)weakSelf = self;
     [QBRequest updateUser:self.userData successBlock:^(QBResponse *response, QBUUser *updatedUser) {
-         
-         updatedUser.password = password;
-         weakSelf.userData = updatedUser;
-         [weakSelf synchronize];
-         
-         if (completion) {
-             completion(YES);
-         };
-         
-     } errorBlock:^(QBResponse *response) {
-         
-         if (completion) {
-             completion(NO);
-         }
-     }];
+        
+        updatedUser.password = password;
+        weakSelf.userData = updatedUser;
+        [weakSelf synchronize];
+        
+        if (completion) {
+            completion(YES);
+        };
+        
+    } errorBlock:^(QBResponse *response) {
+        
+        if (completion) {
+            completion(NO);
+        }
+    }];
 }
 
 - (void)updateUserImage:(UIImage *)userImage progress:(void (^)(float progress))progress completion:(void (^)(BOOL success))completion {
@@ -182,16 +203,20 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
         
         [QBRequest updateUser:userData successBlock:^(QBResponse *response, QBUUser *updatedUser) {
             
-             updatedUser.password = password;
-             weakSelf.userData = updatedUser;
-             [weakSelf synchronize];
-             
-             completion(YES);
-             
-         } errorBlock:^(QBResponse *response) {
-             
-             completion(NO);
-         }];
+            updatedUser.password = password;
+            weakSelf.userData = updatedUser;
+            [weakSelf synchronize];
+            
+            if (completion) {
+                completion(YES);
+            }
+            
+        } errorBlock:^(QBResponse *response) {
+            
+            if (completion) {
+                completion(NO);
+            }
+        }];
     };
     
     if (userImage) {
@@ -200,21 +225,25 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
         
         [QBRequest TUploadFile:uploadFile fileName:@"userImage" contentType:@"image/jpeg" isPublic:YES
                   successBlock:^(QBResponse *response, QBCBlob *blob)
-         {
-             updateUserProfile(blob.publicUrl);
-             
-         } statusBlock:^(QBRequest *request, QBRequestStatus *status) {
-             
-             progress(status.percentOfCompletion);
-             
-         } errorBlock:^(QBResponse *response) {
-             
-             completion(NO);
-         }];
+        {
+            updateUserProfile(blob.publicUrl);
+            
+        } statusBlock:^(QBRequest *request, QBRequestStatus *status) {
+            
+            progress(status.percentOfCompletion);
+            
+        } errorBlock:^(QBResponse *response) {
+            
+            if (completion) {
+                completion(NO);
+            }
+        }];
     }
     else {
         
-        completion(NO);
+        if (completion) {
+            completion(NO);
+        }
     }
 }
 
