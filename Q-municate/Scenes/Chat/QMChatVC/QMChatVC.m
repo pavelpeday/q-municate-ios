@@ -19,7 +19,7 @@
 
 @interface QMChatVC () <QMChatServiceDelegate>
 
-@property (strong, nonatomic) NSMutableArray *array;
+@property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) QMBubbleImage *outgoingBubbleImageData;
 @property (strong, nonatomic) QMBubbleImage *incomingBubbleImageData;
 
@@ -42,9 +42,9 @@
     
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor messageBubbleGreenColor]];
     self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor whiteColor]];
-    self.showLoadEarlierMessagesHeader = YES;
+
     
-    self.array = [NSMutableArray array];
+    self.messages = [NSMutableArray array];
     //Get messages
     [QM.chatService messageWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {}];
     
@@ -56,10 +56,8 @@
     [[UIBarButtonItem alloc] initWithImage:placeholder style:UIBarButtonItemStyleBordered target:self
                                     action:@selector(pressGroupInfo:)];
     //Customize your toolbar buttons
-    
     self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
     self.inputToolbar.contentView.rightBarButtonItem = [self sendButtonItem];
-    
     //Subscribe to chat notifications
     [QM.chatService addDelegate:self];
 }
@@ -71,7 +69,7 @@
     if ([self.chatDialog.ID isEqualToString:dialogID]) {
         
         NSArray *cahcedMessages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dialogID];
-        [self.array addObjectsFromArray:cahcedMessages];
+        [self.messages addObjectsFromArray:cahcedMessages];
         [self.collectionView reloadData];
         [self scrollToBottomAnimated:NO];
     }
@@ -82,8 +80,8 @@
     if ([self.chatDialog.ID isEqualToString:dialogID]) {
         
         NSArray *cahcedMessages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dialogID];
-        [self.array removeAllObjects];
-        [self.array addObjectsFromArray:cahcedMessages];
+        [self.messages removeAllObjects];
+        [self.messages addObjectsFromArray:cahcedMessages];
         [self.collectionView reloadData];
     }
 }
@@ -91,25 +89,24 @@
 - (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message forDialogID:(NSString *)dialogID {
     
     if ([self.chatDialog.ID isEqualToString:dialogID]) {
-        [self.array addObject:message];
+        [self.messages addObject:message];
     }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    self.collectionView.collectionViewLayout.springResistanceFactor = 1000;
+    self.collectionView.collectionViewLayout.springResistanceFactor = 2000;
     self.collectionView.collectionViewLayout.springinessEnabled = YES;
 }
 
 - (UICollectionViewCell *)collectionView:(QMChatCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     /**
      *  Override point for customizing cells
      */
     QMChatCollectionViewCell *cell = (id)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    
-    QBChatMessage *msg = self.array[indexPath.row];
-    
+    QBChatMessage *msg = self.messages[indexPath.row];
     cell.textView.textColor = msg.senderID == self.senderID ?  [UIColor blackColor] : [UIColor whiteColor];
     
     return cell;
@@ -120,26 +117,20 @@
 
 - (id<QMChatMessageData>)collectionView:(QMChatViewController *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    return self.array[indexPath.row];
+    return self.messages[indexPath.row];
 }
 
 #pragma mark - UICollectionView DataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return [self.array count];
+    return self.messages.count;
 }
 
 - (id<QMChatBubbleImageDataSource>)collectionView:(QMChatCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    QBChatMessage *msg = self.array[indexPath.item];
-    
-    if (msg.senderID == self.senderID) {
-        
-        return self.outgoingBubbleImageData;
-    }
-    
-    return self.incomingBubbleImageData;
+    QBChatMessage *msg = self.messages[indexPath.item];
+    return (msg.senderID == self.senderID) ? self.outgoingBubbleImageData : self.incomingBubbleImageData;
 }
 
 #pragma mark Cell Top label
@@ -181,15 +172,18 @@
     return 0;
 }
 
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 20.f;
+
+    
+    return CGSizeMake(60, 14);
 }
 
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
-    return 20.f;
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return CGSizeMake(60, 14);
 }
 
 - (id<QMChatAvatarImageDataSource>)collectionView:(QMChatCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {

@@ -100,6 +100,8 @@
 		69D57E6618ACC11C00A9900A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D57E6518ACC11C00A9900A /* AppDelegate.m */; };
 		69DB5EF518E31D6400277226 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69DB5EF418E31D6400277226 /* MessageUI.framework */; };
 		86FD874D1982512000B6FA43 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86FD874C1982512000B6FA43 /* GLKit.framework */; };
+		FB03DD321B0363E800B7AED8 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FB03DD311B0363E800B7AED8 /* TTTAttributedLabel.m */; };
+		FB03DD351B03640A00B7AED8 /* QMPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB03DD341B03640A00B7AED8 /* QMPlaceHolderTextView.m */; };
 		FB1A45DF826843BBB501A643 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67976AC8FFE848A4B85EB2AF /* libPods.a */; };
 		FB2CFA131AF11C7900E7F3D2 /* QMPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = FB2CFA121AF11C7900E7F3D2 /* QMPlaceholder.m */; };
 		FB42CF7C1AF22DD700859A66 /* NSString+QM.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF331AF22DD700859A66 /* NSString+QM.m */; };
@@ -121,8 +123,6 @@
 		FB42CF8D1AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF621AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.m */; };
 		FB42CF8E1AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF641AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.m */; };
 		FB42CF8F1AF22DD700859A66 /* QMChatCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF661AF22DD700859A66 /* QMChatCollectionView.m */; };
-		FB42CF901AF22DD700859A66 /* QMLabel.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF6A1AF22DD700859A66 /* QMLabel.mm */; };
-		FB42CF911AF22DD700859A66 /* QMLabelLayoutData.mm in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF6C1AF22DD700859A66 /* QMLabelLayoutData.mm */; };
 		FB42CF921AF22DD700859A66 /* QMInputToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF6F1AF22DD700859A66 /* QMInputToolbar.m */; };
 		FB42CF931AF22DD700859A66 /* QMToolbarContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF711AF22DD700859A66 /* QMToolbarContentView.m */; };
 		FB42CF941AF22DD700859A66 /* QMToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB42CF721AF22DD700859A66 /* QMToolbarContentView.xib */; };
@@ -344,6 +344,10 @@
 		86FD874A1982510700B6FA43 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		86FD874C1982512000B6FA43 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		E0ACA76B4B11E4DB839DD9F3 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FB03DD301B0363E800B7AED8 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
+		FB03DD311B0363E800B7AED8 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
+		FB03DD331B03640A00B7AED8 /* QMPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMPlaceHolderTextView.h; sourceTree = "<group>"; };
+		FB03DD341B03640A00B7AED8 /* QMPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMPlaceHolderTextView.m; sourceTree = "<group>"; };
 		FB2CFA111AF11C7900E7F3D2 /* QMPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMPlaceholder.h; sourceTree = "<group>"; };
 		FB2CFA121AF11C7900E7F3D2 /* QMPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMPlaceholder.m; sourceTree = "<group>"; };
 		FB42CF321AF22DD700859A66 /* NSString+QM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+QM.h"; sourceTree = "<group>"; };
@@ -388,10 +392,6 @@
 		FB42CF641AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMCollectionViewFlowLayoutInvalidationContext.m; sourceTree = "<group>"; };
 		FB42CF651AF22DD700859A66 /* QMChatCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatCollectionView.h; sourceTree = "<group>"; };
 		FB42CF661AF22DD700859A66 /* QMChatCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatCollectionView.m; sourceTree = "<group>"; };
-		FB42CF691AF22DD700859A66 /* QMLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMLabel.h; sourceTree = "<group>"; };
-		FB42CF6A1AF22DD700859A66 /* QMLabel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QMLabel.mm; sourceTree = "<group>"; };
-		FB42CF6B1AF22DD700859A66 /* QMLabelLayoutData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMLabelLayoutData.h; sourceTree = "<group>"; };
-		FB42CF6C1AF22DD700859A66 /* QMLabelLayoutData.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = QMLabelLayoutData.mm; sourceTree = "<group>"; };
 		FB42CF6E1AF22DD700859A66 /* QMInputToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMInputToolbar.h; sourceTree = "<group>"; };
 		FB42CF6F1AF22DD700859A66 /* QMInputToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMInputToolbar.m; sourceTree = "<group>"; };
 		FB42CF701AF22DD700859A66 /* QMToolbarContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMToolbarContentView.h; sourceTree = "<group>"; };
@@ -1286,6 +1286,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		FB03DD2E1B0363E800B7AED8 /* PlaceHolderTextView */ = {
+			isa = PBXGroup;
+			children = (
+				FB03DD331B03640A00B7AED8 /* QMPlaceHolderTextView.h */,
+				FB03DD341B03640A00B7AED8 /* QMPlaceHolderTextView.m */,
+			);
+			path = PlaceHolderTextView;
+			sourceTree = "<group>";
+		};
+		FB03DD2F1B0363E800B7AED8 /* TTTAttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				FB03DD301B0363E800B7AED8 /* TTTAttributedLabel.h */,
+				FB03DD311B0363E800B7AED8 /* TTTAttributedLabel.m */,
+			);
+			path = TTTAttributedLabel;
+			sourceTree = "<group>";
+		};
 		FB2CFA0F1AF11C6400E7F3D2 /* QMPlaceholderFactory */ = {
 			isa = PBXGroup;
 			children = (
@@ -1443,21 +1461,11 @@
 		FB42CF671AF22DD700859A66 /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
-				FB42CF681AF22DD700859A66 /* ChatLabel */,
+				FB03DD2E1B0363E800B7AED8 /* PlaceHolderTextView */,
+				FB03DD2F1B0363E800B7AED8 /* TTTAttributedLabel */,
 				FB42CF6D1AF22DD700859A66 /* InputToolBar */,
 			);
 			path = CustomUI;
-			sourceTree = "<group>";
-		};
-		FB42CF681AF22DD700859A66 /* ChatLabel */ = {
-			isa = PBXGroup;
-			children = (
-				FB42CF691AF22DD700859A66 /* QMLabel.h */,
-				FB42CF6A1AF22DD700859A66 /* QMLabel.mm */,
-				FB42CF6B1AF22DD700859A66 /* QMLabelLayoutData.h */,
-				FB42CF6C1AF22DD700859A66 /* QMLabelLayoutData.mm */,
-			);
-			path = ChatLabel;
 			sourceTree = "<group>";
 		};
 		FB42CF6D1AF22DD700859A66 /* InputToolBar */ = {
@@ -1777,7 +1785,6 @@
 				550630EA1ABAD1720079EE34 /* QMNotificationView.m in Sources */,
 				556E19991A9F65940087BEB9 /* QMPlaceholderTextView.m in Sources */,
 				559379061ACC0ECE003E0015 /* QMTableViewCell.m in Sources */,
-				FB42CF911AF22DD700859A66 /* QMLabelLayoutData.mm in Sources */,
 				556E19AE1A9F659A0087BEB9 /* NSString+HasText.m in Sources */,
 				FB65C52F1B020DC700AA636E /* QMSystemMessageCell.m in Sources */,
 				55112F991AEA6AE6002E9F4E /* QMContactListVC.m in Sources */,
@@ -1791,6 +1798,7 @@
 				FB42CF8F1AF22DD700859A66 /* QMChatCollectionView.m in Sources */,
 				5507EBFE1AE8F53B00ECD26E /* QMLinkViewController.m in Sources */,
 				556E19EE1A9F65A50087BEB9 /* QMAddressBook.m in Sources */,
+				FB03DD351B03640A00B7AED8 /* QMPlaceHolderTextView.m in Sources */,
 				556E1A011A9F65A50087BEB9 /* REAlertView.m in Sources */,
 				556E19621A9F65940087BEB9 /* QMLicenseAgreement.m in Sources */,
 				556E199A1A9F65940087BEB9 /* QMProgressView.m in Sources */,
@@ -1823,7 +1831,6 @@
 				FB42CF7C1AF22DD700859A66 /* NSString+QM.m in Sources */,
 				69D57E6218ACC11C00A9900A /* main.m in Sources */,
 				556E1A001A9F65A50087BEB9 /* REAlertView+QMSuccess.m in Sources */,
-				FB42CF901AF22DD700859A66 /* QMLabel.mm in Sources */,
 				556E1A021A9F65A50087BEB9 /* REMessageUI.m in Sources */,
 				556E19B31A9F659A0087BEB9 /* UIImage+Cropper.m in Sources */,
 				FB42CF811AF22DD700859A66 /* QMKeyboardController.m in Sources */,
@@ -1832,6 +1839,7 @@
 				FBE51F231AF908E20057531E /* QMProfileTitleView.m in Sources */,
 				FB42CF891AF22DD700859A66 /* QMChatCollectionViewCellOutgoing.m in Sources */,
 				5507EC3A1AE8F9B500ECD26E /* QMHistoryVC.m in Sources */,
+				FB03DD321B0363E800B7AED8 /* TTTAttributedLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

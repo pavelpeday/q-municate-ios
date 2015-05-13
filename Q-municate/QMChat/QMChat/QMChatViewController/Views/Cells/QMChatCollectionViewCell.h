@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QMLabel.h"
+#import "TTTAttributedLabel.h"
 
 @class QMChatCollectionViewCell;
 
@@ -61,32 +61,32 @@
  *  Returns the label that is pinned to the top of the cell.
  *  This label is most commonly used to display message timestamps.
  */
-@property (weak, nonatomic, readonly) QMLabel *cellTopLabel;
+@property (weak, nonatomic, readonly) TTTAttributedLabel *cellTopLabel;
 
 /**
  *  Returns the label that is pinned just above the messageBubbleImageView, and below the cellTopLabel.
  *  This label is most commonly used to display the message sender.
  */
-@property (weak, nonatomic, readonly) QMLabel *messageBubbleTopLabel;
+@property (weak, nonatomic, readonly) TTTAttributedLabel *messageBubbleTopLabel;
 
 /**
  *  Returns the label that is pinned just above the messageBubbleImageView, and below the cellTopLabel.
  *  This label is most commonly used to display the message sender.
  */
-@property (weak, nonatomic, readonly) QMLabel *messageBubbleBottomLabel;
+@property (weak, nonatomic, readonly) TTTAttributedLabel *messageBubbleBottomLabel;
 
 /**
  *  Returns the label that is pinned to the bottom of the cell.
  *  This label is most commonly used to display message delivery status.
  */
-@property (weak, nonatomic, readonly) QMLabel *cellBottomLabel;
+@property (weak, nonatomic, readonly) TTTAttributedLabel *cellBottomLabel;
 
 /**
  *  Returns the text view of the cell. This text view contains the message body text.
  *
  *  @warning If mediaView returns a non-nil view, then this value will be `nil`.
  */
-@property (weak, nonatomic, readonly) QMLabel *textView;
+@property (weak, nonatomic, readonly) TTTAttributedLabel *textView;
 
 /**
  *  Returns the bubble image view of the cell that is responsible for displaying message bubble images.

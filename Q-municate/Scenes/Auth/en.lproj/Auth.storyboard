@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -542,8 +541,8 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4MW-Lk-YTW" id="lWo-kX-fDq">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" background="underline" translatesAutoresizingMaskIntoConstraints="NO" id="jc4-7W-uRw">
-                                                    <rect key="frame" x="20" y="20" width="560" height="40"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" background="underline" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jc4-7W-uRw">
+                                                    <rect key="frame" x="20" y="18" width="560" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="sjo-UL-R18"/>
                                                     </constraints>
@@ -563,8 +562,8 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U5t-UV-gsI" id="aty-tS-ses">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" background="underline" translatesAutoresizingMaskIntoConstraints="NO" id="wnQ-CN-3E6">
-                                                    <rect key="frame" x="20" y="4" width="560" height="40"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" background="underline" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wnQ-CN-3E6">
+                                                    <rect key="frame" x="20" y="2" width="560" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="iS7-sl-T7D"/>
                                                     </constraints>
@@ -684,8 +683,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" background="underline" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cc2-CC-NIX">
-                                                    <rect key="frame" x="20" y="12" width="572" height="40"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" background="underline" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cc2-CC-NIX">
+                                                    <rect key="frame" x="20" y="18" width="572" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="2Mn-2u-K2Y"/>
                                                     </constraints>
@@ -712,43 +711,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="44" id="wft-AY-HTt">
-                                        <rect key="frame" x="0.0" y="44" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wft-AY-HTt" id="xOm-R5-SRO">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6f-IF-56m" customClass="QMCornerButton">
-                                                    <rect key="frame" x="8" y="0.0" width="584" height="44"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="44" id="80g-lV-Uqf"/>
-                                                    </constraints>
-                                                    <state key="normal" title="Reset Password"/>
-                                                    <variation key="heightClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="35" y="18" width="666" height="44"/>
-                                                    </variation>
-                                                    <variation key="heightClass=regular" misplaced="YES">
-                                                        <rect key="frame" x="35" y="18" width="344" height="44"/>
-                                                    </variation>
-                                                    <variation key="widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="35" y="18" width="498" height="44"/>
-                                                    </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="35" y="18" width="250" height="44"/>
-                                                    </variation>
-                                                    <connections>
-                                                        <action selector="pressResetPasswordBtn:" destination="wFU-IG-Cec" eventType="touchUpInside" id="gEm-mA-PMZ"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="P6f-IF-56m" firstAttribute="leading" secondItem="xOm-R5-SRO" secondAttribute="leadingMargin" id="H97-vX-tA7"/>
-                                                <constraint firstItem="P6f-IF-56m" firstAttribute="trailing" secondItem="xOm-R5-SRO" secondAttribute="trailingMargin" id="RfA-6V-Re6"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="P6f-IF-56m" secondAttribute="bottom" constant="-8" id="eTF-24-HOK"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -762,7 +724,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="emailTextField" destination="cc2-CC-NIX" id="8IR-Wd-bem"/>
-                        <outlet property="resetPasswordBtn" destination="P6f-IF-56m" id="C5I-Md-aN5"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2en-3q-0wy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -776,6 +737,6 @@
         <image name="underline" width="1" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9V3-CA-ieR"/>
+        <segue reference="bvL-4j-abC"/>
     </inferredMetricsTieBreakers>
 </document>

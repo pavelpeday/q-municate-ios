@@ -48,11 +48,11 @@
  *
  *  @see QMChatCollectionViewCell.
  */
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath;
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
- *  Asks the delegate for the height of the `messageBubbleBottomLabel` for the item at the specified indexPath.
+ *  Asks the delegate for the size of the `messageBubbleBottomLabel` for the item at the specified indexPath.
  *
  *  @param collectionView       The collection view object displaying the flow layout.
  *  @param collectionViewLayout The layout object requesting the information.
@@ -62,10 +62,11 @@
  *
  *  @see QMChatCollectionViewCell.
  */
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath;
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath;
+
 /**
- *  Asks the delegate for the height of the `cellBottomLabel` for the item at the specified indexPath.
+ *  Asks the delegate for the size of the `cellBottomLabel` for the item at the specified indexPath.
  *
  *  @param collectionView       The collection view object displaying the flow layout.
  *  @param collectionViewLayout The layout object requesting the information.

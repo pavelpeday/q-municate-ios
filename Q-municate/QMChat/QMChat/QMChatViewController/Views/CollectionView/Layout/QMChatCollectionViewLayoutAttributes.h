@@ -78,20 +78,20 @@
 @property (assign, nonatomic) CGFloat cellTopLabelHeight;
 
 /**
- *  The height of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
+ *  The size of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
  *  This value should be greater than or equal to `0.0`.
  *
  *  @see QMChatCollectionViewCell.
  */
-@property (assign, nonatomic) CGFloat messageBubbleTopLabelHeight;
+@property (assign, nonatomic) CGSize messageBubbleTopLabelSize;
 
 /**
- *  The height of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
+ *  The size of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
  *  This value should be greater than or equal to `0.0`.
  *
  *  @see QMChatCollectionViewCell.
  */
-@property (assign, nonatomic) CGFloat messageBubbleBottomLabelHeight;
+@property (assign, nonatomic) CGSize messageBubbleBottomLabelSize;
 
 /**
  *  The height of the `cellBottomLabel` of a `QMChatCollectionViewCell`.

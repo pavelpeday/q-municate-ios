@@ -430,11 +430,11 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     if (messageType == QMMessageTypeText) {
         
-        //        NSAttributedString *attributedString =
-        //        [[NSAttributedString alloc] initWithString:[messageItem text]
-        //                                        attributes:@{NSFontAttributeName : collectionView.collectionViewLayout.messageBubbleFont}];
+        NSAttributedString *attributedString =
+        [[NSAttributedString alloc] initWithString:[messageItem text]
+                                        attributes:@{NSFontAttributeName : collectionView.collectionViewLayout.messageBubbleFont}];
         
-        cell.textView.precalculatedLayout = collectionView.collectionViewLayout.precalculatedLayouts[[messageItem ID]];
+        cell.textView.attributedText = attributedString;
         
         id<QMChatBubbleImageDataSource> bubbleImageDataSource = [collectionView.dataSource collectionView:collectionView messageBubbleImageDataForItemAtIndexPath:indexPath];
         if (bubbleImageDataSource != nil) {
@@ -471,10 +471,12 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
             UIImage *avatarImage = [avatarImageDataSource avatarImage];
             
             if (avatarImage == nil) {
+                
                 cell.avatarImageView.image = [avatarImageDataSource avatarPlaceholderImage];
                 cell.avatarImageView.highlightedImage = nil;
             }
             else {
+                
                 cell.avatarImageView.image = avatarImage;
                 cell.avatarImageView.highlightedImage = [avatarImageDataSource avatarHighlightedImage];
             }
@@ -495,16 +497,16 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     cell.cellBottomLabel.attributedText = attributedText;
     
-    //    CGFloat bubbleTopLabelInset = (avatarImageDataSource != nil) ? 60.0f : 15.0f;
-    //
-    //    if (isOutgoingMessage) {
-    //
-    //        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, bubbleTopLabelInset);
-    //    }
-    //    else {
-    //
-    //        cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
-    //    }
+        CGFloat bubbleTopLabelInset = (avatarImageDataSource != nil) ? 60.0f : 15.0f;
+    
+        if (isOutgoingMessage) {
+    
+            cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, bubbleTopLabelInset);
+        }
+        else {
+    
+            cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
+        }
     
     cell.backgroundColor = [UIColor clearColor];
     cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
@@ -554,7 +556,9 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 - (BOOL)collectionView:(QMChatCollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //  disable menu for media messages
-    id<QMChatMessageData> messageItem = [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+    id<QMChatMessageData> messageItem =
+    [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+    
     if ([messageItem isMediaMessage]) {
         return NO;
     }
@@ -609,15 +613,15 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     return 0.0f;
 }
 
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 0.f;
+    return CGSizeZero;
 }
 
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
-    return 0.f;
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
+    return CGSizeZero;
 }
 
 - (void)collectionView:(QMChatCollectionView *)collectionView

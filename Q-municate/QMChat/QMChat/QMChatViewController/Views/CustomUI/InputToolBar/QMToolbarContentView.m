@@ -13,7 +13,7 @@ const CGFloat kQMToolbarContentViewHorizontalSpacingDefault = 8.0f;
 
 @interface QMToolbarContentView()
 
-@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet QMPlaceHolderTextView *textView;
 
 @property (weak, nonatomic) IBOutlet UIView *leftBarButtonContainerView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftBarButtonContainerViewWidthConstraint;

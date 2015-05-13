@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QMPlaceHolderTextView.h"
 
 /**
  *  A constant value representing the default spacing to use for the left and right edges
@@ -25,7 +26,7 @@ FOUNDATION_EXPORT const CGFloat kQMToolbarContentViewHorizontalSpacingDefault;
 /**
  *  Returns the text view in which the user composes a message.
  */
-@property (weak, nonatomic, readonly) UITextView *textView;
+@property (weak, nonatomic, readonly) QMPlaceHolderTextView *textView;
 
 /**
  *  A custom button item displayed on the left of the toolbar content view.

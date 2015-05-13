@@ -54,16 +54,16 @@
     _cellBottomLabelHeight = [self correctedLabelHeightForHeight:cellBottomLabelHeight];
 }
 
-- (void)setMessageBubbleBottomLabelHeight:(CGFloat)messageBubbleBottomLabelHeight {
+- (void)setMessageBubbleBottomLabelSize:(CGSize)messageBubbleBottomLabelSize {
     
-    NSParameterAssert(messageBubbleBottomLabelHeight >= 0.0f);
-    _messageBubbleBottomLabelHeight = [self correctedLabelHeightForHeight:messageBubbleBottomLabelHeight];
+    NSParameterAssert(messageBubbleBottomLabelSize.height >= 0.0f);
+    _messageBubbleBottomLabelSize = [self correctedLabelSizeForSize:messageBubbleBottomLabelSize];
 }
 
-- (void)setMessageBubbleTopLabelHeight:(CGFloat)messageBubbleTopLabelHeight {
+- (void)setMessageBubbleTopLabelSize:(CGSize)messageBubbleTopLabelSize {
     
-    NSParameterAssert(messageBubbleTopLabelHeight >= 0.0f);
-    _messageBubbleTopLabelHeight = [self correctedLabelHeightForHeight:messageBubbleTopLabelHeight];
+    NSParameterAssert(messageBubbleTopLabelSize.height >= 0.0f);
+    _messageBubbleTopLabelSize = [self correctedLabelSizeForSize:messageBubbleTopLabelSize];
 }
 
 #pragma mark - Utilities
@@ -76,6 +76,11 @@
 - (CGFloat)correctedLabelHeightForHeight:(CGFloat)height {
     
     return ceilf(height);
+}
+
+- (CGSize)correctedLabelSizeForSize:(CGSize)size {
+    
+    return CGSizeMake(ceilf(size.width), ceilf(size.height));
 }
 
 #pragma mark - NSObject
@@ -103,14 +108,13 @@
             || !CGSizeEqualToSize(layoutAttributes.outgoingAvatarViewSize, self.outgoingAvatarViewSize)
             || (int)layoutAttributes.messageBubbleContainerViewWidth != (int)self.messageBubbleContainerViewWidth
             || (int)layoutAttributes.cellTopLabelHeight != (int)self.cellTopLabelHeight
-            || (int)layoutAttributes.messageBubbleTopLabelHeight != (int)self.messageBubbleTopLabelHeight
-            || (int)layoutAttributes.messageBubbleBottomLabelHeight != (int)self.messageBubbleBottomLabelHeight
+            || !CGSizeEqualToSize(layoutAttributes.messageBubbleTopLabelSize, self.messageBubbleTopLabelSize)
+            || !CGSizeEqualToSize(layoutAttributes.messageBubbleBottomLabelSize, self.messageBubbleBottomLabelSize)
             || (int)layoutAttributes.cellBottomLabelHeight != (int)self.cellBottomLabelHeight) {
             
             return NO;
         }
     }
-    
     return [super isEqual:object];
 }
 
@@ -138,8 +142,8 @@
     copy.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
     copy.cellTopLabelHeight = self.cellTopLabelHeight;
     copy.cellBottomLabelHeight = self.cellBottomLabelHeight;
-    copy.messageBubbleTopLabelHeight = self.messageBubbleTopLabelHeight;
-    copy.messageBubbleBottomLabelHeight = self.messageBubbleBottomLabelHeight;
+    copy.messageBubbleTopLabelSize = self.messageBubbleTopLabelSize;
+    copy.messageBubbleBottomLabelSize = self.messageBubbleBottomLabelSize;
     
     return copy;
 }
