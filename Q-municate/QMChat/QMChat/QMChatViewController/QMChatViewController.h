@@ -126,6 +126,9 @@
  */
 @property (copy, nonatomic) NSString *incomingMediaCellIdentifier;
 
+
+@property (copy, nonatomic) NSString *notificationMessageIdentifier;
+
 /**
  *  Specifies whether or not the view controller should show the typing indicator for an incoming message.
  *

@@ -14,7 +14,6 @@
  */
 
 @interface QMChatCollectionViewLayoutAttributes : UICollectionViewLayoutAttributes <NSCopying>
-
 /**
  *  The font used to display the body of a text message in a message bubble within a `QMChatCollectionViewCell`.
  *  This value must not be `nil`.
@@ -79,12 +78,20 @@
 @property (assign, nonatomic) CGFloat cellTopLabelHeight;
 
 /**
- *  The height of the `messageBubbleTopLabel` of a `QMChatCollectionViewCell`.
+ *  The height of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
  *  This value should be greater than or equal to `0.0`.
  *
  *  @see QMChatCollectionViewCell.
  */
 @property (assign, nonatomic) CGFloat messageBubbleTopLabelHeight;
+
+/**
+ *  The height of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
+ *  This value should be greater than or equal to `0.0`.
+ *
+ *  @see QMChatCollectionViewCell.
+ */
+@property (assign, nonatomic) CGFloat messageBubbleBottomLabelHeight;
 
 /**
  *  The height of the `cellBottomLabel` of a `QMChatCollectionViewCell`.
@@ -93,5 +100,6 @@
  *  @see QMChatCollectionViewCell.
  */
 @property (assign, nonatomic) CGFloat cellBottomLabelHeight;
+
 
 @end

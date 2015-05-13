@@ -17,11 +17,12 @@
 
 @property (weak, nonatomic) IBOutlet QMLabel *cellTopLabel;
 @property (weak, nonatomic) IBOutlet QMLabel *messageBubbleTopLabel;
+@property (weak, nonatomic) IBOutlet QMLabel *textView;
+@property (weak, nonatomic) IBOutlet QMLabel *messageBubbleBottomLabel;
 @property (weak, nonatomic) IBOutlet QMLabel *cellBottomLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *messageBubbleContainerView;
 @property (weak, nonatomic) IBOutlet UIImageView *messageBubbleImageView;
-@property (weak, nonatomic) IBOutlet QMLabel *textView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UIView *avatarContainerView;
@@ -34,8 +35,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewMarginHorizontalSpaceConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellTopLabelHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *messageBubbleTopLabelHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *cellBottomLabelHeightConstraint;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bubbleTopLabelHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bubbleBottomLabelHeightConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *avatarContainerViewWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *avatarContainerViewHeightConstraint;
@@ -50,17 +53,24 @@
 
 @implementation QMChatCollectionViewCell
 
-+ (UINib *)nib{
-    return [UINib nibWithNibName:NSStringFromClass([self class])
-                          bundle:[NSBundle bundleForClass:[self class]]];
++ (UINib *)nib {
+    
+    return [UINib nibWithNibName:NSStringFromClass([self class]) bundle:[NSBundle bundleForClass:[self class]]];
 }
 
 + (NSString *)cellReuseIdentifier {
+    
     return NSStringFromClass([self class]);
 }
 
 + (NSString *)mediaCellReuseIdentifier {
-    return [NSString stringWithFormat:@"%@_QMMedia", NSStringFromClass([self class])];
+    
+    return [NSString stringWithFormat:@"%@_QMChatMedia", NSStringFromClass([self class])];
+}
+
++ (NSString *)notificationReuseIdentifier {
+    
+    return [NSString stringWithFormat:@"%@_QMChatNotification", NSStringFromClass([self class])];
 }
 
 #pragma mark - Initialization
@@ -71,11 +81,13 @@
     
     [self setTranslatesAutoresizingMaskIntoConstraints:NO];
     
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor whiteColor];
+    self.opaque = YES;
     
     self.cellTopLabelHeightConstraint.constant = 0.0f;
-    self.messageBubbleTopLabelHeightConstraint.constant = 0.0f;
     self.cellBottomLabelHeightConstraint.constant = 0.0f;
+    self.bubbleTopLabelHeightConstraint.constant = 0.f;
+    self.bubbleBottomLabelHeightConstraint.constant = 0.f;
     
     self.avatarViewSize = CGSizeZero;
     
@@ -85,6 +97,9 @@
     
     self.messageBubbleTopLabel.font = [UIFont systemFontOfSize:12.0f];
     self.messageBubbleTopLabel.textColor = [UIColor lightGrayColor];
+    
+    self.messageBubbleBottomLabel.font = [UIFont systemFontOfSize:12.0f];
+    self.messageBubbleBottomLabel.textColor = [UIColor lightGrayColor];
     
     self.cellBottomLabel.font = [UIFont systemFontOfSize:11.0f];
     self.cellBottomLabel.textColor = [UIColor lightGrayColor];
@@ -99,6 +114,7 @@
     _delegate = nil;
     _cellTopLabel = nil;
     _messageBubbleTopLabel = nil;
+    _messageBubbleBottomLabel = nil;
     _cellBottomLabel = nil;
     _textView = nil;
     _messageBubbleImageView = nil;
@@ -114,12 +130,12 @@
     
     [super prepareForReuse];
     
-    self.cellTopLabel.text = nil;
-    self.messageBubbleTopLabel.text = nil;
-    self.cellBottomLabel.text = nil;
+//    self.cellTopLabel.text = nil;
+//    self.messageBubbleTopLabel.text = nil;
+//    self.cellBottomLabel.text = nil;
     
-    self.textView.text = nil;
-    self.textView.attributedText = nil;
+//    self.textView.text = nil;
+//    self.textView.attributedText = nil;
     
     self.avatarImageView.image = nil;
     self.avatarImageView.highlightedImage = nil;
@@ -137,7 +153,6 @@
     QMChatCollectionViewLayoutAttributes *customAttributes = (id)layoutAttributes;
     
     if (self.textView.font != customAttributes.messageBubbleFont) {
-        
         self.textView.font = customAttributes.messageBubbleFont;
     }
     
@@ -147,8 +162,9 @@
     
     [self updateConstraint:self.messageBubbleContainerWidthConstraint withConstant:customAttributes.messageBubbleContainerViewWidth];
     [self updateConstraint:self.cellTopLabelHeightConstraint withConstant:customAttributes.cellTopLabelHeight];
-    [self updateConstraint:self.messageBubbleTopLabelHeightConstraint withConstant:customAttributes.messageBubbleTopLabelHeight];
     [self updateConstraint:self.cellBottomLabelHeightConstraint withConstant:customAttributes.cellBottomLabelHeight];
+    [self updateConstraint:self.bubbleTopLabelHeightConstraint withConstant:customAttributes.messageBubbleTopLabelHeight];
+    [self updateConstraint:self.bubbleBottomLabelHeightConstraint withConstant:customAttributes.messageBubbleBottomLabelHeight];
     
     if ([self isKindOfClass:[QMChatCollectionViewCellIncoming class]]) {
         
@@ -189,6 +205,7 @@
     
     self.cellTopLabel.backgroundColor = backgroundColor;
     self.messageBubbleTopLabel.backgroundColor = backgroundColor;
+    self.messageBubbleBottomLabel.backgroundColor = backgroundColor;
     self.cellBottomLabel.backgroundColor = backgroundColor;
     
     self.messageBubbleImageView.backgroundColor = backgroundColor;
@@ -266,11 +283,9 @@
 
 - (void)updateConstraint:(NSLayoutConstraint *)constraint withConstant:(CGFloat)constant {
     
-    if (constraint.constant == constant) {
-        return;
+    if (constraint.constant < constant || constraint.constant > constant) {
+        constraint.constant = constant;
     }
-    
-    constraint.constant = constant;
 }
 
 #pragma mark - Gesture recognizers

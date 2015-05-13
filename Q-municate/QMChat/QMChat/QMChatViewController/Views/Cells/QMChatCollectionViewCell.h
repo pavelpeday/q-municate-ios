@@ -70,6 +70,12 @@
 @property (weak, nonatomic, readonly) QMLabel *messageBubbleTopLabel;
 
 /**
+ *  Returns the label that is pinned just above the messageBubbleImageView, and below the cellTopLabel.
+ *  This label is most commonly used to display the message sender.
+ */
+@property (weak, nonatomic, readonly) QMLabel *messageBubbleBottomLabel;
+
+/**
  *  Returns the label that is pinned to the bottom of the cell.
  *  This label is most commonly used to display message delivery status.
  */
@@ -156,5 +162,7 @@
  *  @return The string used to identify a reusable cell.
  */
 + (NSString *)mediaCellReuseIdentifier;
+
++ (NSString *)notificationReuseIdentifier;
 
 @end

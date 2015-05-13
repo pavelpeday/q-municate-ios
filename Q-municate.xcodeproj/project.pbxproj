@@ -135,6 +135,8 @@
 		FB42CFA51AF23FF300859A66 /* left_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB42CFA21AF23FF300859A66 /* left_bubble@2x.png */; };
 		FB42CFA61AF23FF300859A66 /* left_bubble@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB42CFA31AF23FF300859A66 /* left_bubble@3x.png */; };
 		FB52AE031AEFCB2200A888C8 /* QMLinkSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = FB52AE021AEFCB2200A888C8 /* QMLinkSegue.m */; };
+		FB65C52F1B020DC700AA636E /* QMSystemMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB65C52E1B020DC700AA636E /* QMSystemMessageCell.m */; };
+		FB65C5311B020DDF00AA636E /* QMSystemMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB65C5301B020DDF00AA636E /* QMSystemMessageCell.xib */; };
 		FB6BC7601AF2704A00B2A5FD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB6BC75E1AF2704A00B2A5FD /* Localizable.strings */; };
 		FB6BC7611AF2706500B2A5FD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB6BC7631AF2706500B2A5FD /* LaunchScreen.xib */; };
 		FB6BC7641AF2706C00B2A5FD /* QMChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB6BC7661AF2706C00B2A5FD /* QMChatViewController.xib */; };
@@ -408,6 +410,9 @@
 		FB42CFA31AF23FF300859A66 /* left_bubble@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "left_bubble@3x.png"; path = "Q-municate/QMChat/QMChat/left_bubble@3x.png"; sourceTree = SOURCE_ROOT; };
 		FB52AE011AEFCB2200A888C8 /* QMLinkSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMLinkSegue.h; sourceTree = "<group>"; };
 		FB52AE021AEFCB2200A888C8 /* QMLinkSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMLinkSegue.m; sourceTree = "<group>"; };
+		FB65C52D1B020DC700AA636E /* QMSystemMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMSystemMessageCell.h; sourceTree = "<group>"; };
+		FB65C52E1B020DC700AA636E /* QMSystemMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMSystemMessageCell.m; sourceTree = "<group>"; };
+		FB65C5301B020DDF00AA636E /* QMSystemMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QMSystemMessageCell.xib; sourceTree = "<group>"; };
 		FB6BC75F1AF2704A00B2A5FD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FB6BC7621AF2706500B2A5FD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		FB6BC7651AF2706C00B2A5FD /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QMChatViewController.xib; sourceTree = "<group>"; };
@@ -1383,10 +1388,11 @@
 		FB42CF521AF22DD700859A66 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				FB42CF531AF22DD700859A66 /* IncomingCell */,
-				FB42CF571AF22DD700859A66 /* OutgoingCell */,
 				FB42CF5B1AF22DD700859A66 /* QMChatCollectionViewCell.h */,
 				FB42CF5C1AF22DD700859A66 /* QMChatCollectionViewCell.m */,
+				FB65C52C1B020C8D00AA636E /* SystemMessageCell */,
+				FB42CF531AF22DD700859A66 /* IncomingCell */,
+				FB42CF571AF22DD700859A66 /* OutgoingCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1511,6 +1517,16 @@
 				FB42CF9F1AF23C4E00859A66 /* QMChatVC.m */,
 			);
 			path = QMChatVC;
+			sourceTree = "<group>";
+		};
+		FB65C52C1B020C8D00AA636E /* SystemMessageCell */ = {
+			isa = PBXGroup;
+			children = (
+				FB65C52D1B020DC700AA636E /* QMSystemMessageCell.h */,
+				FB65C52E1B020DC700AA636E /* QMSystemMessageCell.m */,
+				FB65C5301B020DDF00AA636E /* QMSystemMessageCell.xib */,
+			);
+			path = SystemMessageCell;
 			sourceTree = "<group>";
 		};
 		FB7938531AFB5E6500B2A6FF /* Resources */ = {
@@ -1653,6 +1669,7 @@
 				FB42CF961AF22DD700859A66 /* QMLoadEarlierHeaderView.xib in Resources */,
 				FB42CFA41AF23FF300859A66 /* left_bubble.png in Resources */,
 				FB6BC7611AF2706500B2A5FD /* LaunchScreen.xib in Resources */,
+				FB65C5311B020DDF00AA636E /* QMSystemMessageCell.xib in Resources */,
 				556E19881A9F65940087BEB9 /* Settings.storyboard in Resources */,
 				FB6BC76D1AF2707D00B2A5FD /* QMChatHistoryCell.xib in Resources */,
 				FBE51F2B1AF9094D0057531E /* QMProfileTitleView.xib in Resources */,
@@ -1762,6 +1779,7 @@
 				559379061ACC0ECE003E0015 /* QMTableViewCell.m in Sources */,
 				FB42CF911AF22DD700859A66 /* QMLabelLayoutData.mm in Sources */,
 				556E19AE1A9F659A0087BEB9 /* NSString+HasText.m in Sources */,
+				FB65C52F1B020DC700AA636E /* QMSystemMessageCell.m in Sources */,
 				55112F991AEA6AE6002E9F4E /* QMContactListVC.m in Sources */,
 				556E19FE1A9F65A50087BEB9 /* QMTasks.m in Sources */,
 				FBE51F281AF909300057531E /* QMTagsContainer.m in Sources */,

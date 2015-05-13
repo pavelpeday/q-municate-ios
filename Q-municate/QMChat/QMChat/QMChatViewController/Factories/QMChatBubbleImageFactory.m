@@ -78,6 +78,7 @@
     UIImage *highlightedBubble = [self.bubbleImage imageMaskedWithColor:[color colorByDarkeningColorWithValue:0.12f]];
     
     if (flippedForIncoming) {
+        
         normalBubble = [self horizontallyFlippedImageFromImage:normalBubble];
         highlightedBubble = [self horizontallyFlippedImageFromImage:highlightedBubble];
     }
@@ -89,12 +90,14 @@
 }
 
 - (UIImage *)horizontallyFlippedImageFromImage:(UIImage *)image {
+    
     return [UIImage imageWithCGImage:image.CGImage
                                scale:image.scale
                          orientation:UIImageOrientationUpMirrored];
 }
 
 - (UIImage *)stretchableImageFromImage:(UIImage *)image withCapInsets:(UIEdgeInsets)capInsets {
+    
     return [image resizableImageWithCapInsets:capInsets resizingMode:UIImageResizingModeStretch];
 }
 

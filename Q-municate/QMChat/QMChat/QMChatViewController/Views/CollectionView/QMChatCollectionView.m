@@ -12,6 +12,7 @@
 
 #import "QMChatCollectionViewCellIncoming.h"
 #import "QMChatCollectionViewCellOutgoing.h"
+#import "QMSystemMessageCell.h"
 
 #import "QMLoadEarlierHeaderView.h"
 #import "QMTypingIndicatorFooterView.h"
@@ -42,6 +43,8 @@
     [self registerNib:[QMChatCollectionViewCellOutgoing nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellOutgoing cellReuseIdentifier]];
     [self registerNib:[QMChatCollectionViewCellIncoming nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellIncoming mediaCellReuseIdentifier]];
     [self registerNib:[QMChatCollectionViewCellOutgoing nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellOutgoing mediaCellReuseIdentifier]];
+    
+    [self registerNib:[QMSystemMessageCell nib] forCellWithReuseIdentifier:[QMSystemMessageCell notificationReuseIdentifier]];
     
     [self registerNib:[QMTypingIndicatorFooterView nib] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
   withReuseIdentifier:[QMTypingIndicatorFooterView footerReuseIdentifier]];

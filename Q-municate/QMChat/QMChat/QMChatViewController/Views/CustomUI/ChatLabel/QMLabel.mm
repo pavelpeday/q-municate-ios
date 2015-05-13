@@ -47,15 +47,6 @@
 
 #pragma mark - Setters
 
-- (void)setFrame:(CGRect)frame {
-    
-    if (!CGSizeEqualToSize(self.frame.size, frame.size)) {
-        [self setNeedsDisplay];
-    }
-    
-    [super setFrame:frame];
-}
-
 - (void)setSelectedLinkData:(QMLabelLinkData)selectedLinkData {
     
     _selectedLinkData = selectedLinkData;
@@ -69,7 +60,6 @@
     }
     
     _textInsets = textInsets;
-    
     [self setNeedsDisplay];
 }
 
@@ -88,9 +78,7 @@
                                                                               options:0
                                                                                 error:&error];
             if (!error) {
-                return [regex matchesInString:text
-                                      options:0
-                                        range:NSMakeRange(0, text.length)];
+                return [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];
             }
         }
             break;
@@ -101,9 +89,7 @@
                                                                               options:0
                                                                                 error:&error];
             if (!error) {
-                return [regex matchesInString:text
-                                      options:0
-                                        range:NSMakeRange(0, text.length)];
+                return [regex matchesInString:text options:0 range:NSMakeRange(0, text.length)];
             }
         }
             break;
@@ -112,9 +98,7 @@
             NSError *error = nil;
             NSDataDetector *detector = [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:&error];
             if (!error) {
-                return [detector matchesInString:text
-                                         options:0
-                                           range:NSMakeRange(0, text.length)];
+                return [detector matchesInString:text options:0 range:NSMakeRange(0, text.length)];
             }
         }
             break;
@@ -132,7 +116,7 @@
                                           font:(UIFont *)font
                                       maxWidth:(float)maxWidth
                                     attributes:(NSDictionary *)attributes
-                                 linkDetection:(int)linkDetection {
+                                 linkDetection:(QMLabelDetection)linkDetection {
     
     
     CTFontRef fontRef = (__bridge CTFontRef)font;
@@ -201,17 +185,14 @@
     
     if (!links->empty()) {
         
-        auto linksBegin = layout.links->begin();
-        auto linksEnd = layout.links->end();
-        
         if (linkAttributes) {
             
-            for (auto linkIt = linksBegin; linkIt != linksEnd; linkIt++) {
+            for (auto &linkIt: *layout.links) {
                 
                 [linkAttributes enumerateKeysAndObjectsUsingBlock:^(NSString *key, id attribute, BOOL *stop) {
                     
                     CFAttributedStringSetAttribute((CFMutableAttributedStringRef)string,
-                                                   CFRangeFromNSRange(linkIt->range),
+                                                   CFRangeFromNSRange(linkIt.range),
                                                    adjustKey(key),
                                                    (__bridge CFTypeRef)attribute);
                 }];
@@ -269,6 +250,7 @@
             }
             
             QMLabelLinePosition linePosition = {
+                
                 .horizontalOffset = static_cast<float>(horizontalOffset),
                 .verticalOffset = currentLineOffset,
                 .alignment = alignment,
@@ -296,7 +278,7 @@
         
         for (auto &linkIt: *layout.links) {
             
-            for (int lineIdx = 0; lineIdx < textLines.count; lineIdx++) {
+            for (NSUInteger lineIdx = 0; lineIdx < textLines.count; lineIdx++) {
                 
                 CTLineRef line = (__bridge CTLineRef)[textLines objectAtIndex:lineIdx];
                 CFRange lineRange = CTLineGetStringRange(line);
@@ -312,17 +294,20 @@
                     float endX = 0.0f;
                     
                     startX = ceilf(CTLineGetOffsetForStringIndex(line,
-                                                                 intersectionRange.location, NULL) + lineOrigin.x);
-                    endX = ceilf(CTLineGetOffsetForStringIndex(line,
-                                                               intersectionRange.location + intersectionRange.length, NULL) + lineOrigin.x);
+                                                                 intersectionRange.location,
+                                                                 NULL) + lineOrigin.x);
                     
+                    endX = ceilf(CTLineGetOffsetForStringIndex(line,
+                                                               intersectionRange.location + intersectionRange.length,
+                                                               NULL) + lineOrigin.x);
                     if (startX > endX) {
+                        
                         float tmp = startX;
                         startX = endX;
                         endX = tmp;
                     }
                     
-                    if (intersectionRange.location + intersectionRange.length >= lineRange.location + lineRange.length
+                    if ((unsigned int)intersectionRange.location + intersectionRange.length >= (unsigned int)lineRange.location + lineRange.length
                         && ABS(endX - layoutSize.width) < 16) {
                         
                         endX = layoutSize.width + lineOrigin.x;
@@ -336,6 +321,7 @@
                     if (!linkIt.rects) {
                         linkIt.rects = [NSMutableArray array];
                     }
+                    
                     NSValue *regionValue = [NSValue valueWithCGRect:region];
                     [linkIt.rects addObject:regionValue];
                 }
@@ -407,14 +393,11 @@ NSRange NSRangeFromCFRange(CFRange range) {
     CGFloat upperOriginBound = clipRect.origin.y;
     CGFloat lowerOriginBound = clipRect.origin.y + clipRect.size.height + lineHeight;
     
-    for (CFIndex lineIndex = linesRange.location; lineIndex < linesRange.location + linesRange.length; lineIndex++) {
+    for (CFIndex lineIndex = linesRange.location; lineIndex < (CFIndex)(linesRange.location + linesRange.length); lineIndex++) {
         
         CTLineRef line = (CTLineRef)CFArrayGetValueAtIndex(lines, lineIndex);
-        
         const QMLabelLinePosition &linePosition = lineOrigins->at(lineIndex);
-        
         CGPoint lineOrigin = CGPointMake(linePosition.horizontalOffset, linePosition.verticalOffset);
-        
         if (lineOrigin.y < upperOriginBound || lineOrigin.y > lowerOriginBound) {
             continue;
         }
@@ -436,8 +419,11 @@ NSRange NSRangeFromCFRange(CFRange range) {
     QMLabelLinkData linkData = [self.precalculatedLayout linkAtPoint:touchLocation];
     
     if (linkData.link) {
+        
         self.selectedLinkData = linkData;
-    } else {
+    }
+    else {
+        
         [super touchesBegan:touches withEvent:event];
     }
 }
@@ -451,6 +437,7 @@ NSRange NSRangeFromCFRange(CFRange range) {
     [super touchesEnded:touches withEvent:event];
     
     if (self.isTouchMoved) {
+        
         self.selectedLinkData = {};
         return;
     }
@@ -485,7 +472,14 @@ NSRange NSRangeFromCFRange(CFRange range) {
                                CGRectGetWidth(rect) - self.textInsets.right,
                                CGRectGetHeight(rect) - self.textInsets.bottom);
     
-    [QMLabel drawTextInRect:t_rect withPrecalculatedLayout:_precalculatedLayout];
+    if (!_precalculatedLayout) {
+        
+        [super drawTextInRect:rect];
+    }
+    else {
+        
+        [QMLabel drawTextInRect:t_rect withPrecalculatedLayout:_precalculatedLayout];
+    }
 }
 
 @end

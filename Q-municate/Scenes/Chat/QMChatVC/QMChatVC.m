@@ -46,14 +46,12 @@
     
     self.array = [NSMutableArray array];
     //Get messages
-    [QM.chatService messageWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {
-        
-        [self.collectionView reloadData];
-    }];
+    [QM.chatService messageWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {}];
     
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     //Configure navigation bar
     UIImage *placeholder = [QMPlaceholder placeholderWithFrame:CGRectMake(0, 0, 30, 30) fullName:self.chatDialog.name];
+    
     self.navigationItem.rightBarButtonItem =
     [[UIBarButtonItem alloc] initWithImage:placeholder style:UIBarButtonItemStyleBordered target:self
                                     action:@selector(pressGroupInfo:)];
@@ -93,10 +91,7 @@
 - (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message forDialogID:(NSString *)dialogID {
     
     if ([self.chatDialog.ID isEqualToString:dialogID]) {
-        
         [self.array addObject:message];
-        [self.collectionView reloadData];
-        [self scrollToBottomAnimated:YES];
     }
 }
 
@@ -122,60 +117,6 @@
 
 #pragma mark - QBChatMessage CollectionView DataSource
 
-- (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    
-    /**
-     *  This logic should be consistent with what you return from `heightForCellTopLabelAtIndexPath:`
-     *  The other label text delegate methods should follow a similar pattern.
-     *
-     *  Show a timestamp for every 3rd message
-     */
-    return [[NSAttributedString alloc] initWithString:@"Hello"];
-}
-
-- (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    
-    QBChatMessage *message = [self.array objectAtIndex:indexPath.item];
-    /** *  iOS7-style sender name labels */
-    if (message.senderID == self.senderID) {
-        return nil;
-    }
-    
-    if (indexPath.item - 1 > 0) {
-        
-        QBChatMessage *previousMessage = [self.array objectAtIndex:indexPath.item - 1];
-        if (previousMessage.senderID == message.senderID) {
-            
-            return nil;
-        }
-    }
-    /**
-     *  Don't specify attributes to use the defaults.
-     */
-    if (message.messageType == QMMessageTypeDefault) {
-        
-        return [[NSAttributedString alloc] initWithString:message.senderNick];
-        
-    } else if (message.messageType == QMMessageTypeNotificationAboutCreateGroupDialog) {
-        
-        return [[NSAttributedString alloc] initWithString:@"crete dialog"];
-    }
-    else if (message.messageType == QMMessageTypeNotificationAboutSendContactRequest) {
-        
-        return [[NSAttributedString alloc] initWithString:@"Contact request"];
-    }
-    else if (message.messageType == QMMessageTypeNotificationAboutRejectContactRequest) {
-        
-        return [[NSAttributedString alloc] initWithString:@"Reject contact request"];
-    }
-    else if (message.messageType == QMMessageTypeNotificationAboutConfirmContactRequest) {
-        
-        return [[NSAttributedString alloc] initWithString:@"Confirm contact request"];
-    }
-    
-    
-    return [[NSAttributedString alloc] initWithString:message.senderNick];
-}
 
 - (id<QMChatMessageData>)collectionView:(QMChatViewController *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -193,7 +134,7 @@
     
     QBChatMessage *msg = self.array[indexPath.item];
     
-    if (msg.senderID == QM.profile.userData.ID) {
+    if (msg.senderID == self.senderID) {
         
         return self.outgoingBubbleImageData;
     }
@@ -201,63 +142,59 @@
     return self.incomingBubbleImageData;
 }
 
-- (id<QMChatAvatarImageDataSource>)collectionView:(QMChatCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
+#pragma mark Cell Top label
+
+- (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
     return nil;
 }
 
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
+#pragma mark Cell Bottom label
+
+- (NSAttributedString *)collectionView:(QMChatCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
     
-    QBChatMessage *msg = self.array[indexPath.row];
+    return nil;
+}
+
+#pragma mark Bubble Top Label
+
+- (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
-//    if (msg.senderID == self.senderID ) {
-//        return 0.0f;
-//    }
-//    
-//    if (indexPath.item - 1 > 0) {
-//        
-//        QBChatMessage *previousMessage = [self.array objectAtIndex:indexPath.item - 1];
-//        if (previousMessage.senderID == msg.senderID) {
-//            
-//            return 0.0f;
-//        }
-//    }
+    return [[NSAttributedString alloc] initWithString:@"Ivanov Andrey"];
+}
+
+#pragma mark Bubble Bottom Label
+
+- (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
     
-    return kQMChatCollectionViewCellLabelHeightDefault;
+    return [[NSAttributedString alloc] initWithString:@"11:50 pm"];
 }
 
 - (CGFloat)collectionView:(QMChatCollectionView *)collectionView
                    layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    return 20;
+    return 0;
 }
 
 - (CGFloat)collectionView:(QMChatCollectionView *)collectionView
                    layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
     
-    return kQMChatCollectionViewCellLabelHeightDefault;
+    return 0;
 }
 
-- (NSAttributedString *)collectionView:(QMChatCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
-    UIColor *color = [UIColor lightGrayColor];
+    return 20.f;
+}
+
+- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
+    return 20.f;
+}
+
+- (id<QMChatAvatarImageDataSource>)collectionView:(QMChatCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    paragraphStyle.alignment = NSTextAlignmentLeft;
-    QBChatMessage *msg = self.array[indexPath.row];
-    
-    if (msg.senderID == self.senderID ) {
-        paragraphStyle.alignment = NSTextAlignmentRight;
-    }
-    /**
-     *  Set bottom Lable attribues
-     */
-    NSDictionary *dateTextAttributes =
-    @{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12.0f],
-       NSForegroundColorAttributeName : color,
-       NSParagraphStyleAttributeName : paragraphStyle };
-    
-    return [[NSAttributedString alloc] initWithString:@"Hello" attributes:dateTextAttributes];
+    return nil;
 }
 
 #pragma mark - Buttons factory
@@ -349,12 +286,15 @@
     message.text = text;
     message.senderID = senderId;
     
-    [QM.chatService sendMessage:message toDialog:self.chatDialog type:QMMessageTypeDefault save:YES completion:^(NSError *error) {
-        
-        [self finishSendingMessageAnimated:YES];
-        
-    }];
+    QBChatAttachment *attacment = [[QBChatAttachment alloc] init];
+    message.attachments = @[attacment];
     
+    button.enabled = NO;
+    
+    [QM.chatService sendMessage:message toDialog:self.chatDialog type:QMMessageTypeText save:YES completion:^(NSError *error) {
+        button.enabled = YES;
+        [self finishSendingMessageAnimated:NO];
+    }];
 }
 
 #pragma mark Nav bar

@@ -168,7 +168,6 @@ static void * kQMKeyboardControllerKeyValueObservingContext = &kQMKeyboardContro
 - (void)didReceiveKeyboardDidChangeFrameNotification:(NSNotification *)notification {
     
     [self setKeyboardViewHidden:NO];
-    
     [self handleKeyboardNotification:notification completion:nil];
 }
 
@@ -309,8 +308,9 @@ static void * kQMKeyboardControllerKeyValueObservingContext = &kQMKeyboardContro
     self.keyboardView.userInteractionEnabled = !userIsDraggingNearThresholdForDismissing;
     
     switch (pan.state) {
-            case UIGestureRecognizerStateChanged:
-        {
+            
+        case UIGestureRecognizerStateChanged: {
+            
             newKeyboardViewFrame.origin.y = touch.y + self.keyboardTriggerPoint.y;
             
             //  bound frame between bottom of view and height of keyboard
@@ -331,12 +331,13 @@ static void * kQMKeyboardControllerKeyValueObservingContext = &kQMKeyboardContro
         }
             break;
             
-            case UIGestureRecognizerStateEnded:
-            case UIGestureRecognizerStateCancelled:
-            case UIGestureRecognizerStateFailed:
-        {
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed: {
+            
             BOOL keyboardViewIsHidden = (CGRectGetMinY(self.keyboardView.frame) >= contextViewWindowHeight);
             if (keyboardViewIsHidden) {
+                
                 [self resetKeyboardAndTextView];
                 return;
             }
@@ -350,21 +351,22 @@ static void * kQMKeyboardControllerKeyValueObservingContext = &kQMKeyboardContro
             [UIView animateWithDuration:0.25
                                   delay:0.0
                                 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationCurveEaseOut
-                             animations:^{
-                                 self.keyboardView.frame = newKeyboardViewFrame;
-                             }
-                             completion:^(BOOL finished) {
-                                 self.keyboardView.userInteractionEnabled = !shouldHide;
-                                 
-                                 if (shouldHide) {
-                                     [self resetKeyboardAndTextView];
-                                 }
-                             }];
+                             animations:^
+             {
+                 self.keyboardView.frame = newKeyboardViewFrame;
+                 
+             } completion:^(BOOL finished) {
+                 
+                 self.keyboardView.userInteractionEnabled = !shouldHide;
+                 
+                 if (shouldHide) {
+                     [self resetKeyboardAndTextView];
+                 }
+             }];
         }
             break;
             
-        default:
-            break;
+        default:break;
     }
 }
 

@@ -58,15 +58,8 @@
  *  @return A boolean value specifying whether or not this is a media message or a text message.
  *  Return `YES` if this item is a media message, and `NO` if it is a text message.
  */
-- (BOOL)isMediaMessage;
 
-/**
- *  Message type (Custom parameter), see QMAbstractMessage+
- *
- *  @param NSUInteger <#NSUInteger description#>
- *
- *  @return <#return value description#>
- */
+- (BOOL)isMediaMessage;
 
 - (QMMessageType)messageType;
 
@@ -76,7 +69,7 @@
  *  @discussion This value must be unique for each message with distinct contents.
  *  This value is used to cache layout information in the collection view.
  */
-- (NSUInteger)ID;
+- (NSString *)ID;
 
 @optional
 

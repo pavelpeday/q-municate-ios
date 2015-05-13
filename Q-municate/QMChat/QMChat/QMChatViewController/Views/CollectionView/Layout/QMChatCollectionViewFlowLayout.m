@@ -16,7 +16,7 @@
 #import "QMChatCollectionViewCell.h"
 
 const CGFloat kQMChatCollectionViewCellLabelHeightDefault = 20.0f;
-const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
+const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 @interface QMChatCollectionViewFlowLayout()
 
@@ -30,6 +30,8 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
 
 @implementation QMChatCollectionViewFlowLayout
 
+@dynamic chatCollectionView;
+
 - (QMChatCollectionView *)chatCollectionView {
     
     return (id)self.collectionView;
@@ -39,12 +41,12 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
 
 - (void)configureFlowLayout {
     
-    self.textCache = [NSMutableDictionary dictionary];
+    self.precalculatedLayouts = [NSMutableDictionary dictionary];
     self.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.sectionInset = UIEdgeInsetsMake(10.0f, 4.0f, 10.0f, 4.0f);
     self.minimumLineSpacing = 4.0f;
     
-    _bubbleImageAssetWidth = [UIImage imageNamed:@""].size.width;
+    _bubbleImageAssetWidth = [UIImage imageNamed:@"left_bubble"].size.width;
     
     _messageBubbleCache = [NSCache new];
     _messageBubbleCache.name = @"QMChatCollectionViewFlowLayout.messageBubbleCache";
@@ -53,9 +55,11 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
     _messageBubbleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        
         _messageBubbleLeftRightMargin = 240.0f;
     }
     else {
+        
         _messageBubbleLeftRightMargin = 50.0f;
     }
     
@@ -420,24 +424,23 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
 - (CGSize)messageBubbleSizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     id<QMChatMessageData> messageItem =
-    [self.chatCollectionView.dataSource collectionView:self.chatCollectionView
-                         messageDataForItemAtIndexPath:indexPath];
+    [self.chatCollectionView.dataSource collectionView:self.chatCollectionView messageDataForItemAtIndexPath:indexPath];
     
-    NSValue *cachedSize = [self.messageBubbleCache objectForKey:@([messageItem ID])];
+    NSString *messageID = [messageItem ID];
+    NSParameterAssert(messageID);
+    
+    NSValue *cachedSize = [self.messageBubbleCache objectForKey:messageID];
+    
     if (cachedSize != nil) {
+        
         return [cachedSize CGSizeValue];
     }
     
     CGSize finalSize = CGSizeZero;
     
-    if ([messageItem isMediaMessage])
-    {
-        finalSize = [[messageItem media] mediaViewDisplaySize];
-    }
-    else if ([messageItem messageType] == QMMessageTypeDefault) {
+    if ([messageItem messageType] == QMMessageTypeText) {
         
         CGSize avatarSize = [self avatarSizeForIndexPath:indexPath];
-        
         //  from the cell xibs, there is a 2 point space between avatar and bubble
         CGFloat spacingBetweenAvatarAndBubble = 2.0f;
         CGFloat horizontalContainerInsets = self.messageBubbleTextViewTextContainerInsets.left + self.messageBubbleTextViewTextContainerInsets.right;
@@ -448,10 +451,9 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
         
         QMLabelLayoutData *data = nil;
         
-        if ((NSUInteger)indexPath.item  < self.textCache.count) {
+        if ((NSUInteger)indexPath.item < self.precalculatedLayouts.count) {
             
-            data = self.textCache[@([messageItem ID])];
-            
+            data = self.precalculatedLayouts[messageID];
         }
         
         if (!data) {
@@ -459,32 +461,37 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
             data = [QMLabel calculateLayoutWithText:[messageItem text]
                                                font:self.messageBubbleFont
                                            maxWidth:maximumTextWidth
-                                         attributes:@{ NSFontAttributeName : self.messageBubbleFont }
-                                      linkDetection:QMLabelLinkTypeURL];
+                                         attributes:@{NSFontAttributeName : self.messageBubbleFont }
+                                      linkDetection:0];
             
-            self.textCache[@([messageItem ID])] = data;
+            self.precalculatedLayouts[messageID] = data;
         }
         
         CGSize stringSize = data.size;
-        
         CGFloat verticalContainerInsets = self.messageBubbleTextViewTextContainerInsets.top + self.messageBubbleTextViewTextContainerInsets.bottom;
         CGFloat verticalFrameInsets = self.messageBubbleTextViewFrameInsets.top + self.messageBubbleTextViewFrameInsets.bottom;
-        
         //  add extra 2 points of space, because `boundingRectWithSize:` is slightly off
         //  not sure why. magix. (shrug) if you know, submit a PR
         CGFloat verticalInsets = verticalContainerInsets + verticalFrameInsets + 2.0f;
-        
         //  same as above, an extra 2 points of magix
         CGFloat finalWidth = MAX(stringSize.width + horizontalInsetsTotal, self.bubbleImageAssetWidth) + 2.0f;
         
         finalSize = CGSizeMake(finalWidth, stringSize.height + verticalInsets);
     }
-    else if ([messageItem messageType] > QMMessageTypeDefault) {
+    else if ([messageItem isMediaMessage]) {
+        
+        finalSize = [[messageItem media] mediaViewDisplaySize];
+    }
+    else if ([messageItem isMediaMessage]) {
         
         finalSize = CGSizeMake(300, 40);
     }
+    else {
+        
+        finalSize = CGSizeMake(200, 30);
+    }
     
-    [self.messageBubbleCache setObject:[NSValue valueWithCGSize:finalSize] forKey:@([messageItem ID])];
+    [self.messageBubbleCache setObject:[NSValue valueWithCGSize:finalSize] forKey:messageID];
     
     return finalSize;
 }
@@ -497,7 +504,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
     
     CGFloat finalHeight = messageBubbleSize.height;
     finalHeight += attributes.cellTopLabelHeight;
-    finalHeight += attributes.messageBubbleTopLabelHeight;
     finalHeight += attributes.cellBottomLabelHeight;
     
     return CGSizeMake(self.itemWidth, ceilf(finalHeight));
@@ -508,23 +514,29 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
     NSIndexPath *indexPath = layoutAttributes.indexPath;
     
     CGSize messageBubbleSize = [self messageBubbleSizeForItemAtIndexPath:indexPath];
-    
+    messageBubbleSize.width += 100;
     layoutAttributes.messageBubbleContainerViewWidth = messageBubbleSize.width;
     layoutAttributes.textViewFrameInsets = self.messageBubbleTextViewFrameInsets;
     layoutAttributes.textViewTextContainerInsets = self.messageBubbleTextViewTextContainerInsets;
     layoutAttributes.messageBubbleFont = self.messageBubbleFont;
     layoutAttributes.incomingAvatarViewSize = self.incomingAvatarViewSize;
     layoutAttributes.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
+    //Cell top label height
     layoutAttributes.cellTopLabelHeight =
     [self.chatCollectionView.delegate collectionView:self.chatCollectionView
                                               layout:self
                     heightForCellTopLabelAtIndexPath:indexPath];
-    
+    //Bubble top label height
     layoutAttributes.messageBubbleTopLabelHeight =
     [self.chatCollectionView.delegate collectionView:self.chatCollectionView
                                               layout:self
            heightForMessageBubbleTopLabelAtIndexPath:indexPath];
-    
+    //Bubble bottom label height
+    layoutAttributes.messageBubbleBottomLabelHeight =
+    [self.chatCollectionView.delegate collectionView:self.chatCollectionView
+                                              layout:self
+        heightForMessageBubbleBottomLabelAtIndexPath:indexPath];
+    //Cell bottom label height
     layoutAttributes.cellBottomLabelHeight =
     [self.chatCollectionView.delegate collectionView:self.chatCollectionView
                                               layout:self
@@ -534,12 +546,12 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 30.0f;
 - (CGSize)avatarSizeForIndexPath:(NSIndexPath *)indexPath {
     
     id<QMChatMessageData> messageData =
-    [self.chatCollectionView.dataSource collectionView:self.chatCollectionView
-                         messageDataForItemAtIndexPath:indexPath];
+    [self.chatCollectionView.dataSource collectionView:self.chatCollectionView messageDataForItemAtIndexPath:indexPath];
     
     NSUInteger messageSender = [messageData senderID];
     
     if (messageSender == [self.chatCollectionView.dataSource senderID]) {
+        
         return self.outgoingAvatarViewSize;
     }
     

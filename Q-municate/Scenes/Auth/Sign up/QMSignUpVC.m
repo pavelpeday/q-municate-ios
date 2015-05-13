@@ -100,6 +100,7 @@
                      
                      if (response.success) {
                          //Update password data
+#warning Need hide synchronize
                          userProfile.password = newUser.password;
                          QM.profile.type = QMProfileTypeEmail;
                          QM.profile.userAgreementAccepted = userAgreementSuccess;

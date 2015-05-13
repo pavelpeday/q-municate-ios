@@ -195,6 +195,8 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
 
 - (void)authService:(QMAuthService *)authService didLoginWithUser:(QBUUser *)user {
     
+    [self.profile synchronizeWithUserData:user];
+    
 }
 
 #pragma mark - Errors handler

@@ -18,7 +18,6 @@
 }
 
 #pragma mark - Setters
-
 - (void)setMessageBubbleFont:(UIFont *)messageBubbleFont {
     
     NSParameterAssert(messageBubbleFont != nil);
@@ -49,16 +48,22 @@
     _cellTopLabelHeight = [self correctedLabelHeightForHeight:cellTopLabelHeight];
 }
 
-- (void)setMessageBubbleTopLabelHeight:(CGFloat)messageBubbleTopLabelHeight {
-    
-    NSParameterAssert(messageBubbleTopLabelHeight >= 0.0f);
-    _messageBubbleTopLabelHeight = [self correctedLabelHeightForHeight:messageBubbleTopLabelHeight];
-}
-
 - (void)setCellBottomLabelHeight:(CGFloat)cellBottomLabelHeight {
     
     NSParameterAssert(cellBottomLabelHeight >= 0.0f);
     _cellBottomLabelHeight = [self correctedLabelHeightForHeight:cellBottomLabelHeight];
+}
+
+- (void)setMessageBubbleBottomLabelHeight:(CGFloat)messageBubbleBottomLabelHeight {
+    
+    NSParameterAssert(messageBubbleBottomLabelHeight >= 0.0f);
+    _messageBubbleBottomLabelHeight = [self correctedLabelHeightForHeight:messageBubbleBottomLabelHeight];
+}
+
+- (void)setMessageBubbleTopLabelHeight:(CGFloat)messageBubbleTopLabelHeight {
+    
+    NSParameterAssert(messageBubbleTopLabelHeight >= 0.0f);
+    _messageBubbleTopLabelHeight = [self correctedLabelHeightForHeight:messageBubbleTopLabelHeight];
 }
 
 #pragma mark - Utilities
@@ -99,6 +104,7 @@
             || (int)layoutAttributes.messageBubbleContainerViewWidth != (int)self.messageBubbleContainerViewWidth
             || (int)layoutAttributes.cellTopLabelHeight != (int)self.cellTopLabelHeight
             || (int)layoutAttributes.messageBubbleTopLabelHeight != (int)self.messageBubbleTopLabelHeight
+            || (int)layoutAttributes.messageBubbleBottomLabelHeight != (int)self.messageBubbleBottomLabelHeight
             || (int)layoutAttributes.cellBottomLabelHeight != (int)self.cellBottomLabelHeight) {
             
             return NO;
@@ -131,8 +137,9 @@
     copy.incomingAvatarViewSize = self.incomingAvatarViewSize;
     copy.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
     copy.cellTopLabelHeight = self.cellTopLabelHeight;
-    copy.messageBubbleTopLabelHeight = self.messageBubbleTopLabelHeight;
     copy.cellBottomLabelHeight = self.cellBottomLabelHeight;
+    copy.messageBubbleTopLabelHeight = self.messageBubbleTopLabelHeight;
+    copy.messageBubbleBottomLabelHeight = self.messageBubbleBottomLabelHeight;
     
     return copy;
 }

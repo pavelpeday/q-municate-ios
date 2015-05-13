@@ -31,8 +31,7 @@ typedef enum {
                                           font:(UIFont *)font
                                       maxWidth:(float)maxWidth
                                     attributes:(NSDictionary *)attributes
-                                 linkDetection:(int)linkDetection;
-
+                                 linkDetection:(QMLabelDetection)linkDetection;
 
 @end
 
