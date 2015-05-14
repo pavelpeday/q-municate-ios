@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TTTAttributedLabel.h"
+#import "QMBabbleContainerView.h"
 
 @class QMChatCollectionViewCell;
 

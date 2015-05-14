@@ -144,7 +144,7 @@ const NSUInteger kQMMaxTagsCount = 5;
                  
                  [QM.chatService sendMessage:message
                                     toDialog:createdDialog
-                                        type:QMMessageTypeNotificationAboutSendContactRequest
+                                        type:QMMessageTypeContactRequest
                                         save:YES
                                   completion:^(NSError *error)
                   {

@@ -7,19 +7,15 @@
 //
 
 #import "QMChatCollectionView.h"
-#import "QMLoadEarlierHeaderView.h"
-#import "QMTypingIndicatorFooterView.h"
-
-#import "QMChatCollectionViewCellIncoming.h"
-#import "QMChatCollectionViewCellOutgoing.h"
-#import "QMSystemMessageCell.h"
 
 #import "QMLoadEarlierHeaderView.h"
 #import "QMTypingIndicatorFooterView.h"
+
+#import "QMChatContactRequestCell.h"
+
 #import "UIColor+QM.h"
 
-@interface QMChatCollectionView()
-<QMLoadEarlierHeaderViewDelegate>
+@interface QMChatCollectionView() <QMLoadEarlierHeaderViewDelegate>
 @end
 
 @implementation QMChatCollectionView
@@ -38,19 +34,30 @@
     self.keyboardDismissMode = UIScrollViewKeyboardDismissModeNone;
     self.alwaysBounceVertical = YES;
     self.bounces = YES;
-    
-    [self registerNib:[QMChatCollectionViewCellIncoming nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellIncoming cellReuseIdentifier]];
-    [self registerNib:[QMChatCollectionViewCellOutgoing nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellOutgoing cellReuseIdentifier]];
-    [self registerNib:[QMChatCollectionViewCellIncoming nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellIncoming mediaCellReuseIdentifier]];
-    [self registerNib:[QMChatCollectionViewCellOutgoing nib] forCellWithReuseIdentifier:[QMChatCollectionViewCellOutgoing mediaCellReuseIdentifier]];
-    
-    [self registerNib:[QMSystemMessageCell nib] forCellWithReuseIdentifier:[QMSystemMessageCell notificationReuseIdentifier]];
-    
-    [self registerNib:[QMTypingIndicatorFooterView nib] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
-  withReuseIdentifier:[QMTypingIndicatorFooterView footerReuseIdentifier]];
-    
-    [self registerNib:[QMLoadEarlierHeaderView nib] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-  withReuseIdentifier:[QMLoadEarlierHeaderView headerReuseIdentifier]];
+    /**
+     *  Register contact request cell
+     */
+    UINib *requestNib = [QMChatContactRequestCell nib];
+    NSString *requestIdentifier = [QMChatContactRequestCell cellReuseIdentifier];
+    [self registerNib:requestNib forCellWithReuseIdentifier:requestIdentifier];
+    /**
+     *  Register Notification  cell
+     */
+    UINib *notificationNib = [QMChatNotificationCell nib];
+    NSString *notificationIdentifier = [QMChatNotificationCell cellReuseIdentifier];
+    [self registerNib:notificationNib forCellWithReuseIdentifier:notificationIdentifier];
+    /**
+     *  Register Typing footer view
+     */
+    UINib *typingNib = [QMTypingIndicatorFooterView nib];
+    NSString *typingIdentifier = [QMTypingIndicatorFooterView footerReuseIdentifier];
+    [self registerNib:typingNib forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:typingIdentifier];
+    /**
+     *  Register Earlier header view
+     */
+    UINib *earlierNib = [QMLoadEarlierHeaderView nib];
+    NSString *earlierIdentifier = [QMLoadEarlierHeaderView headerReuseIdentifier];
+    [self registerNib:earlierNib forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:earlierIdentifier];
     
     _typingIndicatorDisplaysOnLeft = YES;
     _typingIndicatorMessageBubbleColor = [UIColor messageBubbleLightGrayColor];
@@ -64,6 +71,7 @@
     if (self) {
         [self configureCollectionView];
     }
+    
     return self;
 }
 
@@ -120,9 +128,7 @@
         return;
     }
     
-    [self.delegate collectionView:self
-            didTapAvatarImageView:cell.avatarImageView
-                      atIndexPath:indexPath];
+    [self.delegate collectionView:self didTapAvatarImageView:cell.avatarImageView atIndexPath:indexPath];
 }
 
 - (void)messagesCollectionViewCellDidTapMessageBubble:(QMChatCollectionViewCell *)cell {
@@ -142,9 +148,7 @@
         return;
     }
     
-    [self.delegate collectionView:self
-            didTapCellAtIndexPath:indexPath
-                    touchLocation:position];
+    [self.delegate collectionView:self didTapCellAtIndexPath:indexPath touchLocation:position];
 }
 
 @end

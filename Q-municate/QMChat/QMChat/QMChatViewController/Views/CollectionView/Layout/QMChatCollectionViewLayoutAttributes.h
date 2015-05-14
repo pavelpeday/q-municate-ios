@@ -18,7 +18,7 @@
  *  The font used to display the body of a text message in a message bubble within a `QMChatCollectionViewCell`.
  *  This value must not be `nil`.
  */
-@property (strong, nonatomic) UIFont *messageBubbleFont;
+//@property (strong, nonatomic) UIFont *messageBubbleFont;
 
 /**
  *  The width of the `messageBubbleContainerView` of a `QMChatCollectionViewCell`.
@@ -26,13 +26,13 @@
  *
  *  @see QMChatCollectionViewCell.
  */
-@property (assign, nonatomic) CGFloat messageBubbleContainerViewWidth;
+@property (assign, nonatomic) CGSize containerViewSize;
 
 /**
  *  The inset of the text container's layout area within the text view's content area in a `QMChatCollectionViewCell`.
  *  The specified inset values should be greater than or equal to `0.0`.
  */
-@property (assign, nonatomic) UIEdgeInsets textViewTextContainerInsets;
+//@property (assign, nonatomic) UIEdgeInsets textViewTextContainerInsets;
 
 /**
  *  The inset of the frame of the text view within a `QMChatCollectionViewCell`.
@@ -51,7 +51,7 @@
  *
  *  4. The bottom value insets the bottom of the frame.
  */
-@property (assign, nonatomic) UIEdgeInsets textViewFrameInsets;
+//@property (assign, nonatomic) UIEdgeInsets textViewFrameInsets;
 
 /**
  *  The size of the `avatarImageView` of a `QMChatCollectionViewCellIncoming`.
@@ -59,7 +59,7 @@
  *
  *  @see QMChatCollectionViewCellIncoming.
  */
-@property (assign, nonatomic) CGSize incomingAvatarViewSize;
+//@property (assign, nonatomic) CGSize incomingAvatarViewSize;
 
 /**
  *  The size of the `avatarImageView` of a `QMChatCollectionViewCellOutgoing`.
@@ -67,7 +67,7 @@
  *
  *  @see `QMChatCollectionViewCellOutgoing`.
  */
-@property (assign, nonatomic) CGSize outgoingAvatarViewSize;
+//@property (assign, nonatomic) CGSize outgoingAvatarViewSize;
 
 /**
  *  The height of the `cellTopLabel` of a `QMChatCollectionViewCell`.
@@ -75,7 +75,7 @@
  *
  *  @see QMChatCollectionViewCell.
  */
-@property (assign, nonatomic) CGFloat cellTopLabelHeight;
+//@property (assign, nonatomic) CGFloat cellTopLabelHeight;
 
 /**
  *  The size of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
@@ -83,7 +83,7 @@
  *
  *  @see QMChatCollectionViewCell.
  */
-@property (assign, nonatomic) CGSize messageBubbleTopLabelSize;
+//@property (assign, nonatomic) CGSize messageBubbleTopLabelSize;
 
 /**
  *  The size of the `messageBubbleTopLabel` of a `JSQMessagesCollectionViewCell`.
@@ -91,7 +91,7 @@
  *
  *  @see QMChatCollectionViewCell.
  */
-@property (assign, nonatomic) CGSize messageBubbleBottomLabelSize;
+//@property (assign, nonatomic) CGSize messageBubbleBottomLabelSize;
 
 /**
  *  The height of the `cellBottomLabel` of a `QMChatCollectionViewCell`.
@@ -99,7 +99,7 @@
  *
  *  @see QMChatCollectionViewCell.
  */
-@property (assign, nonatomic) CGFloat cellBottomLabelHeight;
+//@property (assign, nonatomic) CGFloat cellBottomLabelHeight;
 
 
 @end

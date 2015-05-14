@@ -12,11 +12,9 @@
 
 @interface QMProfileTitleView : UIView
 
-@property (strong, nonatomic) NSString *title;
-@property (assign, nonatomic) BOOL activity;
-@property (weak, nonatomic) id  <QMProfileTitleViewDelegate> delegate;
+@property (weak, nonatomic) id<QMProfileTitleViewDelegate> delegate;
 
-- (void)setUserImageWithUrl:(NSString *)url;
+- (instancetype)initWithUserName:(NSString *)userName imageUrl:(NSString *)imageUrl;
 
 @end
 

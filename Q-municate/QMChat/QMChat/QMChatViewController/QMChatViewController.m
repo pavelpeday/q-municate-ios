@@ -12,10 +12,8 @@
 #import "QMToolbarContentView.h"
 #import "QMChatCollectionViewFlowLayout.h"
 
-#import "QMChatCollectionViewCell.h"
-#import "QMChatCollectionViewCellOutgoing.h"
-#import "QMChatCollectionViewCellIncoming.h"
-#import "QMSystemMessageCell.h"
+#import "QMChatContactRequestCell.h"
+#import "QMChatNotificationCell.h"
 
 #import "QMCollectionViewFlowLayoutInvalidationContext.h"
 #import "QMChatMediaData.h"
@@ -24,6 +22,8 @@
 #import "QMTypingIndicatorFooterView.h"
 #import "QMLoadEarlierHeaderView.h"
 #import "QMChatAvatarImageDataSource.h"
+
+#import "QMChatViewsProvider.h"
 
 static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
@@ -40,6 +40,8 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 @property (strong, nonatomic) QMKeyboardController *keyboardController;
 
 @property (strong, nonatomic) NSIndexPath *selectedIndexPathForMenu;
+
+@property (strong, nonatomic) QMChatViewsProvider *viewsProvider;
 
 @property (assign, nonatomic) BOOL isObserving;
 
@@ -64,6 +66,11 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 - (void)configureMessagesViewController {
     
     self.isObserving = NO;
+    self.viewsProvider = [[QMChatViewsProvider alloc] init];
+    self.viewsProvider.senderID = self.senderID;
+    
+    
+    self.collectionView.collectionViewLayout.sizesProvider = self.viewsProvider;
     
     self.toolbarHeightConstraint.constant = self.inputToolbar.preferredDefaultHeight;
     
@@ -72,22 +79,10 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     self.inputToolbar.delegate = self;
     self.inputToolbar.contentView.textView.delegate = self;
-    
     self.automaticallyScrollsToMostRecentMessage = YES;
-    
-    self.outgoingCellIdentifier = [QMChatCollectionViewCellOutgoing cellReuseIdentifier];
-    self.outgoingMediaCellIdentifier = [QMChatCollectionViewCellOutgoing mediaCellReuseIdentifier];
-    self.notificationMessageIdentifier = [QMSystemMessageCell notificationReuseIdentifier];
-    
-    self.incomingCellIdentifier = [QMChatCollectionViewCellIncoming cellReuseIdentifier];
-    self.incomingMediaCellIdentifier = [QMChatCollectionViewCellIncoming mediaCellReuseIdentifier];
-    
     self.showTypingIndicator = NO;
-    
     self.showLoadEarlierMessagesHeader = NO;
-    
     self.topContentAdditionalInset = 0.0f;
-    
     [self updateCollectionViewInsets];
     
     self.keyboardController =
@@ -342,9 +337,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     UICollectionViewScrollPosition scrollPosition = (finalCellSize.height > maxHeightForVisibleMessage) ? UICollectionViewScrollPositionBottom : UICollectionViewScrollPositionTop;
     
-    [self.collectionView scrollToItemAtIndexPath:finalIndexPath
-                                atScrollPosition:scrollPosition
-                                        animated:animated];
+    [self.collectionView scrollToItemAtIndexPath:finalIndexPath atScrollPosition:scrollPosition animated:animated];
 }
 
 #pragma mark - QBChatMessage collection view data source
@@ -407,112 +400,31 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     NSUInteger messageSenderId = [messageItem senderID];
     NSParameterAssert(messageSenderId != 0);
     
-    BOOL isOutgoingMessage = messageSenderId == self.senderID;
-    QMMessageType messageType = [messageItem messageType];
+    NSString *cellIdentifier = [self cellIdentifierForMessageItem:messageItem];
     
-    NSString *cellIdentifier = nil;
+   
     
-    if ([messageItem isMediaMessage]) {
-        
-        cellIdentifier = isOutgoingMessage ? self.outgoingMediaCellIdentifier : self.incomingMediaCellIdentifier;
-    }
-    else if (messageType == QMMessageTypeText) {
-        
-        cellIdentifier = isOutgoingMessage ? self.outgoingCellIdentifier : self.incomingCellIdentifier;
-    }
-    else if (messageType > QMMessageTypeText) {
-        
-        cellIdentifier = self.notificationMessageIdentifier;
-    }
-    
-    QMChatCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.delegate = collectionView;
-    
-    if (messageType == QMMessageTypeText) {
-        
-        NSAttributedString *attributedString =
-        [[NSAttributedString alloc] initWithString:[messageItem text]
-                                        attributes:@{NSFontAttributeName : collectionView.collectionViewLayout.messageBubbleFont}];
-        
-        cell.textView.attributedText = attributedString;
-        
-        id<QMChatBubbleImageDataSource> bubbleImageDataSource = [collectionView.dataSource collectionView:collectionView messageBubbleImageDataForItemAtIndexPath:indexPath];
-        if (bubbleImageDataSource != nil) {
-            
-            cell.messageBubbleImageView.image = [bubbleImageDataSource messageBubbleImage];
-            cell.messageBubbleImageView.highlightedImage = [bubbleImageDataSource messageBubbleHighlightedImage];
-        }
-    }
-    else if ([messageItem isMediaMessage]){
-        
-        id<QMChatMediaData> messageMedia = [messageItem media];
-        cell.mediaView = [messageMedia mediaView] ?: [messageMedia mediaPlaceholderView];
-        NSParameterAssert(cell.mediaView != nil);
-    }
-    
-    BOOL needsAvatar = YES;
-    
-    if (isOutgoingMessage && CGSizeEqualToSize(collectionView.collectionViewLayout.outgoingAvatarViewSize, CGSizeZero)) {
-        
-        needsAvatar = NO;
-    }
-    else if (!isOutgoingMessage && CGSizeEqualToSize(collectionView.collectionViewLayout.incomingAvatarViewSize, CGSizeZero)) {
-        
-        needsAvatar = NO;
-    }
-    
-    id<QMChatAvatarImageDataSource> avatarImageDataSource = nil;
-    
-    if (needsAvatar) {
-        
-        avatarImageDataSource = [collectionView.dataSource collectionView:collectionView avatarImageDataForItemAtIndexPath:indexPath];
-        if (avatarImageDataSource != nil) {
-            
-            UIImage *avatarImage = [avatarImageDataSource avatarImage];
-            
-            if (avatarImage == nil) {
-                
-                cell.avatarImageView.image = [avatarImageDataSource avatarPlaceholderImage];
-                cell.avatarImageView.highlightedImage = nil;
-            }
-            else {
-                
-                cell.avatarImageView.image = avatarImage;
-                cell.avatarImageView.highlightedImage = [avatarImageDataSource avatarHighlightedImage];
-            }
-        }
-    }
-    //Top label
-    cell.cellTopLabel.attributedText =
-    [collectionView.dataSource collectionView:collectionView attributedTextForCellTopLabelAtIndexPath:indexPath];
-    
-    cell.messageBubbleTopLabel.attributedText =
-    [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:indexPath];
-    
-    cell.messageBubbleBottomLabel.attributedText =
-    [collectionView.dataSource collectionView:collectionView attributedTextForMessageBubbleBottomLabelAtIndexPath:indexPath];
-    
-    NSAttributedString *attributedText =
-    [collectionView.dataSource collectionView:collectionView attributedTextForCellBottomLabelAtIndexPath:indexPath];
-    
-    cell.cellBottomLabel.attributedText = attributedText;
-    
-        CGFloat bubbleTopLabelInset = (avatarImageDataSource != nil) ? 60.0f : 15.0f;
-    
-        if (isOutgoingMessage) {
-    
-            cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, bubbleTopLabelInset);
-        }
-        else {
-    
-            cell.messageBubbleTopLabel.textInsets = UIEdgeInsetsMake(0.0f, bubbleTopLabelInset, 0.0f, 0.0f);
-        }
-    
-    cell.backgroundColor = [UIColor clearColor];
-    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    cell.layer.shouldRasterize = YES;
+    QMChatCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    cell.textView.text = [messageItem text];
     
     return cell;
+}
+
+- (NSString *)cellIdentifierForMessageItem:(id <QMChatMessageData>)messageItem {
+    
+    if (messageItem.messageType == QMMessageTypeContactRequest) {
+        
+        if ([messageItem senderID] == self.senderID) {
+            
+            return [QMChatNotificationCell cellReuseIdentifier];
+        }
+        else {
+            
+            return [QMChatContactRequestCell cellReuseIdentifier];
+        }
+    }
+
+    return @"Unknown message identifier";
 }
 
 - (UICollectionReusableView *)collectionView:(QMChatCollectionView *)collectionView
@@ -553,8 +465,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 #pragma mark - Collection view delegate
 
-- (BOOL)collectionView:(QMChatCollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)collectionView:(QMChatCollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
     //  disable menu for media messages
     id<QMChatMessageData> messageItem =
     [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
@@ -603,35 +514,12 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     return [collectionViewLayout sizeForItemAtIndexPath:indexPath];
 }
 
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    return 0.0f;
-}
-
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
-    return 0.0f;
-}
-
-- (CGSize)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return CGSizeZero;
-}
-
-- (CGSize)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeZero;
-}
-
-- (void)collectionView:(QMChatCollectionView *)collectionView
- didTapAvatarImageView:(UIImageView *)avatarImageView
+- (void)collectionView:(QMChatCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView
            atIndexPath:(NSIndexPath *)indexPath { }
 
 - (void)collectionView:(QMChatCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath { }
 
-- (void)collectionView:(QMChatCollectionView *)collectionView
- didTapCellAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(QMChatCollectionView *)collectionView didTapCellAtIndexPath:(NSIndexPath *)indexPath
          touchLocation:(CGPoint)touchLocation { }
 
 #pragma mark - Input toolbar delegate
@@ -656,9 +544,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     if (toolbar.sendButtonOnRight) {
         
-        [self didPressSendButton:sender
-                 withMessageText:[self currentlyComposedMessageText]
-                        senderId:self.senderID
+        [self didPressSendButton:sender withMessageText:[self currentlyComposedMessageText] senderId:self.senderID
                senderDisplayName:self.senderDisplayName
                             date:[NSDate date]];
     }

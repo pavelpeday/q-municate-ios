@@ -8,7 +8,6 @@
 
 #import "QMChatCollectionViewCell.h"
 
-#import "QMChatCollectionViewCellIncoming.h"
 #import "QMChatCollectionViewCellOutgoing.h"
 #import "QMChatCollectionViewLayoutAttributes.h"
 #import "UIView+QM.h"
@@ -21,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *messageBubbleBottomLabel;
 @property (weak, nonatomic) IBOutlet TTTAttributedLabel *cellBottomLabel;
 
-@property (weak, nonatomic) IBOutlet UIView *messageBubbleContainerView;
+@property (weak, nonatomic) IBOutlet QMBabbleContainerView *messageBubbleContainerView;
 @property (weak, nonatomic) IBOutlet UIImageView *messageBubbleImageView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -86,31 +85,33 @@
     self.backgroundColor = [UIColor whiteColor];
     self.opaque = YES;
     
-    self.cellTopLabelHeightConstraint.constant = 0.0f;
-    self.cellBottomLabelHeightConstraint.constant = 0.0f;
-    self.bubbleTopLabelHeightConstraint.constant = 0.f;
-    self.bubbleBottomLabelHeightConstraint.constant = 0.f;
+//    self.cellTopLabelHeightConstraint.constant = 0.0f;
+//    self.cellBottomLabelHeightConstraint.constant = 0.0f;
+//    self.bubbleTopLabelHeightConstraint.constant = 0.f;
+//    self.bubbleBottomLabelHeightConstraint.constant = 0.f;
+//    
+//    self.avatarViewSize = CGSizeZero;
+//    
+//    self.cellTopLabel.textAlignment = NSTextAlignmentCenter;
+//    self.cellTopLabel.font = [UIFont boldSystemFontOfSize:12.0f];
+//    self.cellTopLabel.textColor = [UIColor lightGrayColor];
+//    self.cellTopLabel.backgroundColor = [UIColor clearColor];
+//    
+//    self.messageBubbleTopLabel.font = [UIFont systemFontOfSize:12.0f];
+//    self.messageBubbleTopLabel.textColor = [UIColor lightGrayColor];
+//    self.messageBubbleTopLabel.backgroundColor = [UIColor clearColor];
+//    
+//    self.messageBubbleBottomLabel.font = [UIFont systemFontOfSize:12.0f];
+//    self.messageBubbleBottomLabel.textColor = [UIColor lightGrayColor];
+//    self.messageBubbleBottomLabel.backgroundColor = [UIColor clearColor];
+//    
+//    self.cellBottomLabel.font = [UIFont systemFontOfSize:11.0f];
+//    self.cellBottomLabel.textColor = [UIColor lightGrayColor];
+//    self.cellBottomLabel.backgroundColor = [UIColor clearColor];
+//    
+//    self.textView.backgroundColor = [UIColor clearColor];
     
-    self.avatarViewSize = CGSizeZero;
-    
-    self.cellTopLabel.textAlignment = NSTextAlignmentCenter;
-    self.cellTopLabel.font = [UIFont boldSystemFontOfSize:12.0f];
-    self.cellTopLabel.textColor = [UIColor lightGrayColor];
-    self.cellTopLabel.backgroundColor = [UIColor clearColor];
-    
-    self.messageBubbleTopLabel.font = [UIFont systemFontOfSize:12.0f];
-    self.messageBubbleTopLabel.textColor = [UIColor lightGrayColor];
-    self.messageBubbleTopLabel.backgroundColor = [UIColor clearColor];
-    
-    self.messageBubbleBottomLabel.font = [UIFont systemFontOfSize:12.0f];
-    self.messageBubbleBottomLabel.textColor = [UIColor lightGrayColor];
-    self.messageBubbleBottomLabel.backgroundColor = [UIColor clearColor];
-    
-    self.cellBottomLabel.font = [UIFont systemFontOfSize:11.0f];
-    self.cellBottomLabel.textColor = [UIColor lightGrayColor];
-    self.cellBottomLabel.backgroundColor = [UIColor clearColor];
-    
-    self.textView.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor clearColor];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
     [self addGestureRecognizer:tap];
@@ -157,31 +158,31 @@
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
     
     [super applyLayoutAttributes:layoutAttributes];
+//    
+//    QMChatCollectionViewLayoutAttributes *customAttributes = (id)layoutAttributes;
+//    
+//    if (self.textView.font != customAttributes.messageBubbleFont) {
+//        self.textView.font = customAttributes.messageBubbleFont;
+//    }
+//    
+//    self.textView.textInsets = customAttributes.textViewTextContainerInsets;
+//    
+//    self.textViewFrameInsets = customAttributes.textViewFrameInsets;
+//    
+//    [self updateConstraint:self.messageBubbleContainerWidthConstraint withConstant:customAttributes.messageBubbleContainerViewWidth];
+//    [self updateConstraint:self.cellTopLabelHeightConstraint withConstant:customAttributes.cellTopLabelHeight];
+//    [self updateConstraint:self.cellBottomLabelHeightConstraint withConstant:customAttributes.cellBottomLabelHeight];
+//    [self updateConstraint:self.bubbleTopLabelHeightConstraint withConstant:customAttributes.messageBubbleTopLabelSize.height];
+//    [self updateConstraint:self.bubbleBottomLabelHeightConstraint withConstant:customAttributes.messageBubbleBottomLabelSize.height];
     
-    QMChatCollectionViewLayoutAttributes *customAttributes = (id)layoutAttributes;
-    
-    if (self.textView.font != customAttributes.messageBubbleFont) {
-        self.textView.font = customAttributes.messageBubbleFont;
-    }
-    
-    self.textView.textInsets = customAttributes.textViewTextContainerInsets;
-    
-    self.textViewFrameInsets = customAttributes.textViewFrameInsets;
-    
-    [self updateConstraint:self.messageBubbleContainerWidthConstraint withConstant:customAttributes.messageBubbleContainerViewWidth];
-    [self updateConstraint:self.cellTopLabelHeightConstraint withConstant:customAttributes.cellTopLabelHeight];
-    [self updateConstraint:self.cellBottomLabelHeightConstraint withConstant:customAttributes.cellBottomLabelHeight];
-    [self updateConstraint:self.bubbleTopLabelHeightConstraint withConstant:customAttributes.messageBubbleTopLabelSize.height];
-    [self updateConstraint:self.bubbleBottomLabelHeightConstraint withConstant:customAttributes.messageBubbleBottomLabelSize.height];
-    
-    if ([self isKindOfClass:[QMChatCollectionViewCellIncoming class]]) {
-        
-        self.avatarViewSize = customAttributes.incomingAvatarViewSize;
-    }
-    else if ([self isKindOfClass:[QMChatCollectionViewCellOutgoing class]]) {
-        
-        self.avatarViewSize = customAttributes.outgoingAvatarViewSize;
-    }
+//    if ([self isKindOfClass:[QMChatCollectionViewCellIncoming class]]) {
+//        
+//        self.avatarViewSize = customAttributes.incomingAvatarViewSize;
+//    }
+//    else if ([self isKindOfClass:[QMChatCollectionViewCellOutgoing class]]) {
+//        
+//        self.avatarViewSize = customAttributes.outgoingAvatarViewSize;
+//    }
 }
 
 - (void)setHighlighted:(BOOL)highlighted {

@@ -13,7 +13,7 @@
 #import "QMChatMessageData.h"
 #import "QMChatMediaData.h"
 #import "QMChatCollectionView.h"
-#import "QMChatCollectionViewCell.h"
+#import "QMChatCell.h"
 
 const CGFloat kQMChatCollectionViewCellLabelHeightDefault = 20.0f;
 const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
@@ -22,7 +22,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 @property (strong, nonatomic) NSMutableSet *visibleIndexPaths;
 @property (strong, nonatomic) NSCache *messageBubbleCache;
-@property (assign, nonatomic, readonly) NSUInteger bubbleImageAssetWidth;
 @property (strong, nonatomic) UIDynamicAnimator *dynamicAnimator;
 @property (assign, nonatomic) CGFloat latestDelta;
 
@@ -44,30 +43,12 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     self.scrollDirection = UICollectionViewScrollDirectionVertical;
     self.sectionInset = UIEdgeInsetsMake(10.0f, 4.0f, 10.0f, 4.0f);
     self.minimumLineSpacing = 4.0f;
-    
-    _bubbleImageAssetWidth = [UIImage imageNamed:@"left_bubble"].size.width;
-    
-    _messageBubbleCache = [NSCache new];
-    _messageBubbleCache.name = @"QMChatCollectionViewFlowLayout.messageBubbleCache";
-    _messageBubbleCache.countLimit = 200;
-    
-    _messageBubbleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-        
-        _messageBubbleLeftRightMargin = 240.0f;
-    }
-    else {
-        
-        _messageBubbleLeftRightMargin = 50.0f;
-    }
-    
-    _messageBubbleTextViewFrameInsets = UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 6.0f);
-    _messageBubbleTextViewTextContainerInsets = UIEdgeInsetsMake(7.0f, 14.0f, 7.0f, 14.0f);
-    
-    CGSize defaultAvatarSize = CGSizeMake(kQMChatCollectionViewAvatarSizeDefault, kQMChatCollectionViewAvatarSizeDefault);
-    _incomingAvatarViewSize = defaultAvatarSize;
-    _outgoingAvatarViewSize = defaultAvatarSize;
+    /**
+     *  Init cache
+     */
+    _messageBubbleCache = [[NSCache alloc] init];
+    _messageBubbleCache.name = @"com.chat.sizes";
+    _messageBubbleCache.countLimit = 300;
     
     _springinessEnabled = NO;
     _springResistanceFactor = 1000;
@@ -88,6 +69,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     self = [super init];
     
     if (self) {
+        
         [self configureFlowLayout];
     }
     
@@ -114,8 +96,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    _messageBubbleFont = nil;
-    
     [self.messageBubbleCache removeAllObjects];
     self.messageBubbleCache = nil;
     
@@ -128,67 +108,18 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 - (void)setSpringinessEnabled:(BOOL)springinessEnabled {
     
-    if (_springinessEnabled == springinessEnabled) {
-        return;
-    }
-    
-    _springinessEnabled = springinessEnabled;
-    
-    if (!springinessEnabled) {
-        [_dynamicAnimator removeAllBehaviors];
-        [_visibleIndexPaths removeAllObjects];
-    }
-    
-    [self invalidateLayoutWithContext:[QMCollectionViewFlowLayoutInvalidationContext context]];
-}
+    if (_springinessEnabled != springinessEnabled) {
 
-- (void)setMessageBubbleFont:(UIFont *)messageBubbleFont {
-    
-    if ([_messageBubbleFont isEqual:messageBubbleFont]) {
-        return;
+        _springinessEnabled = springinessEnabled;
+        
+        if (!springinessEnabled) {
+            
+            [_dynamicAnimator removeAllBehaviors];
+            [_visibleIndexPaths removeAllObjects];
+        }
+        
+        [self invalidateLayoutWithContext:[QMCollectionViewFlowLayoutInvalidationContext context]];
     }
-    
-    NSParameterAssert(messageBubbleFont != nil);
-    _messageBubbleFont = messageBubbleFont;
-    
-    [self invalidateLayoutWithContext:[QMCollectionViewFlowLayoutInvalidationContext context]];
-}
-
-- (void)setMessageBubbleLeftRightMargin:(CGFloat)messageBubbleLeftRightMargin {
-    
-    NSParameterAssert(messageBubbleLeftRightMargin >= 0.0f);
-    _messageBubbleLeftRightMargin = ceilf(messageBubbleLeftRightMargin);
-    [self invalidateLayoutWithContext:[QMCollectionViewFlowLayoutInvalidationContext context]];
-}
-
-- (void)setMessageBubbleTextViewTextContainerInsets:(UIEdgeInsets)messageBubbleTextContainerInsets {
-    
-    if (UIEdgeInsetsEqualToEdgeInsets(_messageBubbleTextViewTextContainerInsets, messageBubbleTextContainerInsets)) {
-        return;
-    }
-    
-    _messageBubbleTextViewTextContainerInsets = messageBubbleTextContainerInsets;
-    [self invalidateLayoutWithContext:[QMCollectionViewFlowLayoutInvalidationContext context]];
-}
-
-- (void)setIncomingAvatarViewSize:(CGSize)incomingAvatarViewSize {
-    
-    if (CGSizeEqualToSize(_incomingAvatarViewSize, incomingAvatarViewSize)) {
-        return;
-    }
-    
-    _incomingAvatarViewSize = incomingAvatarViewSize;
-    [self invalidateLayoutWithContext:[QMCollectionViewFlowLayoutInvalidationContext context]];
-}
-
-- (void)setOutgoingAvatarViewSize:(CGSize)outgoingAvatarViewSize {
-    
-    if (CGSizeEqualToSize(_outgoingAvatarViewSize, outgoingAvatarViewSize)) {
-        return;
-    }
-    
-    _outgoingAvatarViewSize = outgoingAvatarViewSize;
-    [self invalidateLayoutWithContext:[QMCollectionViewFlowLayoutInvalidationContext context]];
 }
 
 - (void)setCacheLimit:(NSUInteger)cacheLimit {
@@ -247,8 +178,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
         context.invalidateFlowLayoutDelegateMetrics = YES;
     }
     
-    if (context.invalidateFlowLayoutAttributes
-        || context.invalidateFlowLayoutDelegateMetrics) {
+    if (context.invalidateFlowLayoutAttributes || context.invalidateFlowLayoutDelegateMetrics) {
         
         [self resetDynamicAnimator];
     }
@@ -283,6 +213,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     NSArray *attributesInRect = [super layoutAttributesForElementsInRect:rect];
     
     if (self.springinessEnabled) {
+        
         NSMutableArray *attributesInRectCopy = [attributesInRect mutableCopy];
         NSArray *dynamicAttributes = [self.dynamicAnimator itemsInRect:rect];
         
@@ -420,64 +351,21 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 - (CGSize)messageBubbleSizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    id <QMChatMessageData> messageItem = [self.chatCollectionView.dataSource collectionView:self.chatCollectionView messageDataForItemAtIndexPath:indexPath];
+    id <QMChatMessageData> messageItem =
+    [self.chatCollectionView.dataSource collectionView:self.chatCollectionView messageDataForItemAtIndexPath:indexPath];
     
-    NSString *messageID = [messageItem ID];
-    NSParameterAssert(messageID);
-    
-    NSValue *cachedSize = [self.messageBubbleCache objectForKey:messageID];
+    NSValue *cachedSize = [self.messageBubbleCache objectForKey:messageItem.ID];
     
     if (cachedSize != nil) {
         
         return [cachedSize CGSizeValue];
     }
     
-    CGSize finalSize = CGSizeZero;
+     CGSize size = [self.sizesProvider sizeForIndexPath:indexPath messageItem:messageItem maximumWidht:self.itemWidth];
     
-    if ([messageItem messageType] == QMMessageTypeText) {
-        
-        CGSize avatarSize = [self avatarSizeForIndexPath:indexPath];
-        //  from the cell xibs, there is a 2 point space between avatar and bubble
-        CGFloat spacingBetweenAvatarAndBubble = 2.0f;
-        CGFloat horizontalContainerInsets = self.messageBubbleTextViewTextContainerInsets.left + self.messageBubbleTextViewTextContainerInsets.right;
-        CGFloat horizontalFrameInsets = self.messageBubbleTextViewFrameInsets.left + self.messageBubbleTextViewFrameInsets.right;
-        
-        CGFloat horizontalInsetsTotal = horizontalContainerInsets + horizontalFrameInsets + spacingBetweenAvatarAndBubble;
-        CGFloat maximumTextWidth = self.itemWidth - avatarSize.width - self.messageBubbleLeftRightMargin - horizontalInsetsTotal;
-        
-        CGRect stringRect = [[messageItem text] boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX)
-                                                             options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                                          attributes:@{ NSFontAttributeName : self.messageBubbleFont }
-                                                             context:nil];
-        
-        CGSize stringSize = CGRectIntegral(stringRect).size;
-        
-        CGFloat verticalContainerInsets = self.messageBubbleTextViewTextContainerInsets.top + self.messageBubbleTextViewTextContainerInsets.bottom;
-        CGFloat verticalFrameInsets = self.messageBubbleTextViewFrameInsets.top + self.messageBubbleTextViewFrameInsets.bottom;
-        //  add extra 2 points of space, because `boundingRectWithSize:` is slightly off
-        //  not sure why. magix. (shrug) if you know, submit a PR
-        CGFloat verticalInsets = verticalContainerInsets + verticalFrameInsets + 2.0f;
-        //  same as above, an extra 2 points of magix
-        CGFloat finalWidth = MAX(stringSize.width + horizontalInsetsTotal, self.bubbleImageAssetWidth) + 2.0f;
-        
-        finalSize = CGSizeMake(finalWidth, stringSize.height + verticalInsets);
-    }
-    else if ([messageItem isMediaMessage]) {
-        
-        finalSize = [[messageItem media] mediaViewDisplaySize];
-    }
-    else if ([messageItem isMediaMessage]) {
-        
-        finalSize = CGSizeMake(300, 40);
-    }
-    else {
-        
-        finalSize = CGSizeMake(200, 30);
-    }
+    [self.messageBubbleCache setObject:[NSValue valueWithCGSize:size] forKey:messageItem.ID];
     
-    [self.messageBubbleCache setObject:[NSValue valueWithCGSize:finalSize] forKey:messageID];
-    
-    return finalSize;
+    return size;
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -486,64 +374,23 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     QMChatCollectionViewLayoutAttributes *attributes = (id)[self layoutAttributesForItemAtIndexPath:indexPath];
     
     CGFloat finalHeight = messageBubbleSize.height;
-    finalHeight += attributes.cellTopLabelHeight;
-    finalHeight += attributes.cellBottomLabelHeight;
     
-    return CGSizeMake(self.itemWidth, ceilf(finalHeight));
+    return CGSizeMake(self.itemWidth, finalHeight + 20);
 }
 
 - (void)configureMessageCellLayoutAttributes:(QMChatCollectionViewLayoutAttributes *)layoutAttributes {
     
     NSIndexPath *indexPath = layoutAttributes.indexPath;
-    
-    CGSize messageBubbleSize = [self messageBubbleSizeForItemAtIndexPath:indexPath];
-    layoutAttributes.messageBubbleContainerViewWidth = messageBubbleSize.width;
-    layoutAttributes.textViewFrameInsets = self.messageBubbleTextViewFrameInsets;
-    layoutAttributes.textViewTextContainerInsets = self.messageBubbleTextViewTextContainerInsets;
-    layoutAttributes.messageBubbleFont = self.messageBubbleFont;
-    layoutAttributes.incomingAvatarViewSize = self.incomingAvatarViewSize;
-    layoutAttributes.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
-    //Cell top label height
-    layoutAttributes.cellTopLabelHeight =
-    [self.chatCollectionView.delegate collectionView:self.chatCollectionView
-                                              layout:self
-                    heightForCellTopLabelAtIndexPath:indexPath];
-    //Bubble top label height
-    layoutAttributes.messageBubbleTopLabelSize =
-    [self.chatCollectionView.delegate collectionView:self.chatCollectionView
-                                              layout:self
-           sizeForMessageBubbleTopLabelAtIndexPath:indexPath];
-    //Bubble bottom label height
-    layoutAttributes.messageBubbleBottomLabelSize =
-    [self.chatCollectionView.delegate collectionView:self.chatCollectionView
-                                              layout:self
-        sizeForMessageBubbleBottomLabelAtIndexPath:indexPath];
-    //Cell bottom label height
-    layoutAttributes.cellBottomLabelHeight =
-    [self.chatCollectionView.delegate collectionView:self.chatCollectionView
-                                              layout:self
-                 heightForCellBottomLabelAtIndexPath:indexPath];
-}
 
-- (CGSize)avatarSizeForIndexPath:(NSIndexPath *)indexPath {
+    CGSize messageBubbleSize = [self messageBubbleSizeForItemAtIndexPath:indexPath];
+    layoutAttributes.containerViewSize = messageBubbleSize;
     
-    id<QMChatMessageData> messageData =
-    [self.chatCollectionView.dataSource collectionView:self.chatCollectionView messageDataForItemAtIndexPath:indexPath];
-    
-    NSUInteger messageSender = [messageData senderID];
-    
-    if (messageSender == [self.chatCollectionView.dataSource senderID]) {
-        
-        return self.outgoingAvatarViewSize;
-    }
-    
-    return self.incomingAvatarViewSize;
 }
 
 #pragma mark - Spring behavior utilities
 
-- (UIAttachmentBehavior *)springBehaviorWithLayoutAttributesItem:(UICollectionViewLayoutAttributes *)item
-{
+- (UIAttachmentBehavior *)springBehaviorWithLayoutAttributesItem:(UICollectionViewLayoutAttributes *)item {
+    
     if (CGSizeEqualToSize(item.frame.size, CGSizeZero)) {
         // adding a spring behavior with zero size will fail in in -prepareForCollectionViewUpdates:
         return nil;
@@ -563,9 +410,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 - (void)addNewlyVisibleBehaviorsFromVisibleItems:(NSArray *)visibleItems {
     //
     //  a "newly visible" item is in `visibleItems` but not in `self.visibleIndexPaths`
-    NSIndexSet *indexSet = [visibleItems indexesOfObjectsPassingTest:^BOOL(UICollectionViewLayoutAttributes *item,
-                                                                           NSUInteger index,
-                                                                           BOOL *stop) {
+    NSIndexSet *indexSet = [visibleItems indexesOfObjectsPassingTest:^BOOL(UICollectionViewLayoutAttributes *item, NSUInteger index, BOOL *stop) {
         return ![self.visibleIndexPaths containsObject:item.indexPath];
     }];
     

@@ -127,6 +127,9 @@
         CGColorSpaceRelease(colorSpace);
         
         UIImage *placeholderImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
         UIImage *toSave = [placeholderImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
         [QMPlaceholder.instance.cahce setObject:toSave forKey:key];
@@ -196,6 +199,7 @@
     [text drawInRect:textRect withAttributes: ovalFontAttributes];
     //Get image
     UIImage *ovalImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     
     return ovalImage;
 }

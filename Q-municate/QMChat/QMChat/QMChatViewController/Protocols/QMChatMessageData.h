@@ -61,7 +61,8 @@
 
 - (BOOL)isMediaMessage;
 
-- (QMMessageType)messageType;
+@property (assign, nonatomic, readonly) QMMessageType messageType;
+
 
 /**
  *  @return An integer that can be used as a table address in a hash table structure.

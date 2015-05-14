@@ -9,7 +9,6 @@
 #import "QMImageView.h"
 #import "UIImage+Cropper.h"
 #import "SDWebImageManager.h"
-#import "objc/runtime.h"
 #import "UIView+WebCacheOperation.h"
 #import "UIImageView+WebCache.h"
 
@@ -29,6 +28,7 @@
     
     self = [super init];
     if (self) {
+        
         [self configure];
     }
     
@@ -59,6 +59,7 @@
     
     __weak __typeof(self)weakSelf = self;
     [self.webManager setCacheKeyFilter:^(NSURL *t_url) {
+        
         NSString *key = [weakSelf keyWithURL:t_url size:weakSelf.frame.size];
         return key;
     }];
@@ -79,15 +80,12 @@
          completedBlock:(SDWebImageCompletionBlock)completedBlock  {
     
     if ([url isEqualToString:self.url]) {
-        
         return;
     }
     
     self.url = url;
-    self.image = placehoder;
     
     [self sd_cancelCurrentImageLoad];
-    objc_setAssociatedObject(self, &url, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     if (!(options & SDWebImageDelayPlaceholder)) {
         self.image = placehoder;
@@ -103,13 +101,12 @@
         [self.webManager downloadImageWithURL:imgUrl options:options progress:progress
                                     completed:
          ^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+             
              if (!weakSelf) return;
              
              dispatch_main_sync_safe(^{
                  
-                 if (!weakSelf) return;
-                 
-                 if (weakSelf) {
+                 if (!error) {
                      
                      weakSelf.image = image;
                      [weakSelf setNeedsLayout];
@@ -117,6 +114,7 @@
                  else {
                      
                      if ((options & SDWebImageDelayPlaceholder)) {
+                         
                          weakSelf.image = placehoder;
                          [weakSelf setNeedsLayout];
                      }
@@ -128,8 +126,7 @@
              });
          }];
         
-        [self sd_setImageLoadOperation:operation
-                                forKey:@"UIImageViewImageLoad"];
+        [self sd_setImageLoadOperation:operation forKey:@"UIImageViewImageLoad"];
     }
     else {
         
@@ -150,7 +147,8 @@
 
 - (UIImage *)imageManager:(SDWebImageManager *)imageManager transformDownloadedImage:(UIImage *)image withURL:(NSURL *)imageURL {
     
-    return [self transformImage:image];
+    UIImage *transformedImage = [self transformImage:image];
+    return transformedImage;
 }
 
 - (UIImage *)transformImage:(UIImage *)image {

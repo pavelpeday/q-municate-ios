@@ -28,11 +28,13 @@
 @implementation QMChatVC
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    //Cofigure sender
+    
     QBUUser *sender = QM.profile.userData;
     self.senderID = sender.ID;
     self.senderDisplayName = sender.fullName;
+    
+    [super viewDidLoad];
+    //Cofigure sender
     
     QBUUser *opponent = [QM.contactListService usersWithoutMeWithIDs:self.chatDialog.occupantIDs].firstObject;
     
@@ -48,7 +50,6 @@
     //Get messages
     [QM.chatService messageWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {}];
     
-    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     //Configure navigation bar
     UIImage *placeholder = [QMPlaceholder placeholderWithFrame:CGRectMake(0, 0, 30, 30) fullName:self.chatDialog.name];
     
@@ -106,8 +107,6 @@
      *  Override point for customizing cells
      */
     QMChatCollectionViewCell *cell = (id)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    QBChatMessage *msg = self.messages[indexPath.row];
-    cell.textView.textColor = msg.senderID == self.senderID ?  [UIColor blackColor] : [UIColor whiteColor];
     
     return cell;
 }

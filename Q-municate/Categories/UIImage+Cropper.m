@@ -71,6 +71,7 @@
     
     //Create the bitmap graphics context
     UIGraphicsBeginImageContextWithOptions(targetSize, NO, 0.0);
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     // Create and CLIP to a CIRCULAR Path
     // (This could be replaced with any closed path if you want a different shaped clip)
@@ -86,6 +87,7 @@
     [self drawInRect:myRect];
     
     UIImage *circularImage = UIGraphicsGetImageFromCurrentImageContext();
+    
     UIGraphicsEndImageContext();
     
     return circularImage;

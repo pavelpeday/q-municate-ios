@@ -70,9 +70,10 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     [QM.contactListService addDelegate:self];
     [QM.chatService addDelegate:self];
     //Set profile title view
-    QMProfileTitleView *profileTitleView = [[QMProfileTitleView alloc] init];
-    profileTitleView.title = QM.profile.userData.fullName;
-    [profileTitleView setUserImageWithUrl:QM.profile.userData.avatarUrl];
+    
+    QBUUser *user = QM.profile.userData;
+    
+    QMProfileTitleView *profileTitleView = [[QMProfileTitleView alloc] initWithUserName:user.fullName imageUrl:user.avatarUrl];
     profileTitleView.delegate = self;
     self.navigationItem.titleView = profileTitleView;
     //Fetch data from server
@@ -102,7 +103,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (void)chatServiceDidLoadDialogsFromCache {
     
-    NSArray *dialogsFromCache = [QM.chatService.dialogsMemoryStorage unsortedDialogs];
+    NSArray *dialogsFromCache = [QM.chatService.dialogsMemoryStorage dialogsSortByLastMessageDateWithAscending:NO];
     [self.historyDataSource.collection addObjectsFromArray:dialogsFromCache];
     [self.tableView reloadData];
 }
@@ -358,9 +359,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
                 QBChatMessage *message = [QBChatMessage message];
                 message.text = @"Contact request";
                 
-                [QM.chatService sendMessage:message toDialog:createdDialog type:QMMessageTypeNotificationAboutSendContactRequest save:YES
-                                 completion:^(NSError *error)
-                 {
+                [QM.chatService sendMessage:message toDialog:createdDialog type:QMMessageTypeContactRequest save:YES completion:^(NSError *error) {
                      NSLog(@"Send contact request");
                  }];
             }];
