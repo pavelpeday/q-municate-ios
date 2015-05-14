@@ -11,15 +11,19 @@
 #import "SVProgressHUD.h"
 #import "SDWebImageManager.h"
 #import "QMServicesManager.h"
+#import "QMImageView.h"
+#import "QMPlaceholder.h"
 
 @interface QMSettingsViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableViewCell *logoutCell;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fullNameLabel;
 @property (weak, nonatomic) IBOutlet UITableViewCell *changePasswordCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *profileCell;
 @property (weak, nonatomic) IBOutlet UISwitch *pushNotificationSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *cacheSize;
+@property (weak, nonatomic) IBOutlet QMImageView *avatarImageView;
 
 @end
 
@@ -34,14 +38,20 @@
         
         [self cell:self.changePasswordCell setHidden:YES];
     }
+	
+	self.fullNameLabel.text = QM.profile.userData.fullName;
+	
+	UIImage *placeholder = [QMPlaceholder placeholderWithFrame:self.avatarImageView.bounds fullName:QM.profile.userData.fullName];
+	self.avatarImageView.imageViewType = QMImageViewTypeCircle;
+	[self.avatarImageView setImageWithURL:QM.profile.userData.avatarUrl placeholder:placeholder options:SDWebImageLowPriority progress:nil completedBlock:nil];
     
     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSettingsCellBundleVersion];
-    self.versionLabel.text = appVersion;
+    self.versionLabel.text =  [@"Powered by QuickBlox. v." stringByAppendingString:appVersion];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+	
     __weak __typeof(self)weakSelf = self;
     [[[SDWebImageManager sharedManager] imageCache] calculateSizeWithCompletionBlock:^(NSUInteger fileCount,
                                                                                        NSUInteger totalSize)
@@ -50,6 +60,22 @@
     }];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+	// Remove seperator inset
+	if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+		[cell setSeparatorInset:UIEdgeInsetsZero];
+	}
+	
+	// Prevent the cell from inheriting the Table View's margin settings
+	if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+		[cell setPreservesSuperviewLayoutMargins:NO];
+	}
+	
+	// Explictly set your cell's layout margins
+	if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+		[cell setLayoutMargins:UIEdgeInsetsZero];
+	}
+}
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
