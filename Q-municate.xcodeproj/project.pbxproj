@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		148BB30D1B04E8AC00AC4A8B /* QMInviteFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 148BB30C1B04E8AC00AC4A8B /* QMInviteFriendsTableViewController.m */; };
 		550630EA1ABAD1720079EE34 /* QMNotificationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 550630E91ABAD1720079EE34 /* QMNotificationView.m */; };
 		550630ED1ABAD4860079EE34 /* QMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 550630EC1ABAD4860079EE34 /* QMBlurView.m */; };
 		550678CB1A237D4B00660A12 /* QMContactListCacheModel.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 550678C91A237D4B00660A12 /* QMContactListCacheModel.bundle */; };
@@ -176,6 +177,8 @@
 
 /* Begin PBXFileReference section */
 		01E0EAD58B177DC530737810 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		148BB30B1B04E8AC00AC4A8B /* QMInviteFriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QMInviteFriendsTableViewController.h; path = QMInviteFriendsTableViewController/QMInviteFriendsTableViewController.h; sourceTree = "<group>"; };
+		148BB30C1B04E8AC00AC4A8B /* QMInviteFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QMInviteFriendsTableViewController.m; path = QMInviteFriendsTableViewController/QMInviteFriendsTableViewController.m; sourceTree = "<group>"; };
 		550630E81ABAD1720079EE34 /* QMNotificationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMNotificationView.h; sourceTree = "<group>"; };
 		550630E91ABAD1720079EE34 /* QMNotificationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMNotificationView.m; sourceTree = "<group>"; };
 		550630EB1ABAD4860079EE34 /* QMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMBlurView.h; sourceTree = "<group>"; };
@@ -477,6 +480,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		148BB3091B04E84E00AC4A8B /* QMInviteFriendsVC */ = {
+			isa = PBXGroup;
+			children = (
+				148BB30B1B04E8AC00AC4A8B /* QMInviteFriendsTableViewController.h */,
+				148BB30C1B04E8AC00AC4A8B /* QMInviteFriendsTableViewController.m */,
+			);
+			name = QMInviteFriendsVC;
+			sourceTree = "<group>";
+		};
 		533F8DC685AAE9904FDA11F3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -796,6 +808,7 @@
 		556E19231A9F65940087BEB9 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				148BB3091B04E84E00AC4A8B /* QMInviteFriendsVC */,
 				556E192F1A9F65940087BEB9 /* Settings.storyboard */,
 				556E19241A9F65940087BEB9 /* QMChangePasswordVC */,
 				556E19271A9F65940087BEB9 /* QMFeedbackTableViewController */,
@@ -1807,6 +1820,8 @@
 				556E19991A9F65940087BEB9 /* QMPlaceholderTextView.m in Sources */,
 				559379061ACC0ECE003E0015 /* QMTableViewCell.m in Sources */,
 				556E19AE1A9F659A0087BEB9 /* NSString+HasText.m in Sources */,
+				FB65C52F1B020DC700AA636E /* QMSystemMessageCell.m in Sources */,
+				148BB30D1B04E8AC00AC4A8B /* QMInviteFriendsTableViewController.m in Sources */,
 				55112F991AEA6AE6002E9F4E /* QMContactListVC.m in Sources */,
 				556E19FE1A9F65A50087BEB9 /* QMTasks.m in Sources */,
 				FBE51F281AF909300057531E /* QMTagsContainer.m in Sources */,

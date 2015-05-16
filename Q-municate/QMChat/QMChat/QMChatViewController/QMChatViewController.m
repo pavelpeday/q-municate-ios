@@ -520,7 +520,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 - (void)collectionView:(QMChatCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath { }
 
 - (void)collectionView:(QMChatCollectionView *)collectionView didTapCellAtIndexPath:(NSIndexPath *)indexPath
-         touchLocation:(CGPoint)touchLocation { }
+                                                                                                touchLocation:(CGPoint)touchLocation { }
 
 #pragma mark - Input toolbar delegate
 
