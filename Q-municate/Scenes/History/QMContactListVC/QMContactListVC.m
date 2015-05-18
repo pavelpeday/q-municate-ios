@@ -19,7 +19,8 @@
     /** Configure datasource */
     self.contactListDatasource = [[QMContactListDataSource alloc] init];
     self.contactListDatasource.selectable = self.selectable;
-    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage sortedByName:YES];
+    
+    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage usersSortedByKey:@"fullName" ascending:YES];
     [self.contactListDatasource addObjects:usersFormCache];
 }
 

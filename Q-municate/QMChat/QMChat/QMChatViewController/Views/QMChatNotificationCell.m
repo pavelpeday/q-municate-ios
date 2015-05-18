@@ -20,16 +20,9 @@
     return [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 }
 
-+ (CGSize)sizeForItem:(id<QMChatMessageData>)messageItem
-     maximumTextWidth:(CGFloat)maximumTextWidth {
++ (UIEdgeInsets)containerInsets {
     
-    CGRect stringRect =
-    [[messageItem text] boundingRectWithSize:CGSizeMake(maximumTextWidth, CGFLOAT_MAX)
-                                     options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                  attributes:@{ NSFontAttributeName : [self font] }
-                                     context:nil];
-    return stringRect.size;
+    return UIEdgeInsetsMake(2, 5, 2, 5);
 }
-
 
 @end

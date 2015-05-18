@@ -12,10 +12,13 @@
 #import "QMTypingIndicatorFooterView.h"
 
 #import "QMChatContactRequestCell.h"
+#import "QMChatOutgoingCell.h"
+#import "QMChatIncomingCell.h"
 
 #import "UIColor+QM.h"
 
-@interface QMChatCollectionView() <QMLoadEarlierHeaderViewDelegate>
+@interface QMChatCollectionView()
+<QMLoadEarlierHeaderViewDelegate>
 @end
 
 @implementation QMChatCollectionView
@@ -46,6 +49,18 @@
     UINib *notificationNib = [QMChatNotificationCell nib];
     NSString *notificationIdentifier = [QMChatNotificationCell cellReuseIdentifier];
     [self registerNib:notificationNib forCellWithReuseIdentifier:notificationIdentifier];
+    /**
+     *  Register outgoing cell
+     */
+    UINib *outgoingNib = [QMChatOutgoingCell nib];
+    NSString *ougoingIdentifier = [QMChatOutgoingCell cellReuseIdentifier];
+    [self registerNib:outgoingNib forCellWithReuseIdentifier:ougoingIdentifier];
+    /**
+     *  Register incoming cell
+     */
+    UINib *incomingNib = [QMChatIncomingCell nib];
+    NSString *incomingIdentifier = [QMChatIncomingCell cellReuseIdentifier];
+    [self registerNib:incomingNib forCellWithReuseIdentifier:incomingIdentifier];
     /**
      *  Register Typing footer view
      */
@@ -121,17 +136,17 @@
 
 #pragma mark - Messages collection view cell delegate
 
-- (void)messagesCollectionViewCellDidTapAvatar:(QMChatCollectionViewCell *)cell {
+- (void)chatCellDidTapAvatar:(QMChatCell *)cell {
     
     NSIndexPath *indexPath = [self indexPathForCell:cell];
     if (indexPath == nil) {
         return;
     }
     
-    [self.delegate collectionView:self didTapAvatarImageView:cell.avatarImageView atIndexPath:indexPath];
+//    [self.delegate collectionView:self didTapAvatarImageView:cell.avatarImageView atIndexPath:indexPath];
 }
 
-- (void)messagesCollectionViewCellDidTapMessageBubble:(QMChatCollectionViewCell *)cell {
+- (void)chatCellDidTapMessageBubble:(QMChatCell *)cell {
     
     NSIndexPath *indexPath = [self indexPathForCell:cell];
     if (indexPath == nil) {
@@ -141,7 +156,7 @@
     [self.delegate collectionView:self didTapMessageBubbleAtIndexPath:indexPath];
 }
 
-- (void)messagesCollectionViewCellDidTapCell:(QMChatCollectionViewCell *)cell atPosition:(CGPoint)position {
+- (void)chatCellDidTapCell:(QMChatCell *)cell atPosition:(CGPoint)position {
     
     NSIndexPath *indexPath = [self indexPathForCell:cell];
     if (indexPath == nil) {

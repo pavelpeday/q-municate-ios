@@ -11,7 +11,6 @@
 
 @class QMChatCollectionView;
 
-@protocol QMChatMessageData;
 @protocol QMChatBubbleImageDataSource;
 @protocol QMChatAvatarImageDataSource;
 
@@ -50,7 +49,9 @@
  *
  *  @return An initialized object that conforms to the `QMChatMessageData` protocol. You must not return `nil` from this method.
  */
-- (id<QMChatMessageData>)collectionView:(QMChatCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath;
+//- (id<QMChatMessageData>)collectionView:(QMChatCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath;
+
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView sizeForContainerAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
  *  Asks the data source for the message bubble image data that corresponds to the specified message data item at indexPath in the collectionView.
@@ -70,6 +71,8 @@
  *  @see QMChatBubbleImageFactory.
  *  @see QMChatCollectionViewFlowLayout.
  */
+
+
 - (id<QMChatBubbleImageDataSource>)collectionView:(QMChatCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 /**

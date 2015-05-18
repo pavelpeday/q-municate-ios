@@ -10,7 +10,7 @@
 
 @implementation QMChatContactRequestCell
 
-+ (CGSize)sizeForItem:(id<QMChatMessageData>)messageItem maximumTextWidth:(CGFloat)maximumTextWidth {
++ (CGSize)staticSize {
     
     return CGSizeMake(255, 128);
 }

@@ -1,14 +1,14 @@
 //
-//  QMBabbleContainerView.m
+//  QMChatOutgoingCell.h
 //  Q-municate
 //
-//  Created by Andrey Ivanov on 13.05.15.
+//  Created by Andrey Ivanov on 18.05.15.
 //  Copyright (c) 2015 Quickblox. All rights reserved.
 //
 
-#import "QMBabbleContainerView.h"
+#import "QMChatOutgoingCell.h"
 
-@implementation QMBabbleContainerView
+@implementation QMChatOutgoingCell
 
 /*
 // Only override drawRect: if you perform custom drawing.

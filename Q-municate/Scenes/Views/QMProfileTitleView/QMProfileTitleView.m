@@ -63,7 +63,7 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.labelConstraint.constant = 150;
+//    self.labelConstraint.constant = 150;
     
 }
 
@@ -84,8 +84,10 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
         
         UIImage *placeholder = [QMPlaceholder placeholderWithFrame:self.qmImageVIew.bounds fullName:self.userName];
         
-        [self.qmImageVIew setImageWithURL:imageUrl placeholder:placeholder
-                                  options:SDWebImageLowPriority progress:nil completedBlock:nil];
+        [self.qmImageVIew setImageWithURL:imageUrl
+                              placeholder:placeholder
+                                  options:SDWebImageLowPriority
+                                 progress:nil completedBlock:nil];
     }
 }
 

@@ -34,50 +34,8 @@
  *
  *  @see QMChatCollectionViewCell.
  */
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Asks the delegate for the height of the `messageBubbleTopLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `messageBubbleTopLabel` for the item at indexPath.
- *
- *  @see QMChatCollectionViewCell.
- */
-- (CGSize)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Asks the delegate for the size of the `messageBubbleBottomLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `messageBubbleBottomLabel` for the item at indexPath.
- *
- *  @see QMChatCollectionViewCell.
- */
-- (CGSize)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Asks the delegate for the size of the `cellBottomLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `cellBottomLabel` for the item at indexPath.
- *
- *  @see QMChatCollectionViewCell.
- */
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath;
+- (UIEdgeInsets)collectionView:(QMChatCollectionView *)collectionView
+                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout insetsForCellContainerViewAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
  *  Notifies the delegate that the avatar image view at the specified indexPath did receive a tap event.

@@ -100,7 +100,8 @@
         
         QMChatCollectionViewLayoutAttributes *layoutAttributes = (QMChatCollectionViewLayoutAttributes *)object;
         
-        if (!CGSizeEqualToSize(layoutAttributes.containerViewSize, self.containerViewSize)){
+        if (!CGSizeEqualToSize(layoutAttributes.containerViewSize, self.containerViewSize)
+            ||UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.containerInsents, self.containerInsents)){
             
             return NO;
         }
@@ -123,18 +124,9 @@
         
         return copy;
     }
-    copy.containerViewSize = self.containerViewSize;
-//    copy.messageBubbleFont = self.messageBubbleFont;
-//    copy.messageBubbleContainerViewWidth = self.messageBubbleContainerViewWidth;
-//    copy.textViewFrameInsets = self.textViewFrameInsets;
-//    copy.textViewTextContainerInsets = self.textViewTextContainerInsets;
-//    copy.incomingAvatarViewSize = self.incomingAvatarViewSize;
-//    copy.outgoingAvatarViewSize = self.outgoingAvatarViewSize;
-//    copy.cellTopLabelHeight = self.cellTopLabelHeight;
-//    copy.cellBottomLabelHeight = self.cellBottomLabelHeight;
-//    copy.messageBubbleTopLabelSize = self.messageBubbleTopLabelSize;
-//    copy.messageBubbleBottomLabelSize = self.messageBubbleBottomLabelSize;
     
+    copy.containerViewSize = self.containerViewSize;
+    copy.containerInsents = self.containerInsents;
     return copy;
 }
 

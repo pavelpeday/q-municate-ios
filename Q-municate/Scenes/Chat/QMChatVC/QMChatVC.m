@@ -14,6 +14,12 @@
 #import "QMServicesManager.h"
 #import "QMImagePicker.h"
 
+#import "QMChatContactRequestCell.h"
+#import "QMChatNotificationCell.h"
+#import "QMChatOutgoingCell.h"
+#import "QMChatIncomingCell.h"
+#import "QMMessageText.h"
+
 #import "UIColor+QM.h"
 #import "UIImage+QM.h"
 
@@ -36,7 +42,7 @@
     [super viewDidLoad];
     //Cofigure sender
     
-    QBUUser *opponent = [QM.contactListService usersWithoutMeWithIDs:self.chatDialog.occupantIDs].firstObject;
+    QBUUser *opponent = [QM.contactListService.usersMemoryStorage usersWithIDs:self.chatDialog.occupantIDs withoutID:QM.profile.userData.ID].firstObject;
     
     self.title = opponent.fullName;
     // Do any additional setup after loading the view, typically from a nib.
@@ -44,7 +50,6 @@
     
     self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor messageBubbleGreenColor]];
     self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor whiteColor]];
-
     
     self.messages = [NSMutableArray array];
     //Get messages
@@ -101,20 +106,123 @@
     self.collectionView.collectionViewLayout.springinessEnabled = YES;
 }
 
+- (Class)viewClassForItem:(QBChatHistoryMessage *)item {
+    
+    if (item.messageType == QMMessageTypeText) {
+        
+        if (item.senderID == self.senderID) {
+            
+            return [QMChatOutgoingCell class];
+        }
+        else {
+            
+            return [QMChatIncomingCell class];
+        }
+        
+    }
+    else if (item.messageType == QMMessageTypeContactRequest) {
+        
+        if (item.senderID == self.senderID) {
+            
+            return [QMChatNotificationCell class];
+        }
+        else {
+            
+            return [QMChatContactRequestCell class];
+        }
+    }
+    else {
+        
+        return [QMChatNotificationCell class];
+    }
+    
+    return [QMChatNotificationCell class];
+}
+
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView sizeForContainerAtIndexPath:(NSIndexPath *)indexPath {
+    
+    QBChatHistoryMessage *msg = self.messages[indexPath.item];
+    
+    Class class = [self viewClassForItem:msg];
+    NSAttributedString *attributedString = [self attributedStringForItem:msg];
+    
+    BOOL isDynamicSize = [class isDynamicSize];
+    
+    if (isDynamicSize) {
+        
+        return [class itemSizeWithAttriburedString:attributedString];
+    }
+    else {
+        
+        return [class size];
+    }
+}
+
 - (UICollectionViewCell *)collectionView:(QMChatCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    /**
-     *  Override point for customizing cells
-     */
-    QMChatCollectionViewCell *cell = (id)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    QBChatHistoryMessage *messageItem = self.messages[indexPath.row];
+    
+    Class class = [self viewClassForItem:messageItem];
+    NSString *itemIdentifier = [class cellReuseIdentifier];
+    
+    QMChatCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:itemIdentifier forIndexPath:indexPath];
+    cell.textView.attributedText = [self attributedStringForItem:messageItem];
     
     return cell;
 }
 
+- (NSAttributedString *)attributedStringForItem:(QBChatHistoryMessage *)messageItem {
+    
+    UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+    NSDictionary *attributes = @{
+                                 NSForegroundColorAttributeName: [UIColor whiteColor],
+                                 NSFontAttributeName: font
+                                 };
+    
+    NSString *str = [QMMessageText textForMessage:messageItem currentUserID:self.senderID];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:attributes];
+    
+    if (messageItem.messageType == QMMessageTypeContactRequest) {
+        
+        if ([messageItem senderID] == self.senderID) {
+            
+            [self appendTimeStampForAttributedString:attrStr date:messageItem.datetime];
+        }
+    }
+    else {
+        
+        [self appendTimeStampForAttributedString:attrStr date:messageItem.datetime];
+    }
+    
+    return attrStr;
+}
+
+- (void)appendTimeStampForAttributedString:(NSMutableAttributedString *)attrStr date:(NSDate *)date {
+    
+    static NSDateFormatter *dateFormatter = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @" HH:mm";
+    });
+    
+    NSString *timeStamp = [dateFormatter stringFromDate:date];
+    
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:14];
+    NSDictionary *attributes = @{
+                                 NSForegroundColorAttributeName: [UIColor colorWithWhite:1.000 alpha:0.660],
+                                 NSFontAttributeName: font
+                                 };
+    
+    NSAttributedString *attributedTimeStamp = [[NSAttributedString alloc] initWithString:timeStamp attributes:attributes];
+    
+    [attrStr appendAttributedString:attributedTimeStamp];
+}
+
 #pragma mark - QBChatMessage CollectionView DataSource
 
-
-- (id<QMChatMessageData>)collectionView:(QMChatViewController *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (QBChatHistoryMessage *)collectionView:(QMChatViewController *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     return self.messages[indexPath.row];
 }
@@ -132,57 +240,13 @@
     return (msg.senderID == self.senderID) ? self.outgoingBubbleImageData : self.incomingBubbleImageData;
 }
 
-#pragma mark Cell Top label
-
-- (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
+- (UIEdgeInsets)collectionView:(QMChatCollectionView *)collectionView
+                        layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout insetsForCellContainerViewAtIndexPath:(NSIndexPath *)indexPath {
     
-    return nil;
-}
-
-#pragma mark Cell Bottom label
-
-- (NSAttributedString *)collectionView:(QMChatCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
+    QBChatHistoryMessage *messageItem = self.messages[indexPath.item];
     
-    return nil;
-}
-
-#pragma mark Bubble Top Label
-
-- (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return [[NSAttributedString alloc] initWithString:@"Ivanov Andrey"];
-}
-
-#pragma mark Bubble Bottom Label
-
-- (NSAttributedString *)collectionView:(QMChatViewController *)collectionView attributedTextForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return [[NSAttributedString alloc] initWithString:@"11:50 pm"];
-}
-
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    return 0;
-}
-
-- (CGFloat)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout heightForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return 0;
-}
-
-- (CGSize)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
-    
-
-    
-    return CGSizeMake(60, 14);
-}
-
-- (CGSize)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForMessageBubbleBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return CGSizeMake(60, 14);
+    Class class = [self viewClassForItem:messageItem];
+    return [class containerInsets];
 }
 
 - (id<QMChatAvatarImageDataSource>)collectionView:(QMChatCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {

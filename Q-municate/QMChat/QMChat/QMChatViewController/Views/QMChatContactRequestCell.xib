@@ -27,18 +27,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Paul Jhnes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vw7-ka-SyQ">
-                                <rect key="frame" x="-6" y="11" width="284" height="23"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="would like to chat with you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xj9-MU-4a2">
-                                <rect key="frame" x="0.0" y="33" width="256" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iBK-yM-i6a">
                                 <rect key="frame" x="161" y="71" width="44" height="44"/>
                                 <constraints>
@@ -49,15 +37,25 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="would like to chat with you" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xj9-MU-4a2" customClass="TTTAttributedLabel">
+                                <rect key="frame" x="19" y="8" width="217" height="55"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="255" id="3Va-OM-AJE"/>
                             <constraint firstAttribute="bottom" secondItem="O9E-zx-htT" secondAttribute="bottom" constant="13" id="BDj-ob-OfR"/>
                             <constraint firstItem="iBK-yM-i6a" firstAttribute="leading" secondItem="O9E-zx-htT" secondAttribute="trailing" constant="50" id="Dbt-F7-HnR"/>
+                            <constraint firstAttribute="trailing" secondItem="xj9-MU-4a2" secondAttribute="trailing" constant="19" id="Jzt-jT-Brg"/>
+                            <constraint firstItem="xj9-MU-4a2" firstAttribute="top" secondItem="ykU-Kn-Srx" secondAttribute="top" constant="8" id="MJr-aW-z17"/>
                             <constraint firstItem="O9E-zx-htT" firstAttribute="leading" secondItem="ykU-Kn-Srx" secondAttribute="leading" constant="67" id="Ukc-dN-b4M"/>
                             <constraint firstAttribute="height" constant="128" id="gTQ-cv-1Mb"/>
                             <constraint firstAttribute="bottom" secondItem="iBK-yM-i6a" secondAttribute="bottom" constant="13" id="qI6-c1-Yb3"/>
+                            <constraint firstItem="xj9-MU-4a2" firstAttribute="leading" secondItem="ykU-Kn-Srx" secondAttribute="leading" constant="19" id="uTO-JA-Ot9"/>
+                            <constraint firstAttribute="bottom" secondItem="xj9-MU-4a2" secondAttribute="bottom" constant="65" id="z99-iD-mBk"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -80,8 +78,9 @@
                 <outlet property="containerHeightConstraint" destination="gTQ-cv-1Mb" id="64o-T5-2nc"/>
                 <outlet property="containerView" destination="ykU-Kn-Srx" id="CGW-yN-Oki"/>
                 <outlet property="containerWidthConstraint" destination="3Va-OM-AJE" id="p2Q-Iy-TDd"/>
+                <outlet property="textView" destination="xj9-MU-4a2" id="MxS-vN-0uU"/>
             </connections>
-            <point key="canvasLocation" x="279.5" y="37"/>
+            <point key="canvasLocation" x="87.5" y="404"/>
         </collectionViewCell>
     </objects>
     <resources>

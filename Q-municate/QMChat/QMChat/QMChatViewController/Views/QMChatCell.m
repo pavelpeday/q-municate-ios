@@ -31,7 +31,6 @@
 }
 
 - (void)awakeFromNib {
-    
     [super awakeFromNib];
     
     self.backgroundColor = [UIColor clearColor];
@@ -53,13 +52,11 @@
     [super applyLayoutAttributes:layoutAttributes];
     QMChatCollectionViewLayoutAttributes *customAttributes = (id)layoutAttributes;
     
-    self.containerHeightConstraint.constant = customAttributes.containerViewSize.height;
-    self.containerWidthConstraint.constant = customAttributes.containerViewSize.width;
-}
-
-+ (CGSize)sizeForItem:(id<QMChatMessageData>)messageItem maximumTextWidth:(CGFloat)maximumTextWidth {
+    self.containerHeightConstraint.constant = customAttributes.containerViewSize.height +
+    customAttributes.containerInsents.bottom + customAttributes.containerInsents.top;
     
-    return CGSizeZero;
+    self.containerWidthConstraint.constant = customAttributes.containerViewSize.width +
+    customAttributes.containerInsents.left+ customAttributes.containerInsents.right;
 }
 
 - (void)setBounds:(CGRect)bounds {
@@ -68,6 +65,30 @@
     if ([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
         self.contentView.frame = bounds;
     }
+}
+
++ (UIEdgeInsets)containerInsets {
+    
+    return UIEdgeInsetsZero;
+}
+
++ (BOOL)isDynamicSize {
+    
+    return NO;
+}
+
++ (CGSize)size {
+    
+    return CGSizeZero;
+}
+
++ (CGSize)itemSizeWithAttriburedString:(NSAttributedString *)attriburedString  {
+    
+    CGRect rect = [attriburedString boundingRectWithSize:CGSizeMake(180, CGFLOAT_MAX)
+                                                options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+    
+    CGSize stringSize = CGRectIntegral(rect).size;
+    return stringSize;
 }
 
 @end

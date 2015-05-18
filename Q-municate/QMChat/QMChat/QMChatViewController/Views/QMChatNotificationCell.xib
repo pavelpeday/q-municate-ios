@@ -8,16 +8,16 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Bbk-p7-75E" customClass="QMChatNotificationCell">
-            <rect key="frame" x="5" y="0.0" width="90" height="22"/>
+            <rect key="frame" x="0.0" y="0.0" width="347" height="67"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="90" height="22"/>
+                <rect key="frame" x="0.0" y="0.0" width="347" height="67"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i8C-MU-doB" customClass="QMChatContainerView">
-                        <rect key="frame" x="0.0" y="0.0" width="90" height="22"/>
+                        <rect key="frame" x="129" y="23" width="90" height="22"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tag-35-jzK" customClass="TTTAttributedLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="notification" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tag-35-jzK" customClass="TTTAttributedLabel">
                                 <rect key="frame" x="0.0" y="0.0" width="90" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,14 +49,14 @@
                 <constraint firstAttribute="centerX" secondItem="i8C-MU-doB" secondAttribute="centerX" id="WHp-I1-zy2"/>
                 <constraint firstAttribute="centerY" secondItem="i8C-MU-doB" secondAttribute="centerY" id="kMc-9W-krH"/>
             </constraints>
-            <size key="customSize" width="90" height="22"/>
+            <size key="customSize" width="347" height="67"/>
             <connections>
                 <outlet property="containerHeightConstraint" destination="1mN-MO-oyh" id="kUd-Rs-jJY"/>
                 <outlet property="containerView" destination="i8C-MU-doB" id="RFl-r7-sua"/>
                 <outlet property="containerWidthConstraint" destination="RdG-EG-C7S" id="BMM-m5-eoD"/>
                 <outlet property="textView" destination="Tag-35-jzK" id="A4m-jc-fqC"/>
             </connections>
-            <point key="canvasLocation" x="13" y="118"/>
+            <point key="canvasLocation" x="46.5" y="219.5"/>
         </collectionViewCell>
     </objects>
 </document>

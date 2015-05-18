@@ -377,7 +377,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (QBUUser *)historyDataSource:(QMHistoryDataSource *)historyDataSource recipientWithIDs:(NSArray *)userIDs {
     
-    NSArray *users = [QM.contactListService usersWithoutMeWithIDs:userIDs];
+    NSArray *users = [QM.contactListService.usersMemoryStorage usersWithIDs:userIDs withoutID:QM.profile.userData.ID];
 //    NSAssert(users.count <= 1, @"");
     
     return users.firstObject;

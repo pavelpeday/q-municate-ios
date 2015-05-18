@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol QMSizesProviderDelegate;
-@protocol QMChatMessageData;
-
 /**
  *  A constant that describes the default height for all label subviews in a `QMChatCollectionViewCell`.
  *
@@ -37,8 +34,6 @@ FOUNDATION_EXPORT const CGFloat kQMChatCollectionViewAvatarSizeDefault;
  *  @see QMChatCollectionViewCell.
  */
 @interface QMChatCollectionViewFlowLayout : UICollectionViewFlowLayout
-
-@property (weak, nonatomic) id <QMSizesProviderDelegate> sizesProvider;
 
 /**
  *  The collection view object currently using this layout object.
@@ -71,6 +66,8 @@ FOUNDATION_EXPORT const CGFloat kQMChatCollectionViewAvatarSizeDefault;
  */
 @property (readonly, nonatomic) CGFloat itemWidth;
 
+@property (readonly, nonatomic) CGFloat maxMessageWidht;
+
 /**
  *  The maximum number of items that the layout should keep in its cache of layout information.
  *
@@ -97,11 +94,5 @@ FOUNDATION_EXPORT const CGFloat kQMChatCollectionViewAvatarSizeDefault;
  *  @return The size of the item displayed at indexPath.
  */
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
-
-@end
-
-@protocol QMSizesProviderDelegate <NSObject>
-
-- (CGSize)sizeForIndexPath:(NSIndexPath *)indexPath messageItem:(id <QMChatMessageData>)messageItem maximumWidht:(CGFloat)maximumWidth;
 
 @end

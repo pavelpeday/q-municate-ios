@@ -113,7 +113,7 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
 
 - (void)chatServiceDidReceiveNotificationMessage:(QBChatMessage *)message createDialog:(QBChatDialog *)dialog {
     
-    NSAssert([message.dialogID isEqualToString:dialog.ID], @"Muste be equal");
+    NSAssert([message.dialog.ID isEqualToString:dialog.ID], @"Muste be equal");
     [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
     [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
 }

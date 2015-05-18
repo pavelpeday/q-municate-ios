@@ -130,9 +130,7 @@ const NSUInteger kQMMaxTagsCount = 5;
     void (^createGroupBlock)(id, id, id) = ^(NSString *groupName, NSString *photo, NSArray *occupants) {
         
         [SVProgressHUD show];
-        [QM.chatService createGroupChatDialogWithName:groupName
-                                                photo:photo
-                                            occupants:occupants
+        [QM.chatService createGroupChatDialogWithName:groupName photo:photo occupants:occupants
                                            completion:^(QBResponse *response, QBChatDialog *createdDialog)
          {
              if (response.success) {
@@ -142,13 +140,8 @@ const NSUInteger kQMMaxTagsCount = 5;
                  //Send notification message
                  [self performSegueWithIdentifier:@"ChatViewController" sender:createdDialog];
                  
-                 [QM.chatService sendMessage:message
-                                    toDialog:createdDialog
-                                        type:QMMessageTypeContactRequest
-                                        save:YES
-                                  completion:^(NSError *error)
-                  {
-                      NSLog(@"Send contact request");
+                 [QM.chatService sendMessage:message toDialog:createdDialog type:QMMessageTypeContactRequest save:YES completion:^(NSError *error) {
+
                   }];
              }
              
