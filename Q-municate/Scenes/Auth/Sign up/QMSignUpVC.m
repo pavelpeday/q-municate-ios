@@ -55,19 +55,15 @@
 
 - (IBAction)chooseUserPicture:(id)sender {
     
-    [QMImagePicker chooseSourceTypeInVC:self
-                          allowsEditing:YES
-                                 result:^(UIImage *image)
-     {
-         self.selectedImage = image;
-         [self.qmImageView applyImage:image];
-     }];
+    [QMImagePicker chooseSourceTypeInVC:self allowsEditing:YES result:^(UIImage *image) {
+        self.selectedImage = image;
+        [self.qmImageView applyImage:image];
+    }];
 }
 
 - (IBAction)pressentUserAgreement:(id)sender {
     
-    [QMLicenseAgreement checkAcceptedUserAgreementInViewController:self
-                                                        completion:nil];
+    [QMLicenseAgreement checkAcceptedUserAgreementInViewController:self completion:nil];
 }
 
 - (IBAction)done:(id)sender {
@@ -82,45 +78,43 @@
     else {
         
         __weak __typeof(self)weakSelf = self;
-        [QMLicenseAgreement checkAcceptedUserAgreementInViewController:self
-                                                            completion:^(BOOL userAgreementSuccess)
-         {
-             if (userAgreementSuccess) {
-                 
-                 QBUUser *newUser = [QBUUser user];
-                 
-                 newUser.fullName = weakSelf.fullNameField.text;
-                 newUser.email = weakSelf.emailField.text;
-                 newUser.password = weakSelf.passwordField.text;
-                 newUser.tags = @[@"ios"].mutableCopy;
-                 
-                 [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
-                 
-                 [QM.authService signUpAndLoginWithUser:newUser completion:^(QBResponse *response, QBUUser *userProfile) {
-                     
-                     if (response.success) {
-                         //Update password data
+        [QMLicenseAgreement checkAcceptedUserAgreementInViewController:self completion:^(BOOL userAgreementSuccess) {
+            if (userAgreementSuccess) {
+                
+                QBUUser *newUser = [QBUUser user];
+                
+                newUser.fullName = weakSelf.fullNameField.text;
+                newUser.email = weakSelf.emailField.text;
+                newUser.password = weakSelf.passwordField.text;
+                newUser.tags = @[@"ios"].mutableCopy;
+                
+                [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+                
+                [QM.authService signUpAndLoginWithUser:newUser completion:^(QBResponse *response, QBUUser *userProfile) {
+                    
+                    if (response.success) {
+                        //Update password data
 #warning Need hide synchronize
-                         userProfile.password = newUser.password;
-                         QM.profile.type = QMProfileTypeEmail;
-                         QM.profile.userAgreementAccepted = userAgreementSuccess;
-                         //Synchronize user profile
-                         [QM.profile synchronizeWithUserData:userProfile];
-                         //Upload user image
-                         [QM.profile updateUserImage:weakSelf.selectedImage progress:^(float progress) {
-                              //Upload avatar progress
-                              NSLog(@"%fu", progress);
-                              
-                          } completion:^(BOOL success) {
-                              
-                              [weakSelf performSegueWithIdentifier:kSceneSegueChat sender:nil];
-                          }];
-                     }
-                     
-                     [SVProgressHUD dismiss];
-                 }];
-             }
-         }];
+                        userProfile.password = newUser.password;
+                        QM.profile.type = QMProfileTypeEmail;
+                        QM.profile.userAgreementAccepted = userAgreementSuccess;
+                        //Synchronize user profile
+                        [QM.profile synchronizeWithUserData:userProfile];
+                        //Upload user image
+                        [QM.profile updateUserImage:weakSelf.selectedImage progress:^(float progress) {
+                            //Upload avatar progress
+                            NSLog(@"%fu", progress);
+                            
+                        } completion:^(BOOL success) {
+                            
+                            [weakSelf performSegueWithIdentifier:kSceneSegueChat sender:nil];
+                        }];
+                    }
+                    
+                    [SVProgressHUD dismiss];
+                }];
+            }
+        }];
     }
 }
 

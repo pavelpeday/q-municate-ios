@@ -74,7 +74,7 @@
 
 + (BOOL)isDynamicSize {
     
-    return NO;
+    return YES;
 }
 
 + (CGSize)size {

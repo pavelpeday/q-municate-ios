@@ -38,30 +38,6 @@
     self.alwaysBounceVertical = YES;
     self.bounces = YES;
     /**
-     *  Register contact request cell
-     */
-    UINib *requestNib = [QMChatContactRequestCell nib];
-    NSString *requestIdentifier = [QMChatContactRequestCell cellReuseIdentifier];
-    [self registerNib:requestNib forCellWithReuseIdentifier:requestIdentifier];
-    /**
-     *  Register Notification  cell
-     */
-    UINib *notificationNib = [QMChatNotificationCell nib];
-    NSString *notificationIdentifier = [QMChatNotificationCell cellReuseIdentifier];
-    [self registerNib:notificationNib forCellWithReuseIdentifier:notificationIdentifier];
-    /**
-     *  Register outgoing cell
-     */
-    UINib *outgoingNib = [QMChatOutgoingCell nib];
-    NSString *ougoingIdentifier = [QMChatOutgoingCell cellReuseIdentifier];
-    [self registerNib:outgoingNib forCellWithReuseIdentifier:ougoingIdentifier];
-    /**
-     *  Register incoming cell
-     */
-    UINib *incomingNib = [QMChatIncomingCell nib];
-    NSString *incomingIdentifier = [QMChatIncomingCell cellReuseIdentifier];
-    [self registerNib:incomingNib forCellWithReuseIdentifier:incomingIdentifier];
-    /**
      *  Register Typing footer view
      */
     UINib *typingNib = [QMTypingIndicatorFooterView nib];

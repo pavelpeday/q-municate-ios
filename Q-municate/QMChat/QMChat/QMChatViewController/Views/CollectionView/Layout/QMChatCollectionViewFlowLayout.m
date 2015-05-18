@@ -108,7 +108,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 - (void)setSpringinessEnabled:(BOOL)springinessEnabled {
     
     if (_springinessEnabled != springinessEnabled) {
-
+        
         _springinessEnabled = springinessEnabled;
         
         if (!springinessEnabled) {
@@ -124,13 +124,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 - (void)setCacheLimit:(NSUInteger)cacheLimit {
     
     self.cache.countLimit = cacheLimit;
-}
-
-#pragma mark - Getters
-
-- (CGFloat)maxMessageWidht {
-    
-    return self.itemWidth - 96;
 }
 
 - (CGFloat)itemWidth {
@@ -227,8 +220,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
             
             for (UICollectionViewLayoutAttributes *eachDynamicItem in dynamicAttributes) {
                 
-                if ([eachItem.indexPath isEqual:eachDynamicItem.indexPath]
-                    && eachItem.representedElementCategory == eachDynamicItem.representedElementCategory) {
+                if ([eachItem.indexPath isEqual:eachDynamicItem.indexPath] && eachItem.representedElementCategory == eachDynamicItem.representedElementCategory) {
                     
                     [attributesInRectCopy removeObject:eachItem];
                     [attributesInRectCopy addObject:eachDynamicItem];
@@ -277,13 +269,10 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
         self.latestDelta = delta;
         
         CGPoint touchLocation = [self.collectionView.panGestureRecognizer locationInView:self.collectionView];
-        __weak __typeof(self)weakSelf = self;
-        [weakSelf.dynamicAnimator.behaviors enumerateObjectsUsingBlock:^(UIAttachmentBehavior *springBehaviour,
-                                                                     NSUInteger idx,
-                                                                     BOOL *stop) {
+        [self.dynamicAnimator.behaviors enumerateObjectsUsingBlock:^(UIAttachmentBehavior *springBehaviour, NSUInteger idx, BOOL *stop) {
             
-            [weakSelf adjustSpringBehavior:springBehaviour forTouchLocation:touchLocation];
-            [weakSelf.dynamicAnimator updateItemUsingCurrentState:[springBehaviour.items firstObject]];
+            [self adjustSpringBehavior:springBehaviour forTouchLocation:touchLocation];
+            [self.dynamicAnimator updateItemUsingCurrentState:[springBehaviour.items firstObject]];
         }];
     }
     
@@ -302,9 +291,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     
     [super prepareForCollectionViewUpdates:updateItems];
     
-    [updateItems enumerateObjectsUsingBlock:^(UICollectionViewUpdateItem *updateItem,
-                                              NSUInteger index,
-                                              BOOL *stop) {
+    [updateItems enumerateObjectsUsingBlock:^(UICollectionViewUpdateItem *updateItem, NSUInteger index, BOOL *stop) {
         
         if (updateItem.updateAction == UICollectionUpdateActionInsert) {
             
@@ -327,6 +314,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
                                           CGRectGetHeight(attributes.frame));
             
             if (self.springinessEnabled) {
+                
                 UIAttachmentBehavior *springBehaviour = [self springBehaviorWithLayoutAttributesItem:attributes];
                 [self.dynamicAnimator addBehavior:springBehaviour];
             }
@@ -355,9 +343,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 - (CGSize)containerSizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-//    id <QMChatMessageData> messageItem =
-//    [self.chatCollectionView.dataSource collectionView:self.chatCollectionView messageDataForItemAtIndexPath:indexPath];
-    
     NSValue *cachedSize = [self.cache objectForKey:@"s"];
     
     if (cachedSize != nil) {
@@ -366,7 +351,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     }
     
     CGSize size = [self.chatCollectionView.dataSource collectionView:self.chatCollectionView sizeForContainerAtIndexPath:indexPath];
-    
     [self.cache setObject:[NSValue valueWithCGSize:size] forKey:@"s"];
     
     return size;
@@ -387,14 +371,12 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 - (void)configureCellLayoutAttributes:(QMChatCollectionViewLayoutAttributes *)layoutAttributes {
     
     NSIndexPath *indexPath = layoutAttributes.indexPath;
-
+    
     CGSize containerSize = [self containerSizeForItemAtIndexPath:indexPath];
     layoutAttributes.containerViewSize = containerSize;
     
     layoutAttributes.containerInsents =
-    [self.chatCollectionView.delegate collectionView:self.chatCollectionView
-                                              layout:self
-               insetsForCellContainerViewAtIndexPath:indexPath];
+    [self.chatCollectionView.delegate collectionView:self.chatCollectionView layout:self insetsForCellContainerViewAtIndexPath:indexPath];
 }
 
 #pragma mark - Spring behavior utilities
@@ -406,9 +388,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
         return nil;
     }
     
-    UIAttachmentBehavior *springBehavior =
-    [[UIAttachmentBehavior alloc] initWithItem:item
-                              attachedToAnchor:item.center];
+    UIAttachmentBehavior *springBehavior = [[UIAttachmentBehavior alloc] initWithItem:item attachedToAnchor:item.center];
     
     springBehavior.length = 1.0f;
     springBehavior.damping = 1.0f;
@@ -424,7 +404,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     }];
     
     NSArray *newlyVisibleItems = [visibleItems objectsAtIndexes:indexSet];
-    
     CGPoint touchLocation = [self.collectionView.panGestureRecognizer locationInView:self.collectionView];
     
     [newlyVisibleItems enumerateObjectsUsingBlock:^(UICollectionViewLayoutAttributes *item, NSUInteger index, BOOL *stop) {
@@ -440,20 +419,15 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     
     NSArray *behaviors = self.dynamicAnimator.behaviors;
     
-    NSIndexSet *indexSet = [behaviors indexesOfObjectsPassingTest:^BOOL(UIAttachmentBehavior *springBehaviour,
-                                                                        NSUInteger index,
-                                                                        BOOL *stop) {
+    NSIndexSet *indexSet = [behaviors indexesOfObjectsPassingTest:^BOOL(UIAttachmentBehavior *springBehaviour, NSUInteger index, BOOL *stop) {
         
         UICollectionViewLayoutAttributes *layoutAttributes = [springBehaviour.items firstObject];
-        
         return ![visibleItemsIndexPaths containsObject:layoutAttributes.indexPath];
     }];
     
     NSArray *behaviorsToRemove = [self.dynamicAnimator.behaviors objectsAtIndexes:indexSet];
     
-    [behaviorsToRemove enumerateObjectsUsingBlock:^(UIAttachmentBehavior *springBehaviour,
-                                                    NSUInteger index,
-                                                    BOOL *stop) {
+    [behaviorsToRemove enumerateObjectsUsingBlock:^(UIAttachmentBehavior *springBehaviour, NSUInteger index, BOOL *stop) {
         
         UICollectionViewLayoutAttributes *layoutAttributes = [springBehaviour.items firstObject];
         [self.dynamicAnimator removeBehavior:springBehaviour];

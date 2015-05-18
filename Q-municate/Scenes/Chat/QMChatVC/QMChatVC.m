@@ -7,8 +7,6 @@
 //
 
 #import "QMChatVC.h"
-#import "QMBubbleImage.h"
-#import "QMChatBubbleImageFactory.h"
 #import "QMPlaceholder.h"
 #import "REActionSheet.h"
 #import "QMServicesManager.h"
@@ -26,8 +24,6 @@
 @interface QMChatVC () <QMChatServiceDelegate>
 
 @property (strong, nonatomic) NSMutableArray *messages;
-@property (strong, nonatomic) QMBubbleImage *outgoingBubbleImageData;
-@property (strong, nonatomic) QMBubbleImage *incomingBubbleImageData;
 
 @end
 
@@ -41,20 +37,15 @@
     
     [super viewDidLoad];
     //Cofigure sender
+    [self registerCells];
     
     QBUUser *opponent = [QM.contactListService.usersMemoryStorage usersWithIDs:self.chatDialog.occupantIDs withoutID:QM.profile.userData.ID].firstObject;
     
     self.title = opponent.fullName;
-    // Do any additional setup after loading the view, typically from a nib.
-    QMChatBubbleImageFactory *bubbleFactory = [[QMChatBubbleImageFactory alloc] init];
-    
-    self.outgoingBubbleImageData = [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor messageBubbleGreenColor]];
-    self.incomingBubbleImageData = [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor whiteColor]];
     
     self.messages = [NSMutableArray array];
     //Get messages
     [QM.chatService messageWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {}];
-    
     //Configure navigation bar
     UIImage *placeholder = [QMPlaceholder placeholderWithFrame:CGRectMake(0, 0, 30, 30) fullName:self.chatDialog.name];
     
@@ -66,6 +57,33 @@
     self.inputToolbar.contentView.rightBarButtonItem = [self sendButtonItem];
     //Subscribe to chat notifications
     [QM.chatService addDelegate:self];
+}
+
+- (void)registerCells {
+    /**
+     *  Register contact request cell
+     */
+    UINib *requestNib = [QMChatContactRequestCell nib];
+    NSString *requestIdentifier = [QMChatContactRequestCell cellReuseIdentifier];
+    [self.collectionView registerNib:requestNib forCellWithReuseIdentifier:requestIdentifier];
+    /**
+     *  Register Notification  cell
+     */
+    UINib *notificationNib = [QMChatNotificationCell nib];
+    NSString *notificationIdentifier = [QMChatNotificationCell cellReuseIdentifier];
+    [self.collectionView  registerNib:notificationNib forCellWithReuseIdentifier:notificationIdentifier];
+    /**
+     *  Register outgoing cell
+     */
+    UINib *outgoingNib = [QMChatOutgoingCell nib];
+    NSString *ougoingIdentifier = [QMChatOutgoingCell cellReuseIdentifier];
+    [self.collectionView  registerNib:outgoingNib forCellWithReuseIdentifier:ougoingIdentifier];
+    /**
+     *  Register incoming cell
+     */
+    UINib *incomingNib = [QMChatIncomingCell nib];
+    NSString *incomingIdentifier = [QMChatIncomingCell cellReuseIdentifier];
+    [self.collectionView  registerNib:incomingNib forCellWithReuseIdentifier:incomingIdentifier];
 }
 
 #pragma mark - QMChatServiceDelegate
@@ -110,30 +128,14 @@
     
     if (item.messageType == QMMessageTypeText) {
         
-        if (item.senderID == self.senderID) {
-            
-            return [QMChatOutgoingCell class];
-        }
-        else {
-            
-            return [QMChatIncomingCell class];
-        }
-        
+        return (item.senderID == self.senderID) ? [QMChatOutgoingCell class] : [QMChatIncomingCell class];
     }
     else if (item.messageType == QMMessageTypeContactRequest) {
         
-        if (item.senderID == self.senderID) {
-            
-            return [QMChatNotificationCell class];
-        }
-        else {
+        if (item.senderID != self.senderID) {
             
             return [QMChatContactRequestCell class];
         }
-    }
-    else {
-        
-        return [QMChatNotificationCell class];
     }
     
     return [QMChatNotificationCell class];
@@ -147,15 +149,11 @@
     NSAttributedString *attributedString = [self attributedStringForItem:msg];
     
     BOOL isDynamicSize = [class isDynamicSize];
+    CGSize size = isDynamicSize ? [class itemSizeWithAttriburedString:attributedString] : [class size];
     
-    if (isDynamicSize) {
-        
-        return [class itemSizeWithAttriburedString:attributedString];
-    }
-    else {
-        
-        return [class size];
-    }
+    NSAssert(!CGSizeEqualToSize(size, CGSizeZero), @"Size == CGSizeZero");
+    
+    return size;
 }
 
 - (UICollectionViewCell *)collectionView:(QMChatCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -166,6 +164,11 @@
     NSString *itemIdentifier = [class cellReuseIdentifier];
     
     QMChatCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:itemIdentifier forIndexPath:indexPath];
+    
+    if ([cell isKindOfClass:[QMChatContactRequestCell class]]) {
+        
+    }
+    
     cell.textView.attributedText = [self attributedStringForItem:messageItem];
     
     return cell;
@@ -174,11 +177,7 @@
 - (NSAttributedString *)attributedStringForItem:(QBChatHistoryMessage *)messageItem {
     
     UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
-    NSDictionary *attributes = @{
-                                 NSForegroundColorAttributeName: [UIColor whiteColor],
-                                 NSFontAttributeName: font
-                                 };
-    
+    NSDictionary *attributes = @{ NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:font };
     NSString *str = [QMMessageText textForMessage:messageItem currentUserID:self.senderID];
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:attributes];
     
@@ -189,10 +188,8 @@
             [self appendTimeStampForAttributedString:attrStr date:messageItem.datetime];
         }
     }
-    else {
-        
-        [self appendTimeStampForAttributedString:attrStr date:messageItem.datetime];
-    }
+
+    [self appendTimeStampForAttributedString:attrStr date:messageItem.datetime];
     
     return attrStr;
 }
@@ -210,21 +207,10 @@
     NSString *timeStamp = [dateFormatter stringFromDate:date];
     
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:14];
-    NSDictionary *attributes = @{
-                                 NSForegroundColorAttributeName: [UIColor colorWithWhite:1.000 alpha:0.660],
-                                 NSFontAttributeName: font
-                                 };
-    
+    NSDictionary *attributes = @{ NSForegroundColorAttributeName:[UIColor colorWithWhite:1.000 alpha:0.660], NSFontAttributeName:font };
     NSAttributedString *attributedTimeStamp = [[NSAttributedString alloc] initWithString:timeStamp attributes:attributes];
     
     [attrStr appendAttributedString:attributedTimeStamp];
-}
-
-#pragma mark - QBChatMessage CollectionView DataSource
-
-- (QBChatHistoryMessage *)collectionView:(QMChatViewController *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return self.messages[indexPath.row];
 }
 
 #pragma mark - UICollectionView DataSource
@@ -234,12 +220,6 @@
     return self.messages.count;
 }
 
-- (id<QMChatBubbleImageDataSource>)collectionView:(QMChatCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    QBChatMessage *msg = self.messages[indexPath.item];
-    return (msg.senderID == self.senderID) ? self.outgoingBubbleImageData : self.incomingBubbleImageData;
-}
-
 - (UIEdgeInsets)collectionView:(QMChatCollectionView *)collectionView
                         layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout insetsForCellContainerViewAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -247,11 +227,6 @@
     
     Class class = [self viewClassForItem:messageItem];
     return [class containerInsets];
-}
-
-- (id<QMChatAvatarImageDataSource>)collectionView:(QMChatCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return nil;
 }
 
 #pragma mark - Buttons factory
@@ -275,7 +250,7 @@
 
 - (UIButton *)sendButtonItem {
     
-    NSString *sendTitle = @"Send";
+    NSString *sendTitle = NSLocalizedString(@"Send", nil);
     
     UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [sendButton setTitle:sendTitle forState:UIControlStateNormal];
@@ -296,10 +271,9 @@
                                                    options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                 attributes:@{ NSFontAttributeName : sendButton.titleLabel.font }
                                                    context:nil];
-    sendButton.frame = CGRectMake(0.0f,
-                                  0.0f,
-                                  CGRectGetWidth(CGRectIntegral(sendTitleRect)),
-                                  maxHeight);
+    
+    sendButton.frame = CGRectMake(0.0f, 0.0f, CGRectGetWidth(CGRectIntegral(sendTitleRect)), maxHeight);
+    
     return sendButton;
 }
 
@@ -333,11 +307,7 @@
     }];
 }
 
-- (void)didPressSendButton:(UIButton *)button
-           withMessageText:(NSString *)text
-                  senderId:(NSUInteger)senderId
-         senderDisplayName:(NSString *)senderDisplayName
-                      date:(NSDate *)date {
+- (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSUInteger)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
     
     QBChatMessage *message = [QBChatMessage message];
     message.text = text;
@@ -349,6 +319,7 @@
     button.enabled = NO;
     
     [QM.chatService sendMessage:message toDialog:self.chatDialog type:QMMessageTypeText save:YES completion:^(NSError *error) {
+        
         button.enabled = YES;
         [self finishSendingMessageAnimated:NO];
     }];

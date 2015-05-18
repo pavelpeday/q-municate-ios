@@ -20,7 +20,9 @@
 
 static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
-@interface QMChatViewController () <QMInputToolbarDelegate, QMKeyboardControllerDelegate>
+@interface QMChatViewController ()
+
+<QMInputToolbarDelegate, QMKeyboardControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet QMChatCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet QMInputToolbar *inputToolbar;
@@ -42,14 +44,12 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 + (UINib *)nib {
     
-    return [UINib nibWithNibName:NSStringFromClass([QMChatViewController class])
-                          bundle:[NSBundle bundleForClass:[QMChatViewController class]]];
+    return [UINib nibWithNibName:NSStringFromClass([QMChatViewController class]) bundle:[NSBundle bundleForClass:[QMChatViewController class]]];
 }
 
 + (instancetype)messagesViewController {
     
-    return [[[self class] alloc] initWithNibName:NSStringFromClass([QMChatViewController class])
-                                          bundle:[NSBundle bundleForClass:[QMChatViewController class]]];
+    return [[[self class] alloc] initWithNibName:NSStringFromClass([QMChatViewController class]) bundle:[NSBundle bundleForClass:[QMChatViewController class]]];
 }
 
 #pragma mark - Initialization
@@ -133,7 +133,6 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     _topContentAdditionalInset = topContentAdditionalInset;
     [self updateCollectionViewInsets];
 }
-
 
 #pragma mark - View lifecycle
 
@@ -234,11 +233,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 #pragma mark - Messages view controller
 
-- (void)didPressSendButton:(UIButton *)button
-           withMessageText:(NSString *)text
-                  senderId:(NSUInteger)senderId
-         senderDisplayName:(NSString *)senderDisplayName
-                      date:(NSDate *)date {
+- (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSUInteger)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
     
     NSAssert(NO, @"Error! required method not implemented in subclass. Need to implement %s", __PRETTY_FUNCTION__);
 }
@@ -326,29 +321,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     [self.collectionView scrollToItemAtIndexPath:finalIndexPath atScrollPosition:scrollPosition animated:animated];
 }
 
-#pragma mark - QBChatMessage collection view data source
-
-- (QBChatHistoryMessage *)collectionView:(QMChatCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
-    return nil;
-}
-
-- (id<QMChatBubbleImageDataSource>)collectionView:(QMChatCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
-    return nil;
-}
-
-- (id<QMChatAvatarImageDataSource>)collectionView:(QMChatCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSAssert(NO, @"ERROR: required method not implemented: %s", __PRETTY_FUNCTION__);
-    return nil;
-}
-
 #pragma mark - Collection view data source
-
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
@@ -405,14 +378,14 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 - (BOOL)collectionView:(QMChatCollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
     //  disable menu for media messages
-//    id<QMChatMessageData> messageItem =
-//    [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
-//    
-//    if ([messageItem isMediaMessage]) {
-//        return NO;
-//    }
-//    
-//    self.selectedIndexPathForMenu = indexPath;
+    //    id<QMChatMessageData> messageItem =
+    //    [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+    //
+    //    if ([messageItem isMediaMessage]) {
+    //        return NO;
+    //    }
+    //
+    //    self.selectedIndexPathForMenu = indexPath;
     
     //  textviews are selectable to allow data detectors
     //  however, this allows the 'copy, define, select' UIMenuController to show
@@ -427,6 +400,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 - (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     
     if (action == @selector(copy:)) {
+        
         return YES;
     }
     
@@ -437,10 +411,10 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     if (action == @selector(copy:)) {
         
-//        id<QMChatMessageData> messageData =
-//        [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
+        //        id<QMChatMessageData> messageData =
+        //        [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
         
-//        [[UIPasteboard generalPasteboard] setString:[messageData text]];
+        //        [[UIPasteboard generalPasteboard] setString:[messageData text]];
     }
 }
 
@@ -636,18 +610,20 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 - (void)handleInteractivePopGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
     
+    BOOL ios8 = [[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending;
+    
     switch (gestureRecognizer.state) {
             
         case UIGestureRecognizerStateBegan: {
             
-            if ([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
+            if (ios8) {
                 
                 [self.snapshotView removeFromSuperview];
             }
             
             [self.keyboardController endListeningForKeyboard];
             
-            if ([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
+            if (ios8) {
                 
                 [self.inputToolbar.contentView.textView resignFirstResponder];
                 [UIView animateWithDuration:0.0
@@ -670,9 +646,10 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
         case UIGestureRecognizerStateFailed:
             [self.keyboardController beginListeningForKeyboard];
             
-            if ([[UIDevice currentDevice].systemVersion compare:@"8.0" options:NSNumericSearch] == NSOrderedAscending) {
+            if (ios8) {
                 [self.snapshotView removeFromSuperview];
             }
+            
             break;
         default:
             break;
@@ -706,6 +683,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     //  attempted to increase origin.Y above topLayoutGuide
     if (newToolbarOriginY <= self.topLayoutGuide.length + self.topContentAdditionalInset) {
+        
         dy = toolbarOriginY - (self.topLayoutGuide.length + self.topContentAdditionalInset);
         [self scrollComposerTextViewToBottomAnimated:YES];
     }
@@ -742,13 +720,10 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
         return;
     }
     
-    [UIView animateWithDuration:0.01
-                          delay:0.01
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         
-                         textView.contentOffset = contentOffsetToShowLastLine;
-                     }
+    [UIView animateWithDuration:0.01 delay:0.01 options:UIViewAnimationOptionCurveLinear animations:^{
+        
+        textView.contentOffset = contentOffsetToShowLastLine;
+    }
                      completion:nil];
 }
 
@@ -776,6 +751,7 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 #pragma mark - Utilities
 
 - (void)addObservers {
+    
     if (self.isObserving) {
         return;
     }

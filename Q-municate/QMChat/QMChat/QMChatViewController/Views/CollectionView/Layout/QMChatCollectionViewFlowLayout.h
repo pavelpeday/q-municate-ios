@@ -8,17 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-/**
- *  A constant that describes the default height for all label subviews in a `QMChatCollectionViewCell`.
- *
- *  @see QMChatCollectionViewCell.
- */
-FOUNDATION_EXPORT const CGFloat kQMChatCollectionViewCellLabelHeightDefault;
-
-/**
- *  A constant that describes the default size for avatar images in a `QMChatCollectionViewFlowLayout`.
- */
-FOUNDATION_EXPORT const CGFloat kQMChatCollectionViewAvatarSizeDefault;
 
 @class QMChatCollectionView;
 
@@ -66,25 +55,12 @@ FOUNDATION_EXPORT const CGFloat kQMChatCollectionViewAvatarSizeDefault;
  */
 @property (readonly, nonatomic) CGFloat itemWidth;
 
-@property (readonly, nonatomic) CGFloat maxMessageWidht;
-
 /**
  *  The maximum number of items that the layout should keep in its cache of layout information.
  *
  *  @discussion The default value is `200`. A limit of `0` means no limit. This is not a strict limit.
  */
 @property (assign, nonatomic) NSUInteger cacheLimit;
-
-/**
- *  Computes and returns the size of the `messageBubbleImageView` property of a `QMChatCollectionViewCell`
- *  at the specified indexPath. The returned size contains the required dimensions to display the entire message contents.
- *  Note, this is *not* the entire cell, but only its message bubble.
- *
- *  @param indexPath The index path of the item to be displayed.
- *
- *  @return The size of the message bubble for the item displayed at indexPath.
- */
-- (CGSize)messageBubbleSizeForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
  *  Computes and returns the size of the item specified by indexPath.
