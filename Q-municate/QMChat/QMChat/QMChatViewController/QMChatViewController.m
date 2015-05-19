@@ -95,8 +95,6 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     self.toolbarBottomLayoutGuide = nil;
     
     self.senderDisplayName = nil;
-    self.outgoingCellIdentifier = nil;
-    self.incomingCellIdentifier = nil;
     
     [self.keyboardController endListeningForKeyboard];
     self.keyboardController = nil;
