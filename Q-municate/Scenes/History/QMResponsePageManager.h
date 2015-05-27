@@ -1,17 +1,19 @@
 //
-//  QMPagedTableViewDatasource.h
+//  QMResponsePageManager.h
 //  Q-municate
 //
-//  Created by Andrey Ivanov on 01.04.15.
+//  Created by Andrey Ivanov on 27.05.15.
 //  Copyright (c) 2015 Quickblox. All rights reserved.
 //
 
-#import "QMTableViewDataSource.h"
+#import <Foundation/Foundation.h>
 
-@interface QMPagedTableViewDataSource : QMTableViewDataSource
+@interface QMResponsePageManager : NSObject
 
 @property (assign, nonatomic, readonly) NSUInteger totalEntries;
 @property (assign, nonatomic, readonly) NSUInteger loadedEntries;
+
+- (instancetype)initWithPerPage:(NSUInteger)perPage;
 
 - (void)resetPage;
 - (QBGeneralResponsePage *)nextPage;

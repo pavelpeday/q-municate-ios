@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="xCU-m5-fgZ" customClass="QMProfileTitleView">
-            <rect key="frame" x="0.0" y="0.0" width="95" height="40"/>
+            <rect key="frame" x="0.0" y="0.0" width="100" height="40"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fRH-Ra-AFH" customClass="QMImageView">
-                    <rect key="frame" x="0.0" y="6" width="28" height="28"/>
+                    <rect key="frame" x="5" y="6" width="28" height="28"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="28" id="Aol-Ky-Edh"/>
-                        <constraint firstAttribute="width" constant="28" id="jA3-rW-ew8"/>
+                        <constraint firstAttribute="width" secondItem="fRH-Ra-AFH" secondAttribute="height" multiplier="1:1" id="31M-eZ-QZK"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tEX-eh-5It">
-                    <rect key="frame" x="31" y="11" width="49" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="10" translatesAutoresizingMaskIntoConstraints="NO" id="tEX-eh-5It">
+                    <rect key="frame" x="41.5" y="9.5" width="48.5" height="20.5"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="49" id="4C3-kp-UXF"/>
-                        <constraint firstAttribute="height" constant="21" id="jvB-DH-ARX"/>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="wDe-Yc-3tg"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="tEX-eh-5It" firstAttribute="leading" secondItem="fRH-Ra-AFH" secondAttribute="trailing" constant="3" id="c18-vp-0MP"/>
-                <constraint firstItem="fRH-Ra-AFH" firstAttribute="top" secondItem="xCU-m5-fgZ" secondAttribute="top" constant="6" id="hZ6-Yt-avN"/>
-                <constraint firstItem="fRH-Ra-AFH" firstAttribute="leading" secondItem="xCU-m5-fgZ" secondAttribute="leading" id="pOK-yV-JeN"/>
-                <constraint firstItem="tEX-eh-5It" firstAttribute="top" secondItem="xCU-m5-fgZ" secondAttribute="top" constant="11" id="xzV-dv-Liw"/>
+                <constraint firstItem="fRH-Ra-AFH" firstAttribute="top" secondItem="xCU-m5-fgZ" secondAttribute="top" constant="6" id="9ho-re-wWN"/>
+                <constraint firstItem="tEX-eh-5It" firstAttribute="leading" secondItem="fRH-Ra-AFH" secondAttribute="trailing" constant="8" id="L3d-QZ-1JJ"/>
+                <constraint firstItem="fRH-Ra-AFH" firstAttribute="centerY" secondItem="tEX-eh-5It" secondAttribute="centerY" constant="0.5" id="ecr-3a-Vxl"/>
+                <constraint firstAttribute="bottom" secondItem="fRH-Ra-AFH" secondAttribute="bottom" constant="6" id="vxL-dT-bAx"/>
+                <constraint firstAttribute="centerX" secondItem="tEX-eh-5It" secondAttribute="centerX" constant="-15.75" id="y0I-7T-eBl"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="aspectRatioConstraint" destination="31M-eZ-QZK" id="oDS-iT-Fn5"/>
                 <outlet property="label" destination="tEX-eh-5It" id="Lwr-63-MoY"/>
-                <outlet property="labelConstraint" destination="4C3-kp-UXF" id="jmE-Y5-vNO"/>
+                <outlet property="maxLabelWidthConstraint" destination="wDe-Yc-3tg" id="ndc-BQ-fGw"/>
                 <outlet property="qmImageVIew" destination="fRH-Ra-AFH" id="52e-rr-7cA"/>
             </connections>
-            <point key="canvasLocation" x="421.5" y="57"/>
+            <point key="canvasLocation" x="182" y="-141"/>
         </view>
     </objects>
 </document>

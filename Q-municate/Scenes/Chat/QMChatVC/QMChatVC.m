@@ -124,7 +124,7 @@
     self.collectionView.collectionViewLayout.springinessEnabled = YES;
 }
 
-- (Class)viewClassForItem:(QBChatHistoryMessage *)item {
+- (Class)viewClassForItem:(QBChatMessage *)item {
     
     if (item.messageType == QMMessageTypeText) {
         
@@ -143,7 +143,7 @@
 
 - (CGSize)collectionView:(QMChatCollectionView *)collectionView sizeForContainerAtIndexPath:(NSIndexPath *)indexPath {
     
-    QBChatHistoryMessage *msg = self.messages[indexPath.item];
+    QBChatMessage *msg = self.messages[indexPath.item];
     
     Class class = [self viewClassForItem:msg];
     NSAttributedString *attributedString = [self attributedStringForItem:msg];
@@ -158,7 +158,7 @@
 
 - (UICollectionViewCell *)collectionView:(QMChatCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    QBChatHistoryMessage *messageItem = self.messages[indexPath.row];
+    QBChatMessage *messageItem = self.messages[indexPath.row];
     
     Class class = [self viewClassForItem:messageItem];
     NSString *itemIdentifier = [class cellReuseIdentifier];
@@ -174,7 +174,7 @@
     return cell;
 }
 
-- (NSAttributedString *)attributedStringForItem:(QBChatHistoryMessage *)messageItem {
+- (NSAttributedString *)attributedStringForItem:(QBChatMessage *)messageItem {
     
     UIFont *font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
     NSDictionary *attributes = @{ NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:font };
@@ -185,11 +185,11 @@
         
         if ([messageItem senderID] == self.senderID) {
             
-            [self appendTimeStampForAttributedString:attrStr date:messageItem.datetime];
+            [self appendTimeStampForAttributedString:attrStr date:messageItem.dateSent];
         }
     }
 
-    [self appendTimeStampForAttributedString:attrStr date:messageItem.datetime];
+    [self appendTimeStampForAttributedString:attrStr date:messageItem.dateSent];
     
     return attrStr;
 }
@@ -223,7 +223,7 @@
 - (UIEdgeInsets)collectionView:(QMChatCollectionView *)collectionView
                         layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout insetsForCellContainerViewAtIndexPath:(NSIndexPath *)indexPath {
     
-    QBChatHistoryMessage *messageItem = self.messages[indexPath.item];
+    QBChatMessage *messageItem = self.messages[indexPath.item];
     
     Class class = [self viewClassForItem:messageItem];
     return [class containerInsets];

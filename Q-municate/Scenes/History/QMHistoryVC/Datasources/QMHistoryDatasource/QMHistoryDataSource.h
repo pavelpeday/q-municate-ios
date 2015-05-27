@@ -7,6 +7,7 @@
 //
 
 #import "QMTableViewDataSource.h"
+#import "QMChatHistoryCell.h"
 
 @class QMHistoryDataSource;
 

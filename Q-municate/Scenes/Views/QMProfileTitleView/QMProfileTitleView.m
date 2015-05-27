@@ -10,15 +10,15 @@
 #import "QMImageView.h"
 #import "QMPlaceholder.h"
 
-const CGFloat kQMMaxProfileTileViewWidth = 150;
 
 @interface QMProfileTitleView()
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labelConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *aspectRatioConstraint;
 
 @property (weak, nonatomic) IBOutlet QMImageView *qmImageVIew;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 @property (weak, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *maxLabelWidthConstraint;
 
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSString *imageUrl;
@@ -32,22 +32,21 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
     ILog(@"%@ - %@",  NSStringFromSelector(_cmd), self);
 }
 
-- (instancetype)initWithUserName:(NSString *)userName imageUrl:(NSString *)imageUrl {
+
+- (instancetype)init {
     
-    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
+    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class])
+                                                           owner:self options:nil] firstObject];
     
     if (self) {
-        
-        self.backgroundColor = [UIColor clearColor];
-        self.qmImageVIew.imageViewType = QMImageViewTypeCircle;
-        
-        self.userInteractionEnabled = YES;
-        self.userName = userName;
-        self.imageUrl = imageUrl;
-        
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-        [self addGestureRecognizer:tapGesture];
 
+        self.qmImageVIew.imageViewType = QMImageViewTypeCircle;
+        self.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tapGesture =
+        [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        
+        [self addGestureRecognizer:tapGesture];
         self.tapGestureRecognizer = tapGesture;
     }
     
@@ -58,13 +57,8 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
     
     self.userName = userName;
     self.imageUrl = imageUrl;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
     
-//    self.labelConstraint.constant = 150;
-    
+    [self needsUpdateConstraints];
 }
 
 - (void)setUserName:(NSString *)userName {
@@ -73,7 +67,6 @@ const CGFloat kQMMaxProfileTileViewWidth = 150;
         _userName = userName;
         
         self.label.text = userName;
-        [self layoutIfNeeded];
     }
 }
 

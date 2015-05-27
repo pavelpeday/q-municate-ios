@@ -7,10 +7,18 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.1.5)
   - CrashlyticsFramework (2.2.5.2)
-  - Facebook-iOS-SDK (3.23.2):
-    - Bolts (~> 1.0)
+  - FBSDKCoreKit (4.1.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc (= 4.1.0)
+    - FBSDKCoreKit/no-arc (= 4.1.0)
+  - FBSDKCoreKit/arc (4.1.0):
+    - Bolts (~> 1.1)
+  - FBSDKCoreKit/no-arc (4.1.0):
+    - Bolts (~> 1.1)
+    - FBSDKCoreKit/arc
+  - FBSDKLoginKit (4.1.0):
+    - FBSDKCoreKit
   - MPGNotification (1.2.1)
-  - Quickblox-WebRTC (1.0.3)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
@@ -21,9 +29,9 @@ PODS:
 DEPENDENCIES:
   - AGEmojiKeyboard (~> 0.2.0)
   - CrashlyticsFramework (~> 2.2.5.2)
-  - Facebook-iOS-SDK (~> 3.23.0)
+  - FBSDKCoreKit (~> 4.1.0)
+  - FBSDKLoginKit (~> 4.1.0)
   - MPGNotification (~> 1.2.1)
-  - Quickblox-WebRTC (~> 1.0.1)
   - SDWebImage (~> 3.7.2)
   - SSKeychain (~> 1.2.3)
   - StaticDataTableViewController (~> 2.0.3)
@@ -33,9 +41,9 @@ SPEC CHECKSUMS:
   AGEmojiKeyboard: 8b0ad1a1a3c473c9d5464cf661a7bdddda59feed
   Bolts: aac24961496d504aa56fc267cde95162a71bac39
   CrashlyticsFramework: c4476108c87948b72835a5a26db90e8d6249da62
-  Facebook-iOS-SDK: cd87f0b2f0c1d9574b44e8fa2baacc275524bac3
+  FBSDKCoreKit: 469ed167195f860dbd2b4c4bbaa33d2e90598db9
+  FBSDKLoginKit: ff6224762732e3698f30942e4544321b8c7a23e6
   MPGNotification: eaa125a40bfee1ea88fc5145f0687293cb1891b9
-  Quickblox-WebRTC: 36e81b283dccb645e9d4ac263175320bc9418688
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
   StaticDataTableViewController: 76e67fe2af5596fa77ffbc1ae450d8127172942d

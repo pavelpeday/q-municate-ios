@@ -22,11 +22,11 @@
         }];
     };
     
-    void (^copletionLogin)(QBResponse *, QBUUser *) = ^(QBResponse* response,  QBUUser *user) {
+    void (^completionLogin)(QBResponse *, QBUUser *) = ^(QBResponse* response,  QBUUser *user) {
         
         //Save profile to keychain
         if (response.success) {
-
+            
             [QM.profile synchronizeWithUserData:user];
             
             success();
@@ -41,17 +41,18 @@
     
     if (!QM.authService.isAuthorized) {
         
-        if (QM.profile.type == QMProfileTypeFacebook) {
+        if (QM.profile.userData.facebookID.length > 0) {
             
             QMFacebook *facebook = [[QMFacebook alloc] init];
             [facebook openSession:^(NSString *sessionToken) {
-                // Singin or login
-                [QM.authService logInWithFacebookSessionToken:sessionToken completion:copletionLogin];
+                
+                [QM.authService logInWithFacebookSessionToken:sessionToken completion:completionLogin];
+                
             }];
+        }
+        else {
             
-        } else {
-            
-            [QM.authService logInWithUser:QM.profile.userData completion:copletionLogin];
+            [QM.authService logInWithUser:QM.profile.userData completion:completionLogin];
         }
     }
     else {
@@ -62,19 +63,10 @@
 
 + (void)taskFetchDialogsAndUsers:(void(^)(BOOL success))completion {
     
-    [QM.chatService dialogs:^(QBResponse *fetchAllDialogsResponse, NSArray *dialogObjects, NSSet *dialogsUsersIDs) {
+    [QM.chatService allDialogsWithPageLimit:50 interationBlock:^(QBResponse *response, NSArray *dialogObjects, NSSet *dialogsUsersIDs, BOOL *stop) {
         
-        if (fetchAllDialogsResponse.success) {
-            
-            [QM.contactListService retrieveUsersWithIDs:dialogsUsersIDs.allObjects
-                                             completion:^(QBResponse *retriveUsersResponse, QBGeneralResponsePage *page, NSArray *users) {
-                                                 completion(!retriveUsersResponse || retriveUsersResponse.success);
-                                             }];
-        }
-        else {
-            
-            completion(NO);
-        }
+    } completion:^(QBResponse *response) {
+        
     }];
 }
 

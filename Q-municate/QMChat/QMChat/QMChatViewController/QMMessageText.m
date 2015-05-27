@@ -11,7 +11,7 @@
 
 @implementation QMMessageText
 
-+ (NSString *)textForMessage:(QBChatHistoryMessage *)message currentUserID:(NSUInteger)currentUserID {
++ (NSString *)textForMessage:(QBChatMessage *)message currentUserID:(NSUInteger)currentUserID {
     
     QBUUser *user = [QM.contactListService.usersMemoryStorage userWithID:message.senderID];
     

@@ -14,7 +14,7 @@
 
 @property (weak, nonatomic) id<QMProfileTitleViewDelegate> delegate;
 
-- (instancetype)initWithUserName:(NSString *)userName imageUrl:(NSString *)imageUrl;
+- (void)setUserName:(NSString *)userName imageUrl:(NSString *)imageUrl;
 
 @end
 

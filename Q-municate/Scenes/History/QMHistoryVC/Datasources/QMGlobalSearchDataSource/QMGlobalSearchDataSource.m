@@ -8,31 +8,44 @@
 
 #import "QMGlobalSearchDataSource.h"
 
-#import "QMChatHistoryCell.h"
 #import "QMAddContactCell.h"
 #import "QMSearchStatusCell.h"
 
+@interface QMGlobalSearchDataSource()
+
+@property (strong, nonatomic) QMResponsePageManager *pageManager;
+
+@end
+
 @implementation QMGlobalSearchDataSource
+
+- (instancetype)init {
+    
+    self = [super init];
+    if (self) {
+        
+        self.pageManager = [[QMResponsePageManager alloc] initWithPerPage:20];
+    }
+    return self;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //Loading Cell
     if (indexPath.row == (signed)self.collection.count) {
 
-        QMSearchStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:QMSearchStatusCell.cellIdentifier
-                                                                   forIndexPath:indexPath];
+        QMSearchStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:QMSearchStatusCell.cellIdentifier forIndexPath:indexPath];
 
-        NSString *title = self.totalEntries == self.loadedEntries ? @"No more results": @"Loading...";
+        NSString *title = self.pageManager.totalEntries == self.pageManager.loadedEntries ? @"No more results" : @"Loading...";
         [cell setTitle:title];
         
-        cell.showActivityIndicator = (self.totalEntries != self.loadedEntries);
+        cell.showActivityIndicator = (self.pageManager.totalEntries != self.pageManager.loadedEntries);
 
         return cell;
     }
-    
     else {
         //Contact cell
-        QMAddContactCell *cell = [tableView dequeueReusableCellWithIdentifier:QMAddContactCell.cellIdentifier
-                                                              forIndexPath:indexPath];
+        QMAddContactCell *cell = [tableView dequeueReusableCellWithIdentifier:QMAddContactCell.cellIdentifier forIndexPath:indexPath];
+        
         QBUUser *user = self.collection[indexPath.row];
         cell.contact = user;
         

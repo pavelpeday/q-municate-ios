@@ -72,8 +72,7 @@
         self.passwordField.text.length == 0 ||
         self.emailField.text.length == 0) {
         
-        [REAlertView showAlertWithMessage:NSLocalizedString(@"QM_STR_FILL_IN_ALL_THE_FIELDS", nil)
-                            actionSuccess:NO];
+        [REAlertView showAlertWithMessage:NSLocalizedString(@"QM_STR_FILL_IN_ALL_THE_FIELDS", nil) actionSuccess:NO];
     }
     else {
         
@@ -96,7 +95,6 @@
                         //Update password data
 #warning Need hide synchronize
                         userProfile.password = newUser.password;
-                        QM.profile.type = QMProfileTypeEmail;
                         QM.profile.userAgreementAccepted = userAgreementSuccess;
                         //Synchronize user profile
                         [QM.profile synchronizeWithUserData:userProfile];

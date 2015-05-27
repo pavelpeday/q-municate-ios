@@ -6,13 +6,14 @@
 //  Copyright (c) 2015 Quickblox. All rights reserved.
 //
 
-#import "QMPagedTableViewDataSource.h"
+#import "QMTableViewDataSource.h"
 #import "QMAddContactProtocol.h"
+#import "QMResponsePageManager.h"
 
-@interface QMGlobalSearchDataSource : QMPagedTableViewDataSource
+@interface QMGlobalSearchDataSource : QMTableViewDataSource
 
 @property (weak, nonatomic) id <QMAddContactProtocol> addContactHandler;
-
+@property (strong, nonatomic, readonly) QMResponsePageManager *pageManager;
 @property (strong, nonatomic) NSString *searchText;
 
 @end

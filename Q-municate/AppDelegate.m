@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <Crashlytics/Crashlytics.h>
 #import "SVProgressHUD.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #if Q_MUNICATE_MODE == 0
 /**
@@ -47,6 +48,7 @@ NSString *const kQMCrashlyticsAPIKey = @"7aea78439bec41a9005c7488bb6751c5e33fe27
     
     [QBSettings setAccountKey:kQMAcconuntKey];
     [QBSettings setLogLevel:QBLogLevelDebug];
+
     
 #ifndef DEBUG
     [QBSettings useProductionEnvironmentForPushNotifications:YES];
@@ -59,7 +61,8 @@ NSString *const kQMCrashlyticsAPIKey = @"7aea78439bec41a9005c7488bb6751c5e33fe27
     /**Start Crashlytics */
     [Crashlytics startWithAPIKey:kQMCrashlyticsAPIKey];
     
-    return YES;
+    return  [[FBSDKApplicationDelegate sharedInstance] application:application
+                                     didFinishLaunchingWithOptions:launchOptions];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -67,26 +70,33 @@ NSString *const kQMCrashlyticsAPIKey = @"7aea78439bec41a9005c7488bb6751c5e33fe27
     ILog(@"Push war received. User info:%@", userInfo);
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    
-    [FBSession.activeSession handleDidBecomeActive];
-}
+//- (void)applicationDidBecomeActive:(UIApplication *)application {
+//    
+//    [FBSession.activeSession handleDidBecomeActive];
+//}
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     
 }
 
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    
-    BOOL urlWasHandled =
-    [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call) {
-        NSLog(@"Unhandled deep link: %@", url);
-    }];
-    
-    return urlWasHandled;
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
 }
+
+//- (BOOL)application:(UIApplication *)application
+//            openURL:(NSURL *)url
+//  sourceApplication:(NSString *)sourceApplication
+//         annotation:(id)annotation {
+//    
+//    BOOL urlWasHandled =
+//    [FBAppCall handleOpenURL:url sourceApplication:sourceApplication fallbackHandler:^(FBAppCall *call) {
+//        NSLog(@"Unhandled deep link: %@", url);
+//    }];
+//    
+//    return urlWasHandled;
+//}
 
 @end

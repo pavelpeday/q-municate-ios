@@ -58,7 +58,6 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
 - (void)initialization {
     
     self.profile = [QMProfile profile];
-    
     //Setup core data
     [QMChatCache setupDBWithStoreNamed:kQMChatCacheStoreName];
     [QMContactListCache setupDBWithStoreNamed:kQMContactListCacheStoreName];
@@ -91,35 +90,29 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
 
 #pragma mark - QMChatServiceDelegate
 
-- (void)chatService:(QMChatService *)chatService didAddChatDialog:(QBChatDialog *)chatDialog {
+- (void)chatService:(QMChatService *)chatService didAddChatDialogToMemoryStorage:(QBChatDialog *)chatDialog {
     
     [[QMChatCache instance] insertOrUpdateDialog:chatDialog completion:nil];
 }
 
-- (void)chatService:(QMChatService *)chatService didAddChatDialogs:(NSArray *)chatDialogs {
+- (void)chatService:(QMChatService *)chatService didAddChatDialogsToMemoryStorage:(NSArray *)chatDialogs {
 
     [[QMChatCache instance] insertOrUpdateDialogs:chatDialogs completion:nil];
 }
 
-- (void)chatServiceDidAddMessagesToHistroy:(NSArray *)messages forDialogID:(NSString *)dialogID {
+- (void)chatService:(QMChatService *)chatService didAddMessagesToMemoryStorage:(NSArray *)messages forDialogID:(NSString *)dialogID {
     
     [[QMChatCache instance] insertOrUpdateMessages:messages withDialogId:dialogID completion:nil];
 }
 
-- (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message forDialog:(QBChatDialog *)dialog {
+- (void)chatService:(QMChatService *)chatService didAddMessageToMemoryStorage:(QBChatMessage *)message forDialogID:(NSString *)dialogID {
     
-    [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
+    [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialogID read:YES completion:nil];
 }
 
-- (void)chatServiceDidReceiveNotificationMessage:(QBChatMessage *)message createDialog:(QBChatDialog *)dialog {
+- (void)chatService:(QMChatService *)chatService didReceiveNotificationMessage:(QBChatMessage *)message createDialog:(QBChatDialog *)dialog {
     
     NSAssert([message.dialog.ID isEqualToString:dialog.ID], @"Muste be equal");
-    [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
-    [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
-}
-
-- (void)chatServiceDidReceiveNotificationMessage:(QBChatMessage *)message updateDialog:(QBChatDialog *)dialog {
-    
     [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
     [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
 }
@@ -196,7 +189,6 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
 - (void)authService:(QMAuthService *)authService didLoginWithUser:(QBUUser *)user {
     
     [self.profile synchronizeWithUserData:user];
-    
 }
 
 #pragma mark - Errors handler
@@ -264,16 +256,6 @@ NSString *const kQBResponceErrorsKey = @"errors";
         }];
         
     }];
-}
-
-- (BOOL)checkResult:(QBResult *)result {
-    //    
-    //    if (!result.success) {
-    //        [REAlertView showAlertWithMessage:result.errors.lastObject actionSuccess:NO];
-    //    }
-    //    
-    //return result.success;
-    return YES;
 }
 
 

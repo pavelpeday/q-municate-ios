@@ -8,21 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, QMProfileType) {
-
-    QMProfileTypeNone,
-    QMProfileTypeEmail,
-    QMProfileTypeLogin,
-    QMProfileTypeFacebook,
-    QMProfileTypeTwitter
-};
-
 @interface QMProfile : NSObject <NSCoding>
 
 @property (strong, nonatomic) QBUUser *userData;
 @property (assign, nonatomic) BOOL userAgreementAccepted;
 @property (assign, nonatomic) BOOL pushNotificationsEnabled;
-@property (assign, nonatomic) QMProfileType type;
 @property (assign, nonatomic) BOOL skipSave;
 
 /**

@@ -14,4 +14,6 @@
 @property (strong, nonatomic) QMContactListDataSource *contactListDatasource;
 @property (assign, nonatomic) IBInspectable BOOL selectable;
 
+- (void)loadDataSource;
+
 @end

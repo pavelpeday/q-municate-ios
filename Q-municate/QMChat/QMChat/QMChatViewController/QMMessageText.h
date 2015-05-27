@@ -10,6 +10,6 @@
 
 @interface QMMessageText : NSObject
 
-+ (NSString *)textForMessage:(QBChatHistoryMessage *)message currentUserID:(NSUInteger)currentUserID;
++ (NSString *)textForMessage:(QBChatMessage *)message currentUserID:(NSUInteger)currentUserID;
 
 @end

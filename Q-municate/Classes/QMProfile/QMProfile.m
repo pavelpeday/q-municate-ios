@@ -116,7 +116,6 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
     self.pushNotificationsEnabled = profile.pushNotificationsEnabled;
     self.userAgreementAccepted = profile.userAgreementAccepted;
     self.userData = profile.userData;
-    self.type = profile.type;
 }
 
 - (BOOL)clearProfile {
@@ -130,7 +129,6 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
     }];
     
     self.userData = nil;
-    self.type = QMProfileTypeNone;
     self.pushNotificationsEnabled = YES;
     self.userAgreementAccepted = NO;
     
@@ -223,9 +221,8 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
         
         NSData *uploadFile = UIImageJPEGRepresentation(userImage, 0.4);
         
-        [QBRequest TUploadFile:uploadFile fileName:@"userImage" contentType:@"image/jpeg" isPublic:YES
-                  successBlock:^(QBResponse *response, QBCBlob *blob)
-        {
+        [QBRequest TUploadFile:uploadFile fileName:@"userImage" contentType:@"image/jpeg" isPublic:YES successBlock:^(QBResponse *response, QBCBlob *blob) {
+            
             updateUserProfile(blob.publicUrl);
             
         } statusBlock:^(QBRequest *request, QBRequestStatus *status) {
@@ -256,7 +253,6 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
         self.userData = [aDecoder decodeObjectForKey:kQMUserDataKey];
         self.userAgreementAccepted = [aDecoder decodeBoolForKey:kQMUserAgreementAcceptedKey];
         self.pushNotificationsEnabled = [aDecoder decodeBoolForKey:kQMPushNotificationsEnabled];
-        self.type = [aDecoder decodeIntegerForKey:kQMUserProfileType];
     }
     
     return self;
@@ -267,7 +263,6 @@ static NSUInteger kQMMinPasswordLenght_ = 6;
     [aCoder encodeObject:self.userData forKey:kQMUserDataKey];
     [aCoder encodeBool:self.userAgreementAccepted forKey:kQMUserAgreementAcceptedKey];
     [aCoder encodeBool:self.pushNotificationsEnabled forKey:kQMPushNotificationsEnabled];
-    [aCoder encodeInteger:self.type forKey:kQMUserProfileType];
 }
 
 @end

@@ -1,14 +1,14 @@
 //
-//  QMPagedTableViewDatasource.m
+//  QMResponsePageManager.m
 //  Q-municate
 //
-//  Created by Andrey Ivanov on 01.04.15.
+//  Created by Andrey Ivanov on 27.05.15.
 //  Copyright (c) 2015 Quickblox. All rights reserved.
 //
 
-#import "QMPagedTableViewDatasource.h"
+#import "QMResponsePageManager.h"
 
-@interface QMPagedTableViewDataSource()
+@interface QMResponsePageManager()
 
 @property (strong, nonatomic) QBGeneralResponsePage *page;
 @property (assign, nonatomic) NSUInteger totalEntries;
@@ -16,11 +16,9 @@
 
 @end
 
-const NSUInteger kPerPage = 20;
+@implementation QMResponsePageManager
 
-@implementation QMPagedTableViewDataSource
-
-- (instancetype)init {
+- (instancetype)initWithPerPage:(NSUInteger)perPage {
     
     self = [super init];
     if (self) {
@@ -35,7 +33,6 @@ const NSUInteger kPerPage = 20;
 
 - (void)resetPage {
     
-    [self.collection removeAllObjects];
     self.page.currentPage = 0;
     self.loadedEntries = 0;
     self.totalEntries = NSNotFound;
@@ -53,7 +50,7 @@ const NSUInteger kPerPage = 20;
         
         self.totalEntries = page.totalEntries;
     }
-        
+    
     NSUInteger loadedEntries = self.page.currentPage * self.page.perPage;
     self.loadedEntries = (loadedEntries > page.totalEntries) ? page.totalEntries : loadedEntries;
 }

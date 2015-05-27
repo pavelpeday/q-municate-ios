@@ -59,25 +59,26 @@
         
         self.imageUrl = url;
         
-        UIImage *placeholder = [QMPlaceholder placeholderWithFrame:self.qmImageView.bounds fullName:self.title];
+        UIImage *placeholder = [QMPlaceholder placeholderWithFrame:self.qmImageView.bounds
+                                                          fullName:self.title];
         
-        [self.qmImageView setImageWithURL:url placeholder:placeholder options:SDWebImageLowPriority
-                                 progress:nil completedBlock:nil];
+        [self.qmImageView setImageWithURL:url
+                              placeholder:placeholder
+                                  options:SDWebImageLowPriority
+                                 progress:nil
+                           completedBlock:nil];
     }
 }
 
 - (void)highlightTitle:(NSString *)title {
     
     NSMutableAttributedString *attributedString =
-    [[NSMutableAttributedString alloc] initWithString:self.title];
+    [[NSMutableAttributedString alloc] initWithString:title];
     
     UIColor *highlightColor = [UIColor colorWithRed:1.000 green:0.610 blue:0.426 alpha:1.000];
     
     [attributedString beginEditing];
-    
-    [attributedString addAttribute:NSForegroundColorAttributeName value:highlightColor
-                             range:[self.title rangeOfString:title options:NSCaseInsensitiveSearch]];
-    
+    [attributedString addAttribute:NSForegroundColorAttributeName value:highlightColor range:[self.title rangeOfString:title options:NSCaseInsensitiveSearch]];
     [attributedString endEditing];
     
     self.titleLabel.attributedText = attributedString;
