@@ -109,22 +109,14 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 #pragma mark - QMChatServiceDelegate
 
-- (void)chatServiceDidLoadDialogsFromCache {
-    
-    NSArray *dialogsFromCache = [QM.chatService.dialogsMemoryStorage dialogsSortByLastMessageDateWithAscending:NO];
-    [self.historyDataSource.collection addObjectsFromArray:dialogsFromCache];
-    [self.tableView reloadData];
-}
-
 - (void)chatService:(QMChatService *)chatService didAddChatDialogToMemoryStorage:(QBChatDialog *)chatDialog {
     
-    [self.historyDataSource.collection insertObject:chatDialog atIndex:0];
     [self.tableView reloadData];
 }
 
 - (void)chatService:(QMChatService *)chatService didAddChatDialogsToMemoryStorage:(NSArray *)chatDialogs {
     
-    [self.historyDataSource.collection addObjectsFromArray:chatDialogs];
+    [self.historyDataSource replaceItems:chatDialogs];
     [self.tableView reloadData];
 }
 
@@ -143,7 +135,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (void)localSearch:(NSString *)searchText {
     
-    [self.localSearchDatasource addObjects:self.historyDataSource.collection];
+    [self.localSearchDatasource replaceItems:self.historyDataSource.items];
     self.localSearchDatasource.searchText = searchText;
     [self.searchController.searchResultsTableView reloadData];
 }
@@ -156,7 +148,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     
     if (searchText.length == 0) {
         //Clear datasource
-        [self.globalSearchDatasource.collection removeAllObjects];
         [self.searchController.searchResultsTableView reloadData];
     }
     else {
@@ -196,7 +187,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     self.searchRequest =
     [QBRequest usersWithFullName:searchText page:currentPage successBlock:^(QBResponse *response, QBGeneralResponsePage *page, NSArray *users) {
         
-        [weakSelf.globalSearchDatasource.collection addObjectsFromArray:users];
+        [weakSelf.globalSearchDatasource replaceItems:users];
         [weakSelf.globalSearchDatasource setSearchText:searchText];
         [weakSelf.globalSearchDatasource.pageManager updateCurrentPageWithResponcePage:page];
         [weakSelf.searchController.searchResultsTableView reloadData];
@@ -253,7 +244,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
         return;
     }
     
-    QBChatDialog *chatDialog = self.historyDataSource.collection[indexPath.row];
+    QBChatDialog *chatDialog = self.historyDataSource.items[indexPath.row];
     
     [UIView animateWithDuration:0.2 animations:^{
         
@@ -270,7 +261,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     if (tableView == self.searchController.searchResultsTableView &&
         self.searchController.searchBar.selectedScopeButtonIndex == QMSearchScopeButtonIndexGlobal) {
         
-        if (indexPath.row == (int) self.globalSearchDatasource.collection.count && self.globalSearchDatasource.collection.count != 0 ) {
+        if (indexPath.row == (int) self.globalSearchDatasource.items.count && self.globalSearchDatasource.items.count != 0 ) {
             
             [self beginGlobalSearchWithSearchText:self.searchController.searchBar.text nextPage:YES];
         }

@@ -8,19 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "QMChatContainerView.h"
-#import "TTTAttributedLabel.h"
 
 @class QMChatCell;
+@class QMChatCellLayoutAttributes;
 
 @protocol QMChatCellDelegate <NSObject>
 @required
-
-/**
- *  Tells the delegate that the avatarImageView of the cell has been tapped.
- *
- *  @param cell The cell that received the tap touch event.
- */
-- (void)chatCellDidTapAvatar:(QMChatCell *)cell;
 
 /**
  *  Tells the delegate that the message bubble of the cell has been tapped.
@@ -62,16 +55,12 @@
 
 @property (weak, nonatomic) id <QMChatCellDelegate> delegate;
 @property (weak, nonatomic, readonly) QMChatContainerView *containerView;
-@property (weak, nonatomic, readonly) TTTAttributedLabel *textView;
 
 
 + (UINib *)nib;
 
 + (NSString *)cellReuseIdentifier;
 
-+ (UIEdgeInsets)containerInsets;
-+ (BOOL)isDynamicSize;
-+ (CGSize)itemSizeWithAttriburedString:(NSAttributedString *)attriburedString;
-+ (CGSize)size;
++ (QMChatCellLayoutAttributes *)layoutAttributes;
 
 @end

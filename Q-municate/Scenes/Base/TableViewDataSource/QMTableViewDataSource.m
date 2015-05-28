@@ -16,6 +16,8 @@
 
 @implementation QMTableViewDataSource
 
+@dynamic items;
+
 - (instancetype)init {
     
     self = [super init];
@@ -36,9 +38,20 @@
     return nil;
 }
 
-- (void)addObjects:(NSArray *)objects {
+- (void)addItems:(NSArray *)items {
     
-    [self.collection addObjectsFromArray:objects];
+    [self.collection addObjectsFromArray:items];
+}
+
+- (void)replaceItems:(NSArray *)items {
+    
+    [self.collection removeAllObjects];
+    [self.collection addObjectsFromArray:items];
+}
+
+- (NSArray *)items {
+    
+    return [self.collection copy];
 }
 
 @end

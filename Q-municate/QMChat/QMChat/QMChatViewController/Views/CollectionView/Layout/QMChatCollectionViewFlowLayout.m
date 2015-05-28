@@ -7,20 +7,14 @@
 //
 
 #import "QMChatCollectionViewFlowLayout.h"
-#import "QMChatCollectionViewLayoutAttributes.h"
+#import "QMChatCellLayoutAttributes.h"
 #import "QMCollectionViewFlowLayoutInvalidationContext.h"
 
-#import "QMChatMediaData.h"
 #import "QMChatCollectionView.h"
-#import "QMChatCell.h"
-
-const CGFloat kQMChatCollectionViewCellLabelHeightDefault = 20.0f;
-const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 @interface QMChatCollectionViewFlowLayout()
 
 @property (strong, nonatomic) NSMutableSet *visibleIndexPaths;
-@property (strong, nonatomic) NSCache *cache;
 @property (strong, nonatomic) UIDynamicAnimator *dynamicAnimator;
 @property (assign, nonatomic) CGFloat latestDelta;
 
@@ -45,9 +39,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     /**
      *  Init cache
      */
-    _cache = [[NSCache alloc] init];
-    _cache.name = @"com.chat.sizes";
-    _cache.countLimit = 300;
     
     _springinessEnabled = NO;
     _springResistanceFactor = 1000;
@@ -83,7 +74,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 + (Class)layoutAttributesClass {
     
-    return [QMChatCollectionViewLayoutAttributes class];
+    return [QMChatCellLayoutAttributes class];
 }
 
 + (Class)invalidationContextClass {
@@ -94,9 +85,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 - (void)dealloc {
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    [self.cache removeAllObjects];
-    self.cache = nil;
     
     [_dynamicAnimator removeAllBehaviors];
     _dynamicAnimator = nil;
@@ -121,10 +109,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
     }
 }
 
-- (void)setCacheLimit:(NSUInteger)cacheLimit {
-    
-    self.cache.countLimit = cacheLimit;
-}
+
 
 - (CGFloat)itemWidth {
     
@@ -145,11 +130,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
         _visibleIndexPaths = [NSMutableSet new];
     }
     return _visibleIndexPaths;
-}
-
-- (NSUInteger)cacheLimit {
-    
-    return self.cache.countLimit;
 }
 
 #pragma mark - Notifications
@@ -233,7 +213,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
         attributesInRect = attributesInRectCopy;
     }
     
-    [attributesInRect enumerateObjectsUsingBlock:^(QMChatCollectionViewLayoutAttributes *attributesItem, NSUInteger idx, BOOL *stop) {
+    [attributesInRect enumerateObjectsUsingBlock:^(QMChatCellLayoutAttributes *attributesItem, NSUInteger idx, BOOL *stop) {
         
         if (attributesItem.representedElementCategory == UICollectionElementCategoryCell) {
             
@@ -250,7 +230,7 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath  {
     
-    QMChatCollectionViewLayoutAttributes *customAttributes = (id)[super layoutAttributesForItemAtIndexPath:indexPath];
+    QMChatCellLayoutAttributes *customAttributes = (id)[super layoutAttributesForItemAtIndexPath:indexPath];
     
     if (customAttributes.representedElementCategory == UICollectionElementCategoryCell) {
         [self configureCellLayoutAttributes:customAttributes];
@@ -301,8 +281,8 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
             
             CGFloat collectionViewHeight = CGRectGetHeight(self.collectionView.bounds);
             
-            QMChatCollectionViewLayoutAttributes *attributes =
-            [QMChatCollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:updateItem.indexPathAfterUpdate];
+            QMChatCellLayoutAttributes *attributes =
+            [QMChatCellLayoutAttributes layoutAttributesForCellWithIndexPath:updateItem.indexPathAfterUpdate];
             
             if (attributes.representedElementCategory == UICollectionElementCategoryCell) {
                 [self configureCellLayoutAttributes:attributes];
@@ -326,7 +306,6 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 - (void)resetLayout {
     
-    [self.cache removeAllObjects];
     [self resetDynamicAnimator];
 }
 
@@ -343,40 +322,44 @@ const CGFloat kQMChatCollectionViewAvatarSizeDefault = 34.0f;
 
 - (CGSize)containerSizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSValue *cachedSize = [self.cache objectForKey:@"s"];
+//    NSValue *cachedSize = [self.cache objectForKey:@"s"];
+//    
+//    if (cachedSize != nil) {
+//        
+//        return [cachedSize CGSizeValue];
+//    }
+//    
+//    CGSize size = [self.chatCollectionView.dataSource collectionView:self.chatCollectionView sizeForContainerAtIndexPath:indexPath];
+//    [self.cache setObject:[NSValue valueWithCGSize:size] forKey:@"s"];
     
-    if (cachedSize != nil) {
-        
-        return [cachedSize CGSizeValue];
-    }
-    
-    CGSize size = [self.chatCollectionView.dataSource collectionView:self.chatCollectionView sizeForContainerAtIndexPath:indexPath];
-    [self.cache setObject:[NSValue valueWithCGSize:size] forKey:@"s"];
-    
-    return size;
+    return CGSizeMake(100, 200);
 }
 
 - (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     CGSize containerSize = [self containerSizeForItemAtIndexPath:indexPath];
-    QMChatCollectionViewLayoutAttributes *attributes = (id)[self layoutAttributesForItemAtIndexPath:indexPath];
+    QMChatCellLayoutAttributes *attributes = (id)[self layoutAttributesForItemAtIndexPath:indexPath];
     
     CGFloat finalHeight = containerSize.height;
-    finalHeight += attributes.containerInsents.top;
-    finalHeight += attributes.containerInsents.bottom;
+    finalHeight += attributes.frameInsets.top;
+    finalHeight += attributes.frameInsets.bottom;
     
     return CGSizeMake(self.itemWidth, ceilf(finalHeight));
 }
 
-- (void)configureCellLayoutAttributes:(QMChatCollectionViewLayoutAttributes *)layoutAttributes {
+- (void)configureCellLayoutAttributes:(QMChatCellLayoutAttributes *)layoutAttributes {
     
     NSIndexPath *indexPath = layoutAttributes.indexPath;
     
-    CGSize containerSize = [self containerSizeForItemAtIndexPath:indexPath];
-    layoutAttributes.containerViewSize = containerSize;
+    QMChatCellLayoutAttributes *attributtes =
+    [self.chatCollectionView.delegate collectionView:self.chatCollectionView cellLayoutAttributes:indexPath];
     
-    layoutAttributes.containerInsents =
-    [self.chatCollectionView.delegate collectionView:self.chatCollectionView layout:self insetsForCellContainerViewAtIndexPath:indexPath];
+    CGSize containerSize = [self containerSizeForItemAtIndexPath:indexPath];
+    layoutAttributes.frameInsets = attributtes.frameInsets;
+    
+    
+//    layoutAttributes.containerInsents =
+//    [self.chatCollectionView.delegate collectionView:self.chatCollectionView layout:self insetsForCellContainerViewAtIndexPath:indexPath];
 }
 
 #pragma mark - Spring behavior utilities

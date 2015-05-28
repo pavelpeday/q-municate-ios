@@ -14,7 +14,7 @@
     
     QMChatHistoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"QMChatHistoryCell" forIndexPath:indexPath];
     
-    QBChatDialog *dialog = self.collection[indexPath.row];
+    QBChatDialog *dialog = self.items[indexPath.row];
     
     if (dialog.type == QBChatDialogTypePrivate) {
         

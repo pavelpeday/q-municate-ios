@@ -129,7 +129,7 @@
         return;
     }
     
-    [self.delegate collectionView:self didTapMessageBubbleAtIndexPath:indexPath];
+//    [self.delegate collectionView:self didTapMessageBubbleAtIndexPath:indexPath];
 }
 
 - (void)chatCellDidTapCell:(QMChatCell *)cell atPosition:(CGPoint)position {
@@ -139,7 +139,7 @@
         return;
     }
     
-    [self.delegate collectionView:self didTapCellAtIndexPath:indexPath touchLocation:position];
+//    [self.delegate collectionView:self didTapCellAtIndexPath:indexPath touchLocation:position];
 }
 
 @end

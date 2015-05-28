@@ -78,6 +78,10 @@
  */
 @property (assign, nonatomic) CGFloat topContentAdditionalInset;
 
+@property (strong, nonatomic) NSMutableArray *items;
+
+- (NSAttributedString *)attributedStringForItem:(QBChatMessage *)messageItem;
+
 #pragma mark - Class methods
 
 /**

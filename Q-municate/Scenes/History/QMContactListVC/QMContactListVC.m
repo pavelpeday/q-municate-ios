@@ -26,7 +26,7 @@
 - (void)loadDataSource {
     
     NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage usersSortedByKey:@"fullName" ascending:YES];
-    [self.contactListDatasource addObjects:usersFormCache];
+    [self.contactListDatasource addItems:usersFormCache];
 }
 
 - (void)viewDidLoad {

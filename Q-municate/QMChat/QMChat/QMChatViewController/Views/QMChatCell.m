@@ -7,12 +7,12 @@
 //
 
 #import "QMChatCell.h"
-#import "QMChatCollectionViewLayoutAttributes.h"
+#import "QMChatCellLayoutAttributes.h"
+#import "TTTAttributedLabel.h"
 
 @interface QMChatCell()
 
 @property (weak, nonatomic) IBOutlet QMChatContainerView *containerView;
-@property (weak, nonatomic) IBOutlet TTTAttributedLabel *textView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerWidthConstraint;
 
@@ -50,13 +50,13 @@
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
     
     [super applyLayoutAttributes:layoutAttributes];
-    QMChatCollectionViewLayoutAttributes *customAttributes = (id)layoutAttributes;
+    QMChatCellLayoutAttributes *customAttributes = (id)layoutAttributes;
     
-    self.containerHeightConstraint.constant = customAttributes.containerViewSize.height +
-    customAttributes.containerInsents.bottom + customAttributes.containerInsents.top;
-    
-    self.containerWidthConstraint.constant = customAttributes.containerViewSize.width +
-    customAttributes.containerInsents.left+ customAttributes.containerInsents.right;
+//    self.containerHeightConstraint.constant = customAttributes.containerViewSize.height +
+////    customAttributes.containerInsents.bottom + customAttributes.containerInsents.top;
+//    
+//    self.containerWidthConstraint.constant = customAttributes.containerViewSize.width +
+//    customAttributes.containerInsents.left+ customAttributes.containerInsents.right;
 }
 
 - (void)setBounds:(CGRect)bounds {
@@ -72,23 +72,11 @@
     return UIEdgeInsetsZero;
 }
 
-+ (BOOL)isDynamicSize {
++ (QMChatCellLayoutAttributes *)layoutAttributes {
     
-    return YES;
-}
-
-+ (CGSize)size {
+    QMChatCellLayoutAttributes *attributes = [[QMChatCellLayoutAttributes alloc] init];
     
-    return CGSizeZero;
-}
-
-+ (CGSize)itemSizeWithAttriburedString:(NSAttributedString *)attriburedString  {
-    
-    CGRect rect = [attriburedString boundingRectWithSize:CGSizeMake(180, CGFLOAT_MAX)
-                                                options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-    
-    CGSize stringSize = CGRectIntegral(rect).size;
-    return stringSize;
+    return attributes;
 }
 
 @end

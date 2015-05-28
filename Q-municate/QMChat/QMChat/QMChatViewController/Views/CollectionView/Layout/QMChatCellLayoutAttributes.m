@@ -6,9 +6,15 @@
 //  Copyright (c) 2015 QuickBlox Team. All rights reserved.
 //
 
-#import "QMChatCollectionViewLayoutAttributes.h"
+#import "QMChatCellLayoutAttributes.h"
 
-@implementation QMChatCollectionViewLayoutAttributes
+@interface QMChatCellLayoutAttributes()
+
+@property (strong, nonatomic) NSMutableDictionary *customAttributes;
+
+@end
+
+@implementation QMChatCellLayoutAttributes
 
 #pragma mark - Lifecycle
 
@@ -65,21 +71,30 @@
 //    _messageBubbleTopLabelSize = [self correctedLabelSizeForSize:messageBubbleTopLabelSize];
 //}
 
-#pragma mark - Utilities
+//#pragma mark - Utilities
 
-- (CGSize)correctedAvatarSizeFromSize:(CGSize)size {
+//- (CGSize)correctedAvatarSizeFromSize:(CGSize)size {
+//    
+//    return CGSizeMake(ceilf(size.width), ceilf(size.height));
+//}
+//
+//- (CGFloat)correctedLabelHeightForHeight:(CGFloat)height {
+//    
+//    return ceilf(height);
+//}
+//
+//- (CGSize)correctedLabelSizeForSize:(CGSize)size {
+//    
+//    return CGSizeMake(ceilf(size.width), ceilf(size.height));
+//}
+
+- (void)setAttribute:(id <NSCopying>)attribure forKey:(id <NSCopying>)key {
     
-    return CGSizeMake(ceilf(size.width), ceilf(size.height));
+    self.customAttributes[key] = attribure;
 }
 
-- (CGFloat)correctedLabelHeightForHeight:(CGFloat)height {
-    
-    return ceilf(height);
-}
-
-- (CGSize)correctedLabelSizeForSize:(CGSize)size {
-    
-    return CGSizeMake(ceilf(size.width), ceilf(size.height));
+- (id <NSCopying>)attributeForKey:(id <NSCopying>)key {
+    return self.customAttributes[key];
 }
 
 #pragma mark - NSObject
@@ -98,10 +113,9 @@
     
     if (self.representedElementCategory == UICollectionElementCategoryCell) {
         
-        QMChatCollectionViewLayoutAttributes *layoutAttributes = (QMChatCollectionViewLayoutAttributes *)object;
+        QMChatCellLayoutAttributes *layoutAttributes = (QMChatCellLayoutAttributes *)object;
         
-        if (!CGSizeEqualToSize(layoutAttributes.containerViewSize, self.containerViewSize)
-            ||UIEdgeInsetsEqualToEdgeInsets(layoutAttributes.containerInsents, self.containerInsents)){
+        if (![layoutAttributes.customAttributes isEqualToDictionary:self.customAttributes]) {
             
             return NO;
         }
@@ -118,15 +132,14 @@
 
 - (instancetype)copyWithZone:(NSZone *)zone {
     
-    QMChatCollectionViewLayoutAttributes *copy = [super copyWithZone:zone];
+    QMChatCellLayoutAttributes *copy = [super copyWithZone:zone];
     
     if (copy.representedElementCategory != UICollectionElementCategoryCell) {
         
         return copy;
     }
     
-    copy.containerViewSize = self.containerViewSize;
-    copy.containerInsents = self.containerInsents;
+    copy.customAttributes = self.customAttributes;
     return copy;
 }
 

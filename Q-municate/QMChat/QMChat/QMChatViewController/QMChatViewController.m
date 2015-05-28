@@ -16,7 +16,11 @@
 #import "NSString+QM.h"
 #import "QMTypingIndicatorFooterView.h"
 #import "QMLoadEarlierHeaderView.h"
-#import "QMChatAvatarImageDataSource.h"
+
+#import "QMChatContactRequestCell.h"
+#import "QMChatNotificationCell.h"
+#import "QMChatOutgoingCell.h"
+#import "QMChatIncomingCell.h"
 
 static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
@@ -26,17 +30,14 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 @property (weak, nonatomic) IBOutlet QMChatCollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet QMInputToolbar *inputToolbar;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarBottomLayoutGuide;
-
 @property (weak, nonatomic) UIView *snapshotView;
-
 @property (strong, nonatomic) QMKeyboardController *keyboardController;
-
 @property (strong, nonatomic) NSIndexPath *selectedIndexPathForMenu;
-
 @property (assign, nonatomic) BOOL isObserving;
+@property (strong, nonatomic) NSCache *cache;
+
 
 @end
 
@@ -50,6 +51,40 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 + (instancetype)messagesViewController {
     
     return [[[self class] alloc] initWithNibName:NSStringFromClass([QMChatViewController class]) bundle:[NSBundle bundleForClass:[QMChatViewController class]]];
+}
+
+- (void)dealloc {
+    
+    [self registerForNotifications:NO];
+    [self removeObservers];
+    
+    self.collectionView.dataSource = nil;
+    self.collectionView.delegate = nil;
+    self.collectionView = nil;
+    
+    self.inputToolbar.contentView.textView.delegate = nil;
+    self.inputToolbar.delegate = nil;
+    self.inputToolbar = nil;
+    
+    self.toolbarHeightConstraint = nil;
+    self.toolbarBottomLayoutGuide = nil;
+    
+    self.senderDisplayName = nil;
+    
+    [self.keyboardController endListeningForKeyboard];
+    self.keyboardController = nil;
+    [self.cache removeAllObjects];
+    self.cache = nil;
+}
+
+- (void)setCacheLimit:(NSUInteger)cacheLimit {
+    
+    self.cache.countLimit = cacheLimit;
+}
+
+- (NSUInteger)cacheLimit {
+    
+    return self.cache.countLimit;
 }
 
 #pragma mark - Initialization
@@ -76,28 +111,39 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
                                        contextView:self.view
                               panGestureRecognizer:self.collectionView.panGestureRecognizer
                                           delegate:self];
+    
+    [self registerCells];
+    
+    self.cache = [[NSCache alloc] init];
+    self.cache.name = @"com.chat.sizes";
+    self.cache.countLimit = 300;
 }
 
-- (void)dealloc {
-    
-    [self registerForNotifications:NO];
-    [self removeObservers];
-    
-    self.collectionView.dataSource = nil;
-    self.collectionView.delegate = nil;
-    self.collectionView = nil;
-    
-    self.inputToolbar.contentView.textView.delegate = nil;
-    self.inputToolbar.delegate = nil;
-    self.inputToolbar = nil;
-    
-    self.toolbarHeightConstraint = nil;
-    self.toolbarBottomLayoutGuide = nil;
-    
-    self.senderDisplayName = nil;
-    
-    [self.keyboardController endListeningForKeyboard];
-    self.keyboardController = nil;
+- (void)registerCells {
+    /**
+     *  Register contact request cell
+     */
+    UINib *requestNib = [QMChatContactRequestCell nib];
+    NSString *requestIdentifier = [QMChatContactRequestCell cellReuseIdentifier];
+    [self.collectionView registerNib:requestNib forCellWithReuseIdentifier:requestIdentifier];
+    /**
+     *  Register Notification  cell
+     */
+    UINib *notificationNib = [QMChatNotificationCell nib];
+    NSString *notificationIdentifier = [QMChatNotificationCell cellReuseIdentifier];
+    [self.collectionView  registerNib:notificationNib forCellWithReuseIdentifier:notificationIdentifier];
+    /**
+     *  Register outgoing cell
+     */
+    UINib *outgoingNib = [QMChatOutgoingCell nib];
+    NSString *ougoingIdentifier = [QMChatOutgoingCell cellReuseIdentifier];
+    [self.collectionView  registerNib:outgoingNib forCellWithReuseIdentifier:ougoingIdentifier];
+    /**
+     *  Register incoming cell
+     */
+    UINib *incomingNib = [QMChatIncomingCell nib];
+    NSString *incomingIdentifier = [QMChatIncomingCell cellReuseIdentifier];
+    [self.collectionView  registerNib:incomingNib forCellWithReuseIdentifier:incomingIdentifier];
 }
 
 #pragma mark - Setters
@@ -231,7 +277,11 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 #pragma mark - Messages view controller
 
-- (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSUInteger)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
+- (void)didPressSendButton:(UIButton *)button
+           withMessageText:(NSString *)text
+                  senderId:(NSUInteger)senderId
+         senderDisplayName:(NSString *)senderDisplayName
+                      date:(NSDate *)date {
     
     NSAssert(NO, @"Error! required method not implemented in subclass. Need to implement %s", __PRETTY_FUNCTION__);
 }
@@ -307,14 +357,15 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     //  workaround for really long messages not scrolling
     //  if last message is too long, use scroll position bottom for better appearance, else use top
-    //  possibly a UIKit bug, see #480 on GitHub
     NSUInteger finalRow = MAX(0, [self.collectionView numberOfItemsInSection:0] - 1);
     NSIndexPath *finalIndexPath = [NSIndexPath indexPathForItem:finalRow inSection:0];
-    CGSize finalCellSize = [self.collectionView.collectionViewLayout sizeForItemAtIndexPath:finalIndexPath];
+    CGSize finalCellSize = [self sizeForItemAtIndexPath:finalIndexPath];
     
-    CGFloat maxHeightForVisibleMessage = CGRectGetHeight(self.collectionView.bounds) - self.collectionView.contentInset.top - CGRectGetHeight(self.inputToolbar.bounds);
+    CGFloat maxHeightForVisibleMessage =
+    CGRectGetHeight(self.collectionView.bounds) - self.collectionView.contentInset.top - CGRectGetHeight(self.inputToolbar.bounds);
     
-    UICollectionViewScrollPosition scrollPosition = (finalCellSize.height > maxHeightForVisibleMessage) ? UICollectionViewScrollPositionBottom : UICollectionViewScrollPositionTop;
+    UICollectionViewScrollPosition scrollPosition =
+    (finalCellSize.height > maxHeightForVisibleMessage) ? UICollectionViewScrollPositionBottom : UICollectionViewScrollPositionTop;
     
     [self.collectionView scrollToItemAtIndexPath:finalIndexPath atScrollPosition:scrollPosition animated:animated];
 }
@@ -333,7 +384,20 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
 
 - (UICollectionViewCell *)collectionView:(QMChatCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    return nil;
+    QBChatMessage *messageItem = self.items[indexPath.row];
+    
+    Class class = [self viewClassForItem:messageItem];
+    NSString *itemIdentifier = [class cellReuseIdentifier];
+    
+    QMChatCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:itemIdentifier forIndexPath:indexPath];
+    
+    if ([cell isKindOfClass:[QMChatContactRequestCell class]]) {
+        
+    }
+    
+//    cell.textView.attributedText = [self attributedStringForItem:messageItem];
+    
+    return cell;
 }
 
 - (UICollectionReusableView *)collectionView:(QMChatCollectionView *)collectionView
@@ -409,25 +473,77 @@ static void * kChatKeyValueObservingContext = &kChatKeyValueObservingContext;
     
     if (action == @selector(copy:)) {
         
-        //        id<QMChatMessageData> messageData =
-        //        [collectionView.dataSource collectionView:collectionView messageDataForItemAtIndexPath:indexPath];
-        
-        //        [[UIPasteboard generalPasteboard] setString:[messageData text]];
+        [[UIPasteboard generalPasteboard] setString:@"copy text"];
     }
 }
+
+- (CGSize)collectionView:(QMChatCollectionView *)collectionView sizeForContainerAtIndexPath:(NSIndexPath *)indexPath {
+    
+//    QBChatMessage *msg = self.messages[indexPath.item];
+//    Class class = [self viewClassForItem:msg];
+//    NSAttributedString *attributedString = [self attributedStringForItem:msg];
+//    
+//    [class itemSizeWithAttriburedString:attributedString];
+    
+    //    NSAssert(!CGSizeEqualToSize(size, CGSizeZero), @"Size == CGSizeZero");
+    
+    return CGSizeMake(200, 180);
+}
+
+- (NSAttributedString *)attributedStringForItem:(QBChatMessage *)messageItem {
+    
+    return nil;
+}
+
+- (Class)viewClassForItem:(QBChatMessage *)item {
+    
+    if (item.messageType == QMMessageTypeText) {
+        
+        return (item.senderID == self.senderID) ? [QMChatOutgoingCell class] : [QMChatIncomingCell class];
+    }
+    else if (item.messageType == QMMessageTypeContactRequest) {
+        
+        if (item.senderID != self.senderID) {
+            
+            return [QMChatContactRequestCell class];
+        }
+    }
+    
+    return [QMChatNotificationCell class];
+}
+
 
 #pragma mark - Collection view delegate flow layout
 
 - (CGSize)collectionView:(QMChatCollectionView *)collectionView
                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    return [collectionViewLayout sizeForItemAtIndexPath:indexPath];
+    return [self sizeForItemAtIndexPath:indexPath];
 }
 
-- (UIEdgeInsets)collectionView:(QMChatCollectionView *)collectionView
-                        layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout insetsForCellContainerViewAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    return UIEdgeInsetsZero;
+    QBChatMessage *message = self.items[indexPath.row];
+    
+    NSValue *cachedSize = [self.cache objectForKey:message.ID];
+    
+    if (cachedSize != nil) {
+        
+        return [cachedSize CGSizeValue];
+    }
+    
+    CGSize size = CGSizeMake(200, 100);
+    [self.cache setObject:[NSValue valueWithCGSize:size] forKey:message.ID];
+    
+    return size;
+}
+
+- (QMChatCellLayoutAttributes *)collectionView:(QMChatCollectionView *)collectionView cellLayoutAttributes:(NSIndexPath *)indexPath {
+    
+    QBChatMessage *item = self.items[indexPath.row];
+    Class class = [self viewClassForItem:item];
+    
+    return [class layoutAttributes];
 }
 
 #pragma mark - Input toolbar delegate

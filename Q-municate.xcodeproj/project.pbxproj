@@ -103,11 +103,10 @@
 		FB42CF801AF22DD700859A66 /* QMChatBubbleImageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF3C1AF22DD700859A66 /* QMChatBubbleImageFactory.m */; };
 		FB42CF811AF22DD700859A66 /* QMKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF3F1AF22DD700859A66 /* QMKeyboardController.m */; };
 		FB42CF821AF22DD700859A66 /* QMBubbleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF421AF22DD700859A66 /* QMBubbleImage.m */; };
-		FB42CF831AF22DD700859A66 /* QMChatAvatarImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF441AF22DD700859A66 /* QMChatAvatarImage.m */; };
 		FB42CF841AF22DD700859A66 /* QMChatBubbleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF461AF22DD700859A66 /* QMChatBubbleImage.m */; };
 		FB42CF851AF22DD700859A66 /* QMChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF4F1AF22DD700859A66 /* QMChatViewController.m */; };
 		FB42CF8C1AF22DD700859A66 /* QMChatCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF601AF22DD700859A66 /* QMChatCollectionViewFlowLayout.m */; };
-		FB42CF8D1AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF621AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.m */; };
+		FB42CF8D1AF22DD700859A66 /* QMChatCellLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF621AF22DD700859A66 /* QMChatCellLayoutAttributes.m */; };
 		FB42CF8E1AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF641AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.m */; };
 		FB42CF8F1AF22DD700859A66 /* QMChatCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF661AF22DD700859A66 /* QMChatCollectionView.m */; };
 		FB42CF921AF22DD700859A66 /* QMInputToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = FB42CF6F1AF22DD700859A66 /* QMInputToolbar.m */; };
@@ -352,21 +351,17 @@
 		FB42CF3F1AF22DD700859A66 /* QMKeyboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMKeyboardController.m; sourceTree = "<group>"; };
 		FB42CF411AF22DD700859A66 /* QMBubbleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMBubbleImage.h; sourceTree = "<group>"; };
 		FB42CF421AF22DD700859A66 /* QMBubbleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMBubbleImage.m; sourceTree = "<group>"; };
-		FB42CF431AF22DD700859A66 /* QMChatAvatarImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatAvatarImage.h; sourceTree = "<group>"; };
-		FB42CF441AF22DD700859A66 /* QMChatAvatarImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatAvatarImage.m; sourceTree = "<group>"; };
 		FB42CF451AF22DD700859A66 /* QMChatBubbleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatBubbleImage.h; sourceTree = "<group>"; };
 		FB42CF461AF22DD700859A66 /* QMChatBubbleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatBubbleImage.m; sourceTree = "<group>"; };
-		FB42CF481AF22DD700859A66 /* QMChatAvatarImageDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatAvatarImageDataSource.h; sourceTree = "<group>"; };
 		FB42CF491AF22DD700859A66 /* QMChatBubbleImageDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatBubbleImageDataSource.h; sourceTree = "<group>"; };
 		FB42CF4A1AF22DD700859A66 /* QMChatCollectionViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatCollectionViewDataSource.h; sourceTree = "<group>"; };
 		FB42CF4B1AF22DD700859A66 /* QMChatCollectionViewDelegateFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatCollectionViewDelegateFlowLayout.h; sourceTree = "<group>"; };
-		FB42CF4C1AF22DD700859A66 /* QMChatMediaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatMediaData.h; sourceTree = "<group>"; };
 		FB42CF4E1AF22DD700859A66 /* QMChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatViewController.h; sourceTree = "<group>"; };
 		FB42CF4F1AF22DD700859A66 /* QMChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatViewController.m; sourceTree = "<group>"; };
 		FB42CF5F1AF22DD700859A66 /* QMChatCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		FB42CF601AF22DD700859A66 /* QMChatCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatCollectionViewFlowLayout.m; sourceTree = "<group>"; };
-		FB42CF611AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
-		FB42CF621AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
+		FB42CF611AF22DD700859A66 /* QMChatCellLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatCellLayoutAttributes.h; sourceTree = "<group>"; };
+		FB42CF621AF22DD700859A66 /* QMChatCellLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatCellLayoutAttributes.m; sourceTree = "<group>"; };
 		FB42CF631AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMCollectionViewFlowLayoutInvalidationContext.h; sourceTree = "<group>"; };
 		FB42CF641AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMCollectionViewFlowLayoutInvalidationContext.m; sourceTree = "<group>"; };
 		FB42CF651AF22DD700859A66 /* QMChatCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatCollectionView.h; sourceTree = "<group>"; };
@@ -1288,8 +1283,6 @@
 			children = (
 				FB42CF411AF22DD700859A66 /* QMBubbleImage.h */,
 				FB42CF421AF22DD700859A66 /* QMBubbleImage.m */,
-				FB42CF431AF22DD700859A66 /* QMChatAvatarImage.h */,
-				FB42CF441AF22DD700859A66 /* QMChatAvatarImage.m */,
 				FB42CF451AF22DD700859A66 /* QMChatBubbleImage.h */,
 				FB42CF461AF22DD700859A66 /* QMChatBubbleImage.m */,
 			);
@@ -1299,11 +1292,9 @@
 		FB42CF471AF22DD700859A66 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				FB42CF481AF22DD700859A66 /* QMChatAvatarImageDataSource.h */,
 				FB42CF491AF22DD700859A66 /* QMChatBubbleImageDataSource.h */,
 				FB42CF4A1AF22DD700859A66 /* QMChatCollectionViewDataSource.h */,
 				FB42CF4B1AF22DD700859A66 /* QMChatCollectionViewDelegateFlowLayout.h */,
-				FB42CF4C1AF22DD700859A66 /* QMChatMediaData.h */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1338,8 +1329,8 @@
 			children = (
 				FB42CF5F1AF22DD700859A66 /* QMChatCollectionViewFlowLayout.h */,
 				FB42CF601AF22DD700859A66 /* QMChatCollectionViewFlowLayout.m */,
-				FB42CF611AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.h */,
-				FB42CF621AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.m */,
+				FB42CF611AF22DD700859A66 /* QMChatCellLayoutAttributes.h */,
+				FB42CF621AF22DD700859A66 /* QMChatCellLayoutAttributes.m */,
 				FB42CF631AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.h */,
 				FB42CF641AF22DD700859A66 /* QMCollectionViewFlowLayoutInvalidationContext.m */,
 			);
@@ -1824,7 +1815,7 @@
 				556E19871A9F65940087BEB9 /* QMSettingsViewController.m in Sources */,
 				556E19851A9F65940087BEB9 /* QMFeedbackTableViewController.m in Sources */,
 				556E19FF1A9F65A50087BEB9 /* REActionSheet.m in Sources */,
-				FB42CF8D1AF22DD700859A66 /* QMChatCollectionViewLayoutAttributes.m in Sources */,
+				FB42CF8D1AF22DD700859A66 /* QMChatCellLayoutAttributes.m in Sources */,
 				556E19661A9F65940087BEB9 /* QMSplashViewController.m in Sources */,
 				550630EA1ABAD1720079EE34 /* QMNotificationView.m in Sources */,
 				556E19991A9F65940087BEB9 /* QMPlaceholderTextView.m in Sources */,
@@ -1838,7 +1829,6 @@
 				FBEFA0961B15BE8D00AD13BB /* QMHistoryDataSource.m in Sources */,
 				559379011ACC0E81003E0015 /* QMSearchController.m in Sources */,
 				FB42CF851AF22DD700859A66 /* QMChatViewController.m in Sources */,
-				FB42CF831AF22DD700859A66 /* QMChatAvatarImage.m in Sources */,
 				556E19F11A9F65A50087BEB9 /* QMPopoversFactory.m in Sources */,
 				FBC72CD51B04C29B0021A78D /* QMChatNotificationCell.m in Sources */,
 				FB42CF8F1AF22DD700859A66 /* QMChatCollectionView.m in Sources */,

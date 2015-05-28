@@ -60,15 +60,5 @@
  *
  *  @discussion The default value is `200`. A limit of `0` means no limit. This is not a strict limit.
  */
-@property (assign, nonatomic) NSUInteger cacheLimit;
-
-/**
- *  Computes and returns the size of the item specified by indexPath.
- *
- *  @param indexPath The index path of the item to be displayed.
- *
- *  @return The size of the item displayed at indexPath.
- */
-- (CGSize)sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

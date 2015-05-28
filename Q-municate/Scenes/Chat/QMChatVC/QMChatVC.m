@@ -12,18 +12,12 @@
 #import "QMServicesManager.h"
 #import "QMImagePicker.h"
 
-#import "QMChatContactRequestCell.h"
-#import "QMChatNotificationCell.h"
-#import "QMChatOutgoingCell.h"
-#import "QMChatIncomingCell.h"
 #import "QMMessageText.h"
 
 #import "UIColor+QM.h"
 #import "UIImage+QM.h"
 
 @interface QMChatVC () <QMChatServiceDelegate>
-
-@property (strong, nonatomic) NSMutableArray *messages;
 
 @end
 
@@ -37,13 +31,12 @@
     
     [super viewDidLoad];
     //Cofigure sender
-    [self registerCells];
     
     QBUUser *opponent = [QM.contactListService.usersMemoryStorage usersWithIDs:self.chatDialog.occupantIDs withoutID:QM.profile.userData.ID].firstObject;
     
     self.title = opponent.fullName;
     
-    self.messages = [NSMutableArray array];
+    self.items = [NSMutableArray array];
     //Get messages
     [QM.chatService messageWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {}];
     //Configure navigation bar
@@ -59,53 +52,15 @@
     [QM.chatService addDelegate:self];
 }
 
-- (void)registerCells {
-    /**
-     *  Register contact request cell
-     */
-    UINib *requestNib = [QMChatContactRequestCell nib];
-    NSString *requestIdentifier = [QMChatContactRequestCell cellReuseIdentifier];
-    [self.collectionView registerNib:requestNib forCellWithReuseIdentifier:requestIdentifier];
-    /**
-     *  Register Notification  cell
-     */
-    UINib *notificationNib = [QMChatNotificationCell nib];
-    NSString *notificationIdentifier = [QMChatNotificationCell cellReuseIdentifier];
-    [self.collectionView  registerNib:notificationNib forCellWithReuseIdentifier:notificationIdentifier];
-    /**
-     *  Register outgoing cell
-     */
-    UINib *outgoingNib = [QMChatOutgoingCell nib];
-    NSString *ougoingIdentifier = [QMChatOutgoingCell cellReuseIdentifier];
-    [self.collectionView  registerNib:outgoingNib forCellWithReuseIdentifier:ougoingIdentifier];
-    /**
-     *  Register incoming cell
-     */
-    UINib *incomingNib = [QMChatIncomingCell nib];
-    NSString *incomingIdentifier = [QMChatIncomingCell cellReuseIdentifier];
-    [self.collectionView  registerNib:incomingNib forCellWithReuseIdentifier:incomingIdentifier];
-}
-
 #pragma mark - QMChatServiceDelegate
 
-- (void)chatServiceDidLoadMessagesFromCacheForDialogID:(NSString *)dialogID {
+- (void)chatService:(QMChatService *)chatService didAddMessagesToMemoryStorage:(NSArray *)messages forDialogID:(NSString *)dialogID{
     
     if ([self.chatDialog.ID isEqualToString:dialogID]) {
         
         NSArray *cahcedMessages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dialogID];
-        [self.messages addObjectsFromArray:cahcedMessages];
-        [self.collectionView reloadData];
-        [self scrollToBottomAnimated:NO];
-    }
-}
-
-- (void)chatServiceDidAddMessagesToHistroy:(NSArray *)messages forDialogID:(NSString *)dialogID {
-    
-    if ([self.chatDialog.ID isEqualToString:dialogID]) {
-        
-        NSArray *cahcedMessages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dialogID];
-        [self.messages removeAllObjects];
-        [self.messages addObjectsFromArray:cahcedMessages];
+        [self.items removeAllObjects];
+        [self.items addObjectsFromArray:cahcedMessages];
         [self.collectionView reloadData];
     }
 }
@@ -113,7 +68,7 @@
 - (void)chatServiceDidAddMessageToHistory:(QBChatMessage *)message forDialogID:(NSString *)dialogID {
     
     if ([self.chatDialog.ID isEqualToString:dialogID]) {
-        [self.messages addObject:message];
+        [self.items addObject:message];
     }
 }
 
@@ -122,56 +77,6 @@
     
     self.collectionView.collectionViewLayout.springResistanceFactor = 2000;
     self.collectionView.collectionViewLayout.springinessEnabled = YES;
-}
-
-- (Class)viewClassForItem:(QBChatMessage *)item {
-    
-    if (item.messageType == QMMessageTypeText) {
-        
-        return (item.senderID == self.senderID) ? [QMChatOutgoingCell class] : [QMChatIncomingCell class];
-    }
-    else if (item.messageType == QMMessageTypeContactRequest) {
-        
-        if (item.senderID != self.senderID) {
-            
-            return [QMChatContactRequestCell class];
-        }
-    }
-    
-    return [QMChatNotificationCell class];
-}
-
-- (CGSize)collectionView:(QMChatCollectionView *)collectionView sizeForContainerAtIndexPath:(NSIndexPath *)indexPath {
-    
-    QBChatMessage *msg = self.messages[indexPath.item];
-    
-    Class class = [self viewClassForItem:msg];
-    NSAttributedString *attributedString = [self attributedStringForItem:msg];
-    
-    BOOL isDynamicSize = [class isDynamicSize];
-    CGSize size = isDynamicSize ? [class itemSizeWithAttriburedString:attributedString] : [class size];
-    
-    NSAssert(!CGSizeEqualToSize(size, CGSizeZero), @"Size == CGSizeZero");
-    
-    return size;
-}
-
-- (UICollectionViewCell *)collectionView:(QMChatCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    QBChatMessage *messageItem = self.messages[indexPath.row];
-    
-    Class class = [self viewClassForItem:messageItem];
-    NSString *itemIdentifier = [class cellReuseIdentifier];
-    
-    QMChatCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:itemIdentifier forIndexPath:indexPath];
-    
-    if ([cell isKindOfClass:[QMChatContactRequestCell class]]) {
-        
-    }
-    
-    cell.textView.attributedText = [self attributedStringForItem:messageItem];
-    
-    return cell;
 }
 
 - (NSAttributedString *)attributedStringForItem:(QBChatMessage *)messageItem {
@@ -217,16 +122,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return self.messages.count;
-}
-
-- (UIEdgeInsets)collectionView:(QMChatCollectionView *)collectionView
-                        layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout insetsForCellContainerViewAtIndexPath:(NSIndexPath *)indexPath {
-    
-    QBChatMessage *messageItem = self.messages[indexPath.item];
-    
-    Class class = [self viewClassForItem:messageItem];
-    return [class containerInsets];
+    return self.items.count;
 }
 
 #pragma mark - Buttons factory
@@ -307,7 +203,11 @@
     }];
 }
 
-- (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSUInteger)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
+- (void)didPressSendButton:(UIButton *)button
+           withMessageText:(NSString *)text
+                  senderId:(NSUInteger)senderId
+         senderDisplayName:(NSString *)senderDisplayName
+                      date:(NSDate *)date {
     
     QBChatMessage *message = [QBChatMessage message];
     message.text = text;

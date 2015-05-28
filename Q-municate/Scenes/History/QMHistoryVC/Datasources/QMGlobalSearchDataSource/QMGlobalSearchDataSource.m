@@ -31,7 +31,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //Loading Cell
-    if (indexPath.row == (signed)self.collection.count) {
+    if (indexPath.row == (signed)self.items.count) {
 
         QMSearchStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:QMSearchStatusCell.cellIdentifier forIndexPath:indexPath];
 
@@ -46,7 +46,7 @@
         //Contact cell
         QMAddContactCell *cell = [tableView dequeueReusableCellWithIdentifier:QMAddContactCell.cellIdentifier forIndexPath:indexPath];
         
-        QBUUser *user = self.collection[indexPath.row];
+        QBUUser *user = self.items[indexPath.row];
         cell.contact = user;
         
         BOOL userExist = [self.addContactHandler userExist:user];
@@ -66,7 +66,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.collection.count + 1;
+    return self.items.count + 1;
 }
 
 @end

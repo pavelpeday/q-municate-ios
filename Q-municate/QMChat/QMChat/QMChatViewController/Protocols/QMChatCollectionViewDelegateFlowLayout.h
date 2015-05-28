@@ -13,6 +13,7 @@
 @class QMChatCollectionViewFlowLayout;
 @class QMChatCollectionViewCell;
 @class QMLoadEarlierHeaderView;
+@class QMChatCellLayoutAttributes;
 
 /**
  *  The `QMChatCollectionViewDelegateFlowLayout` protocol defines methods that allow you to
@@ -23,52 +24,7 @@
 
 @optional
 
-/**
- *  Asks the delegate for the height of the `cellTopLabel` for the item at the specified indexPath.
- *
- *  @param collectionView       The collection view object displaying the flow layout.
- *  @param collectionViewLayout The layout object requesting the information.
- *  @param indexPath            The index path of the item.
- *
- *  @return The height of the `cellTopLabel` for the item at indexPath.
- *
- *  @see QMChatCollectionViewCell.
- */
-- (UIEdgeInsets)collectionView:(QMChatCollectionView *)collectionView
-                   layout:(QMChatCollectionViewFlowLayout *)collectionViewLayout insetsForCellContainerViewAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Notifies the delegate that the avatar image view at the specified indexPath did receive a tap event.
- *
- *  @param collectionView  The collection view object that is notifying the delegate of the tap event.
- *  @param avatarImageView The avatar image view that was tapped.
- *  @param indexPath       The index path of the item for which the avatar was tapped.
- */
-- (void)collectionView:(QMChatCollectionView *)collectionView didTapAvatarImageView:(UIImageView *)avatarImageView atIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Notifies the delegate that the message bubble at the specified indexPath did receive a tap event.
- *
- *  @param collectionView The collection view object that is notifying the delegate of the tap event.
- *  @param indexPath      The index path of the item for which the message bubble was tapped.
- */
-- (void)collectionView:(QMChatCollectionView *)collectionView didTapMessageBubbleAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- *  Notifies the delegate that the cell at the specified indexPath did receive a tap event at the specified touchLocation.
- *
- *  @param collectionView The collection view object that is notifying the delegate of the tap event.
- *  @param indexPath      The index path of the item for which the message bubble was tapped.
- *  @param touchLocation  The location of the touch event in the cell's coordinate system.
- *
- *  @warning This method is *only* called if position is *not* within the bounds of the cell's
- *  avatar image view or message bubble image view. In other words, this method is *not* called when the cell's
- *  avatar or message bubble are tapped. There are separate delegate methods for these two cases.
- *
- *  @see `collectionView:didTapAvatarImageView:atIndexPath:`
- *  @see `collectionView:didTapMessageBubbleAtIndexPath:atIndexPath:`
- */
-- (void)collectionView:(QMChatCollectionView *)collectionView didTapCellAtIndexPath:(NSIndexPath *)indexPath touchLocation:(CGPoint)touchLocation;
+- (QMChatCellLayoutAttributes *)collectionView:(QMChatCollectionView *)collectionView cellLayoutAttributes:(NSIndexPath *)indexPath;
 
 /**
  *  Notifies the delegate that the collection view's header did receive a tap event.
