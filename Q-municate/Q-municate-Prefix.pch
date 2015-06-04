@@ -36,6 +36,7 @@
  *  0 - Development, 1 - Prodaction
  */
 #define Q_MUNICATE_MODE 1
+#define Q_DEBUG_COLORS 0
 
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>

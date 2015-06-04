@@ -25,12 +25,12 @@
             }
             else {
                 
-                return [NSString stringWithFormat:NSLocalizedString(@"%@ would like to chat with you", nil), user.fullName];
+                return [NSString stringWithFormat:NSLocalizedString(@"%@\nwould like to chat with you", nil), user.fullName];
             }
             
         } break;
             
-        case QMMessageTypeConfirmContactRequest: {
+        case QMMessageTypeAcceptContactRequest: {
             
             if (message.senderID == currentUserID) {
                 

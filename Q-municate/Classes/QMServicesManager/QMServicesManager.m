@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
 
 @interface QMServicesManager()
 
-<QMChatServiceDelegate, QMContactListServiceDelegate, QMContactListServiceCacheDelegate, QMChatServiceCacheDelegate, QMAuthServiceDelegate>
+<QMChatServiceDelegate, QMContactListServiceDelegate, QMContactListServiceCacheDelegate, QMChatServiceCacheDataSource, QMAuthServiceDelegate>
 
 @property (strong, nonatomic) QMAuthService *authService;
 @property (strong, nonatomic) QMChatService *chatService;
@@ -64,7 +64,7 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
     //Init servises
     self.contactListService = [[QMContactListService alloc] initWithServiceManager:self cacheDelegate:self];
     self.authService = [[QMAuthService alloc] initWithServiceManager:self];
-    self.chatService = [[QMChatService alloc] initWithServiceManager:self cacheDelegate:self];
+    self.chatService = [[QMChatService alloc] initWithServiceManager:self cacheDataSource:self];
     //Subsicribe to notifications
     [self.authService addDelegate:self];
     [self.chatService addDelegate:self];
@@ -117,7 +117,7 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
     [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
 }
 
-#pragma mark - QMChatServiceCacheDelegate
+#pragma mark - QMChatServiceCacheDataSource
 
 - (void)cachedDialogs:(QMCacheCollection)block {
     
@@ -172,6 +172,8 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
     
     [QMChatCache cleanDBWithStoreName:kQMChatCacheStoreName];
     [QMContactListCache cleanDBWithStoreName:kQMContactListCacheStoreName];
+    
+    [self.chatService logoutChat];
     
     [self.authService free];
     [self.chatService free];

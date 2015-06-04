@@ -63,7 +63,7 @@
 
 + (void)taskFetchDialogsAndUsers:(void(^)(BOOL success))completion {
     
-    [QM.chatService allDialogsWithPageLimit:50 interationBlock:^(QBResponse *response, NSArray *dialogObjects, NSSet *dialogsUsersIDs, BOOL *stop) {
+    [QM.chatService allDialogsWithPageLimit:50 extendedRequest:nil interationBlock:^(QBResponse *response, NSArray *dialogObjects, NSSet *dialogsUsersIDs, BOOL *stop) {
         
     } completion:^(QBResponse *response) {
         

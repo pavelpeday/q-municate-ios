@@ -195,7 +195,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" minimumFontSize="17" background="underline" translatesAutoresizingMaskIntoConstraints="NO" id="gl7-kk-gla">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Full Name" minimumFontSize="17" background="underline" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gl7-kk-gla">
                                                     <rect key="frame" x="20" y="18" width="560" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="8NB-zr-16N"/>
@@ -233,7 +233,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" background="underline" translatesAutoresizingMaskIntoConstraints="NO" id="6Kf-3L-WxD">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" minimumFontSize="17" background="underline" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6Kf-3L-WxD">
                                                     <rect key="frame" x="20" y="2" width="560" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="DIS-rg-nio"/>
@@ -271,7 +271,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" background="underline" translatesAutoresizingMaskIntoConstraints="NO" id="2pr-bQ-eSp">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" background="underline" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2pr-bQ-eSp">
                                                     <rect key="frame" x="20" y="2" width="560" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="oR3-v7-wek"/>
@@ -737,6 +737,6 @@
         <image name="underline" width="1" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9V3-CA-ieR"/>
+        <segue reference="Qvy-Zq-RpB"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -78,6 +78,7 @@
         
         __weak __typeof(self)weakSelf = self;
         [QMLicenseAgreement checkAcceptedUserAgreementInViewController:self completion:^(BOOL userAgreementSuccess) {
+            
             if (userAgreementSuccess) {
                 
                 QBUUser *newUser = [QBUUser user];
@@ -93,11 +94,9 @@
                     
                     if (response.success) {
                         //Update password data
-#warning Need hide synchronize
-                        userProfile.password = newUser.password;
                         QM.profile.userAgreementAccepted = userAgreementSuccess;
                         //Synchronize user profile
-                        [QM.profile synchronizeWithUserData:userProfile];
+                        [QM.profile synchronize];
                         //Upload user image
                         [QM.profile updateUserImage:weakSelf.selectedImage progress:^(float progress) {
                             //Upload avatar progress

@@ -48,6 +48,7 @@ NSString *const kQMCrashlyticsAPIKey = @"7aea78439bec41a9005c7488bb6751c5e33fe27
     
     [QBSettings setAccountKey:kQMAcconuntKey];
     [QBSettings setLogLevel:QBLogLevelDebug];
+    [QBSettings enableXMPPLogging];
 
     
 #ifndef DEBUG

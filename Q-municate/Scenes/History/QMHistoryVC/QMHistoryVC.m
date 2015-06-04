@@ -89,7 +89,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     }];
 }
 
-
 - (void)stupNotificationView {
     
     self.notificationView = [QMNotificationView showInViewController:self];
@@ -111,6 +110,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 
 - (void)chatService:(QMChatService *)chatService didAddChatDialogToMemoryStorage:(QBChatDialog *)chatDialog {
     
+    [self.historyDataSource addItems:@[chatDialog]];
     [self.tableView reloadData];
 }
 
@@ -350,7 +350,7 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
                 QBChatMessage *message = [QBChatMessage message];
                 message.text = @"Contact request";
                 
-                [QM.chatService sendMessage:message toDialog:createdDialog type:QMMessageTypeContactRequest save:YES completion:^(NSError *error) {
+                [QM.chatService sendMessage:message toDialog:createdDialog save:YES completion:^(NSError *error) {
                     NSLog(@"Send contact request");
                 }];
             }];
