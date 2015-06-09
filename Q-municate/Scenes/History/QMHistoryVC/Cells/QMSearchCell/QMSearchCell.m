@@ -72,14 +72,10 @@
 
 - (void)highlightTitle:(NSString *)title {
     
-    NSMutableAttributedString *attributedString =
-    [[NSMutableAttributedString alloc] initWithString:title];
-    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.title];
     UIColor *highlightColor = [UIColor colorWithRed:1.000 green:0.610 blue:0.426 alpha:1.000];
-    
-    [attributedString beginEditing];
-    [attributedString addAttribute:NSForegroundColorAttributeName value:highlightColor range:[self.title rangeOfString:title options:NSCaseInsensitiveSearch]];
-    [attributedString endEditing];
+    NSRange range = [self.title rangeOfString:title options:NSCaseInsensitiveSearch];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:highlightColor range:range];
     
     self.titleLabel.attributedText = attributedString;
 }

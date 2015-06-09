@@ -84,16 +84,32 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     CGSize size = [self.titleView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     self.titleView.frame = CGRectMake(0.f, 0.f, size.width, size.height);
     //Fetch data from server
+
+    self.notificationView = [QMNotificationView showInViewController:self];
+    self.notificationView.text = @"Login...";
+    self.notificationView.tintColor = [UIColor colorWithRed:0.000 green:0.800 blue:0.090 alpha:1.000];
+    
+    
+    [self.notificationView setVisible:YES animated:NO completion:nil];
+    
     [QMTasks taskLogin:^(BOOL successLogin) {
-        [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {}];
-    }];
+        
+        self.notificationView.text = @"Fetch data...";
+        self.notificationView.tintColor = [UIColor colorWithRed:1.000 green:0.639 blue:0.000 alpha:1.000];
+        
+        [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {
+            
+            __weak __typeof(self)weakSelf = self;
+            [weakSelf.notificationView setVisible:NO animated:NO completion:^{
+            }];
+        }];
+    }];;
 }
 
-- (void)stupNotificationView {
-    
-    self.notificationView = [QMNotificationView showInViewController:self];
-    self.notificationView.tintColor = [UIColor colorWithWhite:0.800 alpha:0.380];
-    [self.notificationView setVisible:YES animated:YES completion:^{}];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+   
+
 }
 
 - (void)contactListServiceDidLoadCache {
@@ -107,6 +123,15 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 }
 
 #pragma mark - QMChatServiceDelegate
+
+
+- (void)chatService:(QMChatService *)chatService didUpdateChatDialogsInMemoryStorage:(QBChatDialog *)chatDialog {
+    
+    NSUInteger idx = [self.historyDataSource.items indexOfObject:chatDialog];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    
+}
 
 - (void)chatService:(QMChatService *)chatService didAddChatDialogToMemoryStorage:(QBChatDialog *)chatDialog {
     

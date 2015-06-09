@@ -17,7 +17,7 @@
 
 @end
 
-@interface QMContactListDataSource : QMTableViewDataSource <QMContactListDataSourceHandler>
+@interface QMContactListDataSource : QMTableViewDataSource
 
 @property (assign, nonatomic) BOOL selectable;
 @property (weak, nonatomic) id <QMContactListDataSourceHandler> handler;

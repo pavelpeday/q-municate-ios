@@ -55,7 +55,8 @@
 
 - (IBAction)chooseUserPicture:(id)sender {
     
-    [QMImagePicker chooseSourceTypeInVC:self allowsEditing:YES result:^(UIImage *image) {
+    [QMImagePicker chooseSourceTypeInViewController:self allowsEditing:YES resultImage:^(UIImage *image) {
+
         self.selectedImage = image;
         [self.qmImageView applyImage:image];
     }];

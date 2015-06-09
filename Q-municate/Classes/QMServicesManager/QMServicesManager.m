@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
 
 @interface QMServicesManager()
 
-<QMChatServiceDelegate, QMContactListServiceDelegate, QMContactListServiceCacheDelegate, QMChatServiceCacheDataSource, QMAuthServiceDelegate>
+<QMChatServiceDelegate, QMContactListServiceDelegate, QMContactListServiceCacheDataSource, QMChatServiceCacheDataSource, QMAuthServiceDelegate>
 
 @property (strong, nonatomic) QMAuthService *authService;
 @property (strong, nonatomic) QMChatService *chatService;
@@ -62,7 +62,7 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
     [QMChatCache setupDBWithStoreNamed:kQMChatCacheStoreName];
     [QMContactListCache setupDBWithStoreNamed:kQMContactListCacheStoreName];
     //Init servises
-    self.contactListService = [[QMContactListService alloc] initWithServiceManager:self cacheDelegate:self];
+    self.contactListService = [[QMContactListService alloc] initWithServiceManager:self cacheDataSource:self];
     self.authService = [[QMAuthService alloc] initWithServiceManager:self];
     self.chatService = [[QMChatService alloc] initWithServiceManager:self cacheDataSource:self];
     //Subsicribe to notifications
@@ -90,6 +90,10 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
 
 #pragma mark - QMChatServiceDelegate
 
+- (void)chatService:(QMChatService *)chatService didUpdateChatDialogInMemoryStorage:(QBChatDialog *)chatDialog {
+    [[QMChatCache instance] insertOrUpdateDialog:chatDialog completion:nil];
+}
+
 - (void)chatService:(QMChatService *)chatService didAddChatDialogToMemoryStorage:(QBChatDialog *)chatDialog {
     
     [[QMChatCache instance] insertOrUpdateDialog:chatDialog completion:nil];
@@ -110,12 +114,12 @@ typedef NS_ENUM(NSUInteger, QM_STATUS) {
     [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialogID read:YES completion:nil];
 }
 
-- (void)chatService:(QMChatService *)chatService didReceiveNotificationMessage:(QBChatMessage *)message createDialog:(QBChatDialog *)dialog {
-    
-    NSAssert([message.dialog.ID isEqualToString:dialog.ID], @"Muste be equal");
-    [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
-    [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
-}
+//- (void)chatService:(QMChatService *)chatService didReceiveNotificationMessage:(QBChatMessage *)message createDialog:(QBChatDialog *)dialog {
+//    
+//    NSAssert([message.dialog.ID isEqualToString:dialog.ID], @"Muste be equal");
+//    [[QMChatCache instance] insertOrUpdateMessage:message withDialogId:dialog.ID read:YES completion:nil];
+//    [[QMChatCache instance] insertOrUpdateDialog:dialog completion:nil];
+//}
 
 #pragma mark - QMChatServiceCacheDataSource
 

@@ -23,12 +23,10 @@
     ILog(@"%@ - %@",  NSStringFromSelector(_cmd), self);
 }
 
-+ (void)presentIn:(UIViewController *)vc
-        configure:(void (^)(UIImagePickerController *picker))configure
-           result:(QMImagePickerResult)result {
++ (void)presentInViewController:(UIViewController *)vc configure:(void (^)(UIImagePickerController *picker))configure resultImage:(QMImagePickerResult)resultImage {
     
     QMImagePicker *picker = [[QMImagePicker alloc] init];
-    picker.result = result;
+    picker.result = resultImage;
     configure(picker);
     [vc presentViewController:picker animated:YES completion:nil];
 }
@@ -61,18 +59,16 @@
     }];
 }
 
-+ (void)chooseSourceTypeInVC:(id)vc allowsEditing:(BOOL)allowsEditing result:(QMImagePickerResult)result {
-    
-    UIViewController *viewController = vc;
-    
++ (void)chooseSourceTypeInViewController:(UIViewController *)viewController allowsEditing:(BOOL)allowsEditing resultImage:(QMImagePickerResult)resultImage{
+
     void (^showImagePicker)(UIImagePickerControllerSourceType) = ^(UIImagePickerControllerSourceType type) {
         
-        [QMImagePicker presentIn:viewController configure:^(UIImagePickerController *picker) {
+        [QMImagePicker presentInViewController:viewController configure:^(UIImagePickerController *picker) {
             
             picker.sourceType = type;
             picker.allowsEditing = allowsEditing;
             
-        } result:result];
+        } resultImage:resultImage];
     };
     
     [REActionSheet presentActionSheetInView:viewController.view configuration:^(REActionSheet *actionSheet) {

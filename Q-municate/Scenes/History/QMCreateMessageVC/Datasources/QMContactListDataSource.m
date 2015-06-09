@@ -45,9 +45,9 @@
     return self.alphabetizedDictionary[sectionIndexTitle][indexPath.row];
 }
 
-- (void)addObjects:(NSArray *)objects {
+- (void)addItems:(NSArray *)items {
     
-    self.alphabetizedDictionary = [QMAlphabetizer alphabetizedDictionaryFromObjects:objects usingKeyPath:@"fullName"];
+    self.alphabetizedDictionary = [QMAlphabetizer alphabetizedDictionaryFromObjects:items usingKeyPath:@"fullName"];
     self.sectionIndexTitles = [QMAlphabetizer indexTitlesFromAlphabetizedDictionary:self.alphabetizedDictionary];
 }
 

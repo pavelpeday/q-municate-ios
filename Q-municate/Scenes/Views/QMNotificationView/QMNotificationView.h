@@ -12,6 +12,8 @@
 
 @property (readonly, nonatomic, getter = isVisible) BOOL visible;
 
+@property (strong, nonatomic) NSString *text;
+
 + (QMNotificationView *)showInViewController:(UIViewController *)viewController;
 
 - (void)setVisible:(BOOL)visible

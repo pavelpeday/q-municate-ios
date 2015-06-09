@@ -13,32 +13,20 @@
 
 @implementation QMContactListVC
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
+- (void)viewDidLoad {
+    [super viewDidLoad];
     
     /** Configure datasource */
     self.contactListDatasource = [[QMContactListDataSource alloc] init];
     self.contactListDatasource.selectable = self.selectable;
     
-    [self loadDataSource];
-}
-
-- (void)loadDataSource {
-    
-    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage usersSortedByKey:@"fullName" ascending:YES];
-    [self.contactListDatasource addItems:usersFormCache];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    /** Register nib's */
-    [QMContactCell registerForReuseInTableView:self.tableView];
-
     /** Configure tableView */
     self.tableView.dataSource = self.contactListDatasource;
     self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     self.tableView.sectionIndexColor = [UIColor colorWithRed:0.071 green:0.357 blue:0.643 alpha:1.000];
     self.tableView.rowHeight = [QMContactCell height];
+    /** Register nib's */
+    [QMContactCell registerForReuseInTableView:self.tableView];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

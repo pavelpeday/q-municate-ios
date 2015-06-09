@@ -39,7 +39,7 @@ const NSTimeInterval kQMNotificationViewDefaultShowDuration = 2.0;
 + (QMNotificationView *)showInViewController:(UIViewController *)viewController {
     
     QMNotificationView *notificationView =
-    [[QMNotificationView alloc] initWithTitle:@"Отсутствует подключение к интернету"
+    [[QMNotificationView alloc] initWithTitle:@"Connecting"
                          parentViewController:viewController];
     
     notificationView.tintColor = [UIColor redColor];
@@ -98,6 +98,12 @@ const NSTimeInterval kQMNotificationViewDefaultShowDuration = 2.0;
     return self;
 }
 
+- (void)setText:(NSString *)text {
+    
+    _text = text;
+    self.label.text = text;
+}
+
 #pragma mark - Key-Value Observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -149,24 +155,21 @@ const NSTimeInterval kQMNotificationViewDefaultShowDuration = 2.0;
     
     if (self.isVisible && [self.parentViewController isEqual:note.object]) {
         
-        __block typeof(self) weakself = self;
         [UIView animateWithDuration:0.1 animations:^{
             CGRect endFrame;
-            [weakself animationFramesForVisible:weakself.isVisible
+            [self animationFramesForVisible:self.isVisible
                                      startFrame:nil
                                        endFrame:&endFrame];
             
-            [weakself setFrame:endFrame];
-            [weakself updateConstraints];
+            [self setFrame:endFrame];
+            [self updateConstraints];
         }];
     }
 }
 
 #pragma mark - presentation
 
-- (void)setVisible:(BOOL)visible
-          animated:(BOOL)animated
-        completion:(dispatch_block_t)completion {
+- (void)setVisible:(BOOL)visible animated:(BOOL)animated completion:(dispatch_block_t)completion {
     
     if (_visible != visible) {
         

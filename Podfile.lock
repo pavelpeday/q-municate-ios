@@ -25,6 +25,7 @@ PODS:
   - SSKeychain (1.2.3)
   - StaticDataTableViewController (2.0.3)
   - SVProgressHUD (1.1.3)
+  - TTTAttributedLabel (1.13.3)
 
 DEPENDENCIES:
   - AGEmojiKeyboard (~> 0.2.0)
@@ -36,6 +37,7 @@ DEPENDENCIES:
   - SSKeychain (~> 1.2.3)
   - StaticDataTableViewController (~> 2.0.3)
   - SVProgressHUD (~> 1.1.3)
+  - TTTAttributedLabel (= 1.13.3)
 
 SPEC CHECKSUMS:
   AGEmojiKeyboard: 8b0ad1a1a3c473c9d5464cf661a7bdddda59feed
@@ -48,5 +50,6 @@ SPEC CHECKSUMS:
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
   StaticDataTableViewController: 76e67fe2af5596fa77ffbc1ae450d8127172942d
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
+  TTTAttributedLabel: 6f3174aef8e738f44dff97c2eb7d8184f6ab6277
 
 COCOAPODS: 0.37.1

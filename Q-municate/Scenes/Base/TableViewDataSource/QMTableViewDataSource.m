@@ -8,29 +8,21 @@
 
 #import "QMTableViewDatasource.h"
 
-@interface QMTableViewDataSource()
-
-@property (strong, nonatomic) NSMutableArray *collection;
-
-@end
-
 @implementation QMTableViewDataSource
-
-@dynamic items;
 
 - (instancetype)init {
     
     self = [super init];
     if (self) {
         
-        self.collection = [NSMutableArray array];
+        self.items = [NSMutableArray array];
     }
     return self;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return self.collection.count;
+    return self.items.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -40,18 +32,13 @@
 
 - (void)addItems:(NSArray *)items {
     
-    [self.collection addObjectsFromArray:items];
+    [self.items addObjectsFromArray:items];
 }
 
 - (void)replaceItems:(NSArray *)items {
     
-    [self.collection removeAllObjects];
-    [self.collection addObjectsFromArray:items];
-}
-
-- (NSArray *)items {
-    
-    return [self.collection copy];
+    [self.items removeAllObjects];
+    [self.items addObjectsFromArray:items];
 }
 
 @end

@@ -12,6 +12,7 @@
 #import "QMServicesManager.h"
 #import "QMImagePicker.h"
 #import "TTTAttributedLabel.h"
+#import "QMMapViewController.h"
 
 #import "QMMessageText.h"
 #import "QMChatActionsHandler.h"
@@ -25,6 +26,7 @@
 
 @implementation QMChatVC
 
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -35,21 +37,34 @@
     self.senderID = sender.ID;
     self.senderDisplayName = sender.fullName;
     //Cofigure sender
-    
     QBUUser *opponent = [QM.contactListService.usersMemoryStorage usersWithIDs:self.chatDialog.occupantIDs
                                                                      withoutID:QM.profile.userData.ID].firstObject;
     
     self.title = opponent.fullName;
-    
     self.items = [NSMutableArray array];
     //Get messages
     [QM.chatService messagesWithChatDialogID:self.chatDialog.ID completion:^(QBResponse *response, NSArray *messages) {}];
-    //Configure navigation bar
-    UIImage *placeholder = [QMPlaceholder placeholderWithFrame:CGRectMake(0, 0, 30, 30) fullName:self.chatDialog.name];
     
-    self.navigationItem.rightBarButtonItem =
-    [[UIBarButtonItem alloc] initWithImage:placeholder style:UIBarButtonItemStyleBordered target:self
-                                    action:@selector(pressGroupInfo:)];
+    //Configure navigation bar
+    
+    if (self.chatDialog.type == QBChatDialogTypeGroup) {
+        
+        UIImage *placeholder = [QMPlaceholder placeholderWithFrame:CGRectMake(0, 0, 30, 30) fullName:self.chatDialog.name];
+
+        self.navigationItem.rightBarButtonItem =
+        [[UIBarButtonItem alloc] initWithImage:placeholder
+                                         style:UIBarButtonItemStyleBordered
+                                        target:self
+                                        action:@selector(pressGroupInfo:)];
+    }
+    else {
+        
+        self.navigationItem.rightBarButtonItem =
+        [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_video_chat"]
+                                         style:UIBarButtonItemStyleBordered
+                                        target:self
+                                        action:@selector(pressConference:)];
+    }
     //Customize your toolbar buttons
     self.inputToolbar.contentView.leftBarButtonItem = [self accessoryButtonItem];
     self.inputToolbar.contentView.rightBarButtonItem = [self sendButtonItem];
@@ -66,17 +81,16 @@
         NSArray *cahcedMessages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dialogID];
         [self.items addObjectsFromArray:cahcedMessages];
         [self.collectionView reloadData];
+        [self scrollToBottomAnimated:NO];
     }
 }
 
-- (void)chatService:(QMChatService *)chatService didAddMessagesToMemoryStorage:(NSArray *)messages forDialogID:(NSString *)dialogID{
+- (void)chatService:(QMChatService *)chatService didAddMessageToMemoryStorage:(QBChatMessage *)message forDialogID:(NSString *)dialogID {
     
     if ([self.chatDialog.ID isEqualToString:dialogID]) {
         
-        NSArray *cahcedMessages = [QM.chatService.messagesMemoryStorage messagesWithDialogID:dialogID];
-        [self.items removeAllObjects];
-        [self.items addObjectsFromArray:cahcedMessages];
-        [self.collectionView reloadData];
+        [self.items addObject:message];
+        [self finishReceivingMessage];
     }
 }
 
@@ -90,8 +104,54 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    self.collectionView.collectionViewLayout.springResistanceFactor = 2000;
+    self.collectionView.collectionViewLayout.springResistanceFactor = 1000;
     self.collectionView.collectionViewLayout.springinessEnabled = YES;
+}
+
+- (Class)viewClassForItem:(QBChatMessage *)item {
+    
+    if (item.messageType == QMMessageTypeContactRequest) {
+        
+        if (item.senderID != self.senderID) {
+            
+            return [QMChatContactRequestCell class];
+        }
+    }
+    
+    else if (item.messageType == QMMessageTypeRejectContactRequest) {
+        
+        return [QMChatNotificationCell class];
+    }
+    
+    else if (item.messageType == QMMessageTypeAcceptContactRequest) {
+        
+        return [QMChatNotificationCell class];
+    }
+    else if (item.messageType == QMMessageTypeText) {
+        
+        if (item.senderID != self.senderID) {
+            
+            return [QMChatIncomingCell class];
+        }
+        else {
+            
+            return [QMChatOutgoingCell class];
+        }
+    }
+    
+    return nil;
+}
+
+- (QMChatCellLayoutModel)collectionView:(QMChatCollectionView *)collectionView layoutModelAtIndexPath:(NSIndexPath *)indexPath {
+    
+    QMChatCellLayoutModel model = [super collectionView:collectionView layoutModelAtIndexPath:indexPath];
+    
+    if(self.chatDialog.type == QBChatDialogTypePrivate) {
+        
+        model.topLabelHeight = 0;
+    }
+    
+    return model;
 }
 
 - (CGSize)collectionView:(QMChatCollectionView *)collectionView dynamicSizeAtIndexPath:(NSIndexPath *)indexPath maxWidth:(CGFloat)maxWidth {
@@ -106,29 +166,96 @@
     return size;
 }
 
+- (CGFloat)collectionView:(QMChatCollectionView *)collectionView minWidthAtIndexPath:(NSIndexPath *)indexPath {
+    
+    QBChatMessage *item = self.items[indexPath.item];
+    
+    NSAttributedString *attributedString =
+    [item senderID] == self.senderID ?  [self bottomLabelAttributedStringForItem:item] : [self topLabelAttributedStringForItem:item];
+    
+    CGSize size = [TTTAttributedLabel sizeThatFitsAttributedString:attributedString
+                                                   withConstraints:CGSizeMake(1000, 10000)
+                                            limitedToNumberOfLines:1];
+    
+    CGSize size1 = [TTTAttributedLabel sizeThatFitsAttributedString:[self bottomLabelAttributedStringForItem:item]
+                                                    withConstraints:CGSizeMake(1000, 10000)
+                                             limitedToNumberOfLines:1];
+    
+    return MAX(size.width, size1.width);
+}
+
 - (NSAttributedString *)attributedStringForItem:(QBChatMessage *)messageItem {
     
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:15];
-    NSDictionary *attributes = @{ NSForegroundColorAttributeName:[UIColor whiteColor], NSFontAttributeName:font};
-    NSString *str = [QMMessageText textForMessage:messageItem currentUserID:self.senderID];
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str attributes:attributes];
     
-    if (messageItem.messageType == QMMessageTypeContactRequest) {
+    NSString *str = [QMMessageText textForMessage:messageItem currentUserID:self.senderID];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:str];
+    
+    if (messageItem.messageType == QMMessageTypeText) {
+        
+        NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
+        paragraphStyle.alignment = NSTextAlignmentJustified;
+        
+        UIColor *textColor = [messageItem senderID] == self.senderID ? [UIColor whiteColor] : [UIColor colorWithWhite:0.290 alpha:1.000];
+        NSDictionary *attributes = @{ NSForegroundColorAttributeName:textColor, NSFontAttributeName:font, NSParagraphStyleAttributeName:paragraphStyle};
+        [attrStr addAttributes:attributes range:NSMakeRange(0, str.length)];
+        
+    }
+    else  {
+        
+        UIColor *textColor = [UIColor whiteColor];
+        
+        NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+        
+        NSDictionary *attributes = @{ NSForegroundColorAttributeName:textColor,
+                                      NSFontAttributeName:font,
+                                      NSParagraphStyleAttributeName:paragraphStyle};
+        
+        [attrStr addAttributes:attributes range:NSMakeRange(0, str.length)];
         
         if ([messageItem senderID] == self.senderID) {
             
-            [self appendTimeStampForAttributedString:attrStr date:messageItem.dateSent];
+            UIFont *timeStampFont = [UIFont fontWithName:@"Helvetica" size:12];
+            NSDictionary *timeAttributes = @{ NSForegroundColorAttributeName:[UIColor colorWithWhite:1.000 alpha:0.480], NSFontAttributeName:timeStampFont};
+            NSAttributedString *timeStamp = [[NSAttributedString alloc] initWithString:[self timeStampWithDate:messageItem.dateSent] attributes:timeAttributes];
+            
+            [attrStr appendAttributedString:timeStamp];
         }
-    } else {
-        
-        [self appendTimeStampForAttributedString:attrStr date:messageItem.dateSent];
     }
-
     
     return attrStr;
 }
 
-- (void)appendTimeStampForAttributedString:(NSMutableAttributedString *)attrStr date:(NSDate *)date {
+- (NSAttributedString *)topLabelAttributedStringForItem:(QBChatMessage *)messageItem {
+    
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:14];
+    
+    if ([messageItem senderID] == self.senderID || self.chatDialog.type == QBChatDialogTypePrivate) {
+        return nil;
+    }
+    
+    QBUUser *user = [QM.contactListService.usersMemoryStorage userWithID:messageItem.senderID];
+    
+    NSDictionary *attributes = @{ NSForegroundColorAttributeName:[UIColor colorWithRed:0.184 green:0.467 blue:0.733 alpha:1.000], NSFontAttributeName:font};
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:user.fullName attributes:attributes];
+    
+    return attrStr;
+}
+
+- (NSAttributedString *)bottomLabelAttributedStringForItem:(QBChatMessage *)messageItem {
+    
+    UIColor *textColor = [messageItem senderID] == self.senderID ? [UIColor colorWithWhite:1.000 alpha:0.510] : [UIColor colorWithWhite:0.000 alpha:0.490];
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:12];
+    NSDictionary *attributes = @{ NSForegroundColorAttributeName:textColor, NSFontAttributeName:font};
+    NSString *timeStamp = [self timeStampWithDate:messageItem.dateSent];
+    
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:timeStamp attributes:attributes];
+    
+    return attrStr;
+}
+
+- (NSString *)timeStampWithDate:(NSDate *)date {
     
     static NSDateFormatter *dateFormatter = nil;
     
@@ -140,11 +267,7 @@
     
     NSString *timeStamp = [dateFormatter stringFromDate:date];
     
-    UIFont *font = [UIFont fontWithName:@"Helvetica" size:15];
-    NSDictionary *attributes = @{ NSForegroundColorAttributeName:[UIColor colorWithWhite:1.000 alpha:0.660], NSFontAttributeName:font };
-    NSAttributedString *attributedTimeStamp = [[NSAttributedString alloc] initWithString:timeStamp attributes:attributes];
-    
-    [attrStr appendAttributedString:attributedTimeStamp];
+    return timeStamp;
 }
 
 #pragma mark - UICollectionView DataSource
@@ -209,26 +332,22 @@
     
     [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
         
-        [actionSheet addButtonWithTitle:@"Take Video" andActionBlock:^{
-            
-        }];
-        
+        [actionSheet addButtonWithTitle:@"Take Video" andActionBlock:^{}];
         [actionSheet addButtonWithTitle:@"Share image" andActionBlock:^{
             
-            [QMImagePicker presentIn:self configure:^(UIImagePickerController *picker) {
+            [QMImagePicker presentInViewController:self configure:^(UIImagePickerController *picker) {
                 
-            } result:^(UIImage *image) {
+            } resultImage:^(UIImage *image) {
                 
             }];
         }];
         
         [actionSheet addButtonWithTitle:@"Share Location" andActionBlock:^{
             
-        }];
+            [self performSegueWithIdentifier:@"QMMapViewController" sender:self];
         
-        [actionSheet addCancelButtonWihtTitle:@"Cancel" andActionBlock:^{
-            
         }];
+        [actionSheet addCancelButtonWihtTitle:@"Cancel" andActionBlock:^{}];
     }];
 }
 
@@ -263,7 +382,7 @@
     
     void(^compeltion)(BOOL success) = ^(BOOL success) {
         
-        [QM.chatService notifyOponentAboutAcceptContactRequest:accept opponent:message.senderID completion:^(NSError *error) {
+        [QM.chatService notifyOponentAboutAcceptingContactRequest:accept opponentID:message.senderID completion:^(NSError *error) {
             [self.collectionView.collectionViewLayout invalidateLayout];
         }];
     };
@@ -288,11 +407,20 @@
     }];
 }
 
-#pragma mark Nav bar
+#pragma mark Nav bar Actions
 
 - (void)pressGroupInfo:(id)sender {
     
 }
 
+- (void)pressConference:(id)sender {
+    
+    [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
+        
+        [actionSheet addButtonWithTitle:@"Audio call" andActionBlock:^{}];
+        [actionSheet addButtonWithTitle:@"Video call" andActionBlock:^{}];
+        [actionSheet addCancelButtonWihtTitle:@"Cancel" andActionBlock:^{}];
+    }];
+}
 
 @end

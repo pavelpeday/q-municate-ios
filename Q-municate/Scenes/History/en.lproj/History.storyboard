@@ -3,17 +3,18 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="xEs-sZ-Ni8">
             <objects>
                 <navigationController id="QjN-AG-X8p" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3zQ-Vl-GDc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.062745098040000002" green="0.35294117650000001" blue="0.63921568630000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="f0F-bx-ISs" kind="relationship" relationship="rootViewController" id="2w5-dg-9ji"/>
@@ -42,7 +43,37 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FWG-zz-82s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-8536" y="-9119"/>
+            <point key="canvasLocation" x="-7776" y="-9103"/>
+        </scene>
+        <!--New Messge-->
+        <scene sceneID="dM9-Zi-e01">
+            <objects>
+                <tableViewController id="JuN-QZ-Ls7" customClass="QMCreateMessageVC" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2QG-T6-ChN">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="delegate" destination="JuN-QZ-Ls7" id="ozB-XA-NDr"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="New Messge" id="pWg-y3-nhd">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="JMi-mg-vX1"/>
+                        <barButtonItem key="rightBarButtonItem" title="New group" id="hkQ-jJ-pF2">
+                            <connections>
+                                <segue destination="QrQ-RL-ETs" kind="push" id="ddU-CF-XPm"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="selectable" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeSearch" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MoF-ce-faV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7721" y="-8361"/>
         </scene>
         <!--Main Screen-->
         <scene sceneID="H0g-qk-9oU">
@@ -60,7 +91,7 @@
                         <nil key="title"/>
                         <barButtonItem key="rightBarButtonItem" title="New" id="PAJ-nf-BDk">
                             <connections>
-                                <segue destination="Znz-SH-n9E" kind="push" id="rDM-42-SfZ"/>
+                                <segue destination="JuN-QZ-Ls7" kind="push" id="pMq-35-mXF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -76,40 +107,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lND-1Z-Lte" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-8536" y="-8364"/>
-        </scene>
-        <!--New Message-->
-        <scene sceneID="b0O-yt-gSF">
-            <objects>
-                <tableViewController id="Znz-SH-n9E" customClass="QMCreateMessageVC" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IEj-eU-1tF">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="Znz-SH-n9E" id="yy8-IG-flg"/>
-                            <outlet property="delegate" destination="Znz-SH-n9E" id="hE5-NH-7bg"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="New Message" id="i9X-Ch-cLR">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="S6V-Vk-EC9"/>
-                        <barButtonItem key="rightBarButtonItem" title="New Group" id="Az8-lx-sR2">
-                            <connections>
-                                <segue destination="QrQ-RL-ETs" kind="push" id="2Oq-YT-wBe"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeSearch" value="YES"/>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="YES"/>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="selectable" value="NO"/>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <segue destination="erY-An-T9i" kind="custom" identifier="ChatViewController" customClass="QMLinkSegue" id="FWh-9S-ibK"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8BI-QB-LFE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-7820" y="-8364"/>
         </scene>
         <!--Link View Controller-->
         <scene sceneID="76k-cW-d7p">
@@ -130,7 +127,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZPx-CM-Tpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7820" y="-7510"/>
+            <point key="canvasLocation" x="-8536" y="-7578"/>
         </scene>
         <!--New Group-->
         <scene sceneID="1pp-fn-V5z">
@@ -167,7 +164,6 @@
                                         <rect key="frame" x="0.0" y="76" width="600" height="44"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="67U-F5-XCN" firstAttribute="top" secondItem="uqT-Sh-O64" secondAttribute="bottom" constant="8" symbolic="YES" id="3p2-8n-EIA"/>
                                     <constraint firstAttribute="trailing" secondItem="Sk9-ib-R7c" secondAttribute="trailing" constant="17" id="4hf-vm-lo8"/>
@@ -187,22 +183,22 @@
                                     <outlet property="tagsContainer" destination="67U-F5-XCN" id="T4l-6j-Uwa"/>
                                 </connections>
                             </view>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kq3-KG-SFo">
-                                <rect key="frame" x="0.0" y="184" width="600" height="416"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6VP-bS-EJO">
+                                <rect key="frame" x="0.0" y="180" width="628" height="420"/>
                                 <connections>
-                                    <segue destination="99L-Ge-OQB" kind="embed" identifier="QMContactListVC" id="OH5-gG-Z78"/>
+                                    <segue destination="b3s-go-xfB" kind="embed" identifier="QMContactListVC" id="2Xl-Sa-Rho"/>
                                 </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="6VP-bS-EJO" firstAttribute="top" secondItem="wcI-p5-Qjz" secondAttribute="bottom" constant="-4" id="3V9-gK-9e6"/>
                             <constraint firstAttribute="trailing" secondItem="wcI-p5-Qjz" secondAttribute="trailing" id="3VK-R9-eeG"/>
                             <constraint firstItem="wcI-p5-Qjz" firstAttribute="top" secondItem="xj7-0w-0ur" secondAttribute="bottom" id="4Uf-w2-Fh0"/>
-                            <constraint firstItem="FPw-dM-bXi" firstAttribute="top" secondItem="Kq3-KG-SFo" secondAttribute="bottom" id="8yh-jc-TSW"/>
-                            <constraint firstItem="Kq3-KG-SFo" firstAttribute="top" secondItem="wcI-p5-Qjz" secondAttribute="bottom" id="S8u-98-otS"/>
-                            <constraint firstAttribute="trailing" secondItem="Kq3-KG-SFo" secondAttribute="trailing" id="Yls-tR-UyZ"/>
                             <constraint firstItem="wcI-p5-Qjz" firstAttribute="leading" secondItem="6iR-98-vbR" secondAttribute="leading" id="ZHx-ob-JvR"/>
-                            <constraint firstItem="Kq3-KG-SFo" firstAttribute="leading" secondItem="6iR-98-vbR" secondAttribute="leading" id="eEi-LC-abJ"/>
+                            <constraint firstItem="FPw-dM-bXi" firstAttribute="top" secondItem="6VP-bS-EJO" secondAttribute="bottom" id="Zf0-V1-fQf"/>
+                            <constraint firstItem="6VP-bS-EJO" firstAttribute="leading" secondItem="6iR-98-vbR" secondAttribute="leadingMargin" constant="-16" id="fgx-tQ-9o2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6VP-bS-EJO" secondAttribute="trailing" constant="-44" id="sfH-io-ddr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="New Group" id="Vfg-XI-VZy">
@@ -215,7 +211,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="containerView" destination="Kq3-KG-SFo" id="oU5-Ss-Tvk"/>
+                        <outlet property="containerView" destination="6VP-bS-EJO" id="3hr-ng-XBx"/>
                         <outlet property="headerHeight" destination="Sbg-eo-Ohe" id="V0J-jE-Uvo"/>
                         <outlet property="headerView" destination="wcI-p5-Qjz" id="f5I-Zm-7vv"/>
                         <outlet property="tagsContainer" destination="67U-F5-XCN" id="nGI-0O-rVm"/>
@@ -224,33 +220,30 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QA4-xA-2qv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7110" y="-8364"/>
+            <point key="canvasLocation" x="-6966" y="-8364"/>
         </scene>
-        <!--New Group-->
-        <scene sceneID="Y4C-1G-fPH">
+        <!--Contact ListVC-->
+        <scene sceneID="62M-cf-tGa">
             <objects>
-                <tableViewController id="99L-Ge-OQB" customClass="QMContactListVC" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="K0p-r0-fsg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="416"/>
+                <tableViewController id="b3s-go-xfB" customClass="QMContactListVC" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="g5Z-nR-V5M">
+                        <rect key="frame" x="0.0" y="0.0" width="628" height="420"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
-                            <outlet property="dataSource" destination="99L-Ge-OQB" id="Loi-Rw-VWt"/>
-                            <outlet property="delegate" destination="99L-Ge-OQB" id="LIg-mo-D3V"/>
+                            <outlet property="dataSource" destination="b3s-go-xfB" id="Pa8-hE-one"/>
+                            <outlet property="delegate" destination="b3s-go-xfB" id="yCd-Ia-rYT"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="New Group" id="UWt-6v-57y">
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="AVn-6i-3Cz"/>
-                    </navigationItem>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="selectable" value="YES"/>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="YES"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="makeSearch" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="makeRefresh" value="NO"/>
                     </userDefinedRuntimeAttributes>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zjv-yj-Q3f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0PW-dL-pUr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-6328" y="-8272"/>
+            <point key="canvasLocation" x="-6966" y="-7642"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

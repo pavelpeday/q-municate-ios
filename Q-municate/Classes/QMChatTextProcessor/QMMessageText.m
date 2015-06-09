@@ -25,7 +25,7 @@
             }
             else {
                 
-                return [NSString stringWithFormat:NSLocalizedString(@"%@\nwould like to chat with you", nil), user.fullName];
+                return [NSString stringWithFormat:NSLocalizedString(@"%@\n would like to chat with you", nil), user.fullName];
             }
             
         } break;
@@ -86,7 +86,7 @@
             
         default: {
             
-            return message.text;
+            return message.encodedText;
             
         } break;
     }

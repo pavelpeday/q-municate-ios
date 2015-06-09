@@ -12,8 +12,15 @@ typedef void(^QMImagePickerResult)(UIImage *image);
 
 @interface QMImagePicker : UIImagePickerController
 
-+ (void)presentIn:(UIViewController *)vc configure:(void (^)(UIImagePickerController *picker))configure result:(QMImagePickerResult)result;
+/**
+ *  Pressent image picker
+ *
+ *  @param vc          Source view controller
+ *  @param configure   Block configuration
+ *  @param resultImage Result image
+ */
++ (void)presentInViewController:(UIViewController *)vc configure:(void (^)(UIImagePickerController *picker))configure resultImage:(QMImagePickerResult)resultImage;
 
-+ (void)chooseSourceTypeInVC:(id)vc allowsEditing:(BOOL)allowsEditing result:(QMImagePickerResult)result;
++ (void)chooseSourceTypeInViewController:(UIViewController *)viewController allowsEditing:(BOOL)allowsEditing resultImage:(QMImagePickerResult)resultImage;
 
 @end

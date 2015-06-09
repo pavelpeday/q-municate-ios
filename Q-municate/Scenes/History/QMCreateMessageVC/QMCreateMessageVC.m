@@ -11,16 +11,27 @@
 #import "QMServicesManager.h"
 #import "QMChatVC.h"
 
+@interface QMCreateMessageVC()
+
+
+@end
+
 @implementation QMCreateMessageVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.searchController.searchBar.tintColor = [UIColor colorWithRed:0.067 green:0.357 blue:0.643 alpha:1.000];
-    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    NSArray *usersFormCache = [QM.contactListService.usersMemoryStorage usersSortedByKey:@"fullName" ascending:YES];
+    [self.contactListDatasource addItems:usersFormCache];
+    [self.tableView reloadData];
+//    
+//    self.searchController.searchBar.tintColor = [UIColor colorWithRed:0.067 green:0.357 blue:0.643 alpha:1.000];
+//    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+//
+//    [self.tableView reloadData];
 }
 
-#pragma mark - UITableViewDelegate
+//#pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -30,14 +41,14 @@
     
     [self performSegueWithIdentifier:@"ChatViewController" sender:dialog];
 }
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([segue.identifier isEqualToString: @"ChatViewController"]) {
-        
-        QMChatVC *chatVC = segue.destinationViewController;
-        chatVC.chatDialog = sender;
-    }
-}
+//
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    
+//    if ([segue.identifier isEqualToString: @"ChatViewController"]) {
+//        
+//        QMChatVC *chatVC = segue.destinationViewController;
+//        chatVC.chatDialog = sender;
+//    }
+//}
 
 @end

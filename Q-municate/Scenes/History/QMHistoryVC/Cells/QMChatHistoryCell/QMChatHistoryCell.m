@@ -52,8 +52,8 @@
         
         _badgeText = badgeText;
         
+        self.badgeView.badgeText = badgeText;
         if (badgeText.length == 0) {
-            
         }
     }
 }

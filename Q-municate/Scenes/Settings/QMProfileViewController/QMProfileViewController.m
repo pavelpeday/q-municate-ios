@@ -7,7 +7,7 @@
 //
 
 #import "QMProfileViewController.h"
-#import "QMPlaceholderTextView.h"
+#import "QMPlaceHolderTextView.h"
 #import "REAlertView+QMSuccess.h"
 #import "QMImageView.h"
 #import "SVProgressHUD.h"
@@ -67,16 +67,13 @@
     self.statusTextCache = currentUser.status ?: @"";
     
     UIImage *placeholder = [UIImage imageNamed:@"upic-placeholder"];
-//    NSURL *url = [QMUsersUtils userAvatarURL:currentUser];
+    //    NSURL *url = [QMUsersUtils userAvatarURL:currentUser];
     
-    [self.avatarView setImageWithURL:nil
-                         placeholder:placeholder
-                             options:SDWebImageHighPriority
-                            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                                ILog(@"r - %d; e - %d", receivedSize, expectedSize);
-                            } completedBlock:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                
-                            }];
+    [self.avatarView setImageWithURL:nil placeholder:placeholder options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        ILog(@"r - %d; e - %d", receivedSize, expectedSize);
+    } completedBlock:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        
+    }];
     
     self.fullNameField.text = currentUser.fullName;
     self.emailField.text = currentUser.email;
@@ -88,16 +85,14 @@
     
     __weak __typeof(self)weakSelf = self;
     
-    [QMImagePicker chooseSourceTypeInVC:self
-                          allowsEditing:YES
-                                 result:^(UIImage *image)
-     {
-         weakSelf.avatarImage = image;
-         weakSelf.avatarView.image =
-         [image imageByCircularScaleAndCrop:weakSelf.avatarView.frame.size];
-         
-         [weakSelf setUpdateButtonActivity];
-     }];
+    [QMImagePicker chooseSourceTypeInViewController:self allowsEditing:YES resultImage:^(UIImage *image) {
+        
+        weakSelf.avatarImage = image;
+        weakSelf.avatarView.image =
+        [image imageByCircularScaleAndCrop:weakSelf.avatarView.frame.size];
+        
+        [weakSelf setUpdateButtonActivity];
+    }];
 }
 
 - (void)setUpdateButtonActivity {
