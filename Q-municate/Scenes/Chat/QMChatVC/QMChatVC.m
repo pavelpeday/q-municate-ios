@@ -20,7 +20,9 @@
 #import "UIColor+QM.h"
 #import "UIImage+QM.h"
 
-@interface QMChatVC () <QMChatServiceDelegate, QMChatActionsHandler>
+@interface QMChatVC ()
+
+<QMChatServiceDelegate, QMChatActionsHandler, QMImagePickerResultHandler>
 
 @end
 
@@ -50,7 +52,7 @@
     if (self.chatDialog.type == QBChatDialogTypeGroup) {
         
         UIImage *placeholder = [QMPlaceholder placeholderWithFrame:CGRectMake(0, 0, 30, 30) fullName:self.chatDialog.name];
-
+        
         self.navigationItem.rightBarButtonItem =
         [[UIBarButtonItem alloc] initWithImage:placeholder
                                          style:UIBarButtonItemStyleBordered
@@ -332,21 +334,18 @@
     
     [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
         
-        [actionSheet addButtonWithTitle:@"Take Video" andActionBlock:^{}];
-        [actionSheet addButtonWithTitle:@"Share image" andActionBlock:^{
-            
-            [QMImagePicker presentInViewController:self configure:^(UIImagePickerController *picker) {
-                
-            } resultImage:^(UIImage *image) {
-                
-            }];
+        [actionSheet addButtonWithTitle:@"Take Photo or Video" andActionBlock:^{
+            [QMImagePicker takePhotoOrVideoInViewController:self maxDuration:10 quality:UIImagePickerControllerQualityType640x480 resultHandler:self];
+        }];
+        
+        [actionSheet addButtonWithTitle:@"Gallery" andActionBlock:^{
+            [QMImagePicker chooseFromGaleryInViewController:self resultHandler:self];
         }];
         
         [actionSheet addButtonWithTitle:@"Share Location" andActionBlock:^{
-            
             [self performSegueWithIdentifier:@"QMMapViewController" sender:self];
-        
         }];
+        
         [actionSheet addCancelButtonWihtTitle:@"Cancel" andActionBlock:^{}];
     }];
 }
@@ -421,6 +420,16 @@
         [actionSheet addButtonWithTitle:@"Video call" andActionBlock:^{}];
         [actionSheet addCancelButtonWihtTitle:@"Cancel" andActionBlock:^{}];
     }];
+}
+
+#pragma mark - QMImagePickerResultHandler
+
+- (void)imagePicker:(QMImagePicker *)imagePicker didFinishPickingPhoto:(UIImage *)photo {
+    
+}
+
+- (void)imagePicker:(QMImagePicker *)imagePicker didFinishPickingVideo:(NSURL *)videoUrl {
+    
 }
 
 @end

@@ -40,10 +40,6 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
 @property (strong, nonatomic) QMHistoryDataSource *historyDataSource;
 @property (strong, nonatomic) QMGlobalSearchDataSource *globalSearchDatasource;
 @property (strong, nonatomic) QMLocalSearchDataSource *localSearchDatasource;
-/**
- *  Notification view
- */
-@property (strong, nonatomic) QMNotificationView *notificationView;
 
 @property (weak, nonatomic) QBRequest *searchRequest;
 
@@ -84,32 +80,14 @@ typedef NS_ENUM(NSUInteger, QMSearchScopeButtonIndex) {
     CGSize size = [self.titleView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     self.titleView.frame = CGRectMake(0.f, 0.f, size.width, size.height);
     //Fetch data from server
-
-    self.notificationView = [QMNotificationView showInViewController:self];
-    self.notificationView.text = @"Login...";
-    self.notificationView.tintColor = [UIColor colorWithRed:0.000 green:0.800 blue:0.090 alpha:1.000];
-    
-    
-    [self.notificationView setVisible:YES animated:NO completion:nil];
-    
-    [QMTasks taskLogin:^(BOOL successLogin) {
+    [QMTasks taskLoginAndFetchAllData:^(BOOL success) {
         
-        self.notificationView.text = @"Fetch data...";
-        self.notificationView.tintColor = [UIColor colorWithRed:1.000 green:0.639 blue:0.000 alpha:1.000];
-        
-        [QMTasks taskFetchDialogsAndUsers:^(BOOL successFetch) {
-            
-            __weak __typeof(self)weakSelf = self;
-            [weakSelf.notificationView setVisible:NO animated:NO completion:^{
-            }];
-        }];
-    }];;
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
    
-
 }
 
 - (void)contactListServiceDidLoadCache {

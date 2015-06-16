@@ -8,19 +8,28 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^QMImagePickerResult)(UIImage *image);
+@protocol QMImagePickerResultHandler;
 
 @interface QMImagePicker : UIImagePickerController
 
-/**
- *  Pressent image picker
- *
- *  @param vc          Source view controller
- *  @param configure   Block configuration
- *  @param resultImage Result image
- */
-+ (void)presentInViewController:(UIViewController *)vc configure:(void (^)(UIImagePickerController *picker))configure resultImage:(QMImagePickerResult)resultImage;
++ (void)takePhotoInViewController:(UIViewController *)vc resultHandler:(id<QMImagePickerResultHandler>)resultHandler;
 
-+ (void)chooseSourceTypeInViewController:(UIViewController *)viewController allowsEditing:(BOOL)allowsEditing resultImage:(QMImagePickerResult)resultImage;
++ (void)choosePhotoInViewController:(UIViewController *)vc resultHandler:(id<QMImagePickerResultHandler>)resultHandler;
+
++ (void)takePhotoOrVideoInViewController:(UIViewController *)vc
+                             maxDuration:(NSTimeInterval)maxDuration
+                                 quality:(UIImagePickerControllerQualityType)quality
+                           resultHandler:(id<QMImagePickerResultHandler>)resultHandler;
+
++ (void)chooseFromGaleryInViewController:(UIViewController *)vc resultHandler:(id<QMImagePickerResultHandler>)resultHandler;
+
+@end
+
+@protocol QMImagePickerResultHandler <NSObject>
+
+@optional
+
+- (void)imagePicker:(QMImagePicker *)imagePicker didFinishPickingPhoto:(UIImage *)photo;
+- (void)imagePicker:(QMImagePicker *)imagePicker didFinishPickingVideo:(NSURL *)videoUrl;
 
 @end

@@ -15,7 +15,7 @@
 @property (strong, nonatomic) NSString *text;
 
 + (QMNotificationView *)showInViewController:(UIViewController *)viewController;
-
+- (instancetype)initWithTitle:(NSString *)title parentViewController:(UIViewController *)parentViewController;
 - (void)setVisible:(BOOL)visible
           animated:(BOOL)animated
         completion:(dispatch_block_t)completion;

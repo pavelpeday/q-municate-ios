@@ -519,7 +519,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upic-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="jYl-eO-WgB" customClass="QMImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jYl-eO-WgB" customClass="QMImageView">
                                                     <rect key="frame" x="37" y="26" width="64" height="64"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="64" id="cWI-0f-kqQ"/>
@@ -644,7 +644,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7mH-15-Rea" customClass="QMPlaceholderTextView">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7mH-15-Rea" customClass="QMPlaceHolderTextView">
                                                     <rect key="frame" x="15" y="0.0" width="285" height="89"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -914,6 +914,5 @@
     </scenes>
     <resources>
         <image name="underline" width="1" height="30"/>
-        <image name="upic-placeholder" width="64" height="64"/>
     </resources>
 </document>

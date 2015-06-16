@@ -11,14 +11,13 @@
 #import "REAlertView+QMSuccess.h"
 #import "QMImageView.h"
 #import "SVProgressHUD.h"
-#import "UIImage+Cropper.h"
 #import "REActionSheet.h"
 #import "QMImagePicker.h"
 #import "QMServicesManager.h"
 
 @interface QMProfileViewController ()
 
-<UITextFieldDelegate, UITextViewDelegate>
+<UITextFieldDelegate, UITextViewDelegate, QMImagePickerResultHandler>
 
 @property (weak, nonatomic) IBOutlet QMImageView *avatarView;
 @property (weak, nonatomic) IBOutlet UITextField *fullNameField;
@@ -31,11 +30,9 @@
 @property (copy, nonatomic) NSString *phoneFieldCache;
 @property (copy, nonatomic) NSString *statusTextCache;
 
-
 @property (nonatomic, strong) UIImage *avatarImage;
 
 @end
-
 
 @implementation QMProfileViewController
 
@@ -70,7 +67,7 @@
     //    NSURL *url = [QMUsersUtils userAvatarURL:currentUser];
     
     [self.avatarView setImageWithURL:nil placeholder:placeholder options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        ILog(@"r - %d; e - %d", receivedSize, expectedSize);
+        ILog(@"r - %ld; e - %ld", (long)receivedSize, (long)expectedSize);
     } completedBlock:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
     }];
@@ -83,15 +80,15 @@
 
 - (IBAction)changeAvatar:(id)sender {
     
-    __weak __typeof(self)weakSelf = self;
-    
-    [QMImagePicker chooseSourceTypeInViewController:self allowsEditing:YES resultImage:^(UIImage *image) {
+    [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
         
-        weakSelf.avatarImage = image;
-        weakSelf.avatarView.image =
-        [image imageByCircularScaleAndCrop:weakSelf.avatarView.frame.size];
+        [actionSheet addButtonWithTitle:@"Take image" andActionBlock:^{
+            [QMImagePicker takePhotoInViewController:self resultHandler:self];
+        }];
         
-        [weakSelf setUpdateButtonActivity];
+        [actionSheet addButtonWithTitle:@"Choose from library" andActionBlock:^{
+            [QMImagePicker choosePhotoInViewController:self resultHandler:self];
+        }];
     }];
 }
 
@@ -102,6 +99,7 @@
 }
 
 - (IBAction)hideKeyboard:(id)sender {
+    
     [sender resignFirstResponder];
 }
 
@@ -116,17 +114,11 @@
     currentUser.phone = weakSelf.phoneFieldCache;
     currentUser.status = weakSelf.statusTextCache;
     
-    [SVProgressHUD showProgress:0.f
-                         status:nil
-                       maskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD showProgress:0.f status:nil maskType:SVProgressHUDMaskTypeClear];
     
-    [QM.profile updateUserImage:self.avatarImage
-                       progress:^(float progress)
-     {
+    [QM.profile updateUserImage:self.avatarImage progress:^(float progress) {
          
-         [SVProgressHUD showProgress:progress
-                              status:nil
-                            maskType:SVProgressHUDMaskTypeClear];
+         [SVProgressHUD showProgress:progress status:nil maskType:SVProgressHUDMaskTypeClear];
          
      } completion:^(BOOL success) {
          
@@ -172,6 +164,15 @@
 - (void)textViewDidChange:(UITextView *)textView {
     
     self.statusTextCache = textView.text;
+    [self setUpdateButtonActivity];
+}
+
+#pragma mark - QMImagePickerResultHandler
+
+- (void)imagePicker:(QMImagePicker *)imagePicker didFinishPickingPhoto:(UIImage *)photo {
+    
+    self.avatarImage = photo;
+    [self.avatarView applyImage:photo];
     [self setUpdateButtonActivity];
 }
 

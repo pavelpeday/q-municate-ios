@@ -12,10 +12,13 @@
 #import "SVProgressHUD.h"
 #import "QMImagePicker.h"
 #import "QMServicesManager.h"
+#import "REActionSheet.h"
 #import "QMPlaceholder.h"
 #import "QMImageView.h"
 
 @interface QMSignUpVC ()
+
+<QMImagePickerResultHandler>
 
 @property (weak, nonatomic) IBOutlet UITextField *fullNameField;
 @property (weak, nonatomic) IBOutlet UITextField *emailField;
@@ -55,10 +58,15 @@
 
 - (IBAction)chooseUserPicture:(id)sender {
     
-    [QMImagePicker chooseSourceTypeInViewController:self allowsEditing:YES resultImage:^(UIImage *image) {
-
-        self.selectedImage = image;
-        [self.qmImageView applyImage:image];
+    [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
+        
+        [actionSheet addButtonWithTitle:@"Take image" andActionBlock:^{
+            [QMImagePicker takePhotoInViewController:self resultHandler:self];
+        }];
+        
+        [actionSheet addButtonWithTitle:@"Choose from library" andActionBlock:^{
+            [QMImagePicker choosePhotoInViewController:self resultHandler:self];
+        }];
     }];
 }
 
@@ -91,17 +99,14 @@
                 
                 [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
                 
+                QM.profile.userAgreementAccepted = userAgreementSuccess;
+                
                 [QM.authService signUpAndLoginWithUser:newUser completion:^(QBResponse *response, QBUUser *userProfile) {
                     
                     if (response.success) {
-                        //Update password data
-                        QM.profile.userAgreementAccepted = userAgreementSuccess;
-                        //Synchronize user profile
-                        [QM.profile synchronize];
+                        
                         //Upload user image
                         [QM.profile updateUserImage:weakSelf.selectedImage progress:^(float progress) {
-                            //Upload avatar progress
-                            NSLog(@"%fu", progress);
                             
                         } completion:^(BOOL success) {
                             
@@ -114,6 +119,14 @@
             }
         }];
     }
+}
+
+#pragma mark - QMImagePickerResultHandler
+
+- (void)imagePicker:(QMImagePicker *)imagePicker didFinishPickingPhoto:(UIImage *)photo {
+    
+    self.selectedImage = photo;
+    [self.qmImageView applyImage:photo];
 }
 
 @end

@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Quickblox. All rights reserved.
 //
 
+#import <MobileCoreServices/UTCoreTypes.h>
 #import "QMImagePicker.h"
 #import "REActionSheet.h"
 
@@ -13,7 +14,7 @@
 
 <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
-@property (copy, nonatomic) QMImagePickerResult result;
+@property (weak, nonatomic) id<QMImagePickerResultHandler> resultHandler;
 
 @end
 
@@ -21,14 +22,6 @@
 
 - (void)dealloc {
     ILog(@"%@ - %@",  NSStringFromSelector(_cmd), self);
-}
-
-+ (void)presentInViewController:(UIViewController *)vc configure:(void (^)(UIImagePickerController *picker))configure resultImage:(QMImagePickerResult)resultImage {
-    
-    QMImagePicker *picker = [[QMImagePicker alloc] init];
-    picker.result = resultImage;
-    configure(picker);
-    [vc presentViewController:picker animated:YES completion:nil];
 }
 
 - (instancetype)init {
@@ -40,52 +33,84 @@
     return self;
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
++ (void)takePhotoInViewController:(UIViewController *)vc resultHandler:(id<QMImagePickerResultHandler>)resultHandler {
     
-    NSString *key = picker.allowsEditing ? UIImagePickerControllerEditedImage: UIImagePickerControllerOriginalImage;
-    UIImage *image = info[key];
+    QMImagePicker *imagePicker = [[QMImagePicker alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.allowsEditing = YES;
+    imagePicker.resultHandler = resultHandler;
+    
+    [vc presentViewController:imagePicker animated:YES completion:nil];
+}
+
++ (void)choosePhotoInViewController:(UIViewController *)vc resultHandler:(id<QMImagePickerResultHandler>)resultHandler {
+    
+    QMImagePicker *imagePicker = [[QMImagePicker alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.allowsEditing = YES;
+    
+    imagePicker.resultHandler = resultHandler;
+    
+    [vc presentViewController:imagePicker animated:YES completion:nil];
+}
+
++ (void)takePhotoOrVideoInViewController:(UIViewController *)vc maxDuration:(NSTimeInterval)maxDuration
+                                 quality:(UIImagePickerControllerQualityType)quality
+                           resultHandler:(id<QMImagePickerResultHandler>)resultHandler {
+    
+    QMImagePicker *imagePicker = [[QMImagePicker alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+    imagePicker.videoMaximumDuration = maxDuration;
+    imagePicker.videoQuality = quality;
+    imagePicker.allowsEditing = YES;
+    
+    imagePicker.resultHandler = resultHandler;
+    
+    [vc presentViewController:imagePicker animated:NO completion:nil];
+}
+
++ (void)chooseFromGaleryInViewController:(UIViewController *)vc resultHandler:(id<QMImagePickerResultHandler>)resultHandler {
+    
+    QMImagePicker *imagePicker = [[QMImagePicker alloc] init];
+    imagePicker.allowsEditing = YES;
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    imagePicker.mediaTypes = @[(NSString *)kUTTypeMovie, (NSString *)kUTTypeImage];
+    imagePicker.resultHandler = resultHandler;
+    [vc presentViewController:imagePicker animated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     [picker dismissViewControllerAnimated:YES completion:^{
         
-        self.result(image);
-        self.result = nil;
+        NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+        if (CFStringCompare ((__bridge CFStringRef) mediaType, kUTTypeMovie, 0) == kCFCompareEqualTo) {
+            
+            NSURL *resultMediaUrl = [info objectForKey:UIImagePickerControllerMediaURL];
+            [self.resultHandler imagePicker:self didFinishPickingVideo:resultMediaUrl];
+        }
+        else {
+            
+            NSString *key = picker.allowsEditing ? UIImagePickerControllerEditedImage: UIImagePickerControllerOriginalImage;
+            UIImage *resultImage = info[key];
+            
+            [self.resultHandler imagePicker:self didFinishPickingPhoto:resultImage];
+        }
     }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
-    [picker dismissViewControllerAnimated:YES completion:^{
-        self.result = nil;
-    }];
+    [picker dismissViewControllerAnimated:YES completion:^{}];
 }
 
-+ (void)chooseSourceTypeInViewController:(UIViewController *)viewController allowsEditing:(BOOL)allowsEditing resultImage:(QMImagePickerResult)resultImage{
+#pragma mark - UINavigationControllerDelegate
 
-    void (^showImagePicker)(UIImagePickerControllerSourceType) = ^(UIImagePickerControllerSourceType type) {
-        
-        [QMImagePicker presentInViewController:viewController configure:^(UIImagePickerController *picker) {
-            
-            picker.sourceType = type;
-            picker.allowsEditing = allowsEditing;
-            
-        } resultImage:resultImage];
-    };
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController
+                    animated:(BOOL)animated {
     
-    [REActionSheet presentActionSheetInView:viewController.view configuration:^(REActionSheet *actionSheet) {
-        
-        [actionSheet addButtonWithTitle:NSLocalizedString(@"QM_STR_TAKE_NEW_PHOTO", nil)
-                         andActionBlock:^{
-                             showImagePicker(UIImagePickerControllerSourceTypeCamera);
-                         }];
-        
-        [actionSheet addButtonWithTitle:NSLocalizedString(@"QM_STR_CHOOSE_FROM_LIBRARY", nil)
-                         andActionBlock:^{
-                             showImagePicker(UIImagePickerControllerSourceTypePhotoLibrary);
-                         }];
-        
-        [actionSheet addCancelButtonWihtTitle:NSLocalizedString(@"QM_STR_CANCEL", nil)
-                               andActionBlock:^{}];
-    }];
 }
 
 @end

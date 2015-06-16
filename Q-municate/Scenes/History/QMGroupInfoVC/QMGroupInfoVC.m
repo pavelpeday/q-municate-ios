@@ -14,6 +14,7 @@
 #import "QMImagePicker.h"
 #import "QMImageView.h"
 #import "QMServicesManager.h"
+#import "REActionSheet.h"
 #import "SVProgressHUD.h"
 #import "QMChatVC.h"
 
@@ -21,7 +22,7 @@ const NSUInteger kQMMaxTagsCount = 5;
 
 @interface QMGroupInfoVC()
 
-<QMContactListDataSourceHandler, QMTagsContainerDataSource, QMTagsContainerDelegate, QMImageViewDelegate>
+<QMContactListDataSourceHandler, QMTagsContainerDataSource, QMTagsContainerDelegate, QMImageViewDelegate, QMImagePickerResultHandler>
 
 @property (weak, nonatomic) IBOutlet QMTagsContainer *tagsContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headerHeight;
@@ -121,10 +122,15 @@ const NSUInteger kQMMaxTagsCount = 5;
 
 - (void)imageViewDidTap:(QMImageView *)imageView {
     
-    [QMImagePicker chooseSourceTypeInViewController:self allowsEditing:YES resultImage:^(UIImage *image) {
+    [REActionSheet presentActionSheetInView:self.view configuration:^(REActionSheet *actionSheet) {
         
-        self.selectedImage = image;
-        [self.headerView.qm_imageView applyImage:image];
+        [actionSheet addButtonWithTitle:@"Take image" andActionBlock:^{
+            [QMImagePicker takePhotoInViewController:self resultHandler:self];
+        }];
+        
+        [actionSheet addButtonWithTitle:@"Choose from library" andActionBlock:^{
+            [QMImagePicker choosePhotoInViewController:self resultHandler:self];
+        }];
     }];
 }
 
@@ -192,6 +198,14 @@ const NSUInteger kQMMaxTagsCount = 5;
         QMContactListVC * childViewController = (id)[segue destinationViewController];
         self.contactListVC = childViewController;
     }
+}
+
+#pragma mark - QMImagePickerResultHandler
+
+- (void)imagePicker:(QMImagePicker *)imagePicker didFinishPickingPhoto:(UIImage *)photo {
+    
+    self.selectedImage = photo;
+    [self.headerView.qm_imageView applyImage:photo];
 }
 
 @end
