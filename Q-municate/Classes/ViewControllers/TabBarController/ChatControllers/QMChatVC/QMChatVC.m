@@ -728,6 +728,8 @@ AGEmojiKeyboardViewDelegate
         
     } else if ([cell isKindOfClass:[QMChatNotificationCell class]] || [cell isKindOfClass:[QMChatContactRequestCell class]]) {
         [(QMChatCell *)cell containerView].bgColor = self.collectionView.backgroundColor;
+        //disable touches for the Notification Cell 
+        cell.userInteractionEnabled = ![cell isKindOfClass:[QMChatNotificationCell class]];
     }
     if ([cell conformsToProtocol:@protocol(QMChatAttachmentCell)]) {
         QBChatMessage* message = [self.chatSectionManager messageForIndexPath:indexPath];
