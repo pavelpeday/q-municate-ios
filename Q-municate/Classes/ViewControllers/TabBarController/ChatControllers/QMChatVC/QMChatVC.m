@@ -483,7 +483,7 @@ AGEmojiKeyboardViewDelegate
         //
         NSString *notificationMessageString = [QMChatUtils messageTextForNotification:messageItem];
         if (notificationMessageString == nil) {
-            notificationMessageString = messageItem.encodedText;
+            notificationMessageString = messageItem.text;
         }
         
         UIColor *textColor = [UIColor colorWithRed:113.0f/255.0f green:113.0f/255.0f blue:113.0f/255.0f alpha:1.0f];
@@ -498,7 +498,7 @@ AGEmojiKeyboardViewDelegate
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
     NSDictionary *attributes = @{ NSForegroundColorAttributeName:textColor, NSFontAttributeName:font};
     
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:messageItem.text ? messageItem.encodedText : @"" attributes:attributes];
+    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:messageItem.text ? messageItem.text : @"" attributes:attributes];
     
     return attrStr;
 }

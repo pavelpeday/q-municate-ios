@@ -51,11 +51,10 @@
 
 - (void)requestOnlineUsers {
     __weak __typeof(self)weakSelf = self;
-    [self.chatDialog setOnReceiveListOfOnlineUsers:^(NSMutableArray<NSNumber *> * _Nullable onlineUsers) {
-        //
+    [self.chatDialog requestOnlineUsersWithCompletionBlock:^(NSMutableArray<NSNumber *> * _Nullable onlineUsers, NSError * _Nullable error) {
+        
         [weakSelf updateOnlineStatus:onlineUsers.count];
     }];
-    [self.chatDialog requestOnlineUsers];
 }
 
 - (void)updateOnlineStatus:(NSUInteger)online {
