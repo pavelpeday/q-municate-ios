@@ -42,6 +42,21 @@
 	[[QBRTCSoundRouter instance] setCurrentSoundRoute:QBRTCSoundRouteSpeaker];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+
+	if (self.wasRestoredAfterScreenSharing) {
+		if (self.session.localMediaStream.videoTrack.enabled){
+			[self allowSendingLocalVideoTrack];
+			[self.btnSwitchCamera setUserInteractionEnabled:YES];
+		} else {
+			[self denySendingLocalVideoTrack];
+			[self.btnSwitchCamera setUserInteractionEnabled:NO];
+			[super updateButtonsState];
+		}
+	}
+}
+
 - (void)cameraSwitchTapped:(id)sender{
 	[super cameraSwitchTapped:sender];
 	if( self.session.localMediaStream.videoTrack.enabled ){

@@ -61,13 +61,12 @@ const CGFloat kTimerInterval = 1.f;
 	QMVideoP2PController *callVC = (QMVideoP2PController *)[storyboard instantiateViewControllerWithIdentifier:@"DuringVideoCallIdentifier"];
 	callVC.opponent = [QMScreenShareManager sharedManager].opponent;
 	callVC.wasRestoredAfterScreenSharing = YES;
+	[[QMScreenShareManager sharedManager] stopSharing];
 
 	callVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 	UIViewController *vc = [UIApplication sharedApplication].keyWindow.rootViewController;
 	[vc presentViewController:callVC animated:YES completion:^{
 		[callVC.contentView updateCallDuration:[[QMScreenShareManager sharedManager].globalStatusBar currentCallDuration]];
-		[[QMScreenShareManager sharedManager] stopSharing];
-		[[QBRTCSoundRouter instance] setCurrentSoundRoute:QBRTCSoundRouteSpeaker];
 	}];
 }
 
