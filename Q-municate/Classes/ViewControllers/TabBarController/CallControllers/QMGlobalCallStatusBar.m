@@ -45,6 +45,11 @@ const CGFloat kTimerInterval = 1.f;
 	self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4f];
 	[self startTimer];
 	self.declineBtn.userInteractionEnabled = YES;
+
+	UIImage *image = [UIImage imageNamed:@"Back-50"];
+	self.backBtn.tintColor = [UIColor whiteColor];
+
+	[self.backBtn setImage:[image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
 }
 
 - (CGFloat)currentCallDuration {
