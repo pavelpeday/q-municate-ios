@@ -12,10 +12,11 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nJd-qF-7yk" userLabel="decline" customClass="IAButton">
-                    <rect key="frame" x="250" y="0.0" width="50" height="50"/>
+                    <rect key="frame" x="255" y="5" width="40" height="40"/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="kTJ-oq-8j7"/>
+                        <constraint firstAttribute="width" constant="40" id="p46-V1-zg6"/>
                     </constraints>
                     <state key="normal" image="decline">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -28,13 +29,18 @@
                             <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="kTJ-oq-8j7"/>
+                        </mask>
+                    </variation>
                     <connections>
                         <action selector="declineTapped:" destination="t0v-qY-7s3" eventType="touchUpInside" id="T2o-uM-0Ni"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wfV-ta-oy4">
-                    <rect key="frame" x="8" y="8" width="234" height="20"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <rect key="frame" x="8" y="8" width="239" height="20"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -48,10 +54,10 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="GiG-qB-OdG" secondAttribute="bottom" constant="8" id="22N-wo-TYk"/>
-                <constraint firstAttribute="trailing" secondItem="nJd-qF-7yk" secondAttribute="trailing" id="3cV-4g-wt1"/>
+                <constraint firstAttribute="trailing" secondItem="nJd-qF-7yk" secondAttribute="trailing" constant="5" id="3cV-4g-wt1"/>
                 <constraint firstItem="GiG-qB-OdG" firstAttribute="leading" secondItem="t0v-qY-7s3" secondAttribute="leading" constant="8" id="8Ik-W6-EqK"/>
-                <constraint firstAttribute="bottom" secondItem="nJd-qF-7yk" secondAttribute="bottom" id="9qc-z8-b6o"/>
-                <constraint firstItem="nJd-qF-7yk" firstAttribute="top" secondItem="t0v-qY-7s3" secondAttribute="top" id="Idx-bd-cuU"/>
+                <constraint firstAttribute="bottom" secondItem="nJd-qF-7yk" secondAttribute="bottom" constant="5" id="9qc-z8-b6o"/>
+                <constraint firstItem="nJd-qF-7yk" firstAttribute="top" secondItem="t0v-qY-7s3" secondAttribute="top" constant="5" id="Idx-bd-cuU"/>
                 <constraint firstItem="nJd-qF-7yk" firstAttribute="leading" secondItem="wfV-ta-oy4" secondAttribute="trailing" constant="8" id="Nwt-OC-pM2"/>
                 <constraint firstItem="wfV-ta-oy4" firstAttribute="leading" secondItem="t0v-qY-7s3" secondAttribute="leading" constant="8" id="XxZ-fc-6OX"/>
                 <constraint firstItem="wfV-ta-oy4" firstAttribute="top" secondItem="t0v-qY-7s3" secondAttribute="top" constant="8" id="dSr-1m-Xn7"/>

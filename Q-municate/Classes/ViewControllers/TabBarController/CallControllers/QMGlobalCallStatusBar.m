@@ -41,7 +41,7 @@ const CGFloat kTimerInterval = 1.f;
 - (void)awakeFromNib {
 	[super awakeFromNib];
 
-	self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3f];
+	self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4f];
 	[self startTimer];
 	self.declineBtn.userInteractionEnabled = YES;
 }
