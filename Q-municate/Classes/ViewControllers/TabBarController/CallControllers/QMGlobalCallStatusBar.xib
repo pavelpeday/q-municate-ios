@@ -39,31 +39,72 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wfV-ta-oy4">
-                    <rect key="frame" x="8" y="8" width="239" height="20"/>
+                    <rect key="frame" x="56" y="8" width="191" height="20"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GiG-qB-OdG">
-                    <rect key="frame" x="8" y="25" width="36" height="17"/>
+                    <rect key="frame" x="56" y="25" width="36" height="17"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="htt-S1-FMe" userLabel="decline" customClass="IAButton">
+                    <rect key="frame" x="8" y="5" width="40" height="40"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="I87-tM-Ewf"/>
+                        <constraint firstAttribute="width" constant="40" id="Kii-ZD-01e"/>
+                    </constraints>
+                    <state key="normal" image="Back-50">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                            <color key="value" red="0.63529411759999999" green="0.0" blue="0.01176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="I87-tM-Ewf"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="backTapped:" destination="t0v-qY-7s3" eventType="touchUpInside" id="hO7-xW-mPu"/>
+                    </connections>
+                </button>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="GiG-qB-OdG" secondAttribute="bottom" constant="8" id="22N-wo-TYk"/>
                 <constraint firstAttribute="trailing" secondItem="nJd-qF-7yk" secondAttribute="trailing" constant="5" id="3cV-4g-wt1"/>
                 <constraint firstItem="GiG-qB-OdG" firstAttribute="leading" secondItem="t0v-qY-7s3" secondAttribute="leading" constant="8" id="8Ik-W6-EqK"/>
                 <constraint firstAttribute="bottom" secondItem="nJd-qF-7yk" secondAttribute="bottom" constant="5" id="9qc-z8-b6o"/>
+                <constraint firstItem="nJd-qF-7yk" firstAttribute="leading" secondItem="wfV-ta-oy4" secondAttribute="trailing" constant="8" id="A5c-Ez-ZlS"/>
+                <constraint firstItem="GiG-qB-OdG" firstAttribute="leading" secondItem="htt-S1-FMe" secondAttribute="trailing" constant="8" id="A9x-fC-twN"/>
+                <constraint firstAttribute="bottom" secondItem="htt-S1-FMe" secondAttribute="bottom" constant="5" id="CFP-vk-gxy"/>
                 <constraint firstItem="nJd-qF-7yk" firstAttribute="top" secondItem="t0v-qY-7s3" secondAttribute="top" constant="5" id="Idx-bd-cuU"/>
                 <constraint firstItem="nJd-qF-7yk" firstAttribute="leading" secondItem="wfV-ta-oy4" secondAttribute="trailing" constant="8" id="Nwt-OC-pM2"/>
+                <constraint firstItem="wfV-ta-oy4" firstAttribute="leading" secondItem="htt-S1-FMe" secondAttribute="trailing" constant="8" id="TbI-By-NaF"/>
                 <constraint firstItem="wfV-ta-oy4" firstAttribute="leading" secondItem="t0v-qY-7s3" secondAttribute="leading" constant="8" id="XxZ-fc-6OX"/>
+                <constraint firstItem="htt-S1-FMe" firstAttribute="leading" secondItem="t0v-qY-7s3" secondAttribute="leading" constant="8" id="csx-Nl-FA7"/>
                 <constraint firstItem="wfV-ta-oy4" firstAttribute="top" secondItem="t0v-qY-7s3" secondAttribute="top" constant="8" id="dSr-1m-Xn7"/>
+                <constraint firstItem="htt-S1-FMe" firstAttribute="top" secondItem="t0v-qY-7s3" secondAttribute="top" constant="5" id="dsL-se-jeW"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="XxZ-fc-6OX"/>
+                    <exclude reference="8Ik-W6-EqK"/>
+                    <exclude reference="Nwt-OC-pM2"/>
+                </mask>
+            </variation>
             <connections>
+                <outlet property="backBtn" destination="htt-S1-FMe" id="03U-La-02V"/>
                 <outlet property="declineBtn" destination="nJd-qF-7yk" id="bT6-xf-p9a"/>
                 <outlet property="opponentNameLabel" destination="wfV-ta-oy4" id="nud-qv-1jI"/>
                 <outlet property="statusLabel" destination="GiG-qB-OdG" id="gam-nX-uCI"/>
@@ -72,6 +113,7 @@
         </view>
     </objects>
     <resources>
+        <image name="Back-50" width="25" height="25"/>
         <image name="decline" width="72" height="72"/>
     </resources>
 </document>

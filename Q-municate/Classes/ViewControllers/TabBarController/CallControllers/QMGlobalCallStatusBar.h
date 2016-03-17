@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *opponentNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIButton *declineBtn;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
 
 /**
  * Creation method
@@ -24,6 +25,7 @@
 + (QMGlobalCallStatusBar *)loadStatusBar;
 
 - (IBAction)declineTapped:(id)sender;
+- (IBAction)backTapped:(id)sender;
 
 /**
  * Updates current call duration label data (screen sharing is available only on button click, so when it starts call is active for some time already)

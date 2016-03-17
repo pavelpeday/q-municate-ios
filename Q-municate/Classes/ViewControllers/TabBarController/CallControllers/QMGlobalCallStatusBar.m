@@ -8,6 +8,7 @@
 
 #import "QMGlobalCallStatusBar.h"
 #import "QMScreenShareManager.h"
+#import "QMVideoP2PController.h"
 
 @interface QMGlobalCallStatusBar()
 
@@ -53,6 +54,21 @@ const CGFloat kTimerInterval = 1.f;
 - (IBAction)declineTapped:(id)sender {
 	[[QMScreenShareManager sharedManager] hungupWithCompletion:^{}];
 	[self removeFromSuperview];
+}
+
+- (IBAction)backTapped:(id)sender {
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+	QMVideoP2PController *callVC = (QMVideoP2PController *)[storyboard instantiateViewControllerWithIdentifier:@"DuringVideoCallIdentifier"];
+	callVC.opponent = [QMScreenShareManager sharedManager].opponent;
+	callVC.wasRestoredAfterScreenSharing = YES;
+
+	callVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	UIViewController *vc = [UIApplication sharedApplication].keyWindow.rootViewController;
+	[vc presentViewController:callVC animated:YES completion:^{
+		[callVC.contentView updateCallDuration:[[QMScreenShareManager sharedManager].globalStatusBar currentCallDuration]];
+		[[QMScreenShareManager sharedManager] stopSharing];
+		[[QBRTCSoundRouter instance] setCurrentSoundRoute:QBRTCSoundRouteSpeaker];
+	}];
 }
 
 - (void)startTimerIfNeeded {
