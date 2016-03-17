@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIView *sharingView;
 @property (nonatomic, strong) QBRTCScreenCapture *screenCapture;
 @property (nonatomic, strong) QMGlobalCallStatusBar *statusBar;
+@property (nonatomic, weak) QBRTCVideoCapture *capture;
 @property (nonatomic, weak) QBUUser *opponentUser;
 
 @end
@@ -52,6 +53,7 @@ NSInteger const kCallStatusBarHeight = 50;
 	self.session = session;
 	self.opponentUser = opponent;
 
+	self.capture = self.session.localMediaStream.videoTrack.videoCapture;
 	self.screenCapture = [[QBRTCScreenCapture alloc] initWithView:self.sharingView];
 	//Switch to sharing
 	self.session.localMediaStream.videoTrack.videoCapture = self.screenCapture;
@@ -77,9 +79,9 @@ NSInteger const kCallStatusBarHeight = 50;
 
 - (void)cleanup {
 	[self.statusBar removeFromSuperview];
+	self.session.localMediaStream.videoTrack.videoCapture = self.capture;
 	self.statusBar = nil;
 	self.screenCapture = nil;
-	self.session = nil;
 	self.sharingView = nil;
 	self.opponentUser = nil;
 }
