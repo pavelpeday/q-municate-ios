@@ -16,6 +16,8 @@
 #import "SVProgressHUD.h"
 #import "QMApi.h"
 #import "REAlertView+QMSuccess.h"
+#import "QMVideoP2PController.h"
+#import "QMScreenShareManager.h"
 
 typedef NS_ENUM(NSUInteger, QMCallType) {
     QMCallTypePhone,
@@ -101,6 +103,14 @@ QMContactListServiceDelegate
     [[QMApi instance].contactListService addDelegate:self];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
+	if ([QMScreenShareManager sharedManager].isSharing) {
+		[[QMScreenShareManager sharedManager] updateSharingView:self.view];
+	}
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
@@ -158,13 +168,47 @@ QMContactListServiceDelegate
         case QMCallTypeVideo:{
             
             if ([self isCallAllowed]) {
-                [[QMApi instance] callToUser:@(self.selectedUser.ID) conferenceType:QBRTCConferenceTypeVideo];
+				NSUInteger opponentID = self.selectedUser.ID;
+
+				if ([QMScreenShareManager sharedManager].isSharing) {
+					if ([QMScreenShareManager sharedManager].opponent.ID == opponentID) {
+						//Same opponent, restore screen
+
+						UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+						QMVideoP2PController *callVC = (QMVideoP2PController *)[storyboard instantiateViewControllerWithIdentifier:@"DuringVideoCallIdentifier"];
+						callVC.opponent = [QMScreenShareManager sharedManager].opponent;
+						callVC.wasRestoredAfterScreenSharing = YES;
+
+						callVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+						[self presentViewController:callVC animated:YES completion:^{
+							[callVC.contentView updateCallDuration:[[QMScreenShareManager sharedManager].globalStatusBar currentCallDuration]];
+							[[QMScreenShareManager sharedManager] stopSharing];
+							[[QBRTCSoundRouter instance] setCurrentSoundRoute:QBRTCSoundRouteSpeaker];
+						}];
+					} else {
+						// Different opponent, drop current call and proceed
+						[[QMScreenShareManager sharedManager] hungupWithCompletion:^{
+							[[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeVideo];
+						}];
+					}
+				} else {
+					[[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeVideo];
+				}
             }
         }
             break;
         case QMCallTypeAudio: {
             if([self isCallAllowed]) {
-                [[QMApi instance] callToUser:@(self.selectedUser.ID) conferenceType:QBRTCConferenceTypeAudio];
+				NSUInteger opponentID = self.selectedUser.ID;
+
+				//If video sharing is in progress, drop it.
+				if ([QMScreenShareManager sharedManager].isSharing) {
+					[[QMScreenShareManager sharedManager] hungupWithCompletion:^{
+						[[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeAudio];
+					}];
+				} else {
+					[[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeAudio];
+				}
             }
         }
             break;

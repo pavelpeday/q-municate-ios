@@ -11,6 +11,7 @@
 #import "SVProgressHUD.h"
 #import "QMApi.h"
 #import "QMUsersUtils.h"
+#import "QMScreenShareManager.h"
 
 NSString *const QMChatViewControllerID = @"QMChatVC";
 
@@ -25,6 +26,14 @@ NSString *const QMChatViewControllerID = @"QMChatVC";
     NSArray *unsortedContacts = [[QMApi instance] contactsOnly];
     self.contacts = [QMUsersUtils sortUsersByFullname:unsortedContacts];
     [super viewDidLoad];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
+	if ([QMScreenShareManager sharedManager].isSharing) {
+		[[QMScreenShareManager sharedManager] updateSharingView:self.view];
+	}
 }
  
 - (void)didReceiveMemoryWarning {
