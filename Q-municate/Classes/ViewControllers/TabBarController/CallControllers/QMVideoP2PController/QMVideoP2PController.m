@@ -38,7 +38,7 @@
        [machineName() isEqualToString:@"iPhone4,1"]) {
         
         self.opponentsVideoViewBottom.constant = -80.0f;
-    }
+	}
 	[[QBRTCSoundRouter instance] setCurrentSoundRoute:QBRTCSoundRouteSpeaker];
 }
 
@@ -60,6 +60,10 @@
 
 - (void)stopCallTapped:(id)sender {
     [self hideViewsBeforeDealloc];
+
+	if (self.wasRestoredAfterScreenSharing)
+		[self dismissViewControllerAnimated:YES completion:^{}];
+
     [super stopCallTapped:sender];
 }
 
@@ -112,7 +116,7 @@ NSString* machineName() {
 }
 
 - (void)session:(QBRTCSession *)session receivedRemoteVideoTrack:(QBRTCVideoTrack *)videoTrack fromUser:(NSNumber *)userID {
-    
+
     if (session == self.session) {
         self.opponentVideoTrack = videoTrack;
         [self.opponentsView setVideoTrack:self.opponentVideoTrack];

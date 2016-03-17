@@ -19,10 +19,12 @@
 @property (weak, nonatomic) IBOutlet IAButton *btnSwitchCamera;
 @property (weak, nonatomic) IBOutlet IAButton *btnMic;
 @property (weak, nonatomic) IBOutlet IAButton *btnVideo;
+@property (weak, nonatomic) IBOutlet IAButton *btnShare;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (weak, nonatomic) IBOutlet QMContentView *contentView;
+@property (weak, nonatomic) IBOutlet UIView *duringCallView;
 
 @property (nonatomic, weak)  IBOutlet UIImageView *camOffView;
 
@@ -39,6 +41,7 @@
 - (IBAction)videoTapped:(id)sender;
 - (IBAction)speakerTapped:(id)sender;
 - (IBAction)stopCallTapped:(id)sender;
+- (IBAction)shareTapped:(id)sender;
 
 - (void)callStoppedByOpponentForReason:(NSString *)reason;
 

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QMShareableTableViewController.h"
 
-@interface QMFeedbackTableViewController : UITableViewController
+@interface QMFeedbackTableViewController : QMShareableTableViewController
 
 @property (strong, nonatomic) NSString *feedbackType;
 

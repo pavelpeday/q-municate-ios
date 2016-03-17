@@ -8,6 +8,7 @@
 
 #import "QMBaseCallsController.h"
 #import "QMAVCallManager.h"
+#import "QMScreenShareManager.h"
 
 
 @implementation QMBaseCallsController
@@ -39,6 +40,8 @@
                                              selector:@selector(audioSessionRouteChanged:)
                                                  name:AVAudioSessionRouteChangeNotification
                                                object:nil];
+
+	self.duringCallView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2f];
 }
 
 /** Override in subclasses **/
@@ -70,6 +73,14 @@
     });
     
     [self stopActivityIndicator];
+}
+
+- (IBAction)shareTapped:(id)sender {
+	[[QMScreenShareManager sharedManager] shareView:self.view
+										withSession:self.session
+									   callDuration:[self.contentView currentCallDuration]
+										   opponent:self.opponent];
+	[self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 - (void)startActivityIndicator {

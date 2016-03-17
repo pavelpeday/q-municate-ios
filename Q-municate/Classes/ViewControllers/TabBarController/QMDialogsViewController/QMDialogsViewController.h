@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QMShareableViewController.h"
 
-@interface QMDialogsViewController : UIViewController
+@interface QMDialogsViewController : QMShareableViewController
 
 @end

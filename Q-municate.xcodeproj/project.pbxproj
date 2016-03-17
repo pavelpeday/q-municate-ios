@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		141E8B311C9A844C00A248AC /* QBRTCScreenCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E8B301C9A844C00A248AC /* QBRTCScreenCapture.m */; };
+		141E8B341C9A87C900A248AC /* QMScreenShareManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E8B331C9A87C900A248AC /* QMScreenShareManager.m */; };
+		141E8B3B1C9A952000A248AC /* QMShareableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E8B3A1C9A952000A248AC /* QMShareableViewController.m */; };
+		141E8B3F1C9A98F600A248AC /* QMShareableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E8B3E1C9A98F600A248AC /* QMShareableTableViewController.m */; };
+		141E8B431C9A9CC800A248AC /* QMGlobalCallStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E8B421C9A9CC800A248AC /* QMGlobalCallStatusBar.m */; };
+		141E8B451C9A9D2100A248AC /* QMGlobalCallStatusBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141E8B441C9A9D2100A248AC /* QMGlobalCallStatusBar.xib */; };
 		144069951AB04309007E6AD0 /* IAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 144069941AB04309007E6AD0 /* IAButton.m */; };
 		14D834631AB06F5A00300266 /* AVCalls.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14D834621AB06F5A00300266 /* AVCalls.xcassets */; };
 		14D834671AB0903900300266 /* QMVideoP2PController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D834661AB0903900300266 /* QMVideoP2PController.m */; };
@@ -154,6 +160,17 @@
 
 /* Begin PBXFileReference section */
 		01E0EAD58B177DC530737810 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		141E8B2F1C9A844C00A248AC /* QBRTCScreenCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QBRTCScreenCapture.h; sourceTree = "<group>"; };
+		141E8B301C9A844C00A248AC /* QBRTCScreenCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBRTCScreenCapture.m; sourceTree = "<group>"; };
+		141E8B321C9A87C900A248AC /* QMScreenShareManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMScreenShareManager.h; sourceTree = "<group>"; };
+		141E8B331C9A87C900A248AC /* QMScreenShareManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMScreenShareManager.m; sourceTree = "<group>"; };
+		141E8B391C9A952000A248AC /* QMShareableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMShareableViewController.h; sourceTree = "<group>"; };
+		141E8B3A1C9A952000A248AC /* QMShareableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMShareableViewController.m; sourceTree = "<group>"; };
+		141E8B3D1C9A98F600A248AC /* QMShareableTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMShareableTableViewController.h; sourceTree = "<group>"; };
+		141E8B3E1C9A98F600A248AC /* QMShareableTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMShareableTableViewController.m; sourceTree = "<group>"; };
+		141E8B411C9A9CC800A248AC /* QMGlobalCallStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMGlobalCallStatusBar.h; sourceTree = "<group>"; };
+		141E8B421C9A9CC800A248AC /* QMGlobalCallStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMGlobalCallStatusBar.m; sourceTree = "<group>"; };
+		141E8B441C9A9D2100A248AC /* QMGlobalCallStatusBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QMGlobalCallStatusBar.xib; sourceTree = "<group>"; };
 		144069931AB04309007E6AD0 /* IAButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAButton.h; path = IAButton/IAButton.h; sourceTree = "<group>"; };
 		144069941AB04309007E6AD0 /* IAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IAButton.m; path = IAButton/IAButton.m; sourceTree = "<group>"; };
 		14D834621AB06F5A00300266 /* AVCalls.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AVCalls.xcassets; sourceTree = "<group>"; };
@@ -403,6 +420,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		141E8B2E1C9A842200A248AC /* ScreenSharing */ = {
+			isa = PBXGroup;
+			children = (
+				141E8B401C9A9C9E00A248AC /* GlobalStatusBar */,
+				141E8B2F1C9A844C00A248AC /* QBRTCScreenCapture.h */,
+				141E8B301C9A844C00A248AC /* QBRTCScreenCapture.m */,
+				141E8B321C9A87C900A248AC /* QMScreenShareManager.h */,
+				141E8B331C9A87C900A248AC /* QMScreenShareManager.m */,
+			);
+			name = ScreenSharing;
+			sourceTree = "<group>";
+		};
+		141E8B3C1C9A98E000A248AC /* Shareable */ = {
+			isa = PBXGroup;
+			children = (
+				141E8B3D1C9A98F600A248AC /* QMShareableTableViewController.h */,
+				141E8B3E1C9A98F600A248AC /* QMShareableTableViewController.m */,
+				141E8B391C9A952000A248AC /* QMShareableViewController.h */,
+				141E8B3A1C9A952000A248AC /* QMShareableViewController.m */,
+			);
+			name = Shareable;
+			sourceTree = "<group>";
+		};
+		141E8B401C9A9C9E00A248AC /* GlobalStatusBar */ = {
+			isa = PBXGroup;
+			children = (
+				141E8B411C9A9CC800A248AC /* QMGlobalCallStatusBar.h */,
+				141E8B421C9A9CC800A248AC /* QMGlobalCallStatusBar.m */,
+				141E8B441C9A9D2100A248AC /* QMGlobalCallStatusBar.xib */,
+			);
+			name = GlobalStatusBar;
+			sourceTree = "<group>";
+		};
 		144069921AB041D6007E6AD0 /* IAButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -811,6 +861,7 @@
 		55CEAB12195DBCFA001A8ED6 /* CallControllers */ = {
 			isa = PBXGroup;
 			children = (
+				141E8B2E1C9A842200A248AC /* ScreenSharing */,
 				14D834641AB0900F00300266 /* QMVideoP2PController */,
 				55CEAB16195DBCFA001A8ED6 /* QMVideoCallController */,
 				693206EB1962C0B500B15EF9 /* QMAudioCallController */,
@@ -1087,6 +1138,7 @@
 		6943844C18E42677001E08A9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				141E8B3C1C9A98E000A248AC /* Shareable */,
 				559BDFDA19618D3D000588FE /* AuthViewControllers */,
 				6943845618E42677001E08A9 /* TabBarController */,
 			);
@@ -1293,7 +1345,6 @@
 				ORGANIZATIONNAME = Quickblox;
 				TargetAttributes = {
 					69D57E5118ACC11C00A9900A = {
-						DevelopmentTeam = 8885H5G2YX;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1331,6 +1382,7 @@
 				55A8B0731965986A00B5D33B /* ringtone.wav in Resources */,
 				55A8B0741965986A00B5D33B /* sent.wav in Resources */,
 				55943A491A1A137200A0A09E /* Main.storyboard in Resources */,
+				141E8B451C9A9D2100A248AC /* QMGlobalCallStatusBar.xib in Resources */,
 				55A8B0711965986A00B5D33B /* end_of_call.wav in Resources */,
 				14D834631AB06F5A00300266 /* AVCalls.xcassets in Resources */,
 				69D57E6818ACC11C00A9900A /* Images.xcassets in Resources */,
@@ -1398,6 +1450,7 @@
 				55D8ADF419AC776A00DAF79F /* REAlertView+QMSuccess.m in Sources */,
 				6943847218E42678001E08A9 /* QMCustomSegue.m in Sources */,
 				55F4A3C9196FF0830068EBC3 /* QMInviteFriendCell.m in Sources */,
+				141E8B3B1C9A952000A248AC /* QMShareableViewController.m in Sources */,
 				55CEABA2195DBCFA001A8ED6 /* QMProfileViewController.m in Sources */,
 				58B414B21BB44B4400613892 /* QMApi+Permissions.m in Sources */,
 				58B414A11BB424DB00613892 /* QMApi+Auth.m in Sources */,
@@ -1407,6 +1460,7 @@
 				55D8AD0F19AC757900DAF79F /* ABPerson.m in Sources */,
 				55D8ADEB19AC773000DAF79F /* QMCornerButton.m in Sources */,
 				693206EE1962C0F600B15EF9 /* QMAudioCallController.m in Sources */,
+				141E8B311C9A844C00A248AC /* QBRTCScreenCapture.m in Sources */,
 				58CEA1C31BB591A200B866DD /* QMChatButtonsFactory.m in Sources */,
 				58B414A51BB4327900613892 /* QMApi+Notifications.m in Sources */,
 				58B414AC1BB4459300613892 /* QMApi+Users.m in Sources */,
@@ -1436,6 +1490,7 @@
 				55D8AD0419AC753600DAF79F /* QMImagePicker.m in Sources */,
 				693F347B18F554240032891F /* QMIncommingCallSegue.m in Sources */,
 				55D8AD1019AC757900DAF79F /* QMAddressBook.m in Sources */,
+				141E8B431C9A9CC800A248AC /* QMGlobalCallStatusBar.m in Sources */,
 				55F4A3CA196FF0830068EBC3 /* QMInviteStaticCell.m in Sources */,
 				69D57E6218ACC11C00A9900A /* main.m in Sources */,
 				55D8ADB819AC762100DAF79F /* QMSearchDisplayController.m in Sources */,
@@ -1447,6 +1502,7 @@
 				55495A221993BCC100B7764C /* QMAlertsFactory.m in Sources */,
 				55D8ADB519AC761000DAF79F /* QMForgotPasswordTVC.m in Sources */,
 				693206EA1962BCC300B15EF9 /* QMBaseCallsController.m in Sources */,
+				141E8B341C9A87C900A248AC /* QMScreenShareManager.m in Sources */,
 				558AE52C196EA7C400AEAC1F /* QMFriendsListDataSource.m in Sources */,
 				589407B41BB958DE00C1CA78 /* QBUpdateUserParameters+CustomData.m in Sources */,
 				55D8AD1619AC759C00DAF79F /* QMDownloadContentOperation.m in Sources */,
@@ -1458,6 +1514,7 @@
 				580D34DF1BBFF5850034813A /* UIImage+fixOrientation.m in Sources */,
 				55D8ADDE19AC76E200DAF79F /* QMAddUsersAbstractController.m in Sources */,
 				58CEA1C91BB595C700B866DD /* QMAVCallManager.m in Sources */,
+				141E8B3F1C9A98F600A248AC /* QMShareableTableViewController.m in Sources */,
 				55A8B0761965986A00B5D33B /* REAlertView.m in Sources */,
 				58B414AE1BB44AB000613892 /* QMApi+Facebook.m in Sources */,
 				55D8AD2119AC75C100DAF79F /* QMFacebookService.m in Sources */,
@@ -1524,7 +1581,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1545,8 +1601,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Injoit LTD (8885H5G2YX)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Injoit LTD (8885H5G2YX)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1558,7 +1613,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				PROVISIONING_PROFILE = "5a0222f4-0cc9-49d2-bbeb-6bd82d6c47a0";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1571,7 +1625,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1598,7 +1651,6 @@
 				OTHER_LIBTOOLFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quickblox.qmunicate;
 				PRODUCT_NAME = "Q-municate";
-				PROVISIONING_PROFILE = "";
 				REZ_SEARCH_PATHS = "$(inherited)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1623,8 +1675,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Injoit LTD (8885H5G2YX)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Injoit LTD (8885H5G2YX)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1656,7 +1707,6 @@
 				OTHER_LIBTOOLFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quickblox.qmunicate;
 				PRODUCT_NAME = "Q-municate";
-				PROVISIONING_PROFILE = "5a0222f4-0cc9-49d2-bbeb-6bd82d6c47a0";
 				REZ_SEARCH_PATHS = "$(inherited)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;

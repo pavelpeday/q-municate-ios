@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RkR-TS-K9a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RkR-TS-K9a">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -507,10 +507,10 @@ Line 2</string>
                                 <rect key="frame" x="0.0" y="338" width="320" height="230"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iL5-ll-gB7" userLabel="vid" customClass="IAButton">
-                                        <rect key="frame" x="23" y="20" width="72" height="72"/>
+                                        <rect key="frame" x="10" y="20" width="60" height="60"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="72" id="WzX-bM-fLj"/>
-                                            <constraint firstAttribute="height" constant="72" id="eB2-Uz-YlH"/>
+                                            <constraint firstAttribute="width" constant="60" id="WzX-bM-fLj"/>
+                                            <constraint firstAttribute="height" constant="60" id="eB2-Uz-YlH"/>
                                         </constraints>
                                         <state key="normal" image="accept_cam">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -529,7 +529,7 @@ Line 2</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3we-Wv-Zwb" userLabel="switch" customClass="IAButton">
-                                        <rect key="frame" x="124" y="20" width="72" height="72"/>
+                                        <rect key="frame" x="90" y="20" width="60" height="60"/>
                                         <state key="normal" image="switch_cam">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -547,7 +547,7 @@ Line 2</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pyQ-X9-Sal" userLabel="mic" customClass="IAButton">
-                                        <rect key="frame" x="225" y="20" width="72" height="72"/>
+                                        <rect key="frame" x="170" y="20" width="60" height="60"/>
                                         <state key="normal" image="mute_white">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -565,7 +565,7 @@ Line 2</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="meX-lK-CyF" userLabel="decline" customClass="IAButton">
-                                        <rect key="frame" x="124" y="113" width="72" height="72"/>
+                                        <rect key="frame" x="130" y="101" width="60" height="60"/>
                                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" image="decline">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -582,23 +582,46 @@ Line 2</string>
                                             <action selector="stopCallTapped:" destination="ouq-Kw-WJb" eventType="touchUpInside" id="JNa-J7-7Da"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BBv-FG-u0y" userLabel="share" customClass="IAButton">
+                                        <rect key="frame" x="250" y="20" width="60" height="60"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="sharescreen-vc-white">
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="selectedColor">
+                                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="muteTapped:" destination="ouq-Kw-WJb" eventType="touchUpInside" id="c3J-1B-T9q"/>
+                                            <action selector="shareTapped:" destination="ouq-Kw-WJb" eventType="touchUpInside" id="AhD-z4-lWM"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="meX-lK-CyF" firstAttribute="top" secondItem="3we-Wv-Zwb" secondAttribute="bottom" constant="21" id="3Yo-T4-8bT"/>
+                                    <constraint firstItem="meX-lK-CyF" firstAttribute="leading" secondItem="3we-Wv-Zwb" secondAttribute="trailing" constant="-20" id="43R-Qx-sY0"/>
                                     <constraint firstItem="iL5-ll-gB7" firstAttribute="width" secondItem="3we-Wv-Zwb" secondAttribute="width" id="8XD-xb-8UG"/>
-                                    <constraint firstItem="pyQ-X9-Sal" firstAttribute="leading" secondItem="3we-Wv-Zwb" secondAttribute="trailing" constant="29" id="9K7-X5-weK"/>
+                                    <constraint firstItem="pyQ-X9-Sal" firstAttribute="leading" secondItem="3we-Wv-Zwb" secondAttribute="trailing" constant="20" id="9K7-X5-weK"/>
                                     <constraint firstAttribute="height" constant="230" id="9Vy-03-b7D"/>
                                     <constraint firstItem="iL5-ll-gB7" firstAttribute="top" secondItem="YzX-7u-vU5" secondAttribute="top" constant="20" id="Gd3-o7-eJy"/>
                                     <constraint firstItem="iL5-ll-gB7" firstAttribute="height" secondItem="3we-Wv-Zwb" secondAttribute="height" id="H5w-DC-QG2"/>
                                     <constraint firstItem="iL5-ll-gB7" firstAttribute="width" secondItem="pyQ-X9-Sal" secondAttribute="width" id="MX8-MX-46n"/>
                                     <constraint firstItem="3we-Wv-Zwb" firstAttribute="centerY" secondItem="pyQ-X9-Sal" secondAttribute="centerY" id="Nlf-GJ-imb"/>
                                     <constraint firstItem="meX-lK-CyF" firstAttribute="width" secondItem="iL5-ll-gB7" secondAttribute="width" id="Ohb-lP-pba"/>
-                                    <constraint firstAttribute="centerX" secondItem="3we-Wv-Zwb" secondAttribute="centerX" id="b2R-5O-XlB"/>
-                                    <constraint firstItem="meX-lK-CyF" firstAttribute="centerX" secondItem="3we-Wv-Zwb" secondAttribute="centerX" id="fJW-Ic-ty9"/>
+                                    <constraint firstItem="BBv-FG-u0y" firstAttribute="leading" secondItem="pyQ-X9-Sal" secondAttribute="trailing" constant="20" id="QEk-As-5ab"/>
+                                    <constraint firstItem="BBv-FG-u0y" firstAttribute="height" secondItem="pyQ-X9-Sal" secondAttribute="height" id="Qps-Pl-egt"/>
+                                    <constraint firstItem="BBv-FG-u0y" firstAttribute="width" secondItem="pyQ-X9-Sal" secondAttribute="width" id="UxS-Rq-eaC"/>
+                                    <constraint firstItem="BBv-FG-u0y" firstAttribute="centerY" secondItem="pyQ-X9-Sal" secondAttribute="centerY" id="e8A-KY-rEk"/>
                                     <constraint firstItem="3we-Wv-Zwb" firstAttribute="centerY" secondItem="iL5-ll-gB7" secondAttribute="centerY" id="hW3-Nb-KgO"/>
+                                    <constraint firstItem="meX-lK-CyF" firstAttribute="centerX" secondItem="YzX-7u-vU5" secondAttribute="centerX" id="isD-fY-aFO"/>
                                     <constraint firstItem="iL5-ll-gB7" firstAttribute="height" secondItem="pyQ-X9-Sal" secondAttribute="height" id="oZ3-6k-gXS"/>
                                     <constraint firstItem="meX-lK-CyF" firstAttribute="height" secondItem="iL5-ll-gB7" secondAttribute="height" id="ocz-wd-Nd5"/>
-                                    <constraint firstItem="3we-Wv-Zwb" firstAttribute="leading" secondItem="iL5-ll-gB7" secondAttribute="trailing" constant="29" id="y1N-bz-IDt"/>
+                                    <constraint firstItem="3we-Wv-Zwb" firstAttribute="leading" secondItem="iL5-ll-gB7" secondAttribute="trailing" constant="20" id="y1N-bz-IDt"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="James Cobs" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9T-tY-3Kn">
@@ -647,10 +670,12 @@ Line 2</string>
                     <connections>
                         <outlet property="activityIndicator" destination="mp9-Ag-8UB" id="2dg-Ub-p5W"/>
                         <outlet property="btnMic" destination="pyQ-X9-Sal" id="cPV-QS-V3o"/>
+                        <outlet property="btnShare" destination="BBv-FG-u0y" id="4Pa-WK-qTw"/>
                         <outlet property="btnSwitchCamera" destination="3we-Wv-Zwb" id="Opz-jw-dpZ"/>
                         <outlet property="btnVideo" destination="iL5-ll-gB7" id="37X-fD-r9e"/>
                         <outlet property="camOffView" destination="Jpk-1n-2Z9" id="Lvj-FG-hYN"/>
                         <outlet property="contentView" destination="NRI-TI-qDt" id="A7i-My-abu"/>
+                        <outlet property="duringCallView" destination="YzX-7u-vU5" id="IVg-Uj-ggp"/>
                         <outlet property="myView" destination="Ibe-fV-PIq" id="M6p-8V-W0h"/>
                         <outlet property="opponentsView" destination="xKx-9a-k2a" id="heW-2g-SAT"/>
                     </connections>
@@ -3712,6 +3737,7 @@ Cg
         <image name="new_chat" width="21" height="21"/>
         <image name="online" width="13" height="13"/>
         <image name="red_counter" width="34" height="22"/>
+        <image name="sharescreen-vc-white" width="16" height="16"/>
         <image name="signup-btn" width="280" height="44"/>
         <image name="speaker" width="72" height="72"/>
         <image name="speaker_a" width="72" height="72"/>

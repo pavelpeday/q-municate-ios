@@ -12,6 +12,7 @@
 #import "SDWebImageManager.h"
 #import "QMApi.h"
 #import "QMSettingsManager.h"
+#import "QMScreenShareManager.h"
 
 @interface QMSettingsViewController ()
 
@@ -47,6 +48,14 @@
     }];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
+	if ([QMScreenShareManager sharedManager].isSharing) {
+		[[QMScreenShareManager sharedManager] updateSharingView:self.view];
+	}
+}
+
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -66,7 +75,11 @@
             
             alertView.message = NSLocalizedString(@"QM_STR_ARE_YOU_SURE", nil);
             [alertView addButtonWithTitle:NSLocalizedString(@"QM_STR_LOGOUT", nil) andActionBlock:^{
-                
+
+				if ([QMScreenShareManager sharedManager].isSharing) {
+					[[QMScreenShareManager sharedManager] hungupWithCompletion:^{}];
+				}
+				
                 [weakSelf pressClearCache:nil];
                 [SVProgressHUD  showWithMaskType:SVProgressHUDMaskTypeClear];
                 [[QMApi instance] logoutWithCompletion:^(BOOL success) {

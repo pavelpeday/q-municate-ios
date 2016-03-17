@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QMShareableTableViewController.h"
 
-@interface QMProfileViewController : UITableViewController
+@interface QMProfileViewController : QMShareableTableViewController
 
 @end

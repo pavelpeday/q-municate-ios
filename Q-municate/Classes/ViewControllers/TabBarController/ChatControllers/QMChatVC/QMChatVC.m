@@ -36,6 +36,8 @@
 #import "QMCollectionViewFlowLayoutInvalidationContext.h"
 #import "QMMessageStatusStringBuilder.h"
 #import "QMChatButtonsFactory.h"
+#import "QMScreenShareManager.h"
+#import "QMVideoP2PController.h"
 
 static const NSUInteger widthPadding                         = 40.0f;
 static const CGFloat kQMEmojiButtonSize                      = 45.0f;
@@ -216,6 +218,14 @@ AGEmojiKeyboardViewDelegate
                                                                                     }];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
+	if ([QMScreenShareManager sharedManager].isSharing) {
+		[[QMScreenShareManager sharedManager] updateSharingView:self.view];
+	}
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [[QMApi instance].settingsManager setDialogWithIDisActive:nil];
@@ -295,16 +305,49 @@ AGEmojiKeyboardViewDelegate
 
 - (void)audioCallAction {
     if (![self callsAllowed]) return;
-    
-    NSUInteger opponentID = [[QMApi instance] occupantIDForPrivateChatDialog:self.dialog];
-    [[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeAudio];
+
+	//If video sharing is in progress, drop it.
+	if ([QMScreenShareManager sharedManager].isSharing) {
+		[[QMScreenShareManager sharedManager] hungupWithCompletion:^{
+			NSUInteger opponentID = [[QMApi instance] occupantIDForPrivateChatDialog:self.dialog];
+			[[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeAudio];
+		}];
+	} else {
+		NSUInteger opponentID = [[QMApi instance] occupantIDForPrivateChatDialog:self.dialog];
+		[[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeAudio];
+	}
 }
+
 
 - (void)videoCallAction {
     if (![self callsAllowed]) return;
-    
-    NSUInteger opponentID = [[QMApi instance] occupantIDForPrivateChatDialog:self.dialog];
-    [[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeVideo];
+
+	NSUInteger opponentID = [[QMApi instance] occupantIDForPrivateChatDialog:self.dialog];
+
+	if ([QMScreenShareManager sharedManager].isSharing) {
+		if ([QMScreenShareManager sharedManager].opponent.ID == opponentID) {
+			//Same opponent, restore screen
+			
+			UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+			QMVideoP2PController *callVC = (QMVideoP2PController *)[storyboard instantiateViewControllerWithIdentifier:@"DuringVideoCallIdentifier"];
+			callVC.opponent = [QMScreenShareManager sharedManager].opponent;
+			callVC.wasRestoredAfterScreenSharing = YES;
+
+			callVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+			[self presentViewController:callVC animated:YES completion:^{
+				[callVC.contentView updateCallDuration:[[QMScreenShareManager sharedManager].globalStatusBar currentCallDuration]];
+				[[QMScreenShareManager sharedManager] stopSharing];
+				[[QBRTCSoundRouter instance] setCurrentSoundRoute:QBRTCSoundRouteSpeaker];
+			}];
+		} else {
+			// Different opponent, drop current call and proceed
+			[[QMScreenShareManager sharedManager] hungupWithCompletion:^{
+				[[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeVideo];
+			}];
+		}
+	} else {
+		[[QMApi instance] callToUser:@(opponentID) conferenceType:QBRTCConferenceTypeVideo];
+	}
 }
 
 - (void)groupInfoNavButtonAction {

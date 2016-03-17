@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QMShareableTableViewController.h"
 
-@interface QMInviteViewController : UITableViewController
+@interface QMInviteViewController : QMShareableTableViewController
 
 @end

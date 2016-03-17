@@ -18,6 +18,9 @@
 - (void)updateViewWithUser:(QBUUser *)user conferenceType:(QBRTCConferenceType)conferenceType isOpponentCaller:(BOOL)isOpponentCaller;
 - (void)updateViewWithStatus:(NSString *)status;
 
+- (void)updateCallDuration:(CGFloat)duration;
+- (CGFloat)currentCallDuration;
+
 - (void)startTimerIfNeeded;
 // start/restart timer
 - (void)startTimer;

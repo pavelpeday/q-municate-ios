@@ -75,6 +75,15 @@ const NSTimeInterval kRefreshTimeInterval = 1.f;
     self.statusLabel.text = status;
 }
 
+- (CGFloat)currentCallDuration {
+	return self.timeInterval;
+}
+
+- (void)updateCallDuration:(CGFloat)duration {
+	self.timeInterval = duration;
+	self.statusLabel.text = [self stringWithTimeDuration:self.timeInterval];
+}
+
 - (void)startTimerIfNeeded {
     if( [_timer isValid] ){
         return;

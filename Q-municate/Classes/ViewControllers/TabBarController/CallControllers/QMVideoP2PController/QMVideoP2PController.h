@@ -18,4 +18,6 @@
 
 @property (assign, nonatomic) BOOL disableSendingLocalVideoTrack;
 
+@property (assign, nonatomic) BOOL wasRestoredAfterScreenSharing;
+
 @end

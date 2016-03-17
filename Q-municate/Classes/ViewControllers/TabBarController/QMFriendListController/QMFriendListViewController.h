@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QMShareableViewController.h"
 
-@interface QMFriendListViewController : UIViewController
+@interface QMFriendListViewController : QMShareableViewController
 
 
 @end
