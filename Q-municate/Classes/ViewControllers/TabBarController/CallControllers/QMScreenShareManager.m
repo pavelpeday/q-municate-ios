@@ -10,6 +10,7 @@
 #import "QBRTCScreenCapture.h"
 #import "QMApi.h"
 #import "QMSoundManager.h"
+#import "QMWebViewController.h"
 
 @interface QMScreenShareManager()
 
@@ -84,10 +85,17 @@ NSInteger const kCallStatusBarHeight = 50;
 	[self.statusBar removeFromSuperview];
 	self.session.localMediaStream.videoTrack.videoCapture = self.capture;
 	[self.session.localMediaStream.videoTrack setEnabled:self.originallyEnabled];
-	self.statusBar = nil;
+	//self.statusBar = nil;
 	self.screenCapture = nil;
 	self.sharingView = nil;
 	self.opponentUser = nil;
+
+	//Dismiss webview if presented
+	UITabBarController *tabBarVC = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+	UINavigationController *navigationVC = tabBarVC.selectedViewController;
+	if ([navigationVC.topViewController isKindOfClass:[QMWebViewController class]]) {
+		[navigationVC popViewControllerAnimated:YES];
+	}
 }
 
 - (void)hungupWithCompletion:(void (^)())completion {

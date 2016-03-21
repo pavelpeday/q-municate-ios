@@ -9,6 +9,7 @@
 #import "QMBaseCallsController.h"
 #import "QMAVCallManager.h"
 #import "QMScreenShareManager.h"
+#import "QMWebViewController.h"
 
 
 @implementation QMBaseCallsController
@@ -76,11 +77,21 @@
 }
 
 - (IBAction)shareTapped:(id)sender {
-	[[QMScreenShareManager sharedManager] shareView:self.view
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+	NSString *webViewIdentifier = NSStringFromClass([QMWebViewController class]);
+	UIViewController *webVC = [storyboard instantiateViewControllerWithIdentifier:webViewIdentifier];
+
+	UITabBarController *tabBarVC = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+	UINavigationController *navigationVC = tabBarVC.selectedViewController;
+
+	[self dismissViewControllerAnimated:YES completion:^{
+		[navigationVC pushViewController:webVC animated:YES];
+	}];
+
+	[[QMScreenShareManager sharedManager] shareView:webVC.view
 										withSession:self.session
 									   callDuration:[self.contentView currentCallDuration]
 										   opponent:self.opponent];
-	[self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 - (void)startActivityIndicator {

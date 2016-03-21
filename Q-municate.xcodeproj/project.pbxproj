@@ -14,6 +14,7 @@
 		141E8B431C9A9CC800A248AC /* QMGlobalCallStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 141E8B421C9A9CC800A248AC /* QMGlobalCallStatusBar.m */; };
 		141E8B451C9A9D2100A248AC /* QMGlobalCallStatusBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141E8B441C9A9D2100A248AC /* QMGlobalCallStatusBar.xib */; };
 		144069951AB04309007E6AD0 /* IAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 144069941AB04309007E6AD0 /* IAButton.m */; };
+		144375F51C9FF61700D8C545 /* QMWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 144375F41C9FF61600D8C545 /* QMWebViewController.m */; };
 		14D834631AB06F5A00300266 /* AVCalls.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14D834621AB06F5A00300266 /* AVCalls.xcassets */; };
 		14D834671AB0903900300266 /* QMVideoP2PController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D834661AB0903900300266 /* QMVideoP2PController.m */; };
 		2444261F19F1106100C9C61A /* QMChatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2444261E19F1106100C9C61A /* QMChatUtils.m */; };
@@ -173,6 +174,8 @@
 		141E8B441C9A9D2100A248AC /* QMGlobalCallStatusBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QMGlobalCallStatusBar.xib; sourceTree = "<group>"; };
 		144069931AB04309007E6AD0 /* IAButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAButton.h; path = IAButton/IAButton.h; sourceTree = "<group>"; };
 		144069941AB04309007E6AD0 /* IAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IAButton.m; path = IAButton/IAButton.m; sourceTree = "<group>"; };
+		144375F31C9FF61600D8C545 /* QMWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QMWebViewController.h; path = ../../../../QMWebViewController.h; sourceTree = "<group>"; };
+		144375F41C9FF61600D8C545 /* QMWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QMWebViewController.m; path = ../../../../QMWebViewController.m; sourceTree = "<group>"; };
 		14D834621AB06F5A00300266 /* AVCalls.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AVCalls.xcassets; sourceTree = "<group>"; };
 		14D834651AB0903900300266 /* QMVideoP2PController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QMVideoP2PController.h; path = QMVideoP2PController/QMVideoP2PController.h; sourceTree = "<group>"; };
 		14D834661AB0903900300266 /* QMVideoP2PController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QMVideoP2PController.m; path = QMVideoP2PController/QMVideoP2PController.m; sourceTree = "<group>"; };
@@ -460,6 +463,15 @@
 				144069941AB04309007E6AD0 /* IAButton.m */,
 			);
 			name = IAButton;
+			sourceTree = "<group>";
+		};
+		144375F61CA00B9500D8C545 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				144375F31C9FF61600D8C545 /* QMWebViewController.h */,
+				144375F41C9FF61600D8C545 /* QMWebViewController.m */,
+			);
+			name = WebView;
 			sourceTree = "<group>";
 		};
 		14D834641AB0900F00300266 /* QMVideoP2PController */ = {
@@ -861,6 +873,7 @@
 		55CEAB12195DBCFA001A8ED6 /* CallControllers */ = {
 			isa = PBXGroup;
 			children = (
+				144375F61CA00B9500D8C545 /* WebView */,
 				141E8B2E1C9A842200A248AC /* ScreenSharing */,
 				14D834641AB0900F00300266 /* QMVideoP2PController */,
 				55CEAB16195DBCFA001A8ED6 /* QMVideoCallController */,
@@ -1464,6 +1477,7 @@
 				58CEA1C31BB591A200B866DD /* QMChatButtonsFactory.m in Sources */,
 				58B414A51BB4327900613892 /* QMApi+Notifications.m in Sources */,
 				58B414AC1BB4459300613892 /* QMApi+Users.m in Sources */,
+				144375F51C9FF61700D8C545 /* QMWebViewController.m in Sources */,
 				580D34E21BC027BD0034813A /* QMSplashViewController.m in Sources */,
 				5549368E19867738007F2CF1 /* QMContentService.m in Sources */,
 				55A8B06E1965986A00B5D33B /* QMSoundManager.m in Sources */,

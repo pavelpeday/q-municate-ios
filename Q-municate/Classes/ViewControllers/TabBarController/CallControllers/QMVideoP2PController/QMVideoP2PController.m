@@ -8,6 +8,7 @@
 
 #import "QMVideoP2PController.h"
 #import "QMAVCallManager.h"
+#import "QMScreenSharemanager.h"
 #import <sys/utsname.h>
 
 @implementation QMVideoP2PController
@@ -76,8 +77,10 @@
 - (void)stopCallTapped:(id)sender {
     [self hideViewsBeforeDealloc];
 
-	if (self.wasRestoredAfterScreenSharing)
+	if (self.wasRestoredAfterScreenSharing) {
+		[[QMScreenShareManager sharedManager] stopSharing];
 		[self dismissViewControllerAnimated:YES completion:^{}];
+	}
 
     [super stopCallTapped:sender];
 }
