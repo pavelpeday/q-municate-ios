@@ -8,8 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		144069951AB04309007E6AD0 /* IAButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 144069941AB04309007E6AD0 /* IAButton.m */; };
+		149BDF551C993CE200C2FD6F /* QBChatMessage+Links.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BDF541C993CE200C2FD6F /* QBChatMessage+Links.m */; };
+		149BDF5D1C993E1B00C2FD6F /* OGGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BDF5C1C993E1B00C2FD6F /* OGGenerator.m */; };
+		149BDF621C993E4500C2FD6F /* OGModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BDF601C993E4500C2FD6F /* OGModel.m */; };
+		149BDF6A1C993F6D00C2FD6F /* HTMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BDF651C993F6D00C2FD6F /* HTMLDocument.m */; };
+		149BDF6B1C993F6D00C2FD6F /* HTMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BDF671C993F6D00C2FD6F /* HTMLNode.m */; };
+		149BDF6C1C993F6D00C2FD6F /* HTMLNode+XPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 149BDF691C993F6D00C2FD6F /* HTMLNode+XPath.m */; };
+		149BDF6E1C995F8000C2FD6F /* QMChatLinkOutgoingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 149BDF6D1C995F8000C2FD6F /* QMChatLinkOutgoingCell.xib */; };
 		14D834631AB06F5A00300266 /* AVCalls.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14D834621AB06F5A00300266 /* AVCalls.xcassets */; };
 		14D834671AB0903900300266 /* QMVideoP2PController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D834661AB0903900300266 /* QMVideoP2PController.m */; };
+		14EB46AD1C9862DA003F3186 /* QMChatLinkIncomingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB46AC1C9862DA003F3186 /* QMChatLinkIncomingCell.m */; };
+		14EB46B01C9862EC003F3186 /* QMChatLinkOutgoingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EB46AF1C9862EC003F3186 /* QMChatLinkOutgoingCell.m */; };
+		14EB46B41C98642D003F3186 /* QMChatLinkIncomingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14EB46B31C98642D003F3186 /* QMChatLinkIncomingCell.xib */; };
 		2444261F19F1106100C9C61A /* QMChatUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2444261E19F1106100C9C61A /* QMChatUtils.m */; };
 		24657EB71A84E97700009F91 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 24657EB61A84E97700009F91 /* libicucore.dylib */; };
 		2476BA8119A5D91F00CC666D /* QMUsersUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2476BA8019A5D91F00CC666D /* QMUsersUtils.m */; };
@@ -156,9 +166,28 @@
 		01E0EAD58B177DC530737810 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		144069931AB04309007E6AD0 /* IAButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IAButton.h; path = IAButton/IAButton.h; sourceTree = "<group>"; };
 		144069941AB04309007E6AD0 /* IAButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IAButton.m; path = IAButton/IAButton.m; sourceTree = "<group>"; };
+		149BDF531C993CE200C2FD6F /* QBChatMessage+Links.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QBChatMessage+Links.h"; sourceTree = "<group>"; };
+		149BDF541C993CE200C2FD6F /* QBChatMessage+Links.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QBChatMessage+Links.m"; sourceTree = "<group>"; };
+		149BDF5B1C993E1B00C2FD6F /* OGGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGGenerator.h; sourceTree = "<group>"; };
+		149BDF5C1C993E1B00C2FD6F /* OGGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGGenerator.m; sourceTree = "<group>"; };
+		149BDF5F1C993E4500C2FD6F /* OGModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGModel.h; sourceTree = "<group>"; };
+		149BDF601C993E4500C2FD6F /* OGModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGModel.m; sourceTree = "<group>"; };
+		149BDF611C993E4500C2FD6F /* OpenGraphProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGraphProtocol.h; sourceTree = "<group>"; };
+		149BDF641C993F6D00C2FD6F /* HTMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLDocument.h; sourceTree = "<group>"; };
+		149BDF651C993F6D00C2FD6F /* HTMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLDocument.m; sourceTree = "<group>"; };
+		149BDF661C993F6D00C2FD6F /* HTMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTMLNode.h; sourceTree = "<group>"; };
+		149BDF671C993F6D00C2FD6F /* HTMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTMLNode.m; sourceTree = "<group>"; };
+		149BDF681C993F6D00C2FD6F /* HTMLNode+XPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HTMLNode+XPath.h"; sourceTree = "<group>"; };
+		149BDF691C993F6D00C2FD6F /* HTMLNode+XPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HTMLNode+XPath.m"; sourceTree = "<group>"; };
+		149BDF6D1C995F8000C2FD6F /* QMChatLinkOutgoingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QMChatLinkOutgoingCell.xib; sourceTree = "<group>"; };
 		14D834621AB06F5A00300266 /* AVCalls.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AVCalls.xcassets; sourceTree = "<group>"; };
 		14D834651AB0903900300266 /* QMVideoP2PController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QMVideoP2PController.h; path = QMVideoP2PController/QMVideoP2PController.h; sourceTree = "<group>"; };
 		14D834661AB0903900300266 /* QMVideoP2PController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QMVideoP2PController.m; path = QMVideoP2PController/QMVideoP2PController.m; sourceTree = "<group>"; };
+		14EB46AB1C9862DA003F3186 /* QMChatLinkIncomingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatLinkIncomingCell.h; sourceTree = "<group>"; };
+		14EB46AC1C9862DA003F3186 /* QMChatLinkIncomingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatLinkIncomingCell.m; sourceTree = "<group>"; };
+		14EB46AE1C9862EC003F3186 /* QMChatLinkOutgoingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QMChatLinkOutgoingCell.h; sourceTree = "<group>"; };
+		14EB46AF1C9862EC003F3186 /* QMChatLinkOutgoingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QMChatLinkOutgoingCell.m; sourceTree = "<group>"; };
+		14EB46B31C98642D003F3186 /* QMChatLinkIncomingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QMChatLinkIncomingCell.xib; sourceTree = "<group>"; };
 		2444261D19F1106100C9C61A /* QMChatUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QMChatUtils.h; path = QMChatUtils/QMChatUtils.h; sourceTree = "<group>"; };
 		2444261E19F1106100C9C61A /* QMChatUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QMChatUtils.m; path = QMChatUtils/QMChatUtils.m; sourceTree = "<group>"; };
 		24657EB61A84E97700009F91 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
@@ -412,6 +441,84 @@
 			name = IAButton;
 			sourceTree = "<group>";
 		};
+		149BDF521C993CA600C2FD6F /* Supplementary */ = {
+			isa = PBXGroup;
+			children = (
+				149BDF531C993CE200C2FD6F /* QBChatMessage+Links.h */,
+				149BDF541C993CE200C2FD6F /* QBChatMessage+Links.m */,
+			);
+			name = Supplementary;
+			sourceTree = "<group>";
+		};
+		149BDF561C993DBA00C2FD6F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				149BDF581C993DD000C2FD6F /* Outcoming */,
+				149BDF571C993DC600C2FD6F /* Incoming */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		149BDF571C993DC600C2FD6F /* Incoming */ = {
+			isa = PBXGroup;
+			children = (
+				14EB46B31C98642D003F3186 /* QMChatLinkIncomingCell.xib */,
+				14EB46AB1C9862DA003F3186 /* QMChatLinkIncomingCell.h */,
+				14EB46AC1C9862DA003F3186 /* QMChatLinkIncomingCell.m */,
+			);
+			name = Incoming;
+			sourceTree = "<group>";
+		};
+		149BDF581C993DD000C2FD6F /* Outcoming */ = {
+			isa = PBXGroup;
+			children = (
+				149BDF6D1C995F8000C2FD6F /* QMChatLinkOutgoingCell.xib */,
+				14EB46AE1C9862EC003F3186 /* QMChatLinkOutgoingCell.h */,
+				14EB46AF1C9862EC003F3186 /* QMChatLinkOutgoingCell.m */,
+			);
+			name = Outcoming;
+			sourceTree = "<group>";
+		};
+		149BDF591C993DE200C2FD6F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				149BDF5A1C993E0400C2FD6F /* OGGenerator */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		149BDF5A1C993E0400C2FD6F /* OGGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				149BDF5B1C993E1B00C2FD6F /* OGGenerator.h */,
+				149BDF5C1C993E1B00C2FD6F /* OGGenerator.m */,
+			);
+			name = OGGenerator;
+			sourceTree = "<group>";
+		};
+		149BDF5E1C993E2F00C2FD6F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				149BDF5F1C993E4500C2FD6F /* OGModel.h */,
+				149BDF601C993E4500C2FD6F /* OGModel.m */,
+				149BDF611C993E4500C2FD6F /* OpenGraphProtocol.h */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		149BDF631C993F6100C2FD6F /* HTMLParser */ = {
+			isa = PBXGroup;
+			children = (
+				149BDF641C993F6D00C2FD6F /* HTMLDocument.h */,
+				149BDF651C993F6D00C2FD6F /* HTMLDocument.m */,
+				149BDF661C993F6D00C2FD6F /* HTMLNode.h */,
+				149BDF671C993F6D00C2FD6F /* HTMLNode.m */,
+				149BDF681C993F6D00C2FD6F /* HTMLNode+XPath.h */,
+				149BDF691C993F6D00C2FD6F /* HTMLNode+XPath.m */,
+			);
+			name = HTMLParser;
+			sourceTree = "<group>";
+		};
 		14D834641AB0900F00300266 /* QMVideoP2PController */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,6 +526,18 @@
 				14D834661AB0903900300266 /* QMVideoP2PController.m */,
 			);
 			name = QMVideoP2PController;
+			sourceTree = "<group>";
+		};
+		14EB46AA1C986247003F3186 /* OpenGraph */ = {
+			isa = PBXGroup;
+			children = (
+				149BDF631C993F6100C2FD6F /* HTMLParser */,
+				149BDF5E1C993E2F00C2FD6F /* Models */,
+				149BDF591C993DE200C2FD6F /* Classes */,
+				149BDF561C993DBA00C2FD6F /* Cells */,
+				149BDF521C993CA600C2FD6F /* Supplementary */,
+			);
+			name = OpenGraph;
 			sourceTree = "<group>";
 		};
 		243F976219D1C4FF00BDE124 /* QMViewControllersFactory */ = {
@@ -1048,6 +1167,7 @@
 		58CEA13F1BB5524C00B866DD /* QMChatVC */ = {
 			isa = PBXGroup;
 			children = (
+				14EB46AA1C986247003F3186 /* OpenGraph */,
 				58CEA1C41BB5957C00B866DD /* QMChatVC.h */,
 				58CEA1C51BB5957C00B866DD /* QMChatVC.m */,
 			);
@@ -1270,6 +1390,7 @@
 				69D57E5018ACC11C00A9900A /* Resources */,
 				F7C9D5C402A745C9BB21C910 /* Copy Pods Resources */,
 				248D44C6199B6CF4000EADA2 /* ShellScript */,
+				BBBF8E18AD2155B3EA04F072 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 				55D26F491940AE2300238D50 /* PBXBuildRule */,
@@ -1293,7 +1414,6 @@
 				ORGANIZATIONNAME = Quickblox;
 				TargetAttributes = {
 					69D57E5118ACC11C00A9900A = {
-						DevelopmentTeam = 8885H5G2YX;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1336,6 +1456,8 @@
 				69D57E6818ACC11C00A9900A /* Images.xcassets in Resources */,
 				55286996199131B5006F92CB /* Localizable.strings in Resources */,
 				55A8B0721965986A00B5D33B /* received.wav in Resources */,
+				14EB46B41C98642D003F3186 /* QMChatLinkIncomingCell.xib in Resources */,
+				149BDF6E1C995F8000C2FD6F /* QMChatLinkOutgoingCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1370,6 +1492,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		BBBF8E18AD2155B3EA04F072 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F7C9D5C402A745C9BB21C910 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1401,6 +1538,7 @@
 				55CEABA2195DBCFA001A8ED6 /* QMProfileViewController.m in Sources */,
 				58B414B21BB44B4400613892 /* QMApi+Permissions.m in Sources */,
 				58B414A11BB424DB00613892 /* QMApi+Auth.m in Sources */,
+				149BDF5D1C993E1B00C2FD6F /* OGGenerator.m in Sources */,
 				55CEAB82195DBCFA001A8ED6 /* QMVideoCallController.m in Sources */,
 				55F4A3C7196FF0830068EBC3 /* QMDialogCell.m in Sources */,
 				58B414B01BB44AF700613892 /* QMApi+Calls.m in Sources */,
@@ -1432,6 +1570,7 @@
 				55BBA760197327AB0040DB5C /* QMDialogsViewController.m in Sources */,
 				144069951AB04309007E6AD0 /* IAButton.m in Sources */,
 				55F4A3C8196FF0830068EBC3 /* QMFriendListCell.m in Sources */,
+				149BDF551C993CE200C2FD6F /* QBChatMessage+Links.m in Sources */,
 				55F4A3D2196FF0D80068EBC3 /* QMTableViewCell.m in Sources */,
 				55D8AD0419AC753600DAF79F /* QMImagePicker.m in Sources */,
 				693F347B18F554240032891F /* QMIncommingCallSegue.m in Sources */,
@@ -1443,6 +1582,7 @@
 				55D8ADE519AC770400DAF79F /* QMFeedbackTableViewController.m in Sources */,
 				55D8AD0719AC756000DAF79F /* REActionSheet.m in Sources */,
 				14D834671AB0903900300266 /* QMVideoP2PController.m in Sources */,
+				14EB46AD1C9862DA003F3186 /* QMChatLinkIncomingCell.m in Sources */,
 				55A8B06B1965986A00B5D33B /* NSUserDefaultsHelper.m in Sources */,
 				55495A221993BCC100B7764C /* QMAlertsFactory.m in Sources */,
 				55D8ADB519AC761000DAF79F /* QMForgotPasswordTVC.m in Sources */,
@@ -1452,22 +1592,27 @@
 				55D8AD1619AC759C00DAF79F /* QMDownloadContentOperation.m in Sources */,
 				24DC50E81A7F9E88002C6E29 /* QMDevice.m in Sources */,
 				2494559819A48E7600E9352B /* NSString+GTMNSStringHTMLAdditions.m in Sources */,
+				149BDF621C993E4500C2FD6F /* OGModel.m in Sources */,
 				55493694198677B0007F2CF1 /* QMContentOperation.m in Sources */,
 				55D8ADBB19AC762C00DAF79F /* QMDialogsDataSource.m in Sources */,
+				149BDF6C1C993F6D00C2FD6F /* HTMLNode+XPath.m in Sources */,
 				58D1CED91BC668DD00591EA9 /* QMViewControllersFactory.m in Sources */,
 				580D34DF1BBFF5850034813A /* UIImage+fixOrientation.m in Sources */,
 				55D8ADDE19AC76E200DAF79F /* QMAddUsersAbstractController.m in Sources */,
 				58CEA1C91BB595C700B866DD /* QMAVCallManager.m in Sources */,
 				55A8B0761965986A00B5D33B /* REAlertView.m in Sources */,
 				58B414AE1BB44AB000613892 /* QMApi+Facebook.m in Sources */,
+				149BDF6A1C993F6D00C2FD6F /* HTMLDocument.m in Sources */,
 				55D8AD2119AC75C100DAF79F /* QMFacebookService.m in Sources */,
 				55D8ADFB19AC833300DAF79F /* QMLicenseAgreement.m in Sources */,
 				559BDFE719618D3D000588FE /* QMLogInViewController.m in Sources */,
 				581C2C4F1BB6B4740047CEA6 /* QMMessageStatusStringBuilder.m in Sources */,
 				58CEA1BB1BB553C400B866DD /* UIImage+TintColor.m in Sources */,
 				693206F11962DFBF00B15EF9 /* QMContentView.m in Sources */,
+				14EB46B01C9862EC003F3186 /* QMChatLinkOutgoingCell.m in Sources */,
 				55D8ADDF19AC76E200DAF79F /* QMCreateNewChatController.m in Sources */,
 				2444261F19F1106100C9C61A /* QMChatUtils.m in Sources */,
+				149BDF6B1C993F6D00C2FD6F /* HTMLNode.m in Sources */,
 				58B414A31BB42D0900613892 /* QMApi+Chat.m in Sources */,
 				559BDFE819618D3D000588FE /* QMSignUpController.m in Sources */,
 				55CEAB81195DBCFA001A8ED6 /* QMIncomingCallController.m in Sources */,
@@ -1505,7 +1650,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1524,7 +1669,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1545,9 +1689,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Injoit LTD (8885H5G2YX)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Injoit LTD (8885H5G2YX)";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1558,7 +1701,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
-				PROVISIONING_PROFILE = "5a0222f4-0cc9-49d2-bbeb-6bd82d6c47a0";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1571,8 +1713,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1598,7 +1739,6 @@
 				OTHER_LIBTOOLFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quickblox.qmunicate;
 				PRODUCT_NAME = "Q-municate";
-				PROVISIONING_PROFILE = "";
 				REZ_SEARCH_PATHS = "$(inherited)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1623,9 +1763,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Injoit LTD (8885H5G2YX)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Injoit LTD (8885H5G2YX)";
-				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1656,7 +1795,6 @@
 				OTHER_LIBTOOLFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.quickblox.qmunicate;
 				PRODUCT_NAME = "Q-municate";
-				PROVISIONING_PROFILE = "5a0222f4-0cc9-49d2-bbeb-6bd82d6c47a0";
 				REZ_SEARCH_PATHS = "$(inherited)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -25,10 +25,12 @@
 #import "QMSettingsManager.h"
 #import "AGEmojiKeyBoardView.h"
 #import "UIImage+fixOrientation.h"
+#import "QMSoundManager.h"
 
 // chat controller
 #import "UIImage+QM.h"
 #import "UIColor+QM.h"
+#import "QBChatMessage+Links.h"
 #import <TTTAttributedLabel.h>
 #import "QMChatAttachmentIncomingCell.h"
 #import "QMChatAttachmentOutgoingCell.h"
@@ -36,6 +38,9 @@
 #import "QMCollectionViewFlowLayoutInvalidationContext.h"
 #import "QMMessageStatusStringBuilder.h"
 #import "QMChatButtonsFactory.h"
+#import "QMChatLinkIncomingCell.h"
+#import "QMChatLinkOutgoingCell.h"
+#import "OGGenerator.h"
 
 static const NSUInteger widthPadding                         = 40.0f;
 static const CGFloat kQMEmojiButtonSize                      = 45.0f;
@@ -160,6 +165,12 @@ AGEmojiKeyboardViewDelegate
     }
     
     [self refreshMessagesShowingProgress:NO];
+
+	[self.collectionView registerNib:[QMChatLinkIncomingCell nib]
+		  forCellWithReuseIdentifier:[QMChatLinkIncomingCell cellReuseIdentifier]];
+
+	[self.collectionView registerNib:[QMChatLinkOutgoingCell nib]
+		  forCellWithReuseIdentifier:[QMChatLinkOutgoingCell cellReuseIdentifier]];
 }
 
 - (void)refreshMessagesShowingProgress:(BOOL)showingProgress {
@@ -420,6 +431,11 @@ AGEmojiKeyboardViewDelegate
         if (task.isFaulted) {
             [REAlertView showAlertWithMessage:task.error.localizedRecoverySuggestion actionSuccess:NO];
         }
+        else {
+            
+            [QMSoundManager playMessageSentSound];
+        }
+        
         return nil;
     }];
     
@@ -453,13 +469,17 @@ AGEmojiKeyboardViewDelegate
         
     } else {
         if (item.senderID != self.senderID) {
-            if ((item.attachments != nil && item.attachments.count > 0) || item.attachmentStatus != QMMessageAttachmentStatusNotLoaded) {
+			if (item.hasWebLinks) {
+				return [QMChatLinkIncomingCell class];
+			} else if ((item.attachments != nil && item.attachments.count > 0) || item.attachmentStatus != QMMessageAttachmentStatusNotLoaded) {
                 return [QMChatAttachmentIncomingCell class];
-            } else {
+			} else {
                 return [QMChatIncomingCell class];
             }
         } else {
-            if ((item.attachments != nil && item.attachments.count > 0) || item.attachmentStatus != QMMessageAttachmentStatusNotLoaded) {
+			if (item.hasWebLinks) {
+				return [QMChatLinkOutgoingCell class];
+			} else if ((item.attachments != nil && item.attachments.count > 0) || item.attachmentStatus != QMMessageAttachmentStatusNotLoaded) {
                 return [QMChatAttachmentOutgoingCell class];
             } else {
                 return [QMChatOutgoingCell class];
@@ -487,7 +507,14 @@ AGEmojiKeyboardViewDelegate
         
         return attrStr;
     }
-    
+	if (messageItem.hasWebLinks) {
+		NSTextCheckingResult *result = messageItem.webLinks.firstObject;
+		NSURL *url = result.URL;
+		if (url.absoluteString.length == messageItem.text.length) {
+			return nil;
+		}
+	}
+
     UIColor *textColor = [messageItem senderID] == self.senderID ? [UIColor whiteColor] : [UIColor blackColor];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue" size:16.0f];
     NSDictionary *attributes = @{ NSForegroundColorAttributeName:textColor, NSFontAttributeName:font};
@@ -553,6 +580,17 @@ AGEmojiKeyboardViewDelegate
     
     if (viewClass == [QMChatAttachmentIncomingCell class]) {
         size = CGSizeMake(MIN(200, maxWidth), 200);
+	} else if (viewClass == [QMChatLinkIncomingCell class] || viewClass == [QMChatLinkOutgoingCell class]) {
+		NSAttributedString *attributedString = [self attributedStringForItem:item];
+
+		CGSize sizeImg = CGSizeMake(MIN(200, maxWidth), 200);
+
+		CGSize sizeText = [TTTAttributedLabel sizeThatFitsAttributedString:attributedString
+												withConstraints:CGSizeMake(maxWidth, CGFLOAT_MAX)
+										 limitedToNumberOfLines:0];
+		
+		size = CGSizeMake(MAX(sizeImg.width, sizeText.width), sizeText.height + sizeImg.height);
+
     } else if(viewClass == [QMChatAttachmentOutgoingCell class]) {
         NSAttributedString *attributedString = [self bottomLabelAttributedStringForItem:item];
         
@@ -661,7 +699,8 @@ AGEmojiKeyboardViewDelegate
         
         layoutModel.avatarSize = (CGSize){0.0, 0.0};
     } else if (class == [QMChatAttachmentIncomingCell class] ||
-               class == [QMChatIncomingCell class]) {
+               class == [QMChatIncomingCell class] ||
+			   class == [QMChatLinkIncomingCell class]) {
         
         if (self.dialog.type != QBChatDialogTypePrivate) {
             
@@ -680,7 +719,7 @@ AGEmojiKeyboardViewDelegate
     }
     
     CGSize size = CGSizeZero;
-    if ([self.detailedCells containsObject:item.ID] || class == [QMChatAttachmentIncomingCell class] || class == [QMChatAttachmentOutgoingCell class]) {
+    if ([self.detailedCells containsObject:item.ID] || class == [QMChatAttachmentIncomingCell class] || class == [QMChatAttachmentOutgoingCell class] || class == [QMChatLinkIncomingCell class] || class == [QMChatLinkOutgoingCell class]) {
         size = [TTTAttributedLabel sizeThatFitsAttributedString:[self bottomLabelAttributedStringForItem:item]
                                                 withConstraints:CGSizeMake(CGRectGetWidth(self.collectionView.frame) - widthPadding, CGFLOAT_MAX)
                                          limitedToNumberOfLines:0];
@@ -699,16 +738,26 @@ AGEmojiKeyboardViewDelegate
     [(QMChatCell *)cell setDelegate:self];
     
     [(QMChatCell *)cell containerView].highlightColor = [UIColor colorWithWhite:0.5 alpha:0.5];
-    
-    if ([cell isKindOfClass:[QMChatOutgoingCell class]] || [cell isKindOfClass:[QMChatAttachmentOutgoingCell class]]) {
+
+	QBChatMessage *message = [self.chatSectionManager messageForIndexPath:indexPath];
+	if (message.hasWebLinks) {
+		NSArray *links = [message webLinks];
+		NSTextCheckingResult *result = links.firstObject;
+		[[OGGenerator sharedInstance] generateModelFromURL:result.URL withCompletion:^(OGModel *model) {
+			((QMChatLinkIncomingCell *)cell).ogModel = model;
+		}];
+
+		((QMChatLinkIncomingCell *)cell).textLabel.text = [self attributedStringForItem:message];
+	}
+
+    if ([cell isKindOfClass:[QMChatOutgoingCell class]] || [cell isKindOfClass:[QMChatAttachmentOutgoingCell class]] || [cell isKindOfClass:[QMChatLinkOutgoingCell class]]) {
         [(QMChatOutgoingCell *)cell containerView].bgColor = [UIColor colorWithRed:23.0f / 255.0f green:209.0f / 255.0f blue:75.0f / 255.0f alpha:1.0f];
-    } else if ([cell isKindOfClass:[QMChatIncomingCell class]] || [cell isKindOfClass:[QMChatAttachmentIncomingCell class]]) {
+    } else if ([cell isKindOfClass:[QMChatIncomingCell class]] || [cell isKindOfClass:[QMChatAttachmentIncomingCell class]] || [cell isKindOfClass:[QMChatLinkIncomingCell class]]) {
         [(QMChatIncomingCell *)cell containerView].bgColor = [UIColor colorWithRed:226.0f / 255.0f green:235.0f / 255.0f blue:242.0f / 255.0f alpha:1.0f];
         
         /**
          *  Setting opponent avatar
          */
-        QBChatMessage* message = [self.chatSectionManager messageForIndexPath:indexPath];
         QBUUser *sender = [[QMApi instance] userWithID:message.senderID];
         NSURL *userImageUrl = [QMUsersUtils userAvatarURL:sender];
         UIImage *placeholder = [UIImage imageNamed:@"upic-placeholder"];
@@ -719,12 +768,10 @@ AGEmojiKeyboardViewDelegate
                                                 progress:^(NSInteger receivedSize, NSInteger expectedSize) {}
                                           completedBlock:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {}];
         [(QMChatCell *)cell avatarView].imageViewType = QMImageViewTypeCircle;
-        
     } else if ([cell isKindOfClass:[QMChatNotificationCell class]] || [cell isKindOfClass:[QMChatContactRequestCell class]]) {
         [(QMChatCell *)cell containerView].bgColor = self.collectionView.backgroundColor;
     }
     if ([cell conformsToProtocol:@protocol(QMChatAttachmentCell)]) {
-        QBChatMessage* message = [self.chatSectionManager messageForIndexPath:indexPath];
         if (message.attachments != nil) {
             QBChatAttachment* attachment = message.attachments.firstObject;
             
@@ -857,9 +904,12 @@ AGEmojiKeyboardViewDelegate
 
 - (void)chatAttachmentService:(QMChatAttachmentService *)chatAttachmentService didChangeAttachmentStatus:(QMMessageAttachmentStatus)status forMessage:(QBChatMessage *)message
 {
-    if ([message.dialogID isEqualToString:self.dialog.ID]) {
+    if (status != QMMessageAttachmentStatusNotLoaded) {
         
-        [self.chatSectionManager updateMessage:message];
+        if ([message.dialogID isEqualToString:self.dialog.ID]) {
+            
+            [self.chatSectionManager updateMessage:message];
+        }
     }
 }
 
@@ -1022,7 +1072,9 @@ AGEmojiKeyboardViewDelegate
 }
 
 - (void)chatCellDidTapContainer:(QMChatCell *)cell {
-    if ([cell conformsToProtocol:@protocol(QMChatAttachmentCell)]) {
+	if ([cell isKindOfClass:[QMChatLinkIncomingCell class]] || [cell isKindOfClass:[QMChatLinkOutgoingCell class]]) {
+		[[UIApplication sharedApplication] openURL:((QMChatLinkIncomingCell *)cell).ogModel.originalUrl];
+	} else if ([cell conformsToProtocol:@protocol(QMChatAttachmentCell)]) {
         UIImage *attachmentImage = [(QMChatAttachmentIncomingCell *)cell attachmentImageView].image;
         if (attachmentImage != nil) {
             IDMPhoto *photo = [IDMPhoto photoWithImage:attachmentImage];
